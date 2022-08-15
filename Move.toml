@@ -1,0 +1,12 @@
+[package]
+name = 'AptosTokenList'
+version = '0.0.0'
+
+[dependencies.AptosFramework]
+git = 'https://github.com/aptos-labs/aptos-core.git'
+rev = 'devnet'
+subdir = 'aptos-move/framework/aptos-framework'
+
+
+[addresses]
+aptos_coin_list = "a61e1e86e9f596e483283727d2739ba24b919012720648c29380f9cd0a96c11a"
