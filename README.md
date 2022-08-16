@@ -76,8 +76,8 @@ Result:
       "logo_url": "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389",
       "project_url": "project_url",
       "token_type": {
-        "type": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetUSDC",
-        "account_address": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8",
+        "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDC",
+        "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
         "module_name": "devnet_coins",
         "struct_name": "DevnetUSDC"
       },
@@ -93,8 +93,8 @@ Result:
       "logo_url": "https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1598003707",
       "project_url": "project_url",
       "token_type": {
-        "type": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetUSDT",
-        "account_address": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8",
+        "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDT",
+        "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
         "module_name": "devnet_coins",
         "struct_name": "DevnetUSDT"
       },
@@ -110,8 +110,8 @@ Result:
       "logo_url": "https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422",
       "project_url": "project_url",
       "token_type": {
-        "type": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetSOL",
-        "account_address": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8",
+        "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetSOL",
+        "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
         "module_name": "devnet_coins",
         "struct_name": "DevnetSOL"
       },
@@ -127,8 +127,8 @@ Result:
       "logo_url": "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
       "project_url": "project_url",
       "token_type": {
-        "type": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetETH",
-        "account_address": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8",
+        "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetETH",
+        "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
         "module_name": "devnet_coins",
         "struct_name": "DevnetETH"
       },
@@ -144,18 +144,13 @@ Result:
       "logo_url": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
       "project_url": "project_url",
       "token_type": {
-        "type": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetBTC",
-        "account_address": "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8",
+        "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBTC",
+        "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
         "module_name": "devnet_coins",
         "struct_name": "DevnetBTC"
       },
       "extensions": {
-        "data": [
-          {
-            "key": "key1",
-            "value": "value1"
-          }
-        ]
+        "data": []
       }
     }
   ]
