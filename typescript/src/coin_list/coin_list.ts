@@ -9,7 +9,7 @@ import * as Aptos_framework from "../aptos_framework";
 import * as Aptos_std from "../aptos_std";
 import * as Std from "../std";
 export const packageName = "CoinList";
-export const moduleAddress = new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8");
+export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
 export const moduleName = "coin_list";
 
 export const E_COIN_NOT_IN_REGISTRY : U64 = u64("3");
@@ -89,7 +89,7 @@ export class CoinList
 
   ];
   static fields: FieldDeclType[] = [
-  { name: "coin_types", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"), "coin_list", "Nothing", [])]) }];
+  { name: "coin_types", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "Nothing", [])]) }];
 
   coin_types: Aptos_std.Iterable_table.IterableTable;
 
@@ -131,7 +131,7 @@ export class CoinRegistry
 
   ];
   static fields: FieldDeclType[] = [
-  { name: "type_to_coin_info", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"), "coin_list", "CoinInfo", [])]) }];
+  { name: "type_to_coin_info", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "CoinInfo", [])]) }];
 
   type_to_coin_info: Aptos_std.Iterable_table.IterableTable;
 
@@ -173,7 +173,7 @@ export class FullList
 
   ];
   static fields: FieldDeclType[] = [
-  { name: "coin_info_list", typeTag: new VectorTag(new StructTag(new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"), "coin_list", "CoinInfo", [])) }];
+  { name: "coin_info_list", typeTag: new VectorTag(new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "CoinInfo", [])) }];
 
   coin_info_list: CoinInfo[];
 
@@ -241,7 +241,7 @@ export function add_extension_ (
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
   if (!((Std.Signer.address_of_(coin_owner, $c)).hex() === (Aptos_std.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
@@ -259,7 +259,7 @@ export function buildPayload_add_extension (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::add_extension",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_extension",
     typeParamStrings,
     [
       $.payloadArg(key),
@@ -296,7 +296,7 @@ export function buildPayload_add_to_list (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::add_to_list",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_to_list",
     typeParamStrings,
     []
   );
@@ -314,7 +314,7 @@ export function add_to_registry_ (
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
   coin_info = new CoinInfo({ name: $.copy(name), symbol: $.copy(symbol), coingecko_id: $.copy(coingecko_id), decimals: Aptos_framework.Coin.decimals_($c, [$p[0]]), logo_url: $.copy(logo_url), project_url: $.copy(project_url), token_type: $.copy(type_info), extensions: Aptos_std.Simple_map.create_($c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]) }, new SimpleStructTag(CoinInfo));
   if (!is_update) {
@@ -388,7 +388,7 @@ export function buildPayload_add_to_registry_by_signer (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::add_to_registry_by_signer",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_to_registry_by_signer",
     typeParamStrings,
     [
       $.payloadArg(name),
@@ -414,7 +414,7 @@ export function buildPayload_create_list (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::create_list",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::create_list",
     typeParamStrings,
     []
   );
@@ -429,7 +429,7 @@ export function drop_extension_ (
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
   if (!((Std.Signer.address_of_(coin_owner, $c)).hex() === (Aptos_std.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
@@ -447,7 +447,7 @@ export function buildPayload_drop_extension (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::drop_extension",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::drop_extension",
     typeParamStrings,
     [
       $.payloadArg(key),
@@ -457,6 +457,45 @@ export function buildPayload_drop_extension (
 
 }
 
+export function fetch_all_registered_coin_info_ (
+  fetcher: HexString,
+  $c: AptosDataCache,
+): void {
+  return $c.move_to(new SimpleStructTag(FullList), fetcher, get_all_registered_coin_info_($c));
+}
+
+
+export function buildPayload_fetch_all_registered_coin_info (
+) {
+  const typeParamStrings = [] as string[];
+  return $.buildPayload(
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::fetch_all_registered_coin_info",
+    typeParamStrings,
+    []
+  );
+
+}
+
+export async function query_fetch_all_registered_coin_info(
+  client: AptosClient,
+  account: AptosAccount,
+  repo: AptosParserRepo,
+  $p: TypeTag[],
+) {
+  const payload = buildPayload_fetch_all_registered_coin_info();
+  const outputTypeTag = new SimpleStructTag(FullList);
+  const output = await $.simulatePayloadTx(client, account, payload);
+  return $.takeSimulationValue<FullList>(output, outputTypeTag, repo)
+}
+function make_query_fetch_all_registered_coin_info(app: App) {
+  function maker(
+    account: AptosAccount,
+    $p: TypeTag[],
+  ) {
+    return query_fetch_all_registered_coin_info(app.client, account, app.repo, $p)
+  }
+  return maker;
+}
 export function fetch_full_list_ (
   fetcher: HexString,
   list_owner_addr: HexString,
@@ -471,7 +510,7 @@ export function buildPayload_fetch_full_list (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::fetch_full_list",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::fetch_full_list",
     typeParamStrings,
     [
       $.payloadArg(list_owner_addr),
@@ -502,12 +541,31 @@ function make_query_fetch_full_list(app: App) {
   }
   return maker;
 }
+export function get_all_registered_coin_info_ (
+  $c: AptosDataCache,
+): FullList {
+  let coin_info, fulllist, prev, registry, tail, tail_key;
+  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
+  tail = Aptos_std.Iterable_table.tail_key_(registry.type_to_coin_info, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  fulllist = new FullList({ coin_info_list: Std.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
+  while (Std.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
+    {
+      tail_key = $.copy(Std.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
+      coin_info = Aptos_std.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      Std.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
+      [, prev, ] = Aptos_std.Iterable_table.borrow_iter_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      tail = $.copy(prev);
+    }
+
+  }return $.copy(fulllist);
+}
+
 export function get_coin_info_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): CoinInfo {
   let registry, type_info;
-  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
   return $.copy(Aptos_std.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]));
 }
@@ -518,7 +576,7 @@ export function get_full_list_ (
 ): FullList {
   let coin_info, fulllist, list, prev, registry, tail, tail_key;
   list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
-  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   tail = Aptos_std.Iterable_table.tail_key_(list.coin_types, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   fulllist = new FullList({ coin_info_list: Std.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
   while (Std.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
@@ -537,7 +595,7 @@ export function initialize_ (
   admin: HexString,
   $c: AptosDataCache,
 ): void {
-  if (!((Std.Signer.address_of_(admin, $c)).hex() === (new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8")).hex())) {
+  if (!((Std.Signer.address_of_(admin, $c)).hex() === (new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68")).hex())) {
     throw $.abortCode($.copy(E_CONTRACT_OWNER_ONLY));
   }
   return $c.move_to(new SimpleStructTag(CoinRegistry), admin, new CoinRegistry({ type_to_coin_info: Aptos_std.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(CoinRegistry)));
@@ -548,7 +606,7 @@ export function buildPayload_initialize (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::initialize",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::initialize",
     typeParamStrings,
     []
   );
@@ -560,7 +618,7 @@ export function is_coin_registered_ (
   $p: TypeTag[], /* <CoinType>*/
 ): boolean {
   let registry, type_info;
-  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
   return Aptos_std.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
 }
@@ -568,7 +626,7 @@ export function is_coin_registered_ (
 export function is_registry_initialized_ (
   $c: AptosDataCache,
 ): boolean {
-  return $c.exists(new SimpleStructTag(CoinRegistry), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  return $c.exists(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
 }
 
 export function remove_from_list_ (
@@ -589,7 +647,7 @@ export function buildPayload_remove_from_list (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::remove_from_list",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::remove_from_list",
     typeParamStrings,
     []
   );
@@ -597,11 +655,11 @@ export function buildPayload_remove_from_list (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::CoinInfo", CoinInfo.CoinInfoParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::CoinList", CoinList.CoinListParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::CoinRegistry", CoinRegistry.CoinRegistryParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::FullList", FullList.FullListParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::coin_list::Nothing", Nothing.NothingParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::CoinInfo", CoinInfo.CoinInfoParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::CoinList", CoinList.CoinListParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::CoinRegistry", CoinRegistry.CoinRegistryParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::FullList", FullList.FullListParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::Nothing", Nothing.NothingParser);
 }
 export class App {
   constructor(
@@ -730,6 +788,18 @@ export class App {
     const payload = buildPayload_drop_extension(key, value, $p);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
+  payload_fetch_all_registered_coin_info(
+  ) {
+    return buildPayload_fetch_all_registered_coin_info();
+  }
+  async fetch_all_registered_coin_info(
+    _account: AptosAccount,
+    _maxGas = 1000,
+  ) {
+    const payload = buildPayload_fetch_all_registered_coin_info();
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
+  get query_fetch_all_registered_coin_info() { return make_query_fetch_all_registered_coin_info(this); }
   payload_fetch_full_list(
     list_owner_addr: HexString,
   ) {

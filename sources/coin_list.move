@@ -218,6 +218,30 @@ module coin_list::coin_list {
         move_to(fetcher, get_full_list(list_owner_addr))
     }
 
+    public fun get_all_registered_coin_info(): FullList acquires CoinRegistry {
+        let registry = borrow_global<CoinRegistry>(@coin_list);
+        let tail = iterable_table::tail_key(&registry.type_to_coin_info);
+        let fulllist = FullList {
+            coin_info_list: vector::empty<CoinInfo>(),
+        };
+
+        while (option::is_some(&tail)) {
+            let tail_key = *option::borrow(&tail);
+            let coin_info = iterable_table::borrow(&registry.type_to_coin_info, tail_key);
+            vector::push_back(&mut fulllist.coin_info_list, *coin_info);
+            let (_, prev, _) = iterable_table::borrow_iter(&registry.type_to_coin_info, tail_key);
+            tail = prev;
+        };
+
+        fulllist
+    }
+
+    #[query]
+    public entry fun fetch_all_registered_coin_info(
+        fetcher: &signer,
+    ) acquires CoinRegistry {
+        move_to(fetcher, get_all_registered_coin_info())
+    }
 
     #[test_only]
     struct FakeBtc {}

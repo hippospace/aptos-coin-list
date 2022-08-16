@@ -204,6 +204,19 @@ program
   .action(devnet_coins_mint_to_wallet);
 
 
+const coin_list_fetch_all_registered_coin_info = async () => {
+  const {client, account} = readConfig(program);
+  const repo = getProjectRepo();
+  const value = await Coin_list.Coin_list.query_fetch_all_registered_coin_info(client, account, repo, [])
+  print(value);
+}
+
+program
+  .command("coin-list:query-fetch-all-registered-coin-info")
+
+  .action(coin_list_fetch_all_registered_coin_info)
+
+
 const coin_list_fetch_full_list = async (list_owner_addr: string) => {
   const {client, account} = readConfig(program);
   const repo = getProjectRepo();
@@ -212,7 +225,7 @@ const coin_list_fetch_full_list = async (list_owner_addr: string) => {
 }
 
 program
-  .command("coin_list:query-fetch-full-list")
+  .command("coin-list:query-fetch-full-list")
   .argument('<list_owner_addr>')
   .action(coin_list_fetch_full_list)
 

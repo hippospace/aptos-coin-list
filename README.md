@@ -51,15 +51,16 @@ Commands:
   coin-list:remove-from-list <TYPE_CoinType>
   devnet-coins:deploy                                          Register devnet coins
   devnet-coins:mint-to-wallet <TYPE_CoinType> <amount>
-  coin_list:query-fetch-full-list <list_owner_addr>
+  coin-list:query-fetch-all-registered-coin-info
+  coin-list:query-fetch-full-list <list_owner_addr>
 ```
 
-You can use the TypeScript CLI to get the list owned by `0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8`
+You can use the TypeScript CLI to get the list owned by `0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68`
 
 ```bash
 cd typescript
 yarn install; yarn build
-yarn cli -c APTOS_CONFIG_FILE coin_list:query-fetch-full-list 0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8
+yarn cli -c APTOS_CONFIG_FILE coin-list:query-fetch-full-list 0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68
 ```
 
 Result:
@@ -160,3 +161,10 @@ Result:
   ]
 }
 ```
+
+Or you can fetch the all registered CoinInfo using:
+```bash
+yarn cli -c APTOS_CONFIG_FILE coin-list:query-fetch-all-registered-coin-info
+```
+
+This would return more result than the previous command.

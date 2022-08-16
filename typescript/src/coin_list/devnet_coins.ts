@@ -9,7 +9,7 @@ import * as Aptos_framework from "../aptos_framework";
 import * as Std from "../std";
 import * as Coin_list from "./coin_list";
 export const packageName = "CoinList";
-export const moduleAddress = new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8");
+export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
 export const moduleName = "devnet_coins";
 
 
@@ -268,7 +268,7 @@ export function buildPayload_deploy (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::deploy",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::deploy",
     typeParamStrings,
     []
   );
@@ -294,7 +294,7 @@ export function mint_ (
   $p: TypeTag[], /* <CoinType>*/
 ): Aptos_framework.Coin.Coin {
   let caps;
-  caps = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), new HexString("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"));
+  caps = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   return Aptos_framework.Coin.mint_($.copy(amount), caps.mint, $c, [$p[0]]);
 }
 
@@ -322,7 +322,7 @@ export function buildPayload_mint_to_wallet (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::mint_to_wallet",
+    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::mint_to_wallet",
     typeParamStrings,
     [
       $.payloadArg(amount),
@@ -332,13 +332,13 @@ export function buildPayload_mint_to_wallet (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::CoinCaps", CoinCaps.CoinCapsParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetBNB", DevnetBNB.DevnetBNBParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetBTC", DevnetBTC.DevnetBTCParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetETH", DevnetETH.DevnetETHParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetSOL", DevnetSOL.DevnetSOLParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetUSDC", DevnetUSDC.DevnetUSDCParser);
-  repo.addParser("0xf70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8::devnet_coins::DevnetUSDT", DevnetUSDT.DevnetUSDTParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::CoinCaps", CoinCaps.CoinCapsParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBNB", DevnetBNB.DevnetBNBParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBTC", DevnetBTC.DevnetBTCParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetETH", DevnetETH.DevnetETHParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetSOL", DevnetSOL.DevnetSOLParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDC", DevnetUSDC.DevnetUSDCParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDT", DevnetUSDT.DevnetUSDTParser);
 }
 export class App {
   constructor(
