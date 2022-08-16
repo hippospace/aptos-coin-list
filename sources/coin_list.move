@@ -1,6 +1,7 @@
-module aptos_coin_list::coin_list {
+module coin_list::coin_list {
     use aptos_framework::coin;
     use aptos_std::iterable_table;
+    use aptos_std::simple_map;
     use aptos_std::type_info;
     use std::string::String;
     use std::signer;
@@ -15,19 +16,22 @@ module aptos_coin_list::coin_list {
     const E_LIST_DOES_NOT_EXIST:u64 = 4;
 
 
+    // For ease of iteration, we do not store CoinInfo as independent resource. Instead we put all CoinInfo under a
+    // CoinRegistry.
+    // In this way, CoinInfo does not have type parameters and can be easily enumerated/iterated using TypeInfo as key
     struct CoinInfo has store, drop, copy {
         name: String,
         symbol: String,
-        description: String,
+        coingecko_id: String,
         decimals: u64,
         logo_url: String,
         project_url: String,
         token_type: type_info::TypeInfo,
+        extensions: simple_map::SimpleMap<String, String>,
     }
 
 
     struct CoinRegistry has key {
-        // for easier lookup of individual TokenInfo
         type_to_coin_info: iterable_table::IterableTable<type_info::TypeInfo, CoinInfo>,
     }
 
@@ -39,7 +43,7 @@ module aptos_coin_list::coin_list {
 
     #[cmd]
     public entry fun initialize(admin: &signer) {
-        assert!(signer::address_of(admin) == @aptos_coin_list, E_CONTRACT_OWNER_ONLY);
+        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
         move_to(admin, CoinRegistry {
             type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
         })
@@ -57,21 +61,21 @@ module aptos_coin_list::coin_list {
         coin_owner: &signer,
         name: String,
         symbol: String,
-        description: String,
+        coingecko_id: String,
         logo_url: String,
         project_url: String,
         is_update: bool,
     ) acquires CoinRegistry {
         let type_info = type_info::type_of<CoinType>();
         assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
-        add_to_registry<CoinType>(name, symbol, description, logo_url, project_url, is_update);
+        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
     }
 
     public fun add_to_registry_by_proof<CoinType, OwnershipProof>(
         _ownership_proof: &OwnershipProof,
         name: String,
         symbol: String,
-        description: String,
+        coingecko_id: String,
         logo_url: String,
         project_url: String,
         is_update: bool,
@@ -83,28 +87,57 @@ module aptos_coin_list::coin_list {
         let ownership_name = type_info::module_name(&ownership_type);
         assert!(ownership_name == b"OwnershipProof", E_COIN_OWNER_ONLY);
         assert!(type_address == ownership_address, E_COIN_OWNER_ONLY);
-        add_to_registry<CoinType>(name, symbol, description, logo_url, project_url, is_update);
+        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
+    }
+
+    #[cmd]
+    public entry fun add_extension<CoinType>(
+        coin_owner: &signer,
+        key: String,
+        value: String,
+    ) acquires CoinRegistry {
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        let type_info = type_info::type_of<CoinType>();
+        assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
+
+        let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
+        simple_map::add(&mut coin_info.extensions, key, value);
+    }
+
+    #[cmd]
+    public entry fun drop_extension<CoinType>(
+        coin_owner: &signer,
+        key: String,
+        value: String,
+    ) acquires CoinRegistry {
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        let type_info = type_info::type_of<CoinType>();
+        assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
+
+        let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
+        simple_map::add(&mut coin_info.extensions, key, value);
     }
 
     fun add_to_registry<CoinType>(
         name: String,
         symbol: String,
-        description: String,
+        coingecko_id: String,
         logo_url: String,
         project_url: String,
         is_update: bool,
     ) acquires CoinRegistry {
-        let registry = borrow_global_mut<CoinRegistry>(@aptos_coin_list);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
         let type_info = type_info::type_of<CoinType>();
 
         let coin_info = CoinInfo {
             name,
             symbol,
-            description,
+            coingecko_id,
             decimals: coin::decimals<CoinType>(),
             logo_url,
             project_url,
             token_type: type_info,
+            extensions: simple_map::create<String, String>(),
         };
 
         if (!is_update) {
@@ -118,17 +151,17 @@ module aptos_coin_list::coin_list {
     }
 
     public fun is_registry_initialized(): bool {
-        exists<CoinRegistry>(@aptos_coin_list)
+        exists<CoinRegistry>(@coin_list)
     }
 
     public fun is_coin_registered<CoinType>(): bool acquires CoinRegistry {
-        let registry = borrow_global<CoinRegistry>(@aptos_coin_list);
+        let registry = borrow_global<CoinRegistry>(@coin_list);
         let type_info = type_info::type_of<CoinType>();
         iterable_table::contains(&registry.type_to_coin_info, type_info)
     }
 
     public fun get_coin_info<CoinType>(): CoinInfo acquires CoinRegistry {
-        let registry = borrow_global<CoinRegistry>(@aptos_coin_list);
+        let registry = borrow_global<CoinRegistry>(@coin_list);
         let type_info = type_info::type_of<CoinType>();
         *iterable_table::borrow(&registry.type_to_coin_info, type_info)
     }
@@ -160,7 +193,7 @@ module aptos_coin_list::coin_list {
         list_owner_addr: address,
     ): FullList acquires CoinList, CoinRegistry {
         let list = borrow_global<CoinList>(list_owner_addr);
-        let registry = borrow_global<CoinRegistry>(@aptos_coin_list);
+        let registry = borrow_global<CoinRegistry>(@coin_list);
         let tail = iterable_table::tail_key(&list.coin_types);
         let fulllist = FullList {
             coin_info_list: vector::empty<CoinInfo>(),
@@ -192,14 +225,14 @@ module aptos_coin_list::coin_list {
     #[test_only]
     struct FakeEth {}
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     fun test_initialize(admin: &signer){
         assert!(!is_registry_initialized(), 5);
         initialize(admin);
         assert!(is_registry_initialized(), 5);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     #[expected_failure]
     fun test_initialize_twice(admin: &signer){
         initialize(admin);
@@ -214,36 +247,36 @@ module aptos_coin_list::coin_list {
     fun do_add_token<CoinType>(admin: &signer) acquires CoinRegistry {
         let name = b"name123";
         let symbol = b"SYMBOL";
-        let description = b"desc123";
+        let coingecko_id = b"id123";
         let logo = b"logo123";
         let project = b"project123";
         add_to_registry_by_signer<CoinType>(
             admin,
             string::utf8(name),
             string::utf8(symbol),
-            string::utf8(description),
+            string::utf8(coingecko_id),
             string::utf8(logo),
             string::utf8(project),
             false,
         );
         let coin_type = type_info::type_of<CoinType>();
 
-        let registry = borrow_global<CoinRegistry>(@aptos_coin_list);
+        let registry = borrow_global<CoinRegistry>(@coin_list);
         let token_info = iterable_table::borrow(&registry.type_to_coin_info, coin_type);
         assert!(token_info.name == string::utf8(name), 5);
-        assert!(token_info.description == string::utf8(description), 5);
+        assert!(token_info.coingecko_id == string::utf8(coingecko_id), 5);
         assert!(token_info.logo_url == string::utf8(logo), 5);
         assert!(token_info.project_url == string::utf8(project), 5);
     }
 
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     #[expected_failure]
     fun test_add_token_before_initialize(admin: &signer) acquires CoinRegistry {
         do_add_token<FakeBtc>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     fun test_add_token(admin: &signer) acquires CoinRegistry {
         initialize(admin);
         let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
@@ -253,7 +286,7 @@ module aptos_coin_list::coin_list {
         do_add_token<FakeBtc>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     #[expected_failure]
     fun test_add_token_twice(admin: &signer) acquires CoinRegistry {
         initialize(admin);
@@ -265,7 +298,7 @@ module aptos_coin_list::coin_list {
         do_add_token<FakeBtc>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     #[expected_failure]
     fun test_add_token_same_type(admin: &signer) acquires CoinRegistry {
         initialize(admin);
@@ -276,7 +309,7 @@ module aptos_coin_list::coin_list {
         do_add_token<FakeBtc>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     fun test_add_two_coins(admin: &signer) acquires CoinRegistry {
         initialize(admin);
         let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
@@ -291,7 +324,7 @@ module aptos_coin_list::coin_list {
         do_add_token<FakeEth>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     #[expected_failure]
     fun test_add_to_list_twice(admin: &signer) acquires CoinRegistry, CoinList {
         initialize(admin);
@@ -304,7 +337,7 @@ module aptos_coin_list::coin_list {
         add_to_list<FakeBtc>(admin);
     }
 
-    #[test(admin=@aptos_coin_list)]
+    #[test(admin=@coin_list)]
     fun test_add_then_delist_then_add(admin: &signer) acquires CoinRegistry, CoinList {
         initialize(admin);
         let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);

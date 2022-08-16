@@ -1,5 +1,5 @@
 [package]
-name = 'AptosTokenList'
+name = 'CoinList'
 version = '0.0.0'
 
 [dependencies.AptosFramework]
@@ -9,4 +9,4 @@ subdir = 'aptos-move/framework/aptos-framework'
 
 
 [addresses]
-aptos_coin_list = "a61e1e86e9f596e483283727d2739ba24b919012720648c29380f9cd0a96c11a"
+coin_list = "f70ac33c984f8b7bead655ad239d246f1c0e3ca55fe0b8bfc119aa529c4630e8"
