@@ -166,6 +166,15 @@ module coin_list::coin_list {
         *iterable_table::borrow(&registry.type_to_coin_info, type_info)
     }
 
+    public fun is_coin_in_list<CoinType>(list_owner_addr: address):bool acquires CoinList {
+        if (!exists<CoinList>(list_owner_addr)) {
+           return false
+        };
+        let list = borrow_global<CoinList>(list_owner_addr);
+        let coin_type = type_info::type_of<CoinType>();
+        iterable_table::contains(&list.coin_types, coin_type)
+    }
+    
     #[cmd]
     public entry fun add_to_list<CoinType>(list_owner: &signer) acquires CoinRegistry, CoinList {
         assert!(is_coin_registered<CoinType>(), E_COIN_NOT_IN_REGISTRY);
@@ -369,13 +378,17 @@ module coin_list::coin_list {
         coin::destroy_burn_cap(burn);
 
         // add to registry
+        assert!(!is_coin_registered<FakeBtc>(), 5);
         do_add_token<FakeBtc>(admin);
-        assert!(is_coin_registered<FakeBtc>(), 5);
+        assert!(is_coin_registered<FakeBtc>(), 6);
 
         // add to list
+        assert!(!is_coin_in_list<FakeBtc>(signer::address_of(admin)), 7);
         add_to_list<FakeBtc>(admin);
+        assert!(is_coin_in_list<FakeBtc>(signer::address_of(admin)), 8);
 
         remove_from_list<FakeBtc>(admin);
+        assert!(!is_coin_in_list<FakeBtc>(signer::address_of(admin)), 9);
 
         add_to_list<FakeBtc>(admin);
     }
