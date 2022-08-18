@@ -613,6 +613,22 @@ export function buildPayload_initialize (
 
 }
 
+export function is_coin_in_list_ (
+  list_owner_addr: HexString,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <CoinType>*/
+): boolean {
+  let coin_type, list;
+  if (!$c.exists(new SimpleStructTag(CoinList), $.copy(list_owner_addr))) {
+    return false;
+  }
+  else{
+  }
+  list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
+  coin_type = Aptos_std.Type_info.type_of_($c, [$p[0]]);
+  return Aptos_std.Iterable_table.contains_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+}
+
 export function is_coin_registered_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
