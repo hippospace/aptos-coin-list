@@ -41,7 +41,7 @@ module coin_list::devnet_coins {
         };
         coin::deposit(signer::address_of(user), coin);
     }
-    public fun init_and_register_coin<CoinType>(
+    public fun init_coin_and_register<CoinType>(
         admin: &signer,
         name: String,
         symbol: String,
@@ -67,7 +67,7 @@ module coin_list::devnet_coins {
             coin_list::initialize(admin);
         };
 
-        init_and_register_coin<DevnetBTC>(
+        init_coin_and_register<DevnetBTC>(
             admin,
             utf8(b"Bitcoin"),
             utf8(b"BTC"),
@@ -76,7 +76,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetBNB>(
+        init_coin_and_register<DevnetBNB>(
             admin,
             utf8(b"BNB"),
             utf8(b"BNB"),
@@ -85,7 +85,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetETH>(
+        init_coin_and_register<DevnetETH>(
             admin,
             utf8(b"Ethereum"),
             utf8(b"ETH"),
@@ -94,7 +94,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetSOL>(
+        init_coin_and_register<DevnetSOL>(
             admin,
             utf8(b"Solana"),
             utf8(b"SOL"),
@@ -103,7 +103,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetUSDC>(
+        init_coin_and_register<DevnetUSDC>(
             admin,
             utf8(b"USD Coin"),
             utf8(b"USDC"),
@@ -112,7 +112,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetUSDT>(
+        init_coin_and_register<DevnetUSDT>(
             admin,
             utf8(b"Tether"),
             utf8(b"USDT"),
@@ -121,7 +121,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetDAI>(
+        init_coin_and_register<DevnetDAI>(
             admin,
             utf8(b"Dai"),
             utf8(b"DAI"),
@@ -130,7 +130,7 @@ module coin_list::devnet_coins {
             utf8(b"project_url")
         );
 
-        init_and_register_coin<DevnetDOT>(
+        init_coin_and_register<DevnetDOT>(
             admin,
             utf8(b"Polkadot"),
             utf8(b"DOT"),
