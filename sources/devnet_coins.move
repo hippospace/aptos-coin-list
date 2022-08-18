@@ -2,8 +2,9 @@ module coin_list::devnet_coins {
     use aptos_framework::coin;
     use aptos_framework::coins;
     use coin_list::coin_list;
-    use std::string::utf8;
+    use std::string::{utf8, String};
     use std::signer;
+    use std::string;
 
     struct DevnetBTC {}
     struct DevnetBNB {}
@@ -11,6 +12,8 @@ module coin_list::devnet_coins {
     struct DevnetSOL {}
     struct DevnetUSDC {}
     struct DevnetUSDT {}
+    struct DevnetDAI {}
+    struct DevnetDOT {}
 
     struct CoinCaps<phantom T> has key {
         mint: coin::MintCapability<T>,
@@ -38,80 +41,107 @@ module coin_list::devnet_coins {
         };
         coin::deposit(signer::address_of(user), coin);
     }
+    public fun init_and_register_coin<CoinType>(
+        admin: &signer,
+        name: String,
+        symbol: String,
+        coingecko_id: String,
+        logo_url: String,
+        project_url: String,
+    ){
+        init_coin<CoinType>(admin, *string::bytes(&name), *string::bytes(&symbol));
+        coin_list::add_to_registry_by_signer<CoinType>(
+            admin,
+            name,
+            symbol,
+            coingecko_id,
+            logo_url,
+            project_url,
+            false
+        );
+    }
 
     #[cmd(desc=b"Register devnet coins")]
     public entry fun deploy(admin: &signer) {
-        init_coin<DevnetBTC>(admin, b"Bitcoin", b"BTC");
-        init_coin<DevnetBNB>(admin, b"BNB", b"BNB");
-        init_coin<DevnetETH>(admin, b"Ethereum", b"ETH");
-        init_coin<DevnetSOL>(admin, b"Solana", b"SOL");
-        init_coin<DevnetUSDC>(admin,b"USD Coin", b"USDC");
-        init_coin<DevnetUSDT>(admin, b"Tether", b"USDT");
-
         if (!coin_list::is_registry_initialized()) {
             coin_list::initialize(admin);
         };
 
-        coin_list::add_to_registry_by_signer<DevnetBTC>(
+        init_and_register_coin<DevnetBTC>(
             admin,
             utf8(b"Bitcoin"),
             utf8(b"BTC"),
             utf8(b"bitcoin"),
             utf8(b"https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
         );
 
-        coin_list::add_to_registry_by_signer<DevnetBNB>(
+        init_and_register_coin<DevnetBNB>(
             admin,
             utf8(b"BNB"),
             utf8(b"BNB"),
             utf8(b"binancecoin"),
             utf8(b"https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png?1644979850"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
         );
 
-        coin_list::add_to_registry_by_signer<DevnetETH>(
+        init_and_register_coin<DevnetETH>(
             admin,
             utf8(b"Ethereum"),
             utf8(b"ETH"),
             utf8(b"ethereum"),
             utf8(b"https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
         );
 
-        coin_list::add_to_registry_by_signer<DevnetSOL>(
+        init_and_register_coin<DevnetSOL>(
             admin,
             utf8(b"Solana"),
             utf8(b"SOL"),
             utf8(b"solana"),
             utf8(b"https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
         );
 
-        coin_list::add_to_registry_by_signer<DevnetUSDC>(
+        init_and_register_coin<DevnetUSDC>(
             admin,
             utf8(b"USD Coin"),
             utf8(b"USDC"),
             utf8(b"usd-coin"),
             utf8(b"https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
         );
 
-        coin_list::add_to_registry_by_signer<DevnetUSDT>(
+        init_and_register_coin<DevnetUSDT>(
             admin,
             utf8(b"Tether"),
             utf8(b"USDT"),
             utf8(b"tether"),
             utf8(b"https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1598003707"),
-            utf8(b"project_url"),
-            false
+            utf8(b"project_url")
+        );
+
+        init_and_register_coin<DevnetDAI>(
+            admin,
+            utf8(b"Dai"),
+            utf8(b"DAI"),
+            utf8(b"dai"),
+            utf8(b"https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734"),
+            utf8(b"project_url")
+        );
+
+        init_and_register_coin<DevnetDOT>(
+            admin,
+            utf8(b"Polkadot"),
+            utf8(b"DOT"),
+            utf8(b"polkadot"),
+            utf8(b"https://assets.coingecko.com/coins/images/12171/small/polkadot.png?1639712644"),
+            utf8(b"project_url")
         );
     }
-
+    #[test(admin = @coin_list)]
+    fun test_deploy(admin: &signer){
+        deploy(admin)
+    }
 
 }
