@@ -23,7 +23,7 @@ module coin_list::coin_list {
         name: String,
         symbol: String,
         coingecko_id: String,
-        decimals: u64,
+        decimals: u8,
         logo_url: String,
         project_url: String,
         token_type: type_info::TypeInfo,
@@ -312,8 +312,9 @@ module coin_list::coin_list {
     #[test(admin=@coin_list)]
     fun test_add_token(admin: &signer) acquires CoinRegistry {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
         do_add_token<FakeBtc>(admin);
@@ -323,11 +324,13 @@ module coin_list::coin_list {
     #[expected_failure]
     fun test_add_token_twice(admin: &signer) acquires CoinRegistry {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
         do_add_token<FakeBtc>(admin);
+        coin::destroy_freeze_cap(freeze);
         do_add_token<FakeBtc>(admin);
     }
 
@@ -335,8 +338,9 @@ module coin_list::coin_list {
     #[expected_failure]
     fun test_add_token_same_type(admin: &signer) acquires CoinRegistry {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
         do_add_token<FakeBtc>(admin);
         do_add_token<FakeBtc>(admin);
@@ -345,12 +349,14 @@ module coin_list::coin_list {
     #[test(admin=@coin_list)]
     fun test_add_two_coins(admin: &signer) acquires CoinRegistry {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
-        let (mint, burn) = coin::initialize<FakeEth>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeEth>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
         do_add_token<FakeBtc>(admin);
@@ -361,8 +367,9 @@ module coin_list::coin_list {
     #[expected_failure]
     fun test_add_to_list_twice(admin: &signer) acquires CoinRegistry, CoinList {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
         do_add_token<FakeBtc>(admin);
@@ -373,8 +380,9 @@ module coin_list::coin_list {
     #[test(admin=@coin_list)]
     fun test_add_then_delist_then_add(admin: &signer) acquires CoinRegistry, CoinList {
         initialize(admin);
-        let (mint, burn) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
         coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
         // add to registry

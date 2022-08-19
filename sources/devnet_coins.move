@@ -17,21 +17,22 @@ module coin_list::devnet_coins {
 
     struct CoinCaps<phantom T> has key {
         mint: coin::MintCapability<T>,
+        freeze: coin::FreezeCapability<T>,
         burn: coin::BurnCapability<T>,
     }
 
-    public fun initialize<TokenType>(admin: &signer, decimals: u64){
+    public fun initialize<TokenType>(admin: &signer, decimals: u8){
         let name = type_info::struct_name(&type_info::type_of<TokenType>());
-        init_coin<TokenType>(admin,name,name,decimals)
+        init_coin<TokenType>(admin, name, name, decimals)
     }
 
     public fun init_coin<CoinType>(
         admin: &signer,
         name: vector<u8>,
         symbol: vector<u8>,
-        decimals: u64
+        decimals: u8,
     ) {
-        let (mint, burn) =
+        let (burn, freeze, mint) =
             coin::initialize<CoinType>(
                 admin,
                 utf8(name),
@@ -41,6 +42,7 @@ module coin_list::devnet_coins {
             );
         move_to(admin, CoinCaps {
             mint,
+            freeze,
             burn,
         });
     }
@@ -85,9 +87,9 @@ module coin_list::devnet_coins {
         coingecko_id: String,
         logo_url: String,
         project_url: String,
-        decimals: u64
+        decimals: u8
     ){
-        init_coin<CoinType>(admin, *string::bytes(&name), *string::bytes(&symbol),decimals);
+        init_coin<CoinType>(admin, *string::bytes(&name), *string::bytes(&symbol), decimals);
         coin_list::add_to_registry_by_signer<CoinType>(
             admin,
             name,
