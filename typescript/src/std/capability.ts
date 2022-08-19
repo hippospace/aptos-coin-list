@@ -12,8 +12,9 @@ export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "capability";
 
-export const ECAP : U64 = u64("0");
-export const EDELEGATE : U64 = u64("1");
+export const ECAPABILITY_ALREADY_EXISTS : U64 = u64("1");
+export const ECAPABILITY_NOT_FOUND : U64 = u64("2");
+export const EDELEGATE : U64 = u64("3");
 
 
 export class Cap 
@@ -204,7 +205,7 @@ export function create_ (
   let addr;
   addr = Signer.address_of_(owner, $c);
   if (!!$c.exists(new SimpleStructTag(CapState, [$p[0]]), $.copy(addr))) {
-    throw $.abortCode(Error.already_exists_($.copy(ECAP), $c));
+    throw $.abortCode(Error.already_exists_($.copy(ECAPABILITY_ALREADY_EXISTS), $c));
   }
   $c.move_to(new SimpleStructTag(CapState, [$p[0]]), owner, new CapState({ delegates: Vector.empty_($c, [AtomicTypeTag.Address]) }, new SimpleStructTag(CapState, [$p[0]])));
   return;
@@ -300,7 +301,7 @@ export function validate_acquire_ (
   }
   else{
     if (!$c.exists(new SimpleStructTag(CapState, [$p[0]]), $.copy(addr))) {
-      throw $.abortCode(Error.not_found_($.copy(ECAP), $c));
+      throw $.abortCode(Error.not_found_($.copy(ECAPABILITY_NOT_FOUND), $c));
     }
     temp$1 = $.copy(addr);
   }

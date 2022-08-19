@@ -8,12 +8,11 @@ import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Std from "../std";
 import * as Reconfiguration from "./reconfiguration";
 import * as System_addresses from "./system_addresses";
-import * as Timestamp from "./timestamp";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "consensus_config";
 
-export const ECONFIG : U64 = u64("1");
+export const EINVALID_CONFIG : U64 = u64("1");
 
 
 export class ConsensusConfig 
@@ -58,14 +57,14 @@ export class ConsensusConfig
 }
 export function initialize_ (
   account: HexString,
+  config: U8[],
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!$c.exists(new SimpleStructTag(ConsensusConfig), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(ECONFIG), $c));
+  if (!(Std.Vector.length_(config, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_CONFIG), $c));
   }
-  $c.move_to(new SimpleStructTag(ConsensusConfig), account, new ConsensusConfig({ config: Std.Vector.empty_($c, [AtomicTypeTag.U8]) }, new SimpleStructTag(ConsensusConfig)));
+  $c.move_to(new SimpleStructTag(ConsensusConfig), account, new ConsensusConfig({ config: $.copy(config) }, new SimpleStructTag(ConsensusConfig)));
   return;
 }
 
@@ -76,6 +75,9 @@ export function set_ (
 ): void {
   let config_ref;
   System_addresses.assert_aptos_framework_(account, $c);
+  if (!(Std.Vector.length_(config, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_CONFIG), $c));
+  }
   config_ref = $c.borrow_global_mut<ConsensusConfig>(new SimpleStructTag(ConsensusConfig), new HexString("0x1")).config;
   $.set(config_ref, $.copy(config));
   Reconfiguration.reconfigure_($c);

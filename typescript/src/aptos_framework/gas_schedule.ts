@@ -8,14 +8,12 @@ import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Std from "../std";
 import * as Reconfiguration from "./reconfiguration";
 import * as System_addresses from "./system_addresses";
-import * as Timestamp from "./timestamp";
 import * as Util from "./util";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "gas_schedule";
 
-export const ECONFIG : U64 = u64("1");
-export const EGAS_CONSTANT_INCONSISTENCY : U64 = u64("2");
+export const EINVALID_GAS_SCHEDULE : U64 = u64("1");
 
 
 export class GasEntry 
@@ -99,10 +97,9 @@ export function initialize_ (
   gas_schedule_blob: U8[],
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!$c.exists(new SimpleStructTag(GasSchedule), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(ECONFIG), $c));
+  if (!(Std.Vector.length_(gas_schedule_blob, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_GAS_SCHEDULE), $c));
   }
   $c.move_to(new SimpleStructTag(GasSchedule), account, Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasSchedule)]));
   return;
@@ -114,10 +111,9 @@ export function set_gas_schedule_ (
   $c: AptosDataCache,
 ): void {
   let gas_schedule;
-  Timestamp.assert_operating_($c);
   System_addresses.assert_core_resource_(account, $c);
-  if (!$c.exists(new SimpleStructTag(GasSchedule), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.not_found_($.copy(ECONFIG), $c));
+  if (!(Std.Vector.length_(gas_schedule_blob, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_GAS_SCHEDULE), $c));
   }
   gas_schedule = $c.borrow_global_mut<GasSchedule>(new SimpleStructTag(GasSchedule), new HexString("0x1"));
   $.set(gas_schedule, Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasSchedule)]));
@@ -131,10 +127,12 @@ export function buildPayload_set_gas_schedule (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::gas_schedule::set_gas_schedule",
+    new HexString("0x1"),
+    "gas_schedule",
+    "set_gas_schedule",
     typeParamStrings,
     [
-      $.u8ArrayArg(gas_schedule_blob),
+      gas_schedule_blob,
     ]
   );
 

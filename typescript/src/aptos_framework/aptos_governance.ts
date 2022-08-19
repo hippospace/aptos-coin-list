@@ -22,9 +22,59 @@ export const moduleName = "aptos_governance";
 export const EALREADY_VOTED : U64 = u64("4");
 export const EINSUFFICIENT_PROPOSER_STAKE : U64 = u64("1");
 export const EINSUFFICIENT_STAKE_LOCKUP : U64 = u64("3");
+export const EMETADATA_HASH_TOO_LONG : U64 = u64("10");
+export const EMETADATA_LOCATION_TOO_LONG : U64 = u64("9");
 export const ENOT_DELEGATED_VOTER : U64 = u64("2");
 export const ENO_VOTING_POWER : U64 = u64("5");
+export const EPROPOSAL_NOT_RESOLVABLE_YET : U64 = u64("6");
+export const EPROPOSAL_NOT_RESOLVED_YET : U64 = u64("8");
+export const ESCRIPT_HASH_ALREADY_ADDED : U64 = u64("7");
+export const METADATA_HASH_KEY : U8[] = [u8("109"), u8("101"), u8("116"), u8("97"), u8("100"), u8("97"), u8("116"), u8("97"), u8("95"), u8("104"), u8("97"), u8("115"), u8("104")];
+export const METADATA_LOCATION_KEY : U8[] = [u8("109"), u8("101"), u8("116"), u8("97"), u8("100"), u8("97"), u8("116"), u8("97"), u8("95"), u8("108"), u8("111"), u8("99"), u8("97"), u8("116"), u8("105"), u8("111"), u8("110")];
+export const PROPOSAL_STATE_SUCCEEDED : U64 = u64("1");
 
+
+export class ApprovedExecutionHashes 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "ApprovedExecutionHashes";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "hashes", typeTag: new StructTag(new HexString("0x1"), "simple_map", "SimpleMap", [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)]) }];
+
+  hashes: Aptos_std.Simple_map.SimpleMap;
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.hashes = proto['hashes'] as Aptos_std.Simple_map.SimpleMap;
+  }
+
+  static ApprovedExecutionHashesParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : ApprovedExecutionHashes {
+    const proto = $.parseStructProto(data, typeTag, repo, ApprovedExecutionHashes);
+    return new ApprovedExecutionHashes(proto, typeTag);
+  }
+
+  static async load(repo: AptosParserRepo, client: AptosClient, address: HexString, typeParams: TypeTag[]) {
+    const result = await repo.loadResource(client, address, ApprovedExecutionHashes, typeParams);
+    return result as unknown as ApprovedExecutionHashes;
+  }
+  static async loadByApp(app: $.AppType, address: HexString, typeParams: TypeTag[]) {
+    const result = await app.repo.loadResource(app.client, address, ApprovedExecutionHashes, typeParams);
+    await result.loadFullState(app)
+    return result as unknown as ApprovedExecutionHashes;
+  }
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "ApprovedExecutionHashes", []);
+  }
+  async loadFullState(app: $.AppType) {
+    await this.hashes.loadFullState(app);
+    this.__app = app;
+  }
+
+}
 
 export class CreateProposalEvent 
 {
@@ -40,23 +90,20 @@ export class CreateProposalEvent
   { name: "stake_pool", typeTag: AtomicTypeTag.Address },
   { name: "proposal_id", typeTag: AtomicTypeTag.U64 },
   { name: "execution_hash", typeTag: new VectorTag(AtomicTypeTag.U8) },
-  { name: "metadata_location", typeTag: new VectorTag(AtomicTypeTag.U8) },
-  { name: "metadata_hash", typeTag: new VectorTag(AtomicTypeTag.U8) }];
+  { name: "proposal_metadata", typeTag: new StructTag(new HexString("0x1"), "simple_map", "SimpleMap", [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]) }];
 
   proposer: HexString;
   stake_pool: HexString;
   proposal_id: U64;
   execution_hash: U8[];
-  metadata_location: U8[];
-  metadata_hash: U8[];
+  proposal_metadata: Aptos_std.Simple_map.SimpleMap;
 
   constructor(proto: any, public typeTag: TypeTag) {
     this.proposer = proto['proposer'] as HexString;
     this.stake_pool = proto['stake_pool'] as HexString;
     this.proposal_id = proto['proposal_id'] as U64;
     this.execution_hash = proto['execution_hash'] as U8[];
-    this.metadata_location = proto['metadata_location'] as U8[];
-    this.metadata_hash = proto['metadata_hash'] as U8[];
+    this.proposal_metadata = proto['proposal_metadata'] as Aptos_std.Simple_map.SimpleMap;
   }
 
   static CreateProposalEventParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CreateProposalEvent {
@@ -68,6 +115,7 @@ export class CreateProposalEvent
     return new StructTag(moduleAddress, moduleName, "CreateProposalEvent", []);
   }
   async loadFullState(app: $.AppType) {
+    await this.proposal_metadata.loadFullState(app);
     this.__app = app;
   }
 
@@ -370,6 +418,24 @@ export class VotingRecords
   }
 
 }
+export function add_approved_script_hash_ (
+  proposal_id: U64,
+  $c: AptosDataCache,
+): void {
+  let approved_hashes, execution_hash, proposal_state;
+  approved_hashes = $c.borrow_global_mut<ApprovedExecutionHashes>(new SimpleStructTag(ApprovedExecutionHashes), new HexString("0x1"));
+  if (!!Aptos_std.Simple_map.contains_key_(approved_hashes.hashes, proposal_id, $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)])) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(ESCRIPT_HASH_ALREADY_ADDED), $c));
+  }
+  proposal_state = Voting.get_proposal_state_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  if (!($.copy(proposal_state)).eq(($.copy(PROPOSAL_STATE_SUCCEEDED)))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EPROPOSAL_NOT_RESOLVABLE_YET), $c));
+  }
+  execution_hash = Voting.get_execution_hash_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  Aptos_std.Simple_map.add_(approved_hashes.hashes, $.copy(proposal_id), $.copy(execution_hash), $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)]);
+  return;
+}
+
 export function create_proposal_ (
   proposer: HexString,
   stake_pool: HexString,
@@ -378,7 +444,7 @@ export function create_proposal_ (
   metadata_hash: U8[],
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, current_time, early_resolution_vote_threshold, events, governance_config, proposal_expiration, proposal_id, proposer_address, stake_balance, total_supply, total_voting_token_supply;
+  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, current_time, early_resolution_vote_threshold, events, governance_config, proposal_expiration, proposal_id, proposal_metadata, proposer_address, stake_balance, total_supply, total_voting_token_supply;
   proposer_address = Std.Signer.address_of_(proposer, $c);
   if (!((Stake.get_delegated_voter_($.copy(stake_pool), $c)).hex() === ($.copy(proposer_address)).hex())) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_DELEGATED_VOTER), $c));
@@ -393,6 +459,7 @@ export function create_proposal_ (
   if (!(Stake.get_lockup_secs_($.copy(stake_pool), $c)).ge($.copy(proposal_expiration))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EINSUFFICIENT_STAKE_LOCKUP), $c));
   }
+  proposal_metadata = create_proposal_metadata_($.copy(metadata_location), $.copy(metadata_hash), $c);
   total_voting_token_supply = Coin.supply_($c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   early_resolution_vote_threshold = Std.Option.none_($c, [AtomicTypeTag.U128]);
   if (Std.Option.is_some_(total_voting_token_supply, $c, [AtomicTypeTag.U128])) {
@@ -401,16 +468,15 @@ export function create_proposal_ (
   }
   else{
   }
-  proposal_id = Voting.create_proposal_($.copy(proposer_address), new HexString("0x1"), Governance_proposal.create_proposal_(Std.String.utf8_($.copy(metadata_location), $c), Std.String.utf8_($.copy(metadata_hash), $c), $c), $.copy(execution_hash), $.copy(governance_config.min_voting_threshold), $.copy(proposal_expiration), $.copy(early_resolution_vote_threshold), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  proposal_id = Voting.create_proposal_($.copy(proposer_address), new HexString("0x1"), Governance_proposal.create_proposal_($c), $.copy(execution_hash), $.copy(governance_config.min_voting_threshold), $.copy(proposal_expiration), $.copy(early_resolution_vote_threshold), $.copy(proposal_metadata), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
   events = $c.borrow_global_mut<GovernanceEvents>(new SimpleStructTag(GovernanceEvents), new HexString("0x1"));
-  temp$7 = events.create_proposal_events;
+  temp$6 = events.create_proposal_events;
   temp$1 = $.copy(proposal_id);
   temp$2 = $.copy(proposer_address);
   temp$3 = $.copy(stake_pool);
   temp$4 = $.copy(execution_hash);
-  temp$5 = $.copy(metadata_location);
-  temp$6 = $.copy(metadata_hash);
-  Aptos_std.Event.emit_event_(temp$7, new CreateProposalEvent({ proposer: temp$2, stake_pool: temp$3, proposal_id: temp$1, execution_hash: temp$4, metadata_location: temp$5, metadata_hash: temp$6 }, new SimpleStructTag(CreateProposalEvent)), $c, [new SimpleStructTag(CreateProposalEvent)]);
+  temp$5 = $.copy(proposal_metadata);
+  Aptos_std.Event.emit_event_(temp$6, new CreateProposalEvent({ proposer: temp$2, stake_pool: temp$3, proposal_id: temp$1, execution_hash: temp$4, proposal_metadata: temp$5 }, new SimpleStructTag(CreateProposalEvent)), $c, [new SimpleStructTag(CreateProposalEvent)]);
   return;
 }
 
@@ -423,17 +489,51 @@ export function buildPayload_create_proposal (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::aptos_governance::create_proposal",
+    new HexString("0x1"),
+    "aptos_governance",
+    "create_proposal",
     typeParamStrings,
     [
-      $.payloadArg(stake_pool),
-      $.u8ArrayArg(execution_hash),
-      $.u8ArrayArg(metadata_location),
-      $.u8ArrayArg(metadata_hash),
+      stake_pool,
+      execution_hash,
+      metadata_location,
+      metadata_hash,
     ]
   );
 
 }
+export function create_proposal_metadata_ (
+  metadata_location: U8[],
+  metadata_hash: U8[],
+  $c: AptosDataCache,
+): Aptos_std.Simple_map.SimpleMap {
+  let temp$1, temp$2, metadata;
+  temp$1 = Std.String.utf8_($.copy(metadata_location), $c);
+  if (!(Std.String.length_(temp$1, $c)).le(u64("256"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EMETADATA_LOCATION_TOO_LONG), $c));
+  }
+  temp$2 = Std.String.utf8_($.copy(metadata_hash), $c);
+  if (!(Std.String.length_(temp$2, $c)).le(u64("256"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EMETADATA_HASH_TOO_LONG), $c));
+  }
+  metadata = Aptos_std.Simple_map.create_($c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]);
+  Aptos_std.Simple_map.add_(metadata, Std.String.utf8_($.copy(METADATA_LOCATION_KEY), $c), $.copy(metadata_location), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]);
+  Aptos_std.Simple_map.add_(metadata, Std.String.utf8_($.copy(METADATA_HASH_KEY), $c), $.copy(metadata_hash), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]);
+  return $.copy(metadata);
+}
+
+export function get_min_voting_threshold_ (
+  $c: AptosDataCache,
+): U128 {
+  return $.copy($c.borrow_global<GovernanceConfig>(new SimpleStructTag(GovernanceConfig), new HexString("0x1")).min_voting_threshold);
+}
+
+export function get_required_proposer_stake_ (
+  $c: AptosDataCache,
+): U64 {
+  return $.copy($c.borrow_global<GovernanceConfig>(new SimpleStructTag(GovernanceConfig), new HexString("0x1")).required_proposer_stake);
+}
+
 export function get_signer_ (
   _proposal: Governance_proposal.GovernanceProposal,
   signer_address: HexString,
@@ -443,6 +543,12 @@ export function get_signer_ (
   governance_responsibility = $c.borrow_global<GovernanceResponsbility>(new SimpleStructTag(GovernanceResponsbility), new HexString("0x1"));
   signer_cap = Aptos_std.Simple_map.borrow_(governance_responsibility.signer_caps, signer_address, $c, [AtomicTypeTag.Address, new StructTag(new HexString("0x1"), "account", "SignerCapability", [])]);
   return Account.create_signer_with_capability_(signer_cap, $c);
+}
+
+export function get_voting_duration_secs_ (
+  $c: AptosDataCache,
+): U64 {
+  return $.copy($c.borrow_global<GovernanceConfig>(new SimpleStructTag(GovernanceConfig), new HexString("0x1")).voting_duration_secs);
 }
 
 export function initialize_ (
@@ -462,15 +568,45 @@ export function initialize_ (
   $c.move_to(new SimpleStructTag(GovernanceConfig), temp$4, new GovernanceConfig({ min_voting_threshold: temp$2, required_proposer_stake: temp$3, voting_duration_secs: temp$1 }, new SimpleStructTag(GovernanceConfig)));
   $c.move_to(new SimpleStructTag(GovernanceEvents), aptos_framework, new GovernanceEvents({ create_proposal_events: Aptos_std.Event.new_event_handle_(aptos_framework, $c, [new SimpleStructTag(CreateProposalEvent)]), update_config_events: Aptos_std.Event.new_event_handle_(aptos_framework, $c, [new SimpleStructTag(UpdateConfigEvent)]), vote_events: Aptos_std.Event.new_event_handle_(aptos_framework, $c, [new SimpleStructTag(VoteEvent)]) }, new SimpleStructTag(GovernanceEvents)));
   $c.move_to(new SimpleStructTag(VotingRecords), aptos_framework, new VotingRecords({ votes: Aptos_std.Table.new___($c, [new SimpleStructTag(RecordKey), AtomicTypeTag.Bool]) }, new SimpleStructTag(VotingRecords)));
-  return;
+  return $c.move_to(new SimpleStructTag(ApprovedExecutionHashes), aptos_framework, new ApprovedExecutionHashes({ hashes: Aptos_std.Simple_map.create_($c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)]) }, new SimpleStructTag(ApprovedExecutionHashes)));
 }
 
 export function reconfigure_ (
-  _proposal: Governance_proposal.GovernanceProposal,
+  aptos_framework: HexString,
   $c: AptosDataCache,
 ): void {
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
   Reconfiguration.reconfigure_($c);
   return;
+}
+
+export function remove_approved_hash_ (
+  proposal_id: U64,
+  $c: AptosDataCache,
+): void {
+  let temp$1, temp$2, approved_hashes;
+  if (!Voting.is_resolved_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])])) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EPROPOSAL_NOT_RESOLVED_YET), $c));
+  }
+  approved_hashes = $c.borrow_global_mut<ApprovedExecutionHashes>(new SimpleStructTag(ApprovedExecutionHashes), new HexString("0x1")).hashes;
+  [temp$1, temp$2] = [approved_hashes, proposal_id];
+  if (Aptos_std.Simple_map.contains_key_(temp$1, temp$2, $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)])) {
+    Aptos_std.Simple_map.remove_(approved_hashes, proposal_id, $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)]);
+  }
+  else{
+  }
+  return;
+}
+
+export function resolve_ (
+  proposal_id: U64,
+  signer_address: HexString,
+  $c: AptosDataCache,
+): HexString {
+  let proposal;
+  proposal = Voting.resolve_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  remove_approved_hash_($.copy(proposal_id), $c);
+  return get_signer_(proposal, $.copy(signer_address), $c);
 }
 
 export function store_signer_cap_ (
@@ -492,13 +628,14 @@ export function store_signer_cap_ (
 }
 
 export function update_governance_config_ (
-  _proposal: Governance_proposal.GovernanceProposal,
+  aptos_framework: HexString,
   min_voting_threshold: U128,
   required_proposer_stake: U64,
   voting_duration_secs: U64,
   $c: AptosDataCache,
 ): void {
   let events, governance_config;
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
   governance_config = $c.borrow_global_mut<GovernanceConfig>(new SimpleStructTag(GovernanceConfig), new HexString("0x1"));
   governance_config.voting_duration_secs = $.copy(voting_duration_secs);
   governance_config.min_voting_threshold = $.copy(min_voting_threshold);
@@ -549,17 +686,20 @@ export function buildPayload_vote (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::aptos_governance::vote",
+    new HexString("0x1"),
+    "aptos_governance",
+    "vote",
     typeParamStrings,
     [
-      $.payloadArg(stake_pool),
-      $.payloadArg(proposal_id),
-      $.payloadArg(should_pass),
+      stake_pool,
+      proposal_id,
+      should_pass,
     ]
   );
 
 }
 export function loadParsers(repo: AptosParserRepo) {
+  repo.addParser("0x1::aptos_governance::ApprovedExecutionHashes", ApprovedExecutionHashes.ApprovedExecutionHashesParser);
   repo.addParser("0x1::aptos_governance::CreateProposalEvent", CreateProposalEvent.CreateProposalEventParser);
   repo.addParser("0x1::aptos_governance::GovernanceConfig", GovernanceConfig.GovernanceConfigParser);
   repo.addParser("0x1::aptos_governance::GovernanceEvents", GovernanceEvents.GovernanceEventsParser);
@@ -578,6 +718,17 @@ export class App {
   }
   get moduleAddress() {{ return moduleAddress; }}
   get moduleName() {{ return moduleName; }}
+  get ApprovedExecutionHashes() { return ApprovedExecutionHashes; }
+  async loadApprovedExecutionHashes(
+    owner: HexString,
+    loadFull=true,
+  ) {
+    const val = await ApprovedExecutionHashes.load(this.repo, this.client, owner, [] as TypeTag[]);
+    if (loadFull) {
+      await val.loadFullState(this);
+    }
+    return val;
+  }
   get CreateProposalEvent() { return CreateProposalEvent; }
   get GovernanceConfig() { return GovernanceConfig; }
   async loadGovernanceConfig(

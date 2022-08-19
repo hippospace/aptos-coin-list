@@ -15,8 +15,9 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "block";
 
-export const EBLOCK_METADATA : U64 = u64("0");
-export const EVM_OR_VALIDATOR : U64 = u64("1");
+export const EINVALID_PROPOSER : U64 = u64("2");
+export const ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT : U64 = u64("1");
+export const EZERO_EPOCH_INTERVAL : U64 = u64("3");
 
 
 export class BlockResource 
@@ -80,7 +81,7 @@ export class NewBlockEvent
   { name: "epoch", typeTag: AtomicTypeTag.U64 },
   { name: "round", typeTag: AtomicTypeTag.U64 },
   { name: "height", typeTag: AtomicTypeTag.U64 },
-  { name: "previous_block_votes", typeTag: new VectorTag(AtomicTypeTag.Bool) },
+  { name: "previous_block_votes_bitvec", typeTag: new VectorTag(AtomicTypeTag.U8) },
   { name: "proposer", typeTag: AtomicTypeTag.Address },
   { name: "failed_proposer_indices", typeTag: new VectorTag(AtomicTypeTag.U64) },
   { name: "time_microseconds", typeTag: AtomicTypeTag.U64 }];
@@ -88,7 +89,7 @@ export class NewBlockEvent
   epoch: U64;
   round: U64;
   height: U64;
-  previous_block_votes: boolean[];
+  previous_block_votes_bitvec: U8[];
   proposer: HexString;
   failed_proposer_indices: U64[];
   time_microseconds: U64;
@@ -97,7 +98,7 @@ export class NewBlockEvent
     this.epoch = proto['epoch'] as U64;
     this.round = proto['round'] as U64;
     this.height = proto['height'] as U64;
-    this.previous_block_votes = proto['previous_block_votes'] as boolean[];
+    this.previous_block_votes_bitvec = proto['previous_block_votes_bitvec'] as U8[];
     this.proposer = proto['proposer'] as HexString;
     this.failed_proposer_indices = proto['failed_proposer_indices'] as U64[];
     this.time_microseconds = proto['time_microseconds'] as U64;
@@ -121,13 +122,12 @@ export function block_prologue_ (
   epoch: U64,
   round: U64,
   proposer: HexString,
-  proposer_index_optional: U64[],
   failed_proposer_indices: U64[],
-  previous_block_votes: boolean[],
+  previous_block_votes_bitvec: U8[],
   timestamp: U64,
   $c: AptosDataCache,
 ): void {
-  let temp$1, block_metadata_ref, new_block_event;
+  let temp$1, block_metadata_ref, new_block_event, proposer_index;
   Timestamp.assert_operating_($c);
   System_addresses.assert_vm_(vm, $c);
   if ((($.copy(proposer)).hex() === (new HexString("0x0")).hex())) {
@@ -137,14 +137,20 @@ export function block_prologue_ (
     temp$1 = Stake.is_current_epoch_validator_($.copy(proposer), $c);
   }
   if (!temp$1) {
-    throw $.abortCode(Std.Error.permission_denied_($.copy(EVM_OR_VALIDATOR), $c));
+    throw $.abortCode(Std.Error.permission_denied_($.copy(EINVALID_PROPOSER), $c));
+  }
+  proposer_index = Std.Option.none_($c, [AtomicTypeTag.U64]);
+  if ((($.copy(proposer)).hex() !== (new HexString("0x0")).hex())) {
+    proposer_index = Std.Option.some_(Stake.get_validator_index_($.copy(proposer), $c), $c, [AtomicTypeTag.U64]);
+  }
+  else{
   }
   block_metadata_ref = $c.borrow_global_mut<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1"));
   block_metadata_ref.height = Aptos_std.Event.counter_(block_metadata_ref.new_block_events, $c, [new SimpleStructTag(NewBlockEvent)]);
-  new_block_event = new NewBlockEvent({ epoch: $.copy(epoch), round: $.copy(round), height: $.copy(block_metadata_ref.height), previous_block_votes: $.copy(previous_block_votes), proposer: $.copy(proposer), failed_proposer_indices: $.copy(failed_proposer_indices), time_microseconds: $.copy(timestamp) }, new SimpleStructTag(NewBlockEvent));
+  new_block_event = new NewBlockEvent({ epoch: $.copy(epoch), round: $.copy(round), height: $.copy(block_metadata_ref.height), previous_block_votes_bitvec: $.copy(previous_block_votes_bitvec), proposer: $.copy(proposer), failed_proposer_indices: $.copy(failed_proposer_indices), time_microseconds: $.copy(timestamp) }, new SimpleStructTag(NewBlockEvent));
   emit_new_block_event_(vm, block_metadata_ref.new_block_events, new_block_event, $c);
-  Stake.update_performance_statistics_($.copy(proposer_index_optional), $.copy(failed_proposer_indices), $c);
-  if ((($.copy(timestamp)).sub(Reconfiguration.last_reconfiguration_time_($c))).gt($.copy(block_metadata_ref.epoch_interval))) {
+  Stake.update_performance_statistics_($.copy(proposer_index), $.copy(failed_proposer_indices), $c);
+  if ((($.copy(timestamp)).sub(Reconfiguration.last_reconfiguration_time_($c))).ge($.copy(block_metadata_ref.epoch_interval))) {
     Reconfiguration.reconfigure_($c);
   }
   else{
@@ -158,7 +164,7 @@ export function emit_genesis_block_event_ (
 ): void {
   let block_metadata_ref;
   block_metadata_ref = $c.borrow_global_mut<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1"));
-  emit_new_block_event_(vm, block_metadata_ref.new_block_events, new NewBlockEvent({ epoch: u64("0"), round: u64("0"), height: u64("0"), previous_block_votes: Std.Vector.empty_($c, [AtomicTypeTag.Bool]), proposer: new HexString("0x0"), failed_proposer_indices: Std.Vector.empty_($c, [AtomicTypeTag.U64]), time_microseconds: u64("0") }, new SimpleStructTag(NewBlockEvent)), $c);
+  emit_new_block_event_(vm, block_metadata_ref.new_block_events, new NewBlockEvent({ epoch: u64("0"), round: u64("0"), height: u64("0"), previous_block_votes_bitvec: Std.Vector.empty_($c, [AtomicTypeTag.U8]), proposer: new HexString("0x0"), failed_proposer_indices: Std.Vector.empty_($c, [AtomicTypeTag.U64]), time_microseconds: u64("0") }, new SimpleStructTag(NewBlockEvent)), $c);
   return;
 }
 
@@ -170,7 +176,7 @@ export function emit_new_block_event_ (
 ): void {
   Timestamp.update_global_time_(vm, $.copy(new_block_event.proposer), $.copy(new_block_event.time_microseconds), $c);
   if (!(Aptos_std.Event.counter_(event_handle, $c, [new SimpleStructTag(NewBlockEvent)])).eq(($.copy(new_block_event.height)))) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(EBLOCK_METADATA), $c));
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT), $c));
   }
   Aptos_std.Event.emit_event_(event_handle, new_block_event, $c, [new SimpleStructTag(NewBlockEvent)]);
   return;
@@ -179,39 +185,38 @@ export function emit_new_block_event_ (
 export function get_current_block_height_ (
   $c: AptosDataCache,
 ): U64 {
-  if (!is_initialized_($c)) {
-    throw $.abortCode(Std.Error.not_found_($.copy(EBLOCK_METADATA), $c));
-  }
   return $.copy($c.borrow_global<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1")).height);
 }
 
-export function initialize_block_metadata_ (
+export function get_epoch_interval_secs_ (
+  $c: AptosDataCache,
+): U64 {
+  return ($.copy($c.borrow_global<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1")).epoch_interval)).div(u64("1000000"));
+}
+
+export function initialize_ (
   account: HexString,
-  epoch_interval: U64,
+  epoch_interval_microsecs: U64,
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!is_initialized_($c)) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(EBLOCK_METADATA), $c));
+  if (!($.copy(epoch_interval_microsecs)).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EZERO_EPOCH_INTERVAL), $c));
   }
-  $c.move_to(new SimpleStructTag(BlockResource), account, new BlockResource({ height: u64("0"), epoch_interval: $.copy(epoch_interval), new_block_events: Aptos_std.Event.new_event_handle_(account, $c, [new SimpleStructTag(NewBlockEvent)]) }, new SimpleStructTag(BlockResource)));
+  $c.move_to(new SimpleStructTag(BlockResource), account, new BlockResource({ height: u64("0"), epoch_interval: $.copy(epoch_interval_microsecs), new_block_events: Aptos_std.Event.new_event_handle_(account, $c, [new SimpleStructTag(NewBlockEvent)]) }, new SimpleStructTag(BlockResource)));
   return;
 }
 
-export function is_initialized_ (
-  $c: AptosDataCache,
-): boolean {
-  return $c.exists(new SimpleStructTag(BlockResource), new HexString("0x1"));
-}
-
-export function update_epoch_interval_ (
+export function update_epoch_interval_microsecs_ (
   aptos_framework: HexString,
   new_epoch_interval: U64,
   $c: AptosDataCache,
 ): void {
   let block_metadata;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  if (!($.copy(new_epoch_interval)).gt(u64("0"))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EZERO_EPOCH_INTERVAL), $c));
+  }
   block_metadata = $c.borrow_global_mut<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1"));
   block_metadata.epoch_interval = $.copy(new_epoch_interval);
   return;

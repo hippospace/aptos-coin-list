@@ -12,7 +12,7 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "managed_coin";
 
-export const ENO_CAPABILITIES : U64 = u64("0");
+export const ENO_CAPABILITIES : U64 = u64("1");
 
 
 export class Capabilities 
@@ -25,15 +25,18 @@ export class Capabilities
     { name: "CoinType", isPhantom: true }
   ];
   static fields: FieldDeclType[] = [
-  { name: "mint_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "MintCapability", [new $.TypeParamIdx(0)]) },
-  { name: "burn_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "BurnCapability", [new $.TypeParamIdx(0)]) }];
+  { name: "burn_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "BurnCapability", [new $.TypeParamIdx(0)]) },
+  { name: "freeze_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "FreezeCapability", [new $.TypeParamIdx(0)]) },
+  { name: "mint_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "MintCapability", [new $.TypeParamIdx(0)]) }];
 
-  mint_cap: Coin.MintCapability;
   burn_cap: Coin.BurnCapability;
+  freeze_cap: Coin.FreezeCapability;
+  mint_cap: Coin.MintCapability;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.mint_cap = proto['mint_cap'] as Coin.MintCapability;
     this.burn_cap = proto['burn_cap'] as Coin.BurnCapability;
+    this.freeze_cap = proto['freeze_cap'] as Coin.FreezeCapability;
+    this.mint_cap = proto['mint_cap'] as Coin.MintCapability;
   }
 
   static CapabilitiesParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : Capabilities {
@@ -54,8 +57,9 @@ export class Capabilities
     return new StructTag(moduleAddress, moduleName, "Capabilities", $p);
   }
   async loadFullState(app: $.AppType) {
-    await this.mint_cap.loadFullState(app);
     await this.burn_cap.loadFullState(app);
+    await this.freeze_cap.loadFullState(app);
+    await this.mint_cap.loadFullState(app);
     this.__app = app;
   }
 
@@ -84,10 +88,12 @@ export function buildPayload_burn (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x1::managed_coin::burn",
+    new HexString("0x1"),
+    "managed_coin",
+    "burn",
     typeParamStrings,
     [
-      $.payloadArg(amount),
+      amount,
     ]
   );
 
@@ -96,14 +102,14 @@ export function initialize_ (
   account: HexString,
   name: U8[],
   symbol: U8[],
-  decimals: U64,
+  decimals: U8,
   monitor_supply: boolean,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
-  let burn_cap, mint_cap;
-  [mint_cap, burn_cap] = Coin.initialize_(account, Std.String.utf8_($.copy(name), $c), Std.String.utf8_($.copy(symbol), $c), $.copy(decimals), monitor_supply, $c, [$p[0]]);
-  $c.move_to(new SimpleStructTag(Capabilities, [$p[0]]), account, new Capabilities({ mint_cap: $.copy(mint_cap), burn_cap: $.copy(burn_cap) }, new SimpleStructTag(Capabilities, [$p[0]])));
+  let burn_cap, freeze_cap, mint_cap;
+  [burn_cap, freeze_cap, mint_cap] = Coin.initialize_(account, Std.String.utf8_($.copy(name), $c), Std.String.utf8_($.copy(symbol), $c), $.copy(decimals), monitor_supply, $c, [$p[0]]);
+  $c.move_to(new SimpleStructTag(Capabilities, [$p[0]]), account, new Capabilities({ burn_cap: $.copy(burn_cap), freeze_cap: $.copy(freeze_cap), mint_cap: $.copy(mint_cap) }, new SimpleStructTag(Capabilities, [$p[0]])));
   return;
 }
 
@@ -111,19 +117,21 @@ export function initialize_ (
 export function buildPayload_initialize (
   name: U8[],
   symbol: U8[],
-  decimals: U64,
+  decimals: U8,
   monitor_supply: boolean,
   $p: TypeTag[], /* <CoinType>*/
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x1::managed_coin::initialize",
+    new HexString("0x1"),
+    "managed_coin",
+    "initialize",
     typeParamStrings,
     [
-      $.u8ArrayArg(name),
-      $.u8ArrayArg(symbol),
-      $.payloadArg(decimals),
-      $.payloadArg(monitor_supply),
+      name,
+      symbol,
+      decimals,
+      monitor_supply,
     ]
   );
 
@@ -154,11 +162,13 @@ export function buildPayload_mint (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x1::managed_coin::mint",
+    new HexString("0x1"),
+    "managed_coin",
+    "mint",
     typeParamStrings,
     [
-      $.payloadArg(dst_addr),
-      $.payloadArg(amount),
+      dst_addr,
+      amount,
     ]
   );
 
@@ -178,7 +188,9 @@ export function buildPayload_register (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x1::managed_coin::register",
+    new HexString("0x1"),
+    "managed_coin",
+    "register",
     typeParamStrings,
     []
   );
@@ -226,7 +238,7 @@ export class App {
   payload_initialize(
     name: U8[],
     symbol: U8[],
-    decimals: U64,
+    decimals: U8,
     monitor_supply: boolean,
     $p: TypeTag[], /* <CoinType>*/
   ) {
@@ -236,7 +248,7 @@ export class App {
     _account: AptosAccount,
     name: U8[],
     symbol: U8[],
-    decimals: U64,
+    decimals: U8,
     monitor_supply: boolean,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,

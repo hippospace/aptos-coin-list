@@ -56,48 +56,6 @@ export class AptosCoin
 
 }
 
-export class Capabilities 
-{
-  static moduleAddress = moduleAddress;
-  static moduleName = moduleName;
-  __app: $.AppType | null = null;
-  static structName: string = "Capabilities";
-  static typeParameters: TypeParamDeclType[] = [
-
-  ];
-  static fields: FieldDeclType[] = [
-  { name: "mint_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "MintCapability", [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]) }];
-
-  mint_cap: Coin.MintCapability;
-
-  constructor(proto: any, public typeTag: TypeTag) {
-    this.mint_cap = proto['mint_cap'] as Coin.MintCapability;
-  }
-
-  static CapabilitiesParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : Capabilities {
-    const proto = $.parseStructProto(data, typeTag, repo, Capabilities);
-    return new Capabilities(proto, typeTag);
-  }
-
-  static async load(repo: AptosParserRepo, client: AptosClient, address: HexString, typeParams: TypeTag[]) {
-    const result = await repo.loadResource(client, address, Capabilities, typeParams);
-    return result as unknown as Capabilities;
-  }
-  static async loadByApp(app: $.AppType, address: HexString, typeParams: TypeTag[]) {
-    const result = await app.repo.loadResource(app.client, address, Capabilities, typeParams);
-    await result.loadFullState(app)
-    return result as unknown as Capabilities;
-  }
-  static getTag(): StructTag {
-    return new StructTag(moduleAddress, moduleName, "Capabilities", []);
-  }
-  async loadFullState(app: $.AppType) {
-    await this.mint_cap.loadFullState(app);
-    this.__app = app;
-  }
-
-}
-
 export class DelegatedMintCapability 
 {
   static moduleAddress = moduleAddress;
@@ -170,6 +128,48 @@ export class Delegations
   }
 
 }
+
+export class MintCapStore 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "MintCapStore";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "mint_cap", typeTag: new StructTag(new HexString("0x1"), "coin", "MintCapability", [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]) }];
+
+  mint_cap: Coin.MintCapability;
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.mint_cap = proto['mint_cap'] as Coin.MintCapability;
+  }
+
+  static MintCapStoreParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : MintCapStore {
+    const proto = $.parseStructProto(data, typeTag, repo, MintCapStore);
+    return new MintCapStore(proto, typeTag);
+  }
+
+  static async load(repo: AptosParserRepo, client: AptosClient, address: HexString, typeParams: TypeTag[]) {
+    const result = await repo.loadResource(client, address, MintCapStore, typeParams);
+    return result as unknown as MintCapStore;
+  }
+  static async loadByApp(app: $.AppType, address: HexString, typeParams: TypeTag[]) {
+    const result = await app.repo.loadResource(app.client, address, MintCapStore, typeParams);
+    await result.loadFullState(app)
+    return result as unknown as MintCapStore;
+  }
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "MintCapStore", []);
+  }
+  async loadFullState(app: $.AppType) {
+    await this.mint_cap.loadFullState(app);
+    this.__app = app;
+  }
+
+}
 export function claim_mint_capability_ (
   account: HexString,
   $c: AptosDataCache,
@@ -182,8 +182,8 @@ export function claim_mint_capability_ (
   idx = $.copy(Std.Option.borrow_(maybe_index, $c, [AtomicTypeTag.U64]));
   delegations = $c.borrow_global_mut<Delegations>(new SimpleStructTag(Delegations), new HexString("0xa550c18")).inner;
   Std.Vector.swap_remove_(delegations, $.copy(idx), $c, [new SimpleStructTag(DelegatedMintCapability)]);
-  mint_cap = $.copy($c.borrow_global<Capabilities>(new SimpleStructTag(Capabilities), new HexString("0xa550c18")).mint_cap);
-  $c.move_to(new SimpleStructTag(Capabilities), account, new Capabilities({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(Capabilities)));
+  mint_cap = $.copy($c.borrow_global<MintCapStore>(new SimpleStructTag(MintCapStore), new HexString("0xa550c18")).mint_cap);
+  $c.move_to(new SimpleStructTag(MintCapStore), account, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(MintCapStore)));
   return;
 }
 
@@ -192,12 +192,30 @@ export function buildPayload_claim_mint_capability (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::aptos_coin::claim_mint_capability",
+    new HexString("0x1"),
+    "aptos_coin",
+    "claim_mint_capability",
     typeParamStrings,
     []
   );
 
 }
+export function configure_accounts_for_test_ (
+  aptos_framework: HexString,
+  core_resources: HexString,
+  mint_cap: Coin.MintCapability,
+  $c: AptosDataCache,
+): void {
+  let coins;
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  Coin.register_(core_resources, $c, [new SimpleStructTag(AptosCoin)]);
+  coins = Coin.mint_(u64("18446744073709551615"), mint_cap, $c, [new SimpleStructTag(AptosCoin)]);
+  Coin.deposit_(Std.Signer.address_of_(core_resources, $c), coins, $c, [new SimpleStructTag(AptosCoin)]);
+  $c.move_to(new SimpleStructTag(MintCapStore), core_resources, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(MintCapStore)));
+  $c.move_to(new SimpleStructTag(Delegations), core_resources, new Delegations({ inner: Std.Vector.empty_($c, [new SimpleStructTag(DelegatedMintCapability)]) }, new SimpleStructTag(Delegations)));
+  return;
+}
+
 export function delegate_mint_capability_ (
   account: HexString,
   to: HexString,
@@ -227,14 +245,26 @@ export function buildPayload_delegate_mint_capability (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::aptos_coin::delegate_mint_capability",
+    new HexString("0x1"),
+    "aptos_coin",
+    "delegate_mint_capability",
     typeParamStrings,
     [
-      $.payloadArg(to),
+      to,
     ]
   );
 
 }
+export function destroy_mint_cap_ (
+  aptos_framework: HexString,
+  $c: AptosDataCache,
+): void {
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  let { mint_cap: mint_cap } = $c.move_from<MintCapStore>(new SimpleStructTag(MintCapStore), new HexString("0x1"));
+  Coin.destroy_mint_cap_($.copy(mint_cap), $c, [new SimpleStructTag(AptosCoin)]);
+  return;
+}
+
 export function find_delegation_ (
   addr: HexString,
   $c: AptosDataCache,
@@ -261,19 +291,14 @@ export function find_delegation_ (
 
 export function initialize_ (
   aptos_framework: HexString,
-  core_resource: HexString,
   $c: AptosDataCache,
-): [Coin.MintCapability, Coin.BurnCapability] {
-  let burn_cap, coins, mint_cap;
+): [Coin.BurnCapability, Coin.MintCapability] {
+  let burn_cap, freeze_cap, mint_cap;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
-  [mint_cap, burn_cap] = Coin.initialize_(aptos_framework, Std.String.utf8_([u8("65"), u8("112"), u8("116"), u8("111"), u8("115"), u8("32"), u8("67"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("65"), u8("80"), u8("84")], $c), u64("8"), false, $c, [new SimpleStructTag(AptosCoin)]);
-  $c.move_to(new SimpleStructTag(Capabilities), aptos_framework, new Capabilities({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(Capabilities)));
-  Coin.register_(core_resource, $c, [new SimpleStructTag(AptosCoin)]);
-  coins = Coin.mint_(u64("18446744073709551615"), mint_cap, $c, [new SimpleStructTag(AptosCoin)]);
-  Coin.deposit_(Std.Signer.address_of_(core_resource, $c), coins, $c, [new SimpleStructTag(AptosCoin)]);
-  $c.move_to(new SimpleStructTag(Capabilities), core_resource, new Capabilities({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(Capabilities)));
-  $c.move_to(new SimpleStructTag(Delegations), core_resource, new Delegations({ inner: Std.Vector.empty_($c, [new SimpleStructTag(DelegatedMintCapability)]) }, new SimpleStructTag(Delegations)));
-  return [$.copy(mint_cap), $.copy(burn_cap)];
+  [burn_cap, freeze_cap, mint_cap] = Coin.initialize_(aptos_framework, Std.String.utf8_([u8("65"), u8("112"), u8("116"), u8("111"), u8("115"), u8("32"), u8("67"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("65"), u8("80"), u8("84")], $c), u8("8"), false, $c, [new SimpleStructTag(AptosCoin)]);
+  $c.move_to(new SimpleStructTag(MintCapStore), aptos_framework, new MintCapStore({ mint_cap: $.copy(mint_cap) }, new SimpleStructTag(MintCapStore)));
+  Coin.destroy_freeze_cap_($.copy(freeze_cap), $c, [new SimpleStructTag(AptosCoin)]);
+  return [$.copy(burn_cap), $.copy(mint_cap)];
 }
 
 export function mint_ (
@@ -282,13 +307,13 @@ export function mint_ (
   amount: U64,
   $c: AptosDataCache,
 ): void {
-  let account_addr, capabilities, coins_minted;
+  let account_addr, coins_minted, mint_cap;
   account_addr = Std.Signer.address_of_(account, $c);
-  if (!$c.exists(new SimpleStructTag(Capabilities), $.copy(account_addr))) {
+  if (!$c.exists(new SimpleStructTag(MintCapStore), $.copy(account_addr))) {
     throw $.abortCode(Std.Error.not_found_($.copy(ENO_CAPABILITIES), $c));
   }
-  capabilities = $c.borrow_global<Capabilities>(new SimpleStructTag(Capabilities), $.copy(account_addr));
-  coins_minted = Coin.mint_($.copy(amount), capabilities.mint_cap, $c, [new SimpleStructTag(AptosCoin)]);
+  mint_cap = $c.borrow_global<MintCapStore>(new SimpleStructTag(MintCapStore), $.copy(account_addr)).mint_cap;
+  coins_minted = Coin.mint_($.copy(amount), mint_cap, $c, [new SimpleStructTag(AptosCoin)]);
   Coin.deposit_($.copy(dst_addr), coins_minted, $c, [new SimpleStructTag(AptosCoin)]);
   return;
 }
@@ -300,20 +325,22 @@ export function buildPayload_mint (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::aptos_coin::mint",
+    new HexString("0x1"),
+    "aptos_coin",
+    "mint",
     typeParamStrings,
     [
-      $.payloadArg(dst_addr),
-      $.payloadArg(amount),
+      dst_addr,
+      amount,
     ]
   );
 
 }
 export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::aptos_coin::AptosCoin", AptosCoin.AptosCoinParser);
-  repo.addParser("0x1::aptos_coin::Capabilities", Capabilities.CapabilitiesParser);
   repo.addParser("0x1::aptos_coin::DelegatedMintCapability", DelegatedMintCapability.DelegatedMintCapabilityParser);
   repo.addParser("0x1::aptos_coin::Delegations", Delegations.DelegationsParser);
+  repo.addParser("0x1::aptos_coin::MintCapStore", MintCapStore.MintCapStoreParser);
 }
 export class App {
   constructor(
@@ -335,17 +362,6 @@ export class App {
     }
     return val;
   }
-  get Capabilities() { return Capabilities; }
-  async loadCapabilities(
-    owner: HexString,
-    loadFull=true,
-  ) {
-    const val = await Capabilities.load(this.repo, this.client, owner, [] as TypeTag[]);
-    if (loadFull) {
-      await val.loadFullState(this);
-    }
-    return val;
-  }
   get DelegatedMintCapability() { return DelegatedMintCapability; }
   get Delegations() { return Delegations; }
   async loadDelegations(
@@ -353,6 +369,17 @@ export class App {
     loadFull=true,
   ) {
     const val = await Delegations.load(this.repo, this.client, owner, [] as TypeTag[]);
+    if (loadFull) {
+      await val.loadFullState(this);
+    }
+    return val;
+  }
+  get MintCapStore() { return MintCapStore; }
+  async loadMintCapStore(
+    owner: HexString,
+    loadFull=true,
+  ) {
+    const val = await MintCapStore.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
     }

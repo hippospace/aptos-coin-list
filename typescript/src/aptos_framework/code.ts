@@ -6,11 +6,13 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Std from "../std";
+import * as System_addresses from "./system_addresses";
 import * as Util from "./util";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "code";
 
+export const EMODULE_MISSING : U64 = u64("4");
 export const EMODULE_NAME_CLASH : U64 = u64("1");
 export const EUPGRADE_IMMUTABLE : U64 = u64("2");
 export const EUPGRADE_WEAKER_POLICY : U64 = u64("3");
@@ -28,19 +30,16 @@ export class ModuleMetadata
   static fields: FieldDeclType[] = [
   { name: "name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "source", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
-  { name: "source_map", typeTag: new VectorTag(AtomicTypeTag.U8) },
-  { name: "abi", typeTag: new VectorTag(AtomicTypeTag.U8) }];
+  { name: "source_map", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) }];
 
   name: Std.String.String;
   source: Std.String.String;
-  source_map: U8[];
-  abi: U8[];
+  source_map: Std.String.String;
 
   constructor(proto: any, public typeTag: TypeTag) {
     this.name = proto['name'] as Std.String.String;
     this.source = proto['source'] as Std.String.String;
-    this.source_map = proto['source_map'] as U8[];
-    this.abi = proto['abi'] as U8[];
+    this.source_map = proto['source_map'] as Std.String.String;
   }
 
   static ModuleMetadataParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : ModuleMetadata {
@@ -54,6 +53,7 @@ export class ModuleMetadata
   async loadFullState(app: $.AppType) {
     await this.name.loadFullState(app);
     await this.source.loadFullState(app);
+    await this.source_map.loadFullState(app);
     this.__app = app;
   }
 
@@ -71,25 +71,31 @@ export class PackageMetadata
   static fields: FieldDeclType[] = [
   { name: "name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "upgrade_policy", typeTag: new StructTag(new HexString("0x1"), "code", "UpgradePolicy", []) },
+  { name: "upgrade_number", typeTag: AtomicTypeTag.U64 },
   { name: "build_info", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "manifest", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "modules", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "code", "ModuleMetadata", [])) },
-  { name: "error_map", typeTag: new VectorTag(AtomicTypeTag.U8) }];
+  { name: "error_map", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
+  { name: "abis", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "string", "String", [])) }];
 
   name: Std.String.String;
   upgrade_policy: UpgradePolicy;
+  upgrade_number: U64;
   build_info: Std.String.String;
   manifest: Std.String.String;
   modules: ModuleMetadata[];
-  error_map: U8[];
+  error_map: Std.String.String;
+  abis: Std.String.String[];
 
   constructor(proto: any, public typeTag: TypeTag) {
     this.name = proto['name'] as Std.String.String;
     this.upgrade_policy = proto['upgrade_policy'] as UpgradePolicy;
+    this.upgrade_number = proto['upgrade_number'] as U64;
     this.build_info = proto['build_info'] as Std.String.String;
     this.manifest = proto['manifest'] as Std.String.String;
     this.modules = proto['modules'] as ModuleMetadata[];
-    this.error_map = proto['error_map'] as U8[];
+    this.error_map = proto['error_map'] as Std.String.String;
+    this.abis = proto['abis'] as Std.String.String[];
   }
 
   static PackageMetadataParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : PackageMetadata {
@@ -105,6 +111,7 @@ export class PackageMetadata
     await this.upgrade_policy.loadFullState(app);
     await this.build_info.loadFullState(app);
     await this.manifest.loadFullState(app);
+    await this.error_map.loadFullState(app);
     this.__app = app;
   }
 
@@ -207,9 +214,11 @@ export function check_coexistence_ (
           if (!!$.deep_eq(old_mod.name, name)) {
             throw $.abortCode(Std.Error.already_exists_($.copy(EMODULE_NAME_CLASH), $c));
           }
+          j = ($.copy(j)).add(u64("1"));
         }
 
-      }}
+      }i = ($.copy(i)).add(u64("1"));
+    }
 
   }return;
 }
@@ -217,9 +226,10 @@ export function check_coexistence_ (
 export function check_upgradability_ (
   old_pack: PackageMetadata,
   new_pack: PackageMetadata,
+  new_modules: Std.String.String[],
   $c: AptosDataCache,
 ): void {
-  let temp$1;
+  let temp$1, i, old_modules;
   temp$1 = upgrade_policy_immutable_($c);
   if (!($.copy(old_pack.upgrade_policy.policy)).lt($.copy(temp$1.policy))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EUPGRADE_IMMUTABLE), $c));
@@ -227,7 +237,17 @@ export function check_upgradability_ (
   if (!can_change_upgrade_policy_to_($.copy(old_pack.upgrade_policy), $.copy(new_pack.upgrade_policy), $c)) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EUPGRADE_WEAKER_POLICY), $c));
   }
-  return;
+  old_modules = get_module_names_(old_pack, $c);
+  i = u64("0");
+  while (($.copy(i)).lt(Std.Vector.length_(old_modules, $c, [new StructTag(new HexString("0x1"), "string", "String", [])]))) {
+    {
+      if (!Std.Vector.contains_(new_modules, Std.Vector.borrow_(old_modules, $.copy(i), $c, [new StructTag(new HexString("0x1"), "string", "String", [])]), $c, [new StructTag(new HexString("0x1"), "string", "String", [])])) {
+        throw $.abortCode($.copy(EMODULE_MISSING));
+      }
+      i = ($.copy(i)).add(u64("1"));
+    }
+
+  }return;
 }
 
 export function get_module_names_ (
@@ -246,13 +266,31 @@ export function get_module_names_ (
   }return $.copy(module_names);
 }
 
+export function initialize_ (
+  aptos_framework: HexString,
+  package_owner: HexString,
+  metadata: PackageMetadata,
+  $c: AptosDataCache,
+): void {
+  let addr;
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  addr = Std.Signer.address_of_(package_owner, $c);
+  if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(addr))) {
+    $c.move_to(new SimpleStructTag(PackageRegistry), package_owner, new PackageRegistry({ packages: $.copy(metadata) }, new SimpleStructTag(PackageRegistry)));
+  }
+  else{
+    Std.Vector.push_back_($c.borrow_global_mut<PackageRegistry>(new SimpleStructTag(PackageRegistry), $.copy(addr)).packages, $.copy(metadata), $c, [new SimpleStructTag(PackageMetadata)]);
+  }
+  return;
+}
+
 export function publish_package_ (
   owner: HexString,
   pack: PackageMetadata,
   code: U8[][],
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, addr, i, index, len, module_names, old, packages;
+  let temp$1, temp$2, addr, i, index, len, module_names, old, packages, upgrade_number;
   addr = Std.Signer.address_of_(owner, $c);
   if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(addr))) {
     $c.move_to(new SimpleStructTag(PackageRegistry), owner, new PackageRegistry({ packages: Std.Vector.empty_($c, [new SimpleStructTag(PackageMetadata)]) }, new SimpleStructTag(PackageRegistry)));
@@ -264,12 +302,14 @@ export function publish_package_ (
   len = Std.Vector.length_(packages, $c, [new SimpleStructTag(PackageMetadata)]);
   index = $.copy(len);
   i = u64("0");
+  upgrade_number = u64("0");
   while (($.copy(i)).lt($.copy(len))) {
     {
       [temp$1, temp$2] = [packages, $.copy(i)];
       old = Std.Vector.borrow_(temp$1, temp$2, $c, [new SimpleStructTag(PackageMetadata)]);
       if ($.deep_eq($.copy(old.name), $.copy(pack.name))) {
-        check_upgradability_(old, pack, $c);
+        upgrade_number = ($.copy(old.upgrade_number)).add(u64("1"));
+        check_upgradability_(old, pack, module_names, $c);
         index = $.copy(i);
       }
       else{
@@ -278,7 +318,8 @@ export function publish_package_ (
       i = ($.copy(i)).add(u64("1"));
     }
 
-  }if (($.copy(index)).lt($.copy(len))) {
+  }pack.upgrade_number = $.copy(upgrade_number);
+  if (($.copy(index)).lt($.copy(len))) {
     $.set(Std.Vector.borrow_mut_(packages, $.copy(index), $c, [new SimpleStructTag(PackageMetadata)]), $.copy(pack));
   }
   else{
@@ -303,11 +344,13 @@ export function buildPayload_publish_package_txn (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::code::publish_package_txn",
+    new HexString("0x1"),
+    "code",
+    "publish_package_txn",
     typeParamStrings,
     [
-      $.u8ArrayArg(pack_serialized),
-      code.map(array => $.u8ArrayArg(array)),
+      pack_serialized,
+      code,
     ]
   );
 

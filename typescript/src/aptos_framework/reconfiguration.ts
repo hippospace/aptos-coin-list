@@ -14,12 +14,11 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "reconfiguration";
 
-export const ECONFIG : U64 = u64("1");
-export const ECONFIGURATION : U64 = u64("0");
-export const EINVALID_BLOCK_TIME : U64 = u64("3");
-export const EINVALID_GUID_FOR_EVENT : U64 = u64("4");
-export const EMODIFY_CAPABILITY : U64 = u64("2");
-export const MAX_U64 : U64 = u64("18446744073709551615");
+export const ECONFIG : U64 = u64("2");
+export const ECONFIGURATION : U64 = u64("1");
+export const EINVALID_BLOCK_TIME : U64 = u64("4");
+export const EINVALID_GUID_FOR_EVENT : U64 = u64("5");
+export const EMODIFY_CAPABILITY : U64 = u64("3");
 
 
 export class Configuration 
@@ -155,9 +154,6 @@ export function emit_genesis_reconfiguration_event_ (
   $c: AptosDataCache,
 ): void {
   let temp$1, config_ref;
-  if (!$c.exists(new SimpleStructTag(Configuration), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.not_found_($.copy(ECONFIGURATION), $c));
-  }
   config_ref = $c.borrow_global_mut<Configuration>(new SimpleStructTag(Configuration), new HexString("0x1"));
   if (($.copy(config_ref.epoch)).eq((u64("0")))) {
     temp$1 = ($.copy(config_ref.last_reconfiguration_time)).eq((u64("0")));
@@ -185,35 +181,11 @@ export function enable_reconfiguration_ (
   return;
 }
 
-export function force_reconfigure_ (
-  account: HexString,
-  $c: AptosDataCache,
-): void {
-  System_addresses.assert_aptos_framework_(account, $c);
-  reconfigure_($c);
-  return;
-}
-
-
-export function buildPayload_force_reconfigure (
-) {
-  const typeParamStrings = [] as string[];
-  return $.buildPayload(
-    "0x1::reconfiguration::force_reconfigure",
-    typeParamStrings,
-    []
-  );
-
-}
 export function initialize_ (
   account: HexString,
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!$c.exists(new SimpleStructTag(Configuration), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(ECONFIGURATION), $c));
-  }
   if (!(Std.Guid.get_next_creation_num_(Std.Signer.address_of_(account, $c), $c)).eq((u64("1")))) {
     throw $.abortCode(Std.Error.invalid_state_($.copy(EINVALID_GUID_FOR_EVENT), $c));
   }
@@ -234,14 +206,6 @@ export function reconfiguration_enabled_ (
 }
 
 export function reconfigure_ (
-  $c: AptosDataCache,
-): void {
-  Stake.on_new_epoch_($c);
-  reconfigure__($c);
-  return;
-}
-
-export function reconfigure__ (
   $c: AptosDataCache,
 ): void {
   let temp$1, temp$2, config_ref, current_time;
@@ -269,6 +233,7 @@ export function reconfigure__ (
   }
   else{
   }
+  Stake.on_new_epoch_($c);
   if (!($.copy(current_time)).gt($.copy(config_ref.last_reconfiguration_time))) {
     throw $.abortCode(Std.Error.invalid_state_($.copy(EINVALID_BLOCK_TIME), $c));
   }
@@ -315,16 +280,5 @@ export class App {
     return val;
   }
   get NewEpochEvent() { return NewEpochEvent; }
-  payload_force_reconfigure(
-  ) {
-    return buildPayload_force_reconfigure();
-  }
-  async force_reconfigure(
-    _account: AptosAccount,
-    _maxGas = 1000,
-  ) {
-    const payload = buildPayload_force_reconfigure();
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
-  }
 }
 

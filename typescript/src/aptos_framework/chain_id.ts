@@ -5,14 +5,12 @@ import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
-import * as Std from "../std";
 import * as System_addresses from "./system_addresses";
 import * as Timestamp from "./timestamp";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "chain_id";
 
-export const ECHAIN_ID : U64 = u64("0");
 
 
 export class ChainId 
@@ -67,11 +65,7 @@ export function initialize_ (
   id: U8,
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!$c.exists(new SimpleStructTag(ChainId), Std.Signer.address_of_(account, $c))) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(ECHAIN_ID), $c));
-  }
   return $c.move_to(new SimpleStructTag(ChainId), account, new ChainId({ id: $.copy(id) }, new SimpleStructTag(ChainId)));
 }
 

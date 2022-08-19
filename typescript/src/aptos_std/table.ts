@@ -9,8 +9,6 @@ export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "table";
 
-export const EALREADY_EXISTS : U64 = u64("100");
-export const ENOT_FOUND : U64 = u64("101");
 
 
 export class Box 
@@ -239,6 +237,25 @@ export function remove_box_ (
   return $.aptos_std_table_remove_box(table, key, $c, [$p[0], $p[1], $p[2]]);
 
 }
+export function upsert_ (
+  table: Table,
+  key: any,
+  value: any,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <K, V>*/
+): void {
+  let temp$1, temp$2, ref;
+  [temp$1, temp$2] = [table, $.copy(key)];
+  if (!contains_(temp$1, temp$2, $c, [$p[0], $p[1]])) {
+    add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
+  }
+  else{
+    ref = borrow_mut_(table, $.copy(key), $c, [$p[0], $p[1]]);
+    $.set(ref, value);
+  }
+  return;
+}
+
 export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::table::Box", Box.BoxParser);
   repo.addParser("0x1::table::Table", Table.TableParser);

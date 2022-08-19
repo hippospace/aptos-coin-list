@@ -11,10 +11,10 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "bucket_table";
 
-export const EALREADY_EXIST : U64 = u64("3");
-export const ENOT_EMPTY : U64 = u64("2");
-export const ENOT_FOUND : U64 = u64("0");
-export const EZERO_CAPACITY : U64 = u64("1");
+export const EALREADY_EXIST : U64 = u64("4");
+export const ENOT_EMPTY : U64 = u64("3");
+export const ENOT_FOUND : U64 = u64("1");
+export const EZERO_CAPACITY : U64 = u64("2");
 export const SPLIT_THRESHOLD : U64 = u64("75");
 export const TARGET_LOAD_PER_BUCKET : U64 = u64("10");
 
@@ -110,7 +110,7 @@ export function add_ (
   $p: TypeTag[], /* <K, V>*/
 ): void {
   let temp$1, temp$2, bucket, entry, hash, i, index, len;
-  hash = Std.Hash.sip_hash_(key, $c, [$p[0]]);
+  hash = Aptos_std.Aptos_hash.sip_hash_from_value_(key, $c, [$p[0]]);
   index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), $.copy(hash), $c);
   bucket = Aptos_std.Table_with_length.borrow_mut_(map.buckets, $.copy(index), $c, [AtomicTypeTag.U64, new VectorTag(new SimpleStructTag(Entry, [$p[0], $p[1]]))]);
   i = u64("0");
@@ -142,7 +142,7 @@ export function borrow_ (
   $p: TypeTag[], /* <K, V>*/
 ): any {
   let temp$1, temp$2, bucket, entry, i, index, len;
-  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Std.Hash.sip_hash_(key, $c, [$p[0]]), $c);
+  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Aptos_std.Aptos_hash.sip_hash_from_value_(key, $c, [$p[0]]), $c);
   bucket = Aptos_std.Table_with_length.borrow_mut_(map.buckets, $.copy(index), $c, [AtomicTypeTag.U64, new VectorTag(new SimpleStructTag(Entry, [$p[0], $p[1]]))]);
   i = u64("0");
   len = Std.Vector.length_(bucket, $c, [new SimpleStructTag(Entry, [$p[0], $p[1]])]);
@@ -168,7 +168,7 @@ export function borrow_mut_ (
   $p: TypeTag[], /* <K, V>*/
 ): any {
   let bucket, entry, i, index, len;
-  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Std.Hash.sip_hash_(key, $c, [$p[0]]), $c);
+  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Aptos_std.Aptos_hash.sip_hash_from_value_(key, $c, [$p[0]]), $c);
   bucket = Aptos_std.Table_with_length.borrow_mut_(map.buckets, $.copy(index), $c, [AtomicTypeTag.U64, new VectorTag(new SimpleStructTag(Entry, [$p[0], $p[1]]))]);
   i = u64("0");
   len = Std.Vector.length_(bucket, $c, [new SimpleStructTag(Entry, [$p[0], $p[1]])]);
@@ -210,7 +210,7 @@ export function contains_ (
   $p: TypeTag[], /* <K, V>*/
 ): boolean {
   let bucket, entry, i, index, len;
-  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Std.Hash.sip_hash_(key, $c, [$p[0]]), $c);
+  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Aptos_std.Aptos_hash.sip_hash_from_value_(key, $c, [$p[0]]), $c);
   bucket = Aptos_std.Table_with_length.borrow_(map.buckets, $.copy(index), $c, [AtomicTypeTag.U64, new VectorTag(new SimpleStructTag(Entry, [$p[0], $p[1]]))]);
   i = u64("0");
   len = Std.Vector.length_(bucket, $c, [new SimpleStructTag(Entry, [$p[0], $p[1]])]);
@@ -288,7 +288,7 @@ export function remove_ (
   $p: TypeTag[], /* <K, V>*/
 ): any {
   let temp$1, temp$2, bucket, entry, i, index, len;
-  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Std.Hash.sip_hash_(key, $c, [$p[0]]), $c);
+  index = bucket_index_($.copy(map.level), $.copy(map.num_buckets), Aptos_std.Aptos_hash.sip_hash_from_value_(key, $c, [$p[0]]), $c);
   bucket = Aptos_std.Table_with_length.borrow_mut_(map.buckets, $.copy(index), $c, [AtomicTypeTag.U64, new VectorTag(new SimpleStructTag(Entry, [$p[0], $p[1]]))]);
   i = u64("0");
   len = Std.Vector.length_(bucket, $c, [new SimpleStructTag(Entry, [$p[0], $p[1]])]);

@@ -11,9 +11,10 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "staking_config";
 
-export const EINVALID_LOCKUP_VALUE : U64 = u64("1");
-export const EINVALID_REWARDS_RATE : U64 = u64("2");
 export const EINVALID_STAKE_RANGE : U64 = u64("3");
+export const EINVALID_VOTING_POWER_INCREASE_LIMIT : U64 = u64("4");
+export const EZERO_LOCKUP_DURATION : U64 = u64("1");
+export const EZERO_REWARDS_RATE_DENOMINATOR : U64 = u64("2");
 
 
 export class StakingConfig 
@@ -31,7 +32,8 @@ export class StakingConfig
   { name: "recurring_lockup_duration_secs", typeTag: AtomicTypeTag.U64 },
   { name: "allow_validator_set_change", typeTag: AtomicTypeTag.Bool },
   { name: "rewards_rate", typeTag: AtomicTypeTag.U64 },
-  { name: "rewards_rate_denominator", typeTag: AtomicTypeTag.U64 }];
+  { name: "rewards_rate_denominator", typeTag: AtomicTypeTag.U64 },
+  { name: "voting_power_increase_limit", typeTag: AtomicTypeTag.U64 }];
 
   minimum_stake: U64;
   maximum_stake: U64;
@@ -39,6 +41,7 @@ export class StakingConfig
   allow_validator_set_change: boolean;
   rewards_rate: U64;
   rewards_rate_denominator: U64;
+  voting_power_increase_limit: U64;
 
   constructor(proto: any, public typeTag: TypeTag) {
     this.minimum_stake = proto['minimum_stake'] as U64;
@@ -47,6 +50,7 @@ export class StakingConfig
     this.allow_validator_set_change = proto['allow_validator_set_change'] as boolean;
     this.rewards_rate = proto['rewards_rate'] as U64;
     this.rewards_rate_denominator = proto['rewards_rate_denominator'] as U64;
+    this.voting_power_increase_limit = proto['voting_power_increase_limit'] as U64;
   }
 
   static StakingConfigParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : StakingConfig {
@@ -105,6 +109,13 @@ export function get_reward_rate_ (
   return [$.copy(config.rewards_rate), $.copy(config.rewards_rate_denominator)];
 }
 
+export function get_voting_power_increase_limit_ (
+  config: StakingConfig,
+  $c: AptosDataCache,
+): U64 {
+  return $.copy(config.voting_power_increase_limit);
+}
+
 export function initialize_ (
   aptos_framework: HexString,
   minimum_stake: U64,
@@ -113,14 +124,25 @@ export function initialize_ (
   allow_validator_set_change: boolean,
   rewards_rate: U64,
   rewards_rate_denominator: U64,
+  voting_power_increase_limit: U64,
   $c: AptosDataCache,
 ): void {
+  let temp$1;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
   if (!($.copy(rewards_rate_denominator)).gt(u64("0"))) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_REWARDS_RATE), $c));
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EZERO_REWARDS_RATE_DENOMINATOR), $c));
   }
-  $c.move_to(new SimpleStructTag(StakingConfig), aptos_framework, new StakingConfig({ minimum_stake: $.copy(minimum_stake), maximum_stake: $.copy(maximum_stake), recurring_lockup_duration_secs: $.copy(recurring_lockup_duration_secs), allow_validator_set_change: allow_validator_set_change, rewards_rate: $.copy(rewards_rate), rewards_rate_denominator: $.copy(rewards_rate_denominator) }, new SimpleStructTag(StakingConfig)));
+  if (($.copy(voting_power_increase_limit)).gt(u64("0"))) {
+    temp$1 = ($.copy(voting_power_increase_limit)).le(u64("50"));
+  }
+  else{
+    temp$1 = false;
+  }
+  if (!temp$1) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
+  }
+  $c.move_to(new SimpleStructTag(StakingConfig), aptos_framework, new StakingConfig({ minimum_stake: $.copy(minimum_stake), maximum_stake: $.copy(maximum_stake), recurring_lockup_duration_secs: $.copy(recurring_lockup_duration_secs), allow_validator_set_change: allow_validator_set_change, rewards_rate: $.copy(rewards_rate), rewards_rate_denominator: $.copy(rewards_rate_denominator), voting_power_increase_limit: $.copy(voting_power_increase_limit) }, new SimpleStructTag(StakingConfig)));
   return;
 }
 
@@ -131,7 +153,7 @@ export function update_recurring_lockup_duration_secs_ (
 ): void {
   let staking_config;
   if (!($.copy(new_recurring_lockup_duration_secs)).gt(u64("0"))) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_LOCKUP_VALUE), $c));
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EZERO_LOCKUP_DURATION), $c));
   }
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   staking_config = $c.borrow_global_mut<StakingConfig>(new SimpleStructTag(StakingConfig), new HexString("0x1"));
@@ -163,11 +185,32 @@ export function update_rewards_rate_ (
   let staking_config;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   if (!($.copy(new_rewards_rate_denominator)).gt(u64("0"))) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_REWARDS_RATE), $c));
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EZERO_REWARDS_RATE_DENOMINATOR), $c));
   }
   staking_config = $c.borrow_global_mut<StakingConfig>(new SimpleStructTag(StakingConfig), new HexString("0x1"));
   staking_config.rewards_rate = $.copy(new_rewards_rate);
   staking_config.rewards_rate_denominator = $.copy(new_rewards_rate_denominator);
+  return;
+}
+
+export function update_voting_power_increase_limit_ (
+  aptos_framework: HexString,
+  new_voting_power_increase_limit: U64,
+  $c: AptosDataCache,
+): void {
+  let temp$1, staking_config;
+  System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  if (($.copy(new_voting_power_increase_limit)).gt(u64("0"))) {
+    temp$1 = ($.copy(new_voting_power_increase_limit)).le(u64("50"));
+  }
+  else{
+    temp$1 = false;
+  }
+  if (!temp$1) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_VOTING_POWER_INCREASE_LIMIT), $c));
+  }
+  staking_config = $c.borrow_global_mut<StakingConfig>(new SimpleStructTag(StakingConfig), new HexString("0x1"));
+  staking_config.voting_power_increase_limit = $.copy(new_voting_power_increase_limit);
   return;
 }
 

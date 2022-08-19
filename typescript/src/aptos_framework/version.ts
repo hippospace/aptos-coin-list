@@ -8,13 +8,12 @@ import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Std from "../std";
 import * as Reconfiguration from "./reconfiguration";
 import * as System_addresses from "./system_addresses";
-import * as Timestamp from "./timestamp";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "version";
 
-export const ECONFIG : U64 = u64("0");
 export const EINVALID_MAJOR_VERSION_NUMBER : U64 = u64("1");
+export const ENOT_AUTHORIZED : U64 = u64("2");
 
 
 export class Version 
@@ -62,11 +61,7 @@ export function initialize_ (
   initial_version: U64,
   $c: AptosDataCache,
 ): void {
-  Timestamp.assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
-  if (!!$c.exists(new SimpleStructTag(Version), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.already_exists_($.copy(ECONFIG), $c));
-  }
   $c.move_to(new SimpleStructTag(Version), account, new Version({ major: $.copy(initial_version) }, new SimpleStructTag(Version)));
   return;
 }
@@ -76,10 +71,16 @@ export function set_version_ (
   major: U64,
   $c: AptosDataCache,
 ): void {
-  let config, old_major;
-  System_addresses.assert_core_resource_(account, $c);
-  if (!$c.exists(new SimpleStructTag(Version), new HexString("0x1"))) {
-    throw $.abortCode(Std.Error.not_found_($.copy(ECONFIG), $c));
+  let temp$1, address, config, old_major;
+  address = Std.Signer.address_of_(account, $c);
+  if (System_addresses.is_aptos_framework_address_($.copy(address), $c)) {
+    temp$1 = true;
+  }
+  else{
+    temp$1 = System_addresses.is_core_resource_address_($.copy(address), $c);
+  }
+  if (!temp$1) {
+    throw $.abortCode(Std.Error.permission_denied_($.copy(ENOT_AUTHORIZED), $c));
   }
   old_major = $.copy($c.borrow_global<Version>(new SimpleStructTag(Version), new HexString("0x1")).major);
   if (!($.copy(old_major)).lt($.copy(major))) {
@@ -97,10 +98,12 @@ export function buildPayload_set_version (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::version::set_version",
+    new HexString("0x1"),
+    "version",
+    "set_version",
     typeParamStrings,
     [
-      $.payloadArg(major),
+      major,
     ]
   );
 

@@ -12,7 +12,7 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "resource_account";
 
-export const ECONTAINER_NOT_PUBLISHED : U64 = u64("0");
+export const ECONTAINER_NOT_PUBLISHED : U64 = u64("1");
 
 
 export class Container 
@@ -91,11 +91,13 @@ export function buildPayload_create_resource_account (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::resource_account::create_resource_account",
+    new HexString("0x1"),
+    "resource_account",
+    "create_resource_account",
     typeParamStrings,
     [
-      $.u8ArrayArg(seed),
-      $.u8ArrayArg(optional_auth_key),
+      seed,
+      optional_auth_key,
     ]
   );
 

@@ -10,16 +10,16 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "system_addresses";
 
-export const ENOT_CORE_FRAMEWORK_ADDRESS : U64 = u64("2");
-export const ENOT_CORE_RESOURCE_ADDRESS : U64 = u64("0");
-export const EVM : U64 = u64("1");
+export const ENOT_APTOS_FRAMEWORK_ADDRESS : U64 = u64("3");
+export const ENOT_CORE_RESOURCE_ADDRESS : U64 = u64("1");
+export const EVM : U64 = u64("2");
 
 export function assert_aptos_framework_ (
   account: HexString,
   $c: AptosDataCache,
 ): void {
-  if (!((Std.Signer.address_of_(account, $c)).hex() === (new HexString("0x1")).hex())) {
-    throw $.abortCode(Std.Error.permission_denied_($.copy(ENOT_CORE_FRAMEWORK_ADDRESS), $c));
+  if (!is_aptos_framework_address_(Std.Signer.address_of_(account, $c), $c)) {
+    throw $.abortCode(Std.Error.permission_denied_($.copy(ENOT_APTOS_FRAMEWORK_ADDRESS), $c));
   }
   return;
 }
@@ -49,6 +49,13 @@ export function assert_vm_ (
     throw $.abortCode(Std.Error.permission_denied_($.copy(EVM), $c));
   }
   return;
+}
+
+export function is_aptos_framework_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  return (($.copy(addr)).hex() === (new HexString("0x1")).hex());
 }
 
 export function is_core_resource_address_ (

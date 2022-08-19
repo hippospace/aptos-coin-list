@@ -28,7 +28,9 @@ export function buildPayload_register (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x1::coins::register",
+    new HexString("0x1"),
+    "coins",
+    "register",
     typeParamStrings,
     []
   );

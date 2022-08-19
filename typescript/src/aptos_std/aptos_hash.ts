@@ -5,25 +5,29 @@ import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
-export const packageName = "MoveStdlib";
+import * as Std from "../std";
+export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
-export const moduleName = "hash";
+export const moduleName = "aptos_hash";
 
 
-export function sha2_256_ (
-  data: U8[],
+export function sip_hash_ (
+  bytes: U8[],
   $c: AptosDataCache,
-): U8[] {
-  return $.std_hash_sha2_256(data, $c);
+): U64 {
+  return $.aptos_std_aptos_hash_sip_hash(bytes, $c);
 
 }
-export function sha3_256_ (
-  data: U8[],
+export function sip_hash_from_value_ (
+  v: any,
   $c: AptosDataCache,
-): U8[] {
-  return $.std_hash_sha3_256(data, $c);
-
+  $p: TypeTag[], /* <MoveValue>*/
+): U64 {
+  let bytes;
+  bytes = Std.Bcs.to_bytes_(v, $c, [$p[0]]);
+  return sip_hash_($.copy(bytes), $c);
 }
+
 export function loadParsers(repo: AptosParserRepo) {
 }
 export class App {

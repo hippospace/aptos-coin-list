@@ -32,7 +32,7 @@ export class CoinInfo
   { name: "name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "symbol", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "coingecko_id", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
-  { name: "decimals", typeTag: AtomicTypeTag.U64 },
+  { name: "decimals", typeTag: AtomicTypeTag.U8 },
   { name: "logo_url", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "project_url", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "token_type", typeTag: new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []) },
@@ -41,7 +41,7 @@ export class CoinInfo
   name: Std.String.String;
   symbol: Std.String.String;
   coingecko_id: Std.String.String;
-  decimals: U64;
+  decimals: U8;
   logo_url: Std.String.String;
   project_url: Std.String.String;
   token_type: Aptos_std.Type_info.TypeInfo;
@@ -51,7 +51,7 @@ export class CoinInfo
     this.name = proto['name'] as Std.String.String;
     this.symbol = proto['symbol'] as Std.String.String;
     this.coingecko_id = proto['coingecko_id'] as Std.String.String;
-    this.decimals = proto['decimals'] as U64;
+    this.decimals = proto['decimals'] as U8;
     this.logo_url = proto['logo_url'] as Std.String.String;
     this.project_url = proto['project_url'] as Std.String.String;
     this.token_type = proto['token_type'] as Aptos_std.Type_info.TypeInfo;
@@ -259,11 +259,13 @@ export function buildPayload_add_extension (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_extension",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "add_extension",
     typeParamStrings,
     [
-      $.payloadArg(key),
-      $.payloadArg(value),
+      key,
+      value,
     ]
   );
 
@@ -296,7 +298,9 @@ export function buildPayload_add_to_list (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_to_list",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "add_to_list",
     typeParamStrings,
     []
   );
@@ -388,15 +392,17 @@ export function buildPayload_add_to_registry_by_signer (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::add_to_registry_by_signer",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "add_to_registry_by_signer",
     typeParamStrings,
     [
-      $.payloadArg(name),
-      $.payloadArg(symbol),
-      $.payloadArg(coingecko_id),
-      $.payloadArg(logo_url),
-      $.payloadArg(project_url),
-      $.payloadArg(is_update),
+      name,
+      symbol,
+      coingecko_id,
+      logo_url,
+      project_url,
+      is_update,
     ]
   );
 
@@ -414,7 +420,9 @@ export function buildPayload_create_list (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::create_list",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "create_list",
     typeParamStrings,
     []
   );
@@ -447,11 +455,13 @@ export function buildPayload_drop_extension (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::drop_extension",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "drop_extension",
     typeParamStrings,
     [
-      $.payloadArg(key),
-      $.payloadArg(value),
+      key,
+      value,
     ]
   );
 
@@ -469,7 +479,9 @@ export function buildPayload_fetch_all_registered_coin_info (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::fetch_all_registered_coin_info",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "fetch_all_registered_coin_info",
     typeParamStrings,
     []
   );
@@ -510,10 +522,12 @@ export function buildPayload_fetch_full_list (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::fetch_full_list",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "fetch_full_list",
     typeParamStrings,
     [
-      $.payloadArg(list_owner_addr),
+      list_owner_addr,
     ]
   );
 
@@ -606,7 +620,9 @@ export function buildPayload_initialize (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::initialize",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "initialize",
     typeParamStrings,
     []
   );
@@ -663,7 +679,9 @@ export function buildPayload_remove_from_list (
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::coin_list::remove_from_list",
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "remove_from_list",
     typeParamStrings,
     []
   );

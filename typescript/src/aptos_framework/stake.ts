@@ -17,21 +17,23 @@ export const moduleName = "stake";
 
 export const EALREADY_ACTIVE_VALIDATOR : U64 = u64("6");
 export const EALREADY_REGISTERED : U64 = u64("10");
-export const EINVALID_PUBLIC_KEY : U64 = u64("16");
-export const EINVALID_STAKE_AMOUNT : U64 = u64("17");
+export const EINVALID_PUBLIC_KEY : U64 = u64("15");
+export const EINVALID_STAKE_AMOUNT : U64 = u64("16");
 export const ELAST_VALIDATOR : U64 = u64("8");
-export const ELOCK_TIME_TOO_LONG : U64 = u64("14");
+export const ELOCK_TIME_TOO_LONG : U64 = u64("13");
 export const ELOCK_TIME_TOO_SHORT : U64 = u64("1");
-export const ENOT_OPERATOR : U64 = u64("13");
-export const ENOT_OWNER : U64 = u64("11");
+export const ENOT_OPERATOR : U64 = u64("12");
 export const ENOT_VALIDATOR : U64 = u64("7");
-export const ENO_COINS_TO_WITHDRAW : U64 = u64("12");
-export const ENO_POST_GENESIS_VALIDATOR_SET_CHANGE_ALLOWED : U64 = u64("15");
+export const ENO_COINS_TO_WITHDRAW : U64 = u64("11");
+export const ENO_POST_GENESIS_VALIDATOR_SET_CHANGE_ALLOWED : U64 = u64("14");
 export const ESTAKE_EXCEEDS_MAX : U64 = u64("9");
 export const ESTAKE_TOO_HIGH : U64 = u64("5");
 export const ESTAKE_TOO_LOW : U64 = u64("4");
 export const EVALIDATOR_CONFIG : U64 = u64("3");
+export const EVALIDATOR_SET_TOO_LARGE : U64 = u64("18");
+export const EVOTING_POWER_INCREASE_EXCEEDS_LIMIT : U64 = u64("19");
 export const EWITHDRAW_NOT_ALLOWED : U64 = u64("2");
+export const MAX_VALIDATOR_SET_SIZE : U64 = u64("65536");
 export const VALIDATOR_STATUS_ACTIVE : U64 = u64("2");
 export const VALIDATOR_STATUS_INACTIVE : U64 = u64("4");
 export const VALIDATOR_STATUS_PENDING_ACTIVE : U64 = u64("1");
@@ -328,6 +330,41 @@ export class OwnerCapability
 
 }
 
+export class ReactivateStakeEvent 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "ReactivateStakeEvent";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "pool_address", typeTag: AtomicTypeTag.Address },
+  { name: "amount", typeTag: AtomicTypeTag.U64 }];
+
+  pool_address: HexString;
+  amount: U64;
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.pool_address = proto['pool_address'] as HexString;
+    this.amount = proto['amount'] as U64;
+  }
+
+  static ReactivateStakeEventParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : ReactivateStakeEvent {
+    const proto = $.parseStructProto(data, typeTag, repo, ReactivateStakeEvent);
+    return new ReactivateStakeEvent(proto, typeTag);
+  }
+
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "ReactivateStakeEvent", []);
+  }
+  async loadFullState(app: $.AppType) {
+    this.__app = app;
+  }
+
+}
+
 export class RegisterValidatorCandidateEvent 
 {
   static moduleAddress = moduleAddress;
@@ -456,6 +493,7 @@ export class StakePool
   { name: "initialize_validator_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "RegisterValidatorCandidateEvent", [])]) },
   { name: "set_operator_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "SetOperatorEvent", [])]) },
   { name: "add_stake_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "AddStakeEvent", [])]) },
+  { name: "reactivate_stake_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "ReactivateStakeEvent", [])]) },
   { name: "rotate_consensus_key_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "RotateConsensusKeyEvent", [])]) },
   { name: "update_network_and_fullnode_addresses_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "UpdateNetworkAndFullnodeAddressesEvent", [])]) },
   { name: "increase_lockup_events", typeTag: new StructTag(new HexString("0x1"), "event", "EventHandle", [new StructTag(new HexString("0x1"), "stake", "IncreaseLockupEvent", [])]) },
@@ -475,6 +513,7 @@ export class StakePool
   initialize_validator_events: Aptos_std.Event.EventHandle;
   set_operator_events: Aptos_std.Event.EventHandle;
   add_stake_events: Aptos_std.Event.EventHandle;
+  reactivate_stake_events: Aptos_std.Event.EventHandle;
   rotate_consensus_key_events: Aptos_std.Event.EventHandle;
   update_network_and_fullnode_addresses_events: Aptos_std.Event.EventHandle;
   increase_lockup_events: Aptos_std.Event.EventHandle;
@@ -495,6 +534,7 @@ export class StakePool
     this.initialize_validator_events = proto['initialize_validator_events'] as Aptos_std.Event.EventHandle;
     this.set_operator_events = proto['set_operator_events'] as Aptos_std.Event.EventHandle;
     this.add_stake_events = proto['add_stake_events'] as Aptos_std.Event.EventHandle;
+    this.reactivate_stake_events = proto['reactivate_stake_events'] as Aptos_std.Event.EventHandle;
     this.rotate_consensus_key_events = proto['rotate_consensus_key_events'] as Aptos_std.Event.EventHandle;
     this.update_network_and_fullnode_addresses_events = proto['update_network_and_fullnode_addresses_events'] as Aptos_std.Event.EventHandle;
     this.increase_lockup_events = proto['increase_lockup_events'] as Aptos_std.Event.EventHandle;
@@ -530,6 +570,7 @@ export class StakePool
     await this.initialize_validator_events.loadFullState(app);
     await this.set_operator_events.loadFullState(app);
     await this.add_stake_events.loadFullState(app);
+    await this.reactivate_stake_events.loadFullState(app);
     await this.rotate_consensus_key_events.loadFullState(app);
     await this.update_network_and_fullnode_addresses_events.loadFullState(app);
     await this.increase_lockup_events.loadFullState(app);
@@ -765,18 +806,24 @@ export class ValidatorSet
   { name: "consensus_scheme", typeTag: AtomicTypeTag.U8 },
   { name: "active_validators", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "stake", "ValidatorInfo", [])) },
   { name: "pending_inactive", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "stake", "ValidatorInfo", [])) },
-  { name: "pending_active", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "stake", "ValidatorInfo", [])) }];
+  { name: "pending_active", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "stake", "ValidatorInfo", [])) },
+  { name: "total_voting_power", typeTag: AtomicTypeTag.U128 },
+  { name: "total_joining_power", typeTag: AtomicTypeTag.U128 }];
 
   consensus_scheme: U8;
   active_validators: ValidatorInfo[];
   pending_inactive: ValidatorInfo[];
   pending_active: ValidatorInfo[];
+  total_voting_power: U128;
+  total_joining_power: U128;
 
   constructor(proto: any, public typeTag: TypeTag) {
     this.consensus_scheme = proto['consensus_scheme'] as U8;
     this.active_validators = proto['active_validators'] as ValidatorInfo[];
     this.pending_inactive = proto['pending_inactive'] as ValidatorInfo[];
     this.pending_active = proto['pending_active'] as ValidatorInfo[];
+    this.total_voting_power = proto['total_voting_power'] as U128;
+    this.total_joining_power = proto['total_joining_power'] as U128;
   }
 
   static ValidatorSetParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : ValidatorSet {
@@ -844,7 +891,7 @@ export function add_stake_ (
   let account_addr, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  add_stake_with_cap_($.copy(account_addr), ownership_cap, Coin.withdraw_(account, $.copy(amount), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]), $c);
+  add_stake_with_cap_(ownership_cap, Coin.withdraw_(account, $.copy(amount), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]), $c);
   return;
 }
 
@@ -854,27 +901,40 @@ export function buildPayload_add_stake (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::add_stake",
+    new HexString("0x1"),
+    "stake",
+    "add_stake",
     typeParamStrings,
     [
-      $.payloadArg(amount),
+      amount,
     ]
   );
 
 }
 export function add_stake_with_cap_ (
-  pool_address: HexString,
   owner_cap: OwnerCapability,
   coins: Coin.Coin,
   $c: AptosDataCache,
 ): void {
-  let temp$1, amount, maximum_stake, next_epoch_stake, stake_pool;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
+  let temp$1, temp$2, temp$3, temp$4, amount, maximum_stake, pool_address, stake_pool, validator_set, voting_power;
+  pool_address = $.copy(owner_cap.pool_address);
   amount = Coin.value_(coins, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   if (!($.copy(amount)).gt(u64("0"))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_STAKE_AMOUNT), $c));
+  }
+  validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
+  temp$1 = find_validator_(validator_set.active_validators, $.copy(pool_address), $c);
+  if (Std.Option.is_some_(temp$1, $c, [AtomicTypeTag.U64])) {
+    temp$3 = true;
+  }
+  else{
+    temp$2 = find_validator_(validator_set.pending_active, $.copy(pool_address), $c);
+    temp$3 = Std.Option.is_some_(temp$2, $c, [AtomicTypeTag.U64]);
+  }
+  if (temp$3) {
+    update_voting_power_increase_($.copy(amount), $c);
+  }
+  else{
   }
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   if (is_current_epoch_validator_($.copy(pool_address), $c)) {
@@ -883,10 +943,10 @@ export function add_stake_with_cap_ (
   else{
     Coin.merge_(stake_pool.active, coins, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   }
-  temp$1 = Staking_config.get_($c);
-  [, maximum_stake] = Staking_config.get_required_stake_(temp$1, $c);
-  next_epoch_stake = ((Coin.value_(stake_pool.active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])])).add(Coin.value_(stake_pool.pending_inactive, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]))).add(Coin.value_(stake_pool.pending_active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]));
-  if (!($.copy(next_epoch_stake)).le($.copy(maximum_stake))) {
+  temp$4 = Staking_config.get_($c);
+  [, maximum_stake] = Staking_config.get_required_stake_(temp$4, $c);
+  voting_power = get_next_epoch_voting_power_(stake_pool, $c);
+  if (!($.copy(voting_power)).le($.copy(maximum_stake))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ESTAKE_EXCEEDS_MAX), $c));
   }
   Aptos_std.Event.emit_event_(stake_pool.add_stake_events, new AddStakeEvent({ pool_address: $.copy(pool_address), amount_added: $.copy(amount) }, new SimpleStructTag(AddStakeEvent)), $c, [new SimpleStructTag(AddStakeEvent)]);
@@ -907,6 +967,26 @@ export function append_ (
   }return;
 }
 
+export function calculate_rewards_amount_ (
+  stake_amount: U64,
+  num_successful_proposals: U64,
+  num_total_proposals: U64,
+  rewards_rate: U64,
+  rewards_rate_denominator: U64,
+  $c: AptosDataCache,
+): U64 {
+  let temp$1, rewards_denominator, rewards_numerator;
+  rewards_numerator = ((u128($.copy(stake_amount))).mul(u128($.copy(rewards_rate)))).mul(u128($.copy(num_successful_proposals)));
+  rewards_denominator = (u128($.copy(rewards_rate_denominator))).mul(u128($.copy(num_total_proposals)));
+  if (($.copy(rewards_denominator)).gt(u128("0"))) {
+    temp$1 = u64(($.copy(rewards_numerator)).div($.copy(rewards_denominator)));
+  }
+  else{
+    temp$1 = u64("0");
+  }
+  return temp$1;
+}
+
 export function deposit_owner_cap_ (
   account: HexString,
   owner_cap: OwnerCapability,
@@ -920,34 +1000,27 @@ export function distribute_rewards_ (
   stake: Coin.Coin,
   num_successful_proposals: U64,
   num_total_proposals: U64,
-  config: Staking_config.StakingConfig,
+  rewards_rate: U64,
+  rewards_rate_denominator: U64,
   $c: AptosDataCache,
 ): U64 {
-  let temp$1, base_rewards, mint_cap, rewards, rewards_amount, rewards_rate, rewards_rate_denominator, stake_amount;
+  let temp$1, mint_cap, rewards, rewards_amount, stake_amount;
   stake_amount = Coin.value_(stake, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-  if (($.copy(stake_amount)).eq((u64("0")))) {
-    return u64("0");
+  if (($.copy(stake_amount)).gt(u64("0"))) {
+    temp$1 = calculate_rewards_amount_($.copy(stake_amount), $.copy(num_successful_proposals), $.copy(num_total_proposals), $.copy(rewards_rate), $.copy(rewards_rate_denominator), $c);
   }
   else{
+    temp$1 = u64("0");
   }
-  [rewards_rate, rewards_rate_denominator] = Staking_config.get_reward_rate_(config, $c);
-  base_rewards = (($.copy(stake_amount)).mul($.copy(rewards_rate))).div($.copy(rewards_rate_denominator));
-  if (($.copy(base_rewards)).gt(u64("0"))) {
-    temp$1 = ($.copy(num_successful_proposals)).gt(u64("0"));
-  }
-  else{
-    temp$1 = false;
-  }
-  if (temp$1) {
-    rewards_amount = (($.copy(base_rewards)).mul($.copy(num_successful_proposals))).div($.copy(num_total_proposals));
+  rewards_amount = temp$1;
+  if (($.copy(rewards_amount)).gt(u64("0"))) {
     mint_cap = $c.borrow_global<AptosCoinCapabilities>(new SimpleStructTag(AptosCoinCapabilities), new HexString("0x1")).mint_cap;
     rewards = Coin.mint_($.copy(rewards_amount), mint_cap, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
     Coin.merge_(stake, rewards, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
-    return $.copy(rewards_amount);
   }
   else{
   }
-  return u64("0");
+  return $.copy(rewards_amount);
 }
 
 export function extract_owner_cap_ (
@@ -985,7 +1058,7 @@ export function generate_validator_info_ (
   $c: AptosDataCache,
 ): ValidatorInfo {
   let voting_power;
-  voting_power = (Coin.value_(stake_pool.active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])])).add(Coin.value_(stake_pool.pending_inactive, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]));
+  voting_power = get_next_epoch_voting_power_(stake_pool, $c);
   return new ValidatorInfo({ addr: $.copy(addr), voting_power: $.copy(voting_power), config: $.copy(config) }, new SimpleStructTag(ValidatorInfo));
 }
 
@@ -1034,6 +1107,13 @@ export function get_lockup_secs_ (
   $c: AptosDataCache,
 ): U64 {
   return $.copy($c.borrow_global<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address)).locked_until_secs);
+}
+
+export function get_next_epoch_voting_power_ (
+  stake_pool: StakePool,
+  $c: AptosDataCache,
+): U64 {
+  return ((Coin.value_(stake_pool.pending_active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])])).add(Coin.value_(stake_pool.active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]))).add(Coin.value_(stake_pool.pending_inactive, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]));
 }
 
 export function get_operator_ (
@@ -1127,7 +1207,7 @@ export function increase_lockup_ (
   let account_addr, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  increase_lockup_with_cap_($.copy(account_addr), ownership_cap, $c);
+  increase_lockup_with_cap_(ownership_cap, $c);
   return;
 }
 
@@ -1136,21 +1216,20 @@ export function buildPayload_increase_lockup (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::increase_lockup",
+    new HexString("0x1"),
+    "stake",
+    "increase_lockup",
     typeParamStrings,
     []
   );
 
 }
 export function increase_lockup_with_cap_ (
-  pool_address: HexString,
   owner_cap: OwnerCapability,
   $c: AptosDataCache,
 ): void {
-  let config, old_locked_until_secs, stake_pool;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
+  let config, old_locked_until_secs, pool_address, stake_pool;
+  pool_address = $.copy(owner_cap.pool_address);
   config = Staking_config.get_($c);
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   old_locked_until_secs = $.copy(stake_pool.locked_until_secs);
@@ -1163,14 +1242,16 @@ export function initialize_ (
   aptos_framework: HexString,
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, temp$4, temp$5;
+  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
-  temp$5 = aptos_framework;
+  temp$7 = aptos_framework;
   temp$1 = u8("0");
   temp$2 = Std.Vector.empty_($c, [new SimpleStructTag(ValidatorInfo)]);
   temp$3 = Std.Vector.empty_($c, [new SimpleStructTag(ValidatorInfo)]);
   temp$4 = Std.Vector.empty_($c, [new SimpleStructTag(ValidatorInfo)]);
-  $c.move_to(new SimpleStructTag(ValidatorSet), temp$5, new ValidatorSet({ consensus_scheme: temp$1, active_validators: temp$2, pending_inactive: temp$4, pending_active: temp$3 }, new SimpleStructTag(ValidatorSet)));
+  temp$5 = u128("0");
+  temp$6 = u128("0");
+  $c.move_to(new SimpleStructTag(ValidatorSet), temp$7, new ValidatorSet({ consensus_scheme: temp$1, active_validators: temp$2, pending_inactive: temp$4, pending_active: temp$3, total_voting_power: temp$5, total_joining_power: temp$6 }, new SimpleStructTag(ValidatorSet)));
   $c.move_to(new SimpleStructTag(ValidatorPerformance), aptos_framework, new ValidatorPerformance({ validators: Std.Vector.empty_($c, [new SimpleStructTag(IndividualValidatorPerformance)]) }, new SimpleStructTag(ValidatorPerformance)));
   return;
 }
@@ -1179,12 +1260,12 @@ export function initialize_owner_ (
   owner: HexString,
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, owner_address;
+  let temp$1, temp$10, temp$11, temp$12, temp$13, temp$14, temp$15, temp$16, temp$17, temp$18, temp$19, temp$2, temp$20, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, owner_address;
   owner_address = Std.Signer.address_of_(owner, $c);
   if (!!$c.exists(new SimpleStructTag(StakePool), $.copy(owner_address))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EALREADY_REGISTERED), $c));
   }
-  temp$19 = owner;
+  temp$20 = owner;
   temp$1 = Coin.zero_($c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   temp$2 = Coin.zero_($c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   temp$3 = Coin.zero_($c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
@@ -1195,20 +1276,21 @@ export function initialize_owner_ (
   temp$8 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(RegisterValidatorCandidateEvent)]);
   temp$9 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(SetOperatorEvent)]);
   temp$10 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(AddStakeEvent)]);
-  temp$11 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(RotateConsensusKeyEvent)]);
-  temp$12 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(UpdateNetworkAndFullnodeAddressesEvent)]);
-  temp$13 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(IncreaseLockupEvent)]);
-  temp$14 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(JoinValidatorSetEvent)]);
-  temp$15 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(DistributeRewardsEvent)]);
-  temp$16 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(UnlockStakeEvent)]);
-  temp$17 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(WithdrawStakeEvent)]);
-  temp$18 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(LeaveValidatorSetEvent)]);
-  $c.move_to(new SimpleStructTag(StakePool), temp$19, new StakePool({ active: temp$1, inactive: temp$4, pending_active: temp$2, pending_inactive: temp$3, locked_until_secs: temp$5, operator_address: temp$6, delegated_voter: temp$7, initialize_validator_events: temp$8, set_operator_events: temp$9, add_stake_events: temp$10, rotate_consensus_key_events: temp$11, update_network_and_fullnode_addresses_events: temp$12, increase_lockup_events: temp$13, join_validator_set_events: temp$14, distribute_rewards_events: temp$15, unlock_stake_events: temp$16, withdraw_stake_events: temp$17, leave_validator_set_events: temp$18 }, new SimpleStructTag(StakePool)));
+  temp$11 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(ReactivateStakeEvent)]);
+  temp$12 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(RotateConsensusKeyEvent)]);
+  temp$13 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(UpdateNetworkAndFullnodeAddressesEvent)]);
+  temp$14 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(IncreaseLockupEvent)]);
+  temp$15 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(JoinValidatorSetEvent)]);
+  temp$16 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(DistributeRewardsEvent)]);
+  temp$17 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(UnlockStakeEvent)]);
+  temp$18 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(WithdrawStakeEvent)]);
+  temp$19 = Aptos_std.Event.new_event_handle_(owner, $c, [new SimpleStructTag(LeaveValidatorSetEvent)]);
+  $c.move_to(new SimpleStructTag(StakePool), temp$20, new StakePool({ active: temp$1, inactive: temp$4, pending_active: temp$2, pending_inactive: temp$3, locked_until_secs: temp$5, operator_address: temp$6, delegated_voter: temp$7, initialize_validator_events: temp$8, set_operator_events: temp$9, add_stake_events: temp$10, reactivate_stake_events: temp$11, rotate_consensus_key_events: temp$12, update_network_and_fullnode_addresses_events: temp$13, increase_lockup_events: temp$14, join_validator_set_events: temp$15, distribute_rewards_events: temp$16, unlock_stake_events: temp$17, withdraw_stake_events: temp$18, leave_validator_set_events: temp$19 }, new SimpleStructTag(StakePool)));
   $c.move_to(new SimpleStructTag(OwnerCapability), owner, new OwnerCapability({ pool_address: $.copy(owner_address) }, new SimpleStructTag(OwnerCapability)));
   return;
 }
 
-export function initialize_owner_only_ (
+export function initialize_stake_owner_ (
   owner: HexString,
   initial_stake_amount: U64,
   operator: HexString,
@@ -1238,19 +1320,21 @@ export function initialize_owner_only_ (
 }
 
 
-export function buildPayload_initialize_owner_only (
+export function buildPayload_initialize_stake_owner (
   initial_stake_amount: U64,
   operator: HexString,
   voter: HexString,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::initialize_owner_only",
+    new HexString("0x1"),
+    "stake",
+    "initialize_stake_owner",
     typeParamStrings,
     [
-      $.payloadArg(initial_stake_amount),
-      $.payloadArg(operator),
-      $.payloadArg(voter),
+      initial_stake_amount,
+      operator,
+      voter,
     ]
   );
 
@@ -1263,7 +1347,11 @@ export function initialize_validator_ (
   fullnode_addresses: U8[],
   $c: AptosDataCache,
 ): void {
-  if (!Aptos_std.Signature.bls12381_verify_proof_of_possession_($.copy(consensus_pubkey), $.copy(proof_of_possession), $c)) {
+  let temp$1, temp$2, temp$3;
+  temp$2 = $.copy(consensus_pubkey);
+  temp$1 = Aptos_std.Bls12381.proof_of_possession_from_bytes_($.copy(proof_of_possession), $c);
+  temp$3 = Aptos_std.Bls12381.public_key_from_bytes_with_pop_(temp$2, temp$1, $c);
+  if (!Std.Option.is_some_(temp$3, $c, [new StructTag(new HexString("0x1"), "bls12381", "PublicKeyWithPoP", [])])) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_PUBLIC_KEY), $c));
   }
   initialize_owner_(account, $c);
@@ -1280,13 +1368,15 @@ export function buildPayload_initialize_validator (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::initialize_validator",
+    new HexString("0x1"),
+    "stake",
+    "initialize_validator",
     typeParamStrings,
     [
-      $.u8ArrayArg(consensus_pubkey),
-      $.u8ArrayArg(proof_of_possession),
-      $.u8ArrayArg(network_addresses),
-      $.u8ArrayArg(fullnode_addresses),
+      consensus_pubkey,
+      proof_of_possession,
+      network_addresses,
+      fullnode_addresses,
     ]
   );
 
@@ -1326,10 +1416,12 @@ export function buildPayload_join_validator_set (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::join_validator_set",
+    new HexString("0x1"),
+    "stake",
+    "join_validator_set",
     typeParamStrings,
     [
-      $.payloadArg(pool_address),
+      pool_address,
     ]
   );
 
@@ -1339,7 +1431,7 @@ export function join_validator_set_internal_ (
   pool_address: HexString,
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, temp$4, config, maximum_stake, minimum_stake, stake_pool, validator_config, validator_set, voting_power;
+  let temp$1, temp$2, temp$3, temp$4, config, maximum_stake, minimum_stake, stake_pool, validator_config, validator_set, validator_set_size, voting_power;
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   if (!((Std.Signer.address_of_(account, $c)).hex() === ($.copy(stake_pool.operator_address)).hex())) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OPERATOR), $c));
@@ -1349,18 +1441,23 @@ export function join_validator_set_internal_ (
   }
   config = Staking_config.get_($c);
   [minimum_stake, maximum_stake] = Staking_config.get_required_stake_(config, $c);
-  voting_power = Coin.value_(stake_pool.active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+  voting_power = get_next_epoch_voting_power_(stake_pool, $c);
   if (!($.copy(voting_power)).ge($.copy(minimum_stake))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ESTAKE_TOO_LOW), $c));
   }
   if (!($.copy(voting_power)).le($.copy(maximum_stake))) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ESTAKE_TOO_HIGH), $c));
   }
+  update_voting_power_increase_($.copy(voting_power), $c);
   validator_config = $c.borrow_global_mut<ValidatorConfig>(new SimpleStructTag(ValidatorConfig), $.copy(pool_address));
   if (!!Std.Vector.is_empty_(validator_config.consensus_pubkey, $c, [AtomicTypeTag.U8])) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_PUBLIC_KEY), $c));
   }
   validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
+  validator_set_size = (Std.Vector.length_(validator_set.active_validators, $c, [new SimpleStructTag(ValidatorInfo)])).add(Std.Vector.length_(validator_set.pending_active, $c, [new SimpleStructTag(ValidatorInfo)]));
+  if (!($.copy(validator_set_size)).le($.copy(MAX_VALIDATOR_SET_SIZE))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EVALIDATOR_SET_TOO_LARGE), $c));
+  }
   temp$4 = validator_set.pending_active;
   [temp$1, temp$2, temp$3] = [$.copy(pool_address), stake_pool, $.copy(validator_config)];
   Std.Vector.push_back_(temp$4, generate_validator_info_(temp$1, temp$2, temp$3, $c), $c, [new SimpleStructTag(ValidatorInfo)]);
@@ -1403,10 +1500,12 @@ export function buildPayload_leave_validator_set (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::leave_validator_set",
+    new HexString("0x1"),
+    "stake",
+    "leave_validator_set",
     typeParamStrings,
     [
-      $.payloadArg(pool_address),
+      pool_address,
     ]
   );
 
@@ -1447,6 +1546,8 @@ export function on_new_epoch_ (
   len__11 = Std.Vector.length_(validator_set.active_validators, $c, [new SimpleStructTag(ValidatorInfo)]);
   next_epoch_validators = Std.Vector.empty_($c, [new SimpleStructTag(ValidatorInfo)]);
   validator_perf.validators = Std.Vector.empty_($c, [new SimpleStructTag(IndividualValidatorPerformance)]);
+  validator_set.total_voting_power = u128("0");
+  validator_set.total_joining_power = u128("0");
   while (($.copy(i__10)).lt($.copy(len__11))) {
     {
       old_validator_info = Std.Vector.borrow_mut_(validator_set.active_validators, $.copy(i__10), $c, [new SimpleStructTag(ValidatorInfo)]);
@@ -1463,6 +1564,7 @@ export function on_new_epoch_ (
       else{
       }
       validator_index = ($.copy(validator_index)).add(u64("1"));
+      validator_set.total_voting_power = ($.copy(validator_set.total_voting_power)).add(u128($.copy(new_validator_info.voting_power)));
       Std.Vector.push_back_(next_epoch_validators, $.copy(new_validator_info), $c, [new SimpleStructTag(ValidatorInfo)]);
       Std.Vector.push_back_(validator_perf.validators, new IndividualValidatorPerformance({ successful_proposals: u64("0"), failed_proposals: u64("0") }, new SimpleStructTag(IndividualValidatorPerformance)), $c, [new SimpleStructTag(IndividualValidatorPerformance)]);
       stake_pool__15 = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
@@ -1477,6 +1579,51 @@ export function on_new_epoch_ (
   return;
 }
 
+export function reactivate_stake_ (
+  account: HexString,
+  amount: U64,
+  $c: AptosDataCache,
+): void {
+  let account_addr, ownership_cap;
+  account_addr = Std.Signer.address_of_(account, $c);
+  ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
+  reactivate_stake_with_cap_(ownership_cap, $.copy(amount), $c);
+  return;
+}
+
+
+export function buildPayload_reactivate_stake (
+  amount: U64,
+) {
+  const typeParamStrings = [] as string[];
+  return $.buildPayload(
+    new HexString("0x1"),
+    "stake",
+    "reactivate_stake",
+    typeParamStrings,
+    [
+      amount,
+    ]
+  );
+
+}
+export function reactivate_stake_with_cap_ (
+  owner_cap: OwnerCapability,
+  amount: U64,
+  $c: AptosDataCache,
+): void {
+  let pool_address, reactivated_coins, stake_pool;
+  pool_address = $.copy(owner_cap.pool_address);
+  stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
+  if (!($.copy(amount)).le(Coin.value_(stake_pool.pending_inactive, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]))) {
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_STAKE_AMOUNT), $c));
+  }
+  reactivated_coins = Coin.extract_(stake_pool.pending_inactive, $.copy(amount), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+  Coin.merge_(stake_pool.active, reactivated_coins, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
+  Aptos_std.Event.emit_event_(stake_pool.reactivate_stake_events, new ReactivateStakeEvent({ pool_address: $.copy(pool_address), amount: $.copy(amount) }, new SimpleStructTag(ReactivateStakeEvent)), $c, [new SimpleStructTag(ReactivateStakeEvent)]);
+  return;
+}
+
 export function rotate_consensus_key_ (
   account: HexString,
   pool_address: HexString,
@@ -1484,7 +1631,7 @@ export function rotate_consensus_key_ (
   proof_of_possession: U8[],
   $c: AptosDataCache,
 ): void {
-  let old_consensus_pubkey, stake_pool, validator_info;
+  let temp$1, temp$2, temp$3, old_consensus_pubkey, stake_pool, validator_info;
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   if (!((Std.Signer.address_of_(account, $c)).hex() === ($.copy(stake_pool.operator_address)).hex())) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OPERATOR), $c));
@@ -1494,7 +1641,10 @@ export function rotate_consensus_key_ (
   }
   validator_info = $c.borrow_global_mut<ValidatorConfig>(new SimpleStructTag(ValidatorConfig), $.copy(pool_address));
   old_consensus_pubkey = $.copy(validator_info.consensus_pubkey);
-  if (!Aptos_std.Signature.bls12381_verify_proof_of_possession_($.copy(new_consensus_pubkey), $.copy(proof_of_possession), $c)) {
+  temp$2 = $.copy(new_consensus_pubkey);
+  temp$1 = Aptos_std.Bls12381.proof_of_possession_from_bytes_($.copy(proof_of_possession), $c);
+  temp$3 = Aptos_std.Bls12381.public_key_from_bytes_with_pop_(temp$2, temp$1, $c);
+  if (!Std.Option.is_some_(temp$3, $c, [new StructTag(new HexString("0x1"), "bls12381", "PublicKeyWithPoP", [])])) {
     throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_PUBLIC_KEY), $c));
   }
   validator_info.consensus_pubkey = $.copy(new_consensus_pubkey);
@@ -1510,12 +1660,14 @@ export function buildPayload_rotate_consensus_key (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::rotate_consensus_key",
+    new HexString("0x1"),
+    "stake",
+    "rotate_consensus_key",
     typeParamStrings,
     [
-      $.payloadArg(pool_address),
-      $.u8ArrayArg(new_consensus_pubkey),
-      $.u8ArrayArg(proof_of_possession),
+      pool_address,
+      new_consensus_pubkey,
+      proof_of_possession,
     ]
   );
 
@@ -1528,7 +1680,7 @@ export function set_delegated_voter_ (
   let account_addr, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  set_delegated_voter_with_cap_($.copy(account_addr), ownership_cap, $.copy(new_delegated_voter), $c);
+  set_delegated_voter_with_cap_(ownership_cap, $.copy(new_delegated_voter), $c);
   return;
 }
 
@@ -1538,25 +1690,23 @@ export function buildPayload_set_delegated_voter (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::set_delegated_voter",
+    new HexString("0x1"),
+    "stake",
+    "set_delegated_voter",
     typeParamStrings,
     [
-      $.payloadArg(new_delegated_voter),
+      new_delegated_voter,
     ]
   );
 
 }
 export function set_delegated_voter_with_cap_ (
-  pool_address: HexString,
   owner_cap: OwnerCapability,
   new_delegated_voter: HexString,
   $c: AptosDataCache,
 ): void {
   let stake_pool;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
-  stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
+  stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(owner_cap.pool_address));
   stake_pool.delegated_voter = $.copy(new_delegated_voter);
   return;
 }
@@ -1569,7 +1719,7 @@ export function set_operator_ (
   let account_addr, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  set_operator_with_cap_($.copy(account_addr), ownership_cap, $.copy(new_operator), $c);
+  set_operator_with_cap_(ownership_cap, $.copy(new_operator), $c);
   return;
 }
 
@@ -1579,24 +1729,23 @@ export function buildPayload_set_operator (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::set_operator",
+    new HexString("0x1"),
+    "stake",
+    "set_operator",
     typeParamStrings,
     [
-      $.payloadArg(new_operator),
+      new_operator,
     ]
   );
 
 }
 export function set_operator_with_cap_ (
-  pool_address: HexString,
   owner_cap: OwnerCapability,
   new_operator: HexString,
   $c: AptosDataCache,
 ): void {
-  let old_operator, stake_pool;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
+  let old_operator, pool_address, stake_pool;
+  pool_address = $.copy(owner_cap.pool_address);
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   old_operator = $.copy(stake_pool.operator_address);
   stake_pool.operator_address = $.copy(new_operator);
@@ -1621,7 +1770,7 @@ export function unlock_ (
   let account_addr, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  unlock_with_cap_($.copy(account_addr), $.copy(amount), ownership_cap, $c);
+  unlock_with_cap_($.copy(amount), ownership_cap, $c);
   return;
 }
 
@@ -1631,29 +1780,28 @@ export function buildPayload_unlock (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::unlock",
+    new HexString("0x1"),
+    "stake",
+    "unlock",
     typeParamStrings,
     [
-      $.payloadArg(amount),
+      amount,
     ]
   );
 
 }
 export function unlock_with_cap_ (
-  pool_address: HexString,
   amount: U64,
   owner_cap: OwnerCapability,
   $c: AptosDataCache,
 ): void {
-  let stake_pool, unlocked_stake;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
+  let pool_address, stake_pool, unlocked_stake;
   if (($.copy(amount)).eq((u64("0")))) {
     return;
   }
   else{
   }
+  pool_address = $.copy(owner_cap.pool_address);
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   unlocked_stake = Coin.extract_(stake_pool.active, $.copy(amount), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   Coin.merge_(stake_pool.pending_inactive, unlocked_stake, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
@@ -1693,28 +1841,30 @@ export function buildPayload_update_network_and_fullnode_addresses (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::update_network_and_fullnode_addresses",
+    new HexString("0x1"),
+    "stake",
+    "update_network_and_fullnode_addresses",
     typeParamStrings,
     [
-      $.payloadArg(pool_address),
-      $.u8ArrayArg(new_network_addresses),
-      $.u8ArrayArg(new_fullnode_addresses),
+      pool_address,
+      new_network_addresses,
+      new_fullnode_addresses,
     ]
   );
 
 }
 export function update_performance_statistics_ (
-  proposer_index_optional: U64[],
+  proposer_index: Std.Option.Option,
   failed_proposer_indices: U64[],
   $c: AptosDataCache,
 ): void {
-  let f, f_len, proposer_index, validator, validator__1, validator_index, validator_len, validator_perf;
+  let cur_proposer_index, f, f_len, validator, validator__1, validator_index, validator_len, validator_perf;
   validator_perf = $c.borrow_global_mut<ValidatorPerformance>(new SimpleStructTag(ValidatorPerformance), new HexString("0x1"));
   validator_len = Std.Vector.length_(validator_perf.validators, $c, [new SimpleStructTag(IndividualValidatorPerformance)]);
-  if ((Std.Vector.length_(proposer_index_optional, $c, [AtomicTypeTag.U64])).ge(u64("1"))) {
-    proposer_index = $.copy(Std.Vector.borrow_(proposer_index_optional, u64("0"), $c, [AtomicTypeTag.U64]));
-    if (($.copy(proposer_index)).lt($.copy(validator_len))) {
-      validator = Std.Vector.borrow_mut_(validator_perf.validators, $.copy(proposer_index), $c, [new SimpleStructTag(IndividualValidatorPerformance)]);
+  if (Std.Option.is_some_(proposer_index, $c, [AtomicTypeTag.U64])) {
+    cur_proposer_index = Std.Option.extract_(proposer_index, $c, [AtomicTypeTag.U64]);
+    if (($.copy(cur_proposer_index)).lt($.copy(validator_len))) {
+      validator = Std.Vector.borrow_mut_(validator_perf.validators, $.copy(cur_proposer_index), $c, [new SimpleStructTag(IndividualValidatorPerformance)]);
       validator.successful_proposals = ($.copy(validator.successful_proposals)).add(u64("1"));
     }
     else{
@@ -1745,14 +1895,15 @@ export function update_stake_pool_ (
   staking_config: Staking_config.StakingConfig,
   $c: AptosDataCache,
 ): void {
-  let cur_validator_perf, current_lockup_expiration, num_successful_proposals, num_total_proposals, rewards_amount, stake_pool, validator_config;
+  let cur_validator_perf, current_lockup_expiration, num_successful_proposals, num_total_proposals, rewards_amount, rewards_rate, rewards_rate_denominator, stake_pool, validator_config;
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   validator_config = $c.borrow_global<ValidatorConfig>(new SimpleStructTag(ValidatorConfig), $.copy(pool_address));
   cur_validator_perf = Std.Vector.borrow_(validator_perf.validators, $.copy(validator_config.validator_index), $c, [new SimpleStructTag(IndividualValidatorPerformance)]);
   num_successful_proposals = $.copy(cur_validator_perf.successful_proposals);
   num_total_proposals = ($.copy(cur_validator_perf.successful_proposals)).add($.copy(cur_validator_perf.failed_proposals));
-  rewards_amount = distribute_rewards_(stake_pool.active, $.copy(num_successful_proposals), $.copy(num_total_proposals), staking_config, $c);
-  rewards_amount = ($.copy(rewards_amount)).add(distribute_rewards_(stake_pool.pending_inactive, $.copy(num_successful_proposals), $.copy(num_total_proposals), staking_config, $c));
+  [rewards_rate, rewards_rate_denominator] = Staking_config.get_reward_rate_(staking_config, $c);
+  rewards_amount = distribute_rewards_(stake_pool.active, $.copy(num_successful_proposals), $.copy(num_total_proposals), $.copy(rewards_rate), $.copy(rewards_rate_denominator), $c);
+  rewards_amount = ($.copy(rewards_amount)).add(distribute_rewards_(stake_pool.pending_inactive, $.copy(num_successful_proposals), $.copy(num_total_proposals), $.copy(rewards_rate), $.copy(rewards_rate_denominator), $c));
   Coin.merge_(stake_pool.active, Coin.extract_all_(stake_pool.pending_active, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   current_lockup_expiration = $.copy(stake_pool.locked_until_secs);
   if ((Timestamp.now_seconds_($c)).ge($.copy(current_lockup_expiration))) {
@@ -1764,6 +1915,25 @@ export function update_stake_pool_ (
   return;
 }
 
+export function update_voting_power_increase_ (
+  increase_amount: U64,
+  $c: AptosDataCache,
+): void {
+  let temp$1, validator_set, voting_power_increase_limit;
+  validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
+  temp$1 = Staking_config.get_($c);
+  voting_power_increase_limit = u128(Staking_config.get_voting_power_increase_limit_(temp$1, $c));
+  validator_set.total_joining_power = ($.copy(validator_set.total_joining_power)).add(u128($.copy(increase_amount)));
+  if (($.copy(validator_set.total_voting_power)).gt(u128("0"))) {
+    if (!($.copy(validator_set.total_joining_power)).le((($.copy(validator_set.total_voting_power)).mul($.copy(voting_power_increase_limit))).div(u128("100")))) {
+      throw $.abortCode(Std.Error.invalid_argument_($.copy(EVOTING_POWER_INCREASE_EXCEEDS_LIMIT), $c));
+    }
+  }
+  else{
+  }
+  return;
+}
+
 export function withdraw_ (
   account: HexString,
   withdraw_amount: U64,
@@ -1772,7 +1942,7 @@ export function withdraw_ (
   let account_addr, coins, ownership_cap;
   account_addr = Std.Signer.address_of_(account, $c);
   ownership_cap = $c.borrow_global<OwnerCapability>(new SimpleStructTag(OwnerCapability), $.copy(account_addr));
-  coins = withdraw_with_cap_($.copy(account_addr), ownership_cap, $.copy(withdraw_amount), $c);
+  coins = withdraw_with_cap_(ownership_cap, $.copy(withdraw_amount), $c);
   Coin.deposit_($.copy(account_addr), coins, $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])]);
   return;
 }
@@ -1783,24 +1953,23 @@ export function buildPayload_withdraw (
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    "0x1::stake::withdraw",
+    new HexString("0x1"),
+    "stake",
+    "withdraw",
     typeParamStrings,
     [
-      $.payloadArg(withdraw_amount),
+      withdraw_amount,
     ]
   );
 
 }
 export function withdraw_with_cap_ (
-  pool_address: HexString,
   owner_cap: OwnerCapability,
   withdraw_amount: U64,
   $c: AptosDataCache,
 ): Coin.Coin {
-  let temp$1, pending_inactive_stake, stake_pool, total_withdrawable_amount;
-  if (!(($.copy(owner_cap.pool_address)).hex() === ($.copy(pool_address)).hex())) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_OWNER), $c));
-  }
+  let temp$1, pending_inactive_stake, pool_address, stake_pool, total_withdrawable_amount;
+  pool_address = $.copy(owner_cap.pool_address);
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   if ((get_validator_state_($.copy(pool_address), $c)).eq(($.copy(VALIDATOR_STATUS_INACTIVE)))) {
     temp$1 = (Timestamp.now_seconds_($c)).ge($.copy(stake_pool.locked_until_secs));
@@ -1836,6 +2005,7 @@ export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::stake::JoinValidatorSetEvent", JoinValidatorSetEvent.JoinValidatorSetEventParser);
   repo.addParser("0x1::stake::LeaveValidatorSetEvent", LeaveValidatorSetEvent.LeaveValidatorSetEventParser);
   repo.addParser("0x1::stake::OwnerCapability", OwnerCapability.OwnerCapabilityParser);
+  repo.addParser("0x1::stake::ReactivateStakeEvent", ReactivateStakeEvent.ReactivateStakeEventParser);
   repo.addParser("0x1::stake::RegisterValidatorCandidateEvent", RegisterValidatorCandidateEvent.RegisterValidatorCandidateEventParser);
   repo.addParser("0x1::stake::RotateConsensusKeyEvent", RotateConsensusKeyEvent.RotateConsensusKeyEventParser);
   repo.addParser("0x1::stake::SetOperatorEvent", SetOperatorEvent.SetOperatorEventParser);
@@ -1885,6 +2055,7 @@ export class App {
     }
     return val;
   }
+  get ReactivateStakeEvent() { return ReactivateStakeEvent; }
   get RegisterValidatorCandidateEvent() { return RegisterValidatorCandidateEvent; }
   get RotateConsensusKeyEvent() { return RotateConsensusKeyEvent; }
   get SetOperatorEvent() { return SetOperatorEvent; }
@@ -1960,21 +2131,21 @@ export class App {
     const payload = buildPayload_increase_lockup();
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
-  payload_initialize_owner_only(
+  payload_initialize_stake_owner(
     initial_stake_amount: U64,
     operator: HexString,
     voter: HexString,
   ) {
-    return buildPayload_initialize_owner_only(initial_stake_amount, operator, voter);
+    return buildPayload_initialize_stake_owner(initial_stake_amount, operator, voter);
   }
-  async initialize_owner_only(
+  async initialize_stake_owner(
     _account: AptosAccount,
     initial_stake_amount: U64,
     operator: HexString,
     voter: HexString,
     _maxGas = 1000,
   ) {
-    const payload = buildPayload_initialize_owner_only(initial_stake_amount, operator, voter);
+    const payload = buildPayload_initialize_stake_owner(initial_stake_amount, operator, voter);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_initialize_validator(
@@ -2020,6 +2191,19 @@ export class App {
     _maxGas = 1000,
   ) {
     const payload = buildPayload_leave_validator_set(pool_address);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
+  payload_reactivate_stake(
+    amount: U64,
+  ) {
+    return buildPayload_reactivate_stake(amount);
+  }
+  async reactivate_stake(
+    _account: AptosAccount,
+    amount: U64,
+    _maxGas = 1000,
+  ) {
+    const payload = buildPayload_reactivate_stake(amount);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_rotate_consensus_key(

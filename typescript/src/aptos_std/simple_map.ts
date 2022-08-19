@@ -11,8 +11,8 @@ export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "simple_map";
 
-export const EKEY_ALREADY_EXISTS : U64 = u64("0");
-export const EKEY_NOT_FOUND : U64 = u64("1");
+export const EKEY_ALREADY_EXISTS : U64 = u64("1");
+export const EKEY_NOT_FOUND : U64 = u64("2");
 
 
 export class Element 

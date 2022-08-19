@@ -11,9 +11,9 @@ export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "big_vector";
 
-export const EINDEX_OUT_OF_BOUNDS : U64 = u64("0");
-export const ENOT_EMPTY : U64 = u64("2");
-export const EOUT_OF_CAPACITY : U64 = u64("1");
+export const EINDEX_OUT_OF_BOUNDS : U64 = u64("1");
+export const EOUT_OF_CAPACITY : U64 = u64("2");
+export const EVECTOR_NOT_EMPTY : U64 = u64("3");
 
 
 export class BigVector 
@@ -186,7 +186,7 @@ export function destroy_empty_ (
   $p: TypeTag[], /* <T>*/
 ): void {
   if (!is_empty_(v, $c, [$p[0]])) {
-    throw $.abortCode(Std.Error.invalid_argument_($.copy(ENOT_EMPTY), $c));
+    throw $.abortCode(Std.Error.invalid_argument_($.copy(EVECTOR_NOT_EMPTY), $c));
   }
   shrink_to_fit_(v, $c, [$p[0]]);
   let { buckets: buckets } = v;

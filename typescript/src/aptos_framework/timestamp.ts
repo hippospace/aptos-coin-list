@@ -11,9 +11,8 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "timestamp";
 
-export const ENOT_GENESIS : U64 = u64("0");
+export const EINVALID_TIMESTAMP : U64 = u64("2");
 export const ENOT_OPERATING : U64 = u64("1");
-export const ETIMESTAMP : U64 = u64("2");
 export const MICRO_CONVERSION_FACTOR : U64 = u64("1000000");
 
 
@@ -57,15 +56,6 @@ export class CurrentTimeMicroseconds
   }
 
 }
-export function assert_genesis_ (
-  $c: AptosDataCache,
-): void {
-  if (!is_genesis_($c)) {
-    throw $.abortCode(Std.Error.invalid_state_($.copy(ENOT_GENESIS), $c));
-  }
-  return;
-}
-
 export function assert_operating_ (
   $c: AptosDataCache,
 ): void {
@@ -105,7 +95,6 @@ export function set_time_has_started_ (
   $c: AptosDataCache,
 ): void {
   let timer;
-  assert_genesis_($c);
   System_addresses.assert_aptos_framework_(account, $c);
   timer = new CurrentTimeMicroseconds({ microseconds: u64("0") }, new SimpleStructTag(CurrentTimeMicroseconds));
   $c.move_to(new SimpleStructTag(CurrentTimeMicroseconds), account, timer);
@@ -125,12 +114,12 @@ export function update_global_time_ (
   now = $.copy(global_timer.microseconds);
   if ((($.copy(proposer)).hex() === (new HexString("0x0")).hex())) {
     if (!($.copy(now)).eq(($.copy(timestamp)))) {
-      throw $.abortCode(Std.Error.invalid_argument_($.copy(ETIMESTAMP), $c));
+      throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_TIMESTAMP), $c));
     }
   }
   else{
     if (!($.copy(now)).lt($.copy(timestamp))) {
-      throw $.abortCode(Std.Error.invalid_argument_($.copy(ETIMESTAMP), $c));
+      throw $.abortCode(Std.Error.invalid_argument_($.copy(EINVALID_TIMESTAMP), $c));
     }
   }
   global_timer.microseconds = $.copy(timestamp);
