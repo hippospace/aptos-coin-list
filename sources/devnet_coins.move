@@ -1,6 +1,5 @@
 module coin_list::devnet_coins {
     use aptos_framework::coin;
-    use aptos_framework::coins;
     use coin_list::coin_list;
     use std::string::{utf8, String};
     use std::signer;
@@ -56,7 +55,7 @@ module coin_list::devnet_coins {
     public entry fun mint_to_wallet<CoinType>(user: &signer, amount: u64) acquires CoinCaps {
         let coin = mint<CoinType>(amount);
         if (!coin::is_account_registered<CoinType>(signer::address_of(user))) {
-            coins::register_internal<CoinType>(user);
+            coin::register<CoinType>(user);
         };
         coin::deposit(signer::address_of(user), coin);
     }
@@ -75,7 +74,7 @@ module coin_list::devnet_coins {
 
     public fun deposit<CoinType>(user: &signer,coin: coin::Coin<CoinType>) {
         if (!coin::is_account_registered<CoinType>(signer::address_of(user))) {
-            coins::register_internal<CoinType>(user);
+            coin::register<CoinType>(user);
         };
         coin::deposit(signer::address_of(user), coin);
     }
@@ -181,8 +180,8 @@ module coin_list::devnet_coins {
 
     #[test(admin = @coin_list, user = @0x0123)]
     fun test(admin: &signer, user: &signer) acquires CoinCaps {
-        use aptos_framework::account;
-        account::create_account(signer::address_of(user));
+        use aptos_framework::aptos_account;
+        aptos_account::create_account(signer::address_of(user));
 
         let amount = 10000;
         initialize<DevnetUSDC>(admin,8);
