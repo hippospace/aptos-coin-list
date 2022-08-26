@@ -5,9 +5,7 @@ import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
-import * as Aptos_framework from "../aptos_framework";
-import * as Aptos_std from "../aptos_std";
-import * as Std from "../std";
+import * as Stdlib from "../stdlib";
 import * as Coin_list from "./coin_list";
 export const packageName = "CoinList";
 export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
@@ -29,14 +27,14 @@ export class CoinCaps
   { name: "freeze", typeTag: new StructTag(new HexString("0x1"), "coin", "FreezeCapability", [new $.TypeParamIdx(0)]) },
   { name: "burn", typeTag: new StructTag(new HexString("0x1"), "coin", "BurnCapability", [new $.TypeParamIdx(0)]) }];
 
-  mint: Aptos_framework.Coin.MintCapability;
-  freeze: Aptos_framework.Coin.FreezeCapability;
-  burn: Aptos_framework.Coin.BurnCapability;
+  mint: Stdlib.Coin.MintCapability;
+  freeze: Stdlib.Coin.FreezeCapability;
+  burn: Stdlib.Coin.BurnCapability;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.mint = proto['mint'] as Aptos_framework.Coin.MintCapability;
-    this.freeze = proto['freeze'] as Aptos_framework.Coin.FreezeCapability;
-    this.burn = proto['burn'] as Aptos_framework.Coin.BurnCapability;
+    this.mint = proto['mint'] as Stdlib.Coin.MintCapability;
+    this.freeze = proto['freeze'] as Stdlib.Coin.FreezeCapability;
+    this.burn = proto['burn'] as Stdlib.Coin.BurnCapability;
   }
 
   static CoinCapsParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinCaps {
@@ -275,20 +273,20 @@ export class DevnetUSDT
 
 }
 export function burn_ (
-  tokens: Aptos_framework.Coin.Coin,
+  tokens: Stdlib.Coin.Coin,
   $c: AptosDataCache,
   $p: TypeTag[], /* <TokenType>*/
 ): void {
   let temp$1, addr, amt, cap;
-  temp$1 = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  addr = Aptos_std.Type_info.account_address_(temp$1, $c);
+  temp$1 = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  addr = Stdlib.Type_info.account_address_(temp$1, $c);
   cap = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), $.copy(addr));
-  amt = Aptos_framework.Coin.value_(tokens, $c, [$p[0]]);
+  amt = Stdlib.Coin.value_(tokens, $c, [$p[0]]);
   if (($.copy(amt)).eq((u64("0")))) {
-    Aptos_framework.Coin.destroy_zero_(tokens, $c, [$p[0]]);
+    Stdlib.Coin.destroy_zero_(tokens, $c, [$p[0]]);
   }
   else{
-    Aptos_framework.Coin.burn_(tokens, cap.burn, $c, [$p[0]]);
+    Stdlib.Coin.burn_(tokens, cap.burn, $c, [$p[0]]);
   }
   return;
 }
@@ -302,13 +300,13 @@ export function deploy_ (
   }
   else{
   }
-  init_coin_and_register_(admin, Std.String.utf8_([u8("66"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("66"), u8("84"), u8("67")], $c), Std.String.utf8_([u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("49"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("52"), u8("55"), u8("48"), u8("51"), u8("51"), u8("53"), u8("55"), u8("57")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBTC)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Std.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Std.String.utf8_([u8("98"), u8("105"), u8("110"), u8("97"), u8("110"), u8("99"), u8("101"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("56"), u8("50"), u8("53"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("110"), u8("98"), u8("45"), u8("105"), u8("99"), u8("111"), u8("110"), u8("50"), u8("95"), u8("50"), u8("120"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("52"), u8("52"), u8("57"), u8("55"), u8("57"), u8("56"), u8("53"), u8("48")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBNB)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("69"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Std.String.utf8_([u8("69"), u8("84"), u8("72")], $c), Std.String.utf8_([u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("50"), u8("55"), u8("57"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("57"), u8("53"), u8("51"), u8("52"), u8("56"), u8("56"), u8("56"), u8("48")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetETH)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("83"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97")], $c), Std.String.utf8_([u8("83"), u8("79"), u8("76")], $c), Std.String.utf8_([u8("115"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("52"), u8("49"), u8("50"), u8("56"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("115"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("52"), u8("48"), u8("49"), u8("51"), u8("51"), u8("52"), u8("50"), u8("50")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetSOL)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("85"), u8("83"), u8("68"), u8("32"), u8("67"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("85"), u8("83"), u8("68"), u8("67")], $c), Std.String.utf8_([u8("117"), u8("115"), u8("100"), u8("45"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("54"), u8("51"), u8("49"), u8("57"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("85"), u8("83"), u8("68"), u8("95"), u8("67"), u8("111"), u8("105"), u8("110"), u8("95"), u8("105"), u8("99"), u8("111"), u8("110"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("52"), u8("55"), u8("48"), u8("52"), u8("50"), u8("51"), u8("56"), u8("57")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetUSDC)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("84"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114")], $c), Std.String.utf8_([u8("85"), u8("83"), u8("68"), u8("84")], $c), Std.String.utf8_([u8("116"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("51"), u8("50"), u8("53"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("84"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("45"), u8("108"), u8("111"), u8("103"), u8("111"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("57"), u8("56"), u8("48"), u8("48"), u8("51"), u8("55"), u8("48"), u8("55")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetUSDT)]);
-  init_coin_and_register_(admin, Std.String.utf8_([u8("68"), u8("97"), u8("105")], $c), Std.String.utf8_([u8("68"), u8("65"), u8("73")], $c), Std.String.utf8_([u8("100"), u8("97"), u8("105")], $c), Std.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("57"), u8("57"), u8("53"), u8("54"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("52"), u8("57"), u8("52"), u8("51"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("51"), u8("54"), u8("54"), u8("51"), u8("54"), u8("55"), u8("51"), u8("52")], $c), Std.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetDAI)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("66"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("66"), u8("84"), u8("67")], $c), Stdlib.String.utf8_([u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("49"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("52"), u8("55"), u8("48"), u8("51"), u8("51"), u8("53"), u8("55"), u8("57")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBTC)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Stdlib.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Stdlib.String.utf8_([u8("98"), u8("105"), u8("110"), u8("97"), u8("110"), u8("99"), u8("101"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("56"), u8("50"), u8("53"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("110"), u8("98"), u8("45"), u8("105"), u8("99"), u8("111"), u8("110"), u8("50"), u8("95"), u8("50"), u8("120"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("52"), u8("52"), u8("57"), u8("55"), u8("57"), u8("56"), u8("53"), u8("48")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBNB)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("69"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Stdlib.String.utf8_([u8("69"), u8("84"), u8("72")], $c), Stdlib.String.utf8_([u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("50"), u8("55"), u8("57"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("57"), u8("53"), u8("51"), u8("52"), u8("56"), u8("56"), u8("56"), u8("48")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetETH)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("83"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97")], $c), Stdlib.String.utf8_([u8("83"), u8("79"), u8("76")], $c), Stdlib.String.utf8_([u8("115"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("52"), u8("49"), u8("50"), u8("56"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("115"), u8("111"), u8("108"), u8("97"), u8("110"), u8("97"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("52"), u8("48"), u8("49"), u8("51"), u8("51"), u8("52"), u8("50"), u8("50")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetSOL)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("85"), u8("83"), u8("68"), u8("32"), u8("67"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("85"), u8("83"), u8("68"), u8("67")], $c), Stdlib.String.utf8_([u8("117"), u8("115"), u8("100"), u8("45"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("54"), u8("51"), u8("49"), u8("57"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("85"), u8("83"), u8("68"), u8("95"), u8("67"), u8("111"), u8("105"), u8("110"), u8("95"), u8("105"), u8("99"), u8("111"), u8("110"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("52"), u8("55"), u8("48"), u8("52"), u8("50"), u8("51"), u8("56"), u8("57")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetUSDC)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("84"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114")], $c), Stdlib.String.utf8_([u8("85"), u8("83"), u8("68"), u8("84")], $c), Stdlib.String.utf8_([u8("116"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("51"), u8("50"), u8("53"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("84"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("45"), u8("108"), u8("111"), u8("103"), u8("111"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("57"), u8("56"), u8("48"), u8("48"), u8("51"), u8("55"), u8("48"), u8("55")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetUSDT)]);
+  init_coin_and_register_(admin, Stdlib.String.utf8_([u8("68"), u8("97"), u8("105")], $c), Stdlib.String.utf8_([u8("68"), u8("65"), u8("73")], $c), Stdlib.String.utf8_([u8("100"), u8("97"), u8("105")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("57"), u8("57"), u8("53"), u8("54"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("52"), u8("57"), u8("52"), u8("51"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("51"), u8("54"), u8("54"), u8("51"), u8("54"), u8("55"), u8("51"), u8("52")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetDAI)]);
   return;
 }
 
@@ -328,16 +326,16 @@ export function buildPayload_deploy (
 
 export function deposit_ (
   user: HexString,
-  coin: Aptos_framework.Coin.Coin,
+  coin: Stdlib.Coin.Coin,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
-  if (!Aptos_framework.Coin.is_account_registered_(Std.Signer.address_of_(user, $c), $c, [$p[0]])) {
-    Aptos_framework.Coins.register_internal_(user, $c, [$p[0]]);
+  if (!Stdlib.Coin.is_account_registered_(Stdlib.Signer.address_of_(user, $c), $c, [$p[0]])) {
+    Stdlib.Coin.register_(user, $c, [$p[0]]);
   }
   else{
   }
-  Aptos_framework.Coin.deposit_(Std.Signer.address_of_(user, $c), coin, $c, [$p[0]]);
+  Stdlib.Coin.deposit_(Stdlib.Signer.address_of_(user, $c), coin, $c, [$p[0]]);
   return;
 }
 
@@ -350,23 +348,23 @@ export function init_coin_ (
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let burn, freeze, mint;
-  [burn, freeze, mint] = Aptos_framework.Coin.initialize_(admin, Std.String.utf8_($.copy(name), $c), Std.String.utf8_($.copy(symbol), $c), $.copy(decimals), false, $c, [$p[0]]);
+  [burn, freeze, mint] = Stdlib.Coin.initialize_(admin, Stdlib.String.utf8_($.copy(name), $c), Stdlib.String.utf8_($.copy(symbol), $c), $.copy(decimals), false, $c, [$p[0]]);
   $c.move_to(new SimpleStructTag(CoinCaps, [$p[0]]), admin, new CoinCaps({ mint: $.copy(mint), freeze: $.copy(freeze), burn: $.copy(burn) }, new SimpleStructTag(CoinCaps, [$p[0]])));
   return;
 }
 
 export function init_coin_and_register_ (
   admin: HexString,
-  name: Std.String.String,
-  symbol: Std.String.String,
-  coingecko_id: Std.String.String,
-  logo_url: Std.String.String,
-  project_url: Std.String.String,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
   decimals: U8,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
-  init_coin_(admin, $.copy(Std.String.bytes_(name, $c)), $.copy(Std.String.bytes_(symbol, $c)), $.copy(decimals), $c, [$p[0]]);
+  init_coin_(admin, $.copy(Stdlib.String.bytes_(name, $c)), $.copy(Stdlib.String.bytes_(symbol, $c)), $.copy(decimals), $c, [$p[0]]);
   Coin_list.add_to_registry_by_signer_(admin, $.copy(name), $.copy(symbol), $.copy(coingecko_id), $.copy(logo_url), $.copy(project_url), false, $c, [$p[0]]);
   return;
 }
@@ -378,8 +376,8 @@ export function initialize_ (
   $p: TypeTag[], /* <TokenType>*/
 ): void {
   let temp$1, name;
-  temp$1 = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  name = Aptos_std.Type_info.struct_name_(temp$1, $c);
+  temp$1 = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  name = Stdlib.Type_info.struct_name_(temp$1, $c);
   return init_coin_(admin, $.copy(name), $.copy(name), $.copy(decimals), $c, [$p[0]]);
 }
 
@@ -387,10 +385,10 @@ export function mint_ (
   amount: U64,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
-): Aptos_framework.Coin.Coin {
+): Stdlib.Coin.Coin {
   let caps;
   caps = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  return Aptos_framework.Coin.mint_($.copy(amount), caps.mint, $c, [$p[0]]);
+  return Stdlib.Coin.mint_($.copy(amount), caps.mint, $c, [$p[0]]);
 }
 
 export function mint_to_wallet_ (
@@ -401,12 +399,12 @@ export function mint_to_wallet_ (
 ): void {
   let coin;
   coin = mint_($.copy(amount), $c, [$p[0]]);
-  if (!Aptos_framework.Coin.is_account_registered_(Std.Signer.address_of_(user, $c), $c, [$p[0]])) {
-    Aptos_framework.Coins.register_internal_(user, $c, [$p[0]]);
+  if (!Stdlib.Coin.is_account_registered_(Stdlib.Signer.address_of_(user, $c), $c, [$p[0]])) {
+    Stdlib.Coin.register_(user, $c, [$p[0]]);
   }
   else{
   }
-  Aptos_framework.Coin.deposit_(Std.Signer.address_of_(user, $c), coin, $c, [$p[0]]);
+  Stdlib.Coin.deposit_(Stdlib.Signer.address_of_(user, $c), coin, $c, [$p[0]]);
   return;
 }
 

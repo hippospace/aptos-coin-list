@@ -5,9 +5,7 @@ import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
-import * as Aptos_framework from "../aptos_framework";
-import * as Aptos_std from "../aptos_std";
-import * as Std from "../std";
+import * as Stdlib from "../stdlib";
 export const packageName = "CoinList";
 export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
 export const moduleName = "coin_list";
@@ -38,24 +36,24 @@ export class CoinInfo
   { name: "token_type", typeTag: new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []) },
   { name: "extensions", typeTag: new StructTag(new HexString("0x1"), "simple_map", "SimpleMap", [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]) }];
 
-  name: Std.String.String;
-  symbol: Std.String.String;
-  coingecko_id: Std.String.String;
+  name: Stdlib.String.String;
+  symbol: Stdlib.String.String;
+  coingecko_id: Stdlib.String.String;
   decimals: U8;
-  logo_url: Std.String.String;
-  project_url: Std.String.String;
-  token_type: Aptos_std.Type_info.TypeInfo;
-  extensions: Aptos_std.Simple_map.SimpleMap;
+  logo_url: Stdlib.String.String;
+  project_url: Stdlib.String.String;
+  token_type: Stdlib.Type_info.TypeInfo;
+  extensions: Stdlib.Simple_map.SimpleMap;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.name = proto['name'] as Std.String.String;
-    this.symbol = proto['symbol'] as Std.String.String;
-    this.coingecko_id = proto['coingecko_id'] as Std.String.String;
+    this.name = proto['name'] as Stdlib.String.String;
+    this.symbol = proto['symbol'] as Stdlib.String.String;
+    this.coingecko_id = proto['coingecko_id'] as Stdlib.String.String;
     this.decimals = proto['decimals'] as U8;
-    this.logo_url = proto['logo_url'] as Std.String.String;
-    this.project_url = proto['project_url'] as Std.String.String;
-    this.token_type = proto['token_type'] as Aptos_std.Type_info.TypeInfo;
-    this.extensions = proto['extensions'] as Aptos_std.Simple_map.SimpleMap;
+    this.logo_url = proto['logo_url'] as Stdlib.String.String;
+    this.project_url = proto['project_url'] as Stdlib.String.String;
+    this.token_type = proto['token_type'] as Stdlib.Type_info.TypeInfo;
+    this.extensions = proto['extensions'] as Stdlib.Simple_map.SimpleMap;
   }
 
   static CoinInfoParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinInfo {
@@ -91,10 +89,10 @@ export class CoinList
   static fields: FieldDeclType[] = [
   { name: "coin_types", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "Nothing", [])]) }];
 
-  coin_types: Aptos_std.Iterable_table.IterableTable;
+  coin_types: Stdlib.Iterable_table.IterableTable;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.coin_types = proto['coin_types'] as Aptos_std.Iterable_table.IterableTable;
+    this.coin_types = proto['coin_types'] as Stdlib.Iterable_table.IterableTable;
   }
 
   static CoinListParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinList {
@@ -133,10 +131,10 @@ export class CoinRegistry
   static fields: FieldDeclType[] = [
   { name: "type_to_coin_info", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "CoinInfo", [])]) }];
 
-  type_to_coin_info: Aptos_std.Iterable_table.IterableTable;
+  type_to_coin_info: Stdlib.Iterable_table.IterableTable;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.type_to_coin_info = proto['type_to_coin_info'] as Aptos_std.Iterable_table.IterableTable;
+    this.type_to_coin_info = proto['type_to_coin_info'] as Stdlib.Iterable_table.IterableTable;
   }
 
   static CoinRegistryParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinRegistry {
@@ -235,26 +233,26 @@ export class Nothing
 }
 export function add_extension_ (
   coin_owner: HexString,
-  key: Std.String.String,
-  value: Std.String.String,
+  key: Stdlib.String.String,
+  value: Stdlib.String.String,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
   registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  if (!((Std.Signer.address_of_(coin_owner, $c)).hex() === (Aptos_std.Type_info.account_address_(type_info, $c)).hex())) {
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
-  coin_info = Aptos_std.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-  Aptos_std.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
+  coin_info = Stdlib.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  Stdlib.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
   return;
 }
 
 
 export function buildPayload_add_extension (
-  key: Std.String.String,
-  value: Std.String.String,
+  key: Stdlib.String.String,
+  value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
@@ -280,15 +278,15 @@ export function add_to_list_ (
   if (!is_coin_registered_($c, [$p[0]])) {
     throw $.abortCode($.copy(E_COIN_NOT_IN_REGISTRY));
   }
-  owner_addr = Std.Signer.address_of_(list_owner, $c);
+  owner_addr = Stdlib.Signer.address_of_(list_owner, $c);
   if (!$c.exists(new SimpleStructTag(CoinList), $.copy(owner_addr))) {
     create_list_(list_owner, $c);
   }
   else{
   }
   list = $c.borrow_global_mut<CoinList>(new SimpleStructTag(CoinList), $.copy(owner_addr));
-  coin_type = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  Aptos_std.Iterable_table.add_(list.coin_types, $.copy(coin_type), new Nothing({  }, new SimpleStructTag(Nothing)), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  Stdlib.Iterable_table.add_(list.coin_types, $.copy(coin_type), new Nothing({  }, new SimpleStructTag(Nothing)), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   return;
 }
 
@@ -308,48 +306,48 @@ export function buildPayload_add_to_list (
 }
 
 export function add_to_registry_ (
-  name: Std.String.String,
-  symbol: Std.String.String,
-  coingecko_id: Std.String.String,
-  logo_url: Std.String.String,
-  project_url: Std.String.String,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
   is_update: boolean,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
   registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  coin_info = new CoinInfo({ name: $.copy(name), symbol: $.copy(symbol), coingecko_id: $.copy(coingecko_id), decimals: Aptos_framework.Coin.decimals_($c, [$p[0]]), logo_url: $.copy(logo_url), project_url: $.copy(project_url), token_type: $.copy(type_info), extensions: Aptos_std.Simple_map.create_($c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]) }, new SimpleStructTag(CoinInfo));
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  coin_info = new CoinInfo({ name: $.copy(name), symbol: $.copy(symbol), coingecko_id: $.copy(coingecko_id), decimals: Stdlib.Coin.decimals_($c, [$p[0]]), logo_url: $.copy(logo_url), project_url: $.copy(project_url), token_type: $.copy(type_info), extensions: Stdlib.Simple_map.create_($c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]) }, new SimpleStructTag(CoinInfo));
   if (!is_update) {
-    if (!!Aptos_std.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)])) {
+    if (!!Stdlib.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)])) {
       throw $.abortCode($.copy(E_TYPE_ALREADY_EXISTS));
     }
   }
   else{
-    Aptos_std.Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+    Stdlib.Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   }
-  Aptos_std.Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  Stdlib.Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   return;
 }
 
 export function add_to_registry_by_proof_ (
   _ownership_proof: any,
-  name: Std.String.String,
-  symbol: Std.String.String,
-  coingecko_id: Std.String.String,
-  logo_url: Std.String.String,
-  project_url: Std.String.String,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
   is_update: boolean,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType, OwnershipProof>*/
 ): void {
   let coin_type, ownership_address, ownership_name, ownership_type, type_address;
-  coin_type = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  ownership_type = Aptos_std.Type_info.type_of_($c, [$p[1]]);
-  type_address = Aptos_std.Type_info.account_address_(coin_type, $c);
-  ownership_address = Aptos_std.Type_info.account_address_(ownership_type, $c);
-  ownership_name = Aptos_std.Type_info.module_name_(ownership_type, $c);
+  coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  ownership_type = Stdlib.Type_info.type_of_($c, [$p[1]]);
+  type_address = Stdlib.Type_info.account_address_(coin_type, $c);
+  ownership_address = Stdlib.Type_info.account_address_(ownership_type, $c);
+  ownership_name = Stdlib.Type_info.module_name_(ownership_type, $c);
   if (!$.veq($.copy(ownership_name), [u8("79"), u8("119"), u8("110"), u8("101"), u8("114"), u8("115"), u8("104"), u8("105"), u8("112"), u8("80"), u8("114"), u8("111"), u8("111"), u8("102")])) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
@@ -362,18 +360,18 @@ export function add_to_registry_by_proof_ (
 
 export function add_to_registry_by_signer_ (
   coin_owner: HexString,
-  name: Std.String.String,
-  symbol: Std.String.String,
-  coingecko_id: Std.String.String,
-  logo_url: Std.String.String,
-  project_url: Std.String.String,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
   is_update: boolean,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let type_info;
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  if (!((Std.Signer.address_of_(coin_owner, $c)).hex() === (Aptos_std.Type_info.account_address_(type_info, $c)).hex())) {
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
   add_to_registry_($.copy(name), $.copy(symbol), $.copy(coingecko_id), $.copy(logo_url), $.copy(project_url), is_update, $c, [$p[0]]);
@@ -382,11 +380,11 @@ export function add_to_registry_by_signer_ (
 
 
 export function buildPayload_add_to_registry_by_signer (
-  name: Std.String.String,
-  symbol: Std.String.String,
-  coingecko_id: Std.String.String,
-  logo_url: Std.String.String,
-  project_url: Std.String.String,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
   is_update: boolean,
   $p: TypeTag[], /* <CoinType>*/
 ) {
@@ -412,7 +410,7 @@ export function create_list_ (
   list_owner: HexString,
   $c: AptosDataCache,
 ): void {
-  return $c.move_to(new SimpleStructTag(CoinList), list_owner, new CoinList({ coin_types: Aptos_std.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]) }, new SimpleStructTag(CoinList)));
+  return $c.move_to(new SimpleStructTag(CoinList), list_owner, new CoinList({ coin_types: Stdlib.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]) }, new SimpleStructTag(CoinList)));
 }
 
 
@@ -431,26 +429,26 @@ export function buildPayload_create_list (
 
 export function drop_extension_ (
   coin_owner: HexString,
-  key: Std.String.String,
-  value: Std.String.String,
+  key: Stdlib.String.String,
+  value: Stdlib.String.String,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_info, registry, type_info;
   registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  if (!((Std.Signer.address_of_(coin_owner, $c)).hex() === (Aptos_std.Type_info.account_address_(type_info, $c)).hex())) {
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
-  coin_info = Aptos_std.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-  Aptos_std.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
+  coin_info = Stdlib.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  Stdlib.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
   return;
 }
 
 
 export function buildPayload_drop_extension (
-  key: Std.String.String,
-  value: Std.String.String,
+  key: Stdlib.String.String,
+  value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
@@ -560,14 +558,14 @@ export function get_all_registered_coin_info_ (
 ): FullList {
   let coin_info, fulllist, prev, registry, tail, tail_key;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  tail = Aptos_std.Iterable_table.tail_key_(registry.type_to_coin_info, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-  fulllist = new FullList({ coin_info_list: Std.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
-  while (Std.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
+  tail = Stdlib.Iterable_table.tail_key_(registry.type_to_coin_info, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  fulllist = new FullList({ coin_info_list: Stdlib.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
+  while (Stdlib.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
     {
-      tail_key = $.copy(Std.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
-      coin_info = Aptos_std.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-      Std.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
-      [, prev, ] = Aptos_std.Iterable_table.borrow_iter_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      tail_key = $.copy(Stdlib.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
+      coin_info = Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      Stdlib.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
+      [, prev, ] = Stdlib.Iterable_table.borrow_iter_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
       tail = $.copy(prev);
     }
 
@@ -580,8 +578,8 @@ export function get_coin_info_ (
 ): CoinInfo {
   let registry, type_info;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  return $.copy(Aptos_std.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]));
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  return $.copy(Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]));
 }
 
 export function get_full_list_ (
@@ -591,14 +589,14 @@ export function get_full_list_ (
   let coin_info, fulllist, list, prev, registry, tail, tail_key;
   list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  tail = Aptos_std.Iterable_table.tail_key_(list.coin_types, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
-  fulllist = new FullList({ coin_info_list: Std.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
-  while (Std.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
+  tail = Stdlib.Iterable_table.tail_key_(list.coin_types, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  fulllist = new FullList({ coin_info_list: Stdlib.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
+  while (Stdlib.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
     {
-      tail_key = $.copy(Std.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
-      coin_info = Aptos_std.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-      Std.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
-      [, prev, ] = Aptos_std.Iterable_table.borrow_iter_(list.coin_types, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+      tail_key = $.copy(Stdlib.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
+      coin_info = Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      Stdlib.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
+      [, prev, ] = Stdlib.Iterable_table.borrow_iter_(list.coin_types, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
       tail = $.copy(prev);
     }
 
@@ -609,10 +607,10 @@ export function initialize_ (
   admin: HexString,
   $c: AptosDataCache,
 ): void {
-  if (!((Std.Signer.address_of_(admin, $c)).hex() === (new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68")).hex())) {
+  if (!((Stdlib.Signer.address_of_(admin, $c)).hex() === (new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68")).hex())) {
     throw $.abortCode($.copy(E_CONTRACT_OWNER_ONLY));
   }
-  return $c.move_to(new SimpleStructTag(CoinRegistry), admin, new CoinRegistry({ type_to_coin_info: Aptos_std.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(CoinRegistry)));
+  return $c.move_to(new SimpleStructTag(CoinRegistry), admin, new CoinRegistry({ type_to_coin_info: Stdlib.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(CoinRegistry)));
 }
 
 
@@ -641,8 +639,8 @@ export function is_coin_in_list_ (
   else{
   }
   list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
-  coin_type = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  return Aptos_std.Iterable_table.contains_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  return Stdlib.Iterable_table.contains_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
 }
 
 export function is_coin_registered_ (
@@ -651,8 +649,8 @@ export function is_coin_registered_ (
 ): boolean {
   let registry, type_info;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  type_info = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  return Aptos_std.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  return Stdlib.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
 }
 
 export function is_registry_initialized_ (
@@ -667,9 +665,9 @@ export function remove_from_list_ (
   $p: TypeTag[], /* <CoinType>*/
 ): void {
   let coin_type, list;
-  list = $c.borrow_global_mut<CoinList>(new SimpleStructTag(CoinList), Std.Signer.address_of_(list_owner, $c));
-  coin_type = Aptos_std.Type_info.type_of_($c, [$p[0]]);
-  Aptos_std.Iterable_table.remove_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  list = $c.borrow_global_mut<CoinList>(new SimpleStructTag(CoinList), Stdlib.Signer.address_of_(list_owner, $c));
+  coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
+  Stdlib.Iterable_table.remove_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   return;
 }
 
@@ -740,16 +738,16 @@ export class App {
   }
   get Nothing() { return Nothing; }
   payload_add_extension(
-    key: Std.String.String,
-    value: Std.String.String,
+    key: Stdlib.String.String,
+    value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
   ) {
     return buildPayload_add_extension(key, value, $p);
   }
   async add_extension(
     _account: AptosAccount,
-    key: Std.String.String,
-    value: Std.String.String,
+    key: Stdlib.String.String,
+    value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
   ) {
@@ -770,11 +768,11 @@ export class App {
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_add_to_registry_by_signer(
-    name: Std.String.String,
-    symbol: Std.String.String,
-    coingecko_id: Std.String.String,
-    logo_url: Std.String.String,
-    project_url: Std.String.String,
+    name: Stdlib.String.String,
+    symbol: Stdlib.String.String,
+    coingecko_id: Stdlib.String.String,
+    logo_url: Stdlib.String.String,
+    project_url: Stdlib.String.String,
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
   ) {
@@ -782,11 +780,11 @@ export class App {
   }
   async add_to_registry_by_signer(
     _account: AptosAccount,
-    name: Std.String.String,
-    symbol: Std.String.String,
-    coingecko_id: Std.String.String,
-    logo_url: Std.String.String,
-    project_url: Std.String.String,
+    name: Stdlib.String.String,
+    symbol: Stdlib.String.String,
+    coingecko_id: Stdlib.String.String,
+    logo_url: Stdlib.String.String,
+    project_url: Stdlib.String.String,
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
@@ -806,16 +804,16 @@ export class App {
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_drop_extension(
-    key: Std.String.String,
-    value: Std.String.String,
+    key: Stdlib.String.String,
+    value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
   ) {
     return buildPayload_drop_extension(key, value, $p);
   }
   async drop_extension(
     _account: AptosAccount,
-    key: Std.String.String,
-    value: Std.String.String,
+    key: Stdlib.String.String,
+    value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
   ) {
