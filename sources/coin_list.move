@@ -71,6 +71,20 @@ module coin_list::coin_list {
         add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
     }
 
+    #[cmd]
+    public entry fun add_to_registry_by_admin<CoinType>(
+        admin: &signer,
+        name: String,
+        symbol: String,
+        coingecko_id: String,
+        logo_url: String,
+        project_url: String,
+        is_update: bool,
+    ) acquires CoinRegistry {
+        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
+        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
+    }
+
     public fun add_to_registry_by_proof<CoinType, OwnershipProof>(
         _ownership_proof: &OwnershipProof,
         name: String,
@@ -400,4 +414,6 @@ module coin_list::coin_list {
 
         add_to_list<FakeBtc>(admin);
     }
+
+
 }
