@@ -90,6 +90,7 @@ export function create_resource_account_ (
 export function buildPayload_create_resource_account (
   seed: U8[],
   optional_auth_key: U8[],
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -100,7 +101,8 @@ export function buildPayload_create_resource_account (
     [
       seed,
       optional_auth_key,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -156,16 +158,18 @@ export class App {
   payload_create_resource_account(
     seed: U8[],
     optional_auth_key: U8[],
+    isJSON = false,
   ) {
-    return buildPayload_create_resource_account(seed, optional_auth_key);
+    return buildPayload_create_resource_account(seed, optional_auth_key, isJSON);
   }
   async create_resource_account(
     _account: AptosAccount,
     seed: U8[],
     optional_auth_key: U8[],
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_create_resource_account(seed, optional_auth_key);
+    const payload = buildPayload_create_resource_account(seed, optional_auth_key, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

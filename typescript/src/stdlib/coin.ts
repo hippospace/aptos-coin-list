@@ -715,6 +715,7 @@ export function buildPayload_transfer (
   to: HexString,
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -725,7 +726,8 @@ export function buildPayload_transfer (
     [
       to,
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -759,6 +761,7 @@ export function upgrade_supply_ (
 
 export function buildPayload_upgrade_supply (
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -766,7 +769,8 @@ export function buildPayload_upgrade_supply (
     "coin",
     "upgrade_supply",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -869,8 +873,9 @@ export class App {
     to: HexString,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_transfer(to, amount, $p);
+    return buildPayload_transfer(to, amount, $p, isJSON);
   }
   async transfer(
     _account: AptosAccount,
@@ -878,21 +883,24 @@ export class App {
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_transfer(to, amount, $p);
+    const payload = buildPayload_transfer(to, amount, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_upgrade_supply(
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_upgrade_supply($p);
+    return buildPayload_upgrade_supply($p, isJSON);
   }
   async upgrade_supply(
     _account: AptosAccount,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_upgrade_supply($p);
+    const payload = buildPayload_upgrade_supply($p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

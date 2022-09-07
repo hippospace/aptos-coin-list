@@ -138,6 +138,7 @@ export function set_version_ (
 
 export function buildPayload_set_version (
   major: U64,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -147,7 +148,8 @@ export function buildPayload_set_version (
     typeParamStrings,
     [
       major,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -188,15 +190,17 @@ export class App {
   }
   payload_set_version(
     major: U64,
+    isJSON = false,
   ) {
-    return buildPayload_set_version(major);
+    return buildPayload_set_version(major, isJSON);
   }
   async set_version(
     _account: AptosAccount,
     major: U64,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_set_version(major);
+    const payload = buildPayload_set_version(major, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

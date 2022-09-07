@@ -279,7 +279,7 @@ export function initialize_ (
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   addr = Signer.address_of_(package_owner, $c);
   if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(addr))) {
-    $c.move_to(new SimpleStructTag(PackageRegistry), package_owner, new PackageRegistry({ packages: metadata }, new SimpleStructTag(PackageRegistry)));
+    $c.move_to(new SimpleStructTag(PackageRegistry), package_owner, new PackageRegistry({ packages: [metadata] }, new SimpleStructTag(PackageRegistry)));
   }
   else{
     Vector.push_back_($c.borrow_global_mut<PackageRegistry>(new SimpleStructTag(PackageRegistry), $.copy(addr)).packages, metadata, $c, [new SimpleStructTag(PackageMetadata)]);
@@ -349,6 +349,7 @@ export function publish_package_txn_ (
 export function buildPayload_publish_package_txn (
   metadata_serialized: U8[],
   code: U8[][],
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -359,7 +360,8 @@ export function buildPayload_publish_package_txn (
     [
       metadata_serialized,
       code,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -423,16 +425,18 @@ export class App {
   payload_publish_package_txn(
     metadata_serialized: U8[],
     code: U8[][],
+    isJSON = false,
   ) {
-    return buildPayload_publish_package_txn(metadata_serialized, code);
+    return buildPayload_publish_package_txn(metadata_serialized, code, isJSON);
   }
   async publish_package_txn(
     _account: AptosAccount,
     metadata_serialized: U8[],
     code: U8[][],
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_publish_package_txn(metadata_serialized, code);
+    const payload = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

@@ -312,6 +312,7 @@ export function deploy_ (
 
 
 export function buildPayload_deploy (
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -319,7 +320,8 @@ export function buildPayload_deploy (
     "devnet_coins",
     "deploy",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -412,6 +414,7 @@ export function mint_to_wallet_ (
 export function buildPayload_mint_to_wallet (
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -421,7 +424,8 @@ export function buildPayload_mint_to_wallet (
     typeParamStrings,
     [
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -465,29 +469,33 @@ export class App {
   get DevnetUSDC() { return DevnetUSDC; }
   get DevnetUSDT() { return DevnetUSDT; }
   payload_deploy(
+    isJSON = false,
   ) {
-    return buildPayload_deploy();
+    return buildPayload_deploy(isJSON);
   }
   async deploy(
     _account: AptosAccount,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_deploy();
+    const payload = buildPayload_deploy(_isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_mint_to_wallet(
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_mint_to_wallet(amount, $p);
+    return buildPayload_mint_to_wallet(amount, $p, isJSON);
   }
   async mint_to_wallet(
     _account: AptosAccount,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_mint_to_wallet(amount, $p);
+    const payload = buildPayload_mint_to_wallet(amount, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

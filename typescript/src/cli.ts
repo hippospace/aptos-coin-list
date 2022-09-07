@@ -1,5 +1,5 @@
 
-import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx } from "@manahippo/move-to-ts";
+import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
 import { AptosAccount, AptosClient, HexString, Types } from "aptos";
 import { Command } from "commander";
 import { getProjectRepo } from "./";
@@ -72,6 +72,32 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .action(coin_list_add_to_list);
+
+
+const coin_list_add_to_registry_by_admin = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const name_ = new ActualStringClass({bytes: strToU8(name)}, parseTypeTagOrThrow('0x1::string::String'));
+  const symbol_ = new ActualStringClass({bytes: strToU8(symbol)}, parseTypeTagOrThrow('0x1::string::String'));
+  const coingecko_id_ = new ActualStringClass({bytes: strToU8(coingecko_id)}, parseTypeTagOrThrow('0x1::string::String'));
+  const logo_url_ = new ActualStringClass({bytes: strToU8(logo_url)}, parseTypeTagOrThrow('0x1::string::String'));
+  const project_url_ = new ActualStringClass({bytes: strToU8(project_url)}, parseTypeTagOrThrow('0x1::string::String'));
+  const is_update_ = is_update=='true';
+  const payload = Coin_list.Coin_list.buildPayload_add_to_registry_by_admin(name_, symbol_, coingecko_id_, logo_url_, project_url_, is_update_, [CoinType_]);
+  await sendPayloadTx(client, account, payload);
+}
+
+program
+  .command("coin-list:add-to-registry-by-admin")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .argument('<name>')
+  .argument('<symbol>')
+  .argument('<coingecko_id>')
+  .argument('<logo_url>')
+  .argument('<project_url>')
+  .argument('<is_update>')
+  .action(coin_list_add_to_registry_by_admin);
 
 
 const coin_list_add_to_registry_by_signer = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
@@ -193,7 +219,7 @@ program
 const coin_list_fetch_all_registered_coin_info = async () => {
   const {client, account} = readConfig(program);
   const repo = getProjectRepo();
-  const value = await Coin_list.Coin_list.query_fetch_all_registered_coin_info(client, account, repo, [])
+  const value = await Coin_list.Coin_list.query_fetch_all_registered_coin_info(client, getSimulationKeys(account), repo, [])
   print(value);
 }
 
@@ -206,7 +232,7 @@ program
 const coin_list_fetch_full_list = async (list_owner_addr: string) => {
   const {client, account} = readConfig(program);
   const repo = getProjectRepo();
-  const value = await Coin_list.Coin_list.query_fetch_full_list(client, account, repo, new HexString(list_owner_addr), [])
+  const value = await Coin_list.Coin_list.query_fetch_full_list(client, getSimulationKeys(account), repo, new HexString(list_owner_addr), [])
   print(value);
 }
 

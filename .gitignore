@@ -1,2 +1,4 @@
 build
 .idea
+typescript/dist
+typescript/node_modules

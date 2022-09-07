@@ -25,6 +25,7 @@ export function create_account_ (
 
 export function buildPayload_create_account (
   auth_key: HexString,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -34,7 +35,8 @@ export function buildPayload_create_account (
     typeParamStrings,
     [
       auth_key,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -56,6 +58,7 @@ export function transfer_ (
 export function buildPayload_transfer (
   to: HexString,
   amount: U64,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -66,7 +69,8 @@ export function buildPayload_transfer (
     [
       to,
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -83,30 +87,34 @@ export class App {
   get moduleName() {{ return moduleName; }}
   payload_create_account(
     auth_key: HexString,
+    isJSON = false,
   ) {
-    return buildPayload_create_account(auth_key);
+    return buildPayload_create_account(auth_key, isJSON);
   }
   async create_account(
     _account: AptosAccount,
     auth_key: HexString,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_create_account(auth_key);
+    const payload = buildPayload_create_account(auth_key, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_transfer(
     to: HexString,
     amount: U64,
+    isJSON = false,
   ) {
-    return buildPayload_transfer(to, amount);
+    return buildPayload_transfer(to, amount, isJSON);
   }
   async transfer(
     _account: AptosAccount,
     to: HexString,
     amount: U64,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_transfer(to, amount);
+    const payload = buildPayload_transfer(to, amount, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

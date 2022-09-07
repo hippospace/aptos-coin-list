@@ -492,6 +492,7 @@ export function buildPayload_create_proposal (
   execution_hash: U8[],
   metadata_location: U8[],
   metadata_hash: U8[],
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -504,7 +505,8 @@ export function buildPayload_create_proposal (
       execution_hash,
       metadata_location,
       metadata_hash,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -706,6 +708,7 @@ export function buildPayload_vote (
   stake_pool: HexString,
   proposal_id: U64,
   should_pass: boolean,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -717,7 +720,8 @@ export function buildPayload_vote (
       stake_pool,
       proposal_id,
       should_pass,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -805,8 +809,9 @@ export class App {
     execution_hash: U8[],
     metadata_location: U8[],
     metadata_hash: U8[],
+    isJSON = false,
   ) {
-    return buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash);
+    return buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash, isJSON);
   }
   async create_proposal(
     _account: AptosAccount,
@@ -815,16 +820,18 @@ export class App {
     metadata_location: U8[],
     metadata_hash: U8[],
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash);
+    const payload = buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_vote(
     stake_pool: HexString,
     proposal_id: U64,
     should_pass: boolean,
+    isJSON = false,
   ) {
-    return buildPayload_vote(stake_pool, proposal_id, should_pass);
+    return buildPayload_vote(stake_pool, proposal_id, should_pass, isJSON);
   }
   async vote(
     _account: AptosAccount,
@@ -832,8 +839,9 @@ export class App {
     proposal_id: U64,
     should_pass: boolean,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_vote(stake_pool, proposal_id, should_pass);
+    const payload = buildPayload_vote(stake_pool, proposal_id, should_pass, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

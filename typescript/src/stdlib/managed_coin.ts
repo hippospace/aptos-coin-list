@@ -86,6 +86,7 @@ export function burn_ (
 export function buildPayload_burn (
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -95,7 +96,8 @@ export function buildPayload_burn (
     typeParamStrings,
     [
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -121,6 +123,7 @@ export function buildPayload_initialize (
   decimals: U8,
   monitor_supply: boolean,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -133,7 +136,8 @@ export function buildPayload_initialize (
       symbol,
       decimals,
       monitor_supply,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -160,6 +164,7 @@ export function buildPayload_mint (
   dst_addr: HexString,
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -170,7 +175,8 @@ export function buildPayload_mint (
     [
       dst_addr,
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -186,6 +192,7 @@ export function register_ (
 
 export function buildPayload_register (
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -193,7 +200,8 @@ export function buildPayload_register (
     "managed_coin",
     "register",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -224,16 +232,18 @@ export class App {
   payload_burn(
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_burn(amount, $p);
+    return buildPayload_burn(amount, $p, isJSON);
   }
   async burn(
     _account: AptosAccount,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_burn(amount, $p);
+    const payload = buildPayload_burn(amount, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_initialize(
@@ -242,8 +252,9 @@ export class App {
     decimals: U8,
     monitor_supply: boolean,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_initialize(name, symbol, decimals, monitor_supply, $p);
+    return buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, isJSON);
   }
   async initialize(
     _account: AptosAccount,
@@ -253,16 +264,18 @@ export class App {
     monitor_supply: boolean,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_initialize(name, symbol, decimals, monitor_supply, $p);
+    const payload = buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_mint(
     dst_addr: HexString,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_mint(dst_addr, amount, $p);
+    return buildPayload_mint(dst_addr, amount, $p, isJSON);
   }
   async mint(
     _account: AptosAccount,
@@ -270,21 +283,24 @@ export class App {
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_mint(dst_addr, amount, $p);
+    const payload = buildPayload_mint(dst_addr, amount, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_register(
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_register($p);
+    return buildPayload_register($p, isJSON);
   }
   async register(
     _account: AptosAccount,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_register($p);
+    const payload = buildPayload_register($p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

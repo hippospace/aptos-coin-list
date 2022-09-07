@@ -193,6 +193,7 @@ export function claim_mint_capability_ (
 
 
 export function buildPayload_claim_mint_capability (
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -200,7 +201,8 @@ export function buildPayload_claim_mint_capability (
     "aptos_coin",
     "claim_mint_capability",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -246,6 +248,7 @@ export function delegate_mint_capability_ (
 
 export function buildPayload_delegate_mint_capability (
   to: HexString,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -255,7 +258,8 @@ export function buildPayload_delegate_mint_capability (
     typeParamStrings,
     [
       to,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -326,6 +330,7 @@ export function mint_ (
 export function buildPayload_mint (
   dst_addr: HexString,
   amount: U64,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -336,7 +341,8 @@ export function buildPayload_mint (
     [
       dst_addr,
       amount,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -390,42 +396,48 @@ export class App {
     return val;
   }
   payload_claim_mint_capability(
+    isJSON = false,
   ) {
-    return buildPayload_claim_mint_capability();
+    return buildPayload_claim_mint_capability(isJSON);
   }
   async claim_mint_capability(
     _account: AptosAccount,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_claim_mint_capability();
+    const payload = buildPayload_claim_mint_capability(_isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_delegate_mint_capability(
     to: HexString,
+    isJSON = false,
   ) {
-    return buildPayload_delegate_mint_capability(to);
+    return buildPayload_delegate_mint_capability(to, isJSON);
   }
   async delegate_mint_capability(
     _account: AptosAccount,
     to: HexString,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_delegate_mint_capability(to);
+    const payload = buildPayload_delegate_mint_capability(to, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_mint(
     dst_addr: HexString,
     amount: U64,
+    isJSON = false,
   ) {
-    return buildPayload_mint(dst_addr, amount);
+    return buildPayload_mint(dst_addr, amount, isJSON);
   }
   async mint(
     _account: AptosAccount,
     dst_addr: HexString,
     amount: U64,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_mint(dst_addr, amount);
+    const payload = buildPayload_mint(dst_addr, amount, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

@@ -254,6 +254,7 @@ export function buildPayload_add_extension (
   key: Stdlib.String.String,
   value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -264,7 +265,8 @@ export function buildPayload_add_extension (
     [
       key,
       value,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -293,6 +295,7 @@ export function add_to_list_ (
 
 export function buildPayload_add_to_list (
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -300,7 +303,8 @@ export function buildPayload_add_to_list (
     "coin_list",
     "add_to_list",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -329,6 +333,54 @@ export function add_to_registry_ (
   }
   Stdlib.Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   return;
+}
+
+export function add_to_registry_by_admin_ (
+  admin: HexString,
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
+  is_update: boolean,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <CoinType>*/
+): void {
+  if (!((Stdlib.Signer.address_of_(admin, $c)).hex() === (new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68")).hex())) {
+    throw $.abortCode($.copy(E_CONTRACT_OWNER_ONLY));
+  }
+  add_to_registry_($.copy(name), $.copy(symbol), $.copy(coingecko_id), $.copy(logo_url), $.copy(project_url), is_update, $c, [$p[0]]);
+  return;
+}
+
+
+export function buildPayload_add_to_registry_by_admin (
+  name: Stdlib.String.String,
+  symbol: Stdlib.String.String,
+  coingecko_id: Stdlib.String.String,
+  logo_url: Stdlib.String.String,
+  project_url: Stdlib.String.String,
+  is_update: boolean,
+  $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
+) {
+  const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
+  return $.buildPayload(
+    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    "coin_list",
+    "add_to_registry_by_admin",
+    typeParamStrings,
+    [
+      name,
+      symbol,
+      coingecko_id,
+      logo_url,
+      project_url,
+      is_update,
+    ],
+    isJSON,
+  );
+
 }
 
 export function add_to_registry_by_proof_ (
@@ -387,6 +439,7 @@ export function buildPayload_add_to_registry_by_signer (
   project_url: Stdlib.String.String,
   is_update: boolean,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -401,7 +454,8 @@ export function buildPayload_add_to_registry_by_signer (
       logo_url,
       project_url,
       is_update,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -415,6 +469,7 @@ export function create_list_ (
 
 
 export function buildPayload_create_list (
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -422,7 +477,8 @@ export function buildPayload_create_list (
     "coin_list",
     "create_list",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -450,6 +506,7 @@ export function buildPayload_drop_extension (
   key: Stdlib.String.String,
   value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -460,7 +517,8 @@ export function buildPayload_drop_extension (
     [
       key,
       value,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -474,6 +532,7 @@ export function fetch_all_registered_coin_info_ (
 
 
 export function buildPayload_fetch_all_registered_coin_info (
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -481,28 +540,29 @@ export function buildPayload_fetch_all_registered_coin_info (
     "coin_list",
     "fetch_all_registered_coin_info",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
 
 export async function query_fetch_all_registered_coin_info(
   client: AptosClient,
-  account: AptosAccount,
+  fetcher: $.SimulationKeys,
   repo: AptosParserRepo,
   $p: TypeTag[],
 ) {
   const payload = buildPayload_fetch_all_registered_coin_info();
   const outputTypeTag = new SimpleStructTag(FullList);
-  const output = await $.simulatePayloadTx(client, account, payload);
+  const output = await $.simulatePayloadTx(client, fetcher, payload);
   return $.takeSimulationValue<FullList>(output, outputTypeTag, repo)
 }
 function make_query_fetch_all_registered_coin_info(app: App) {
   function maker(
-    account: AptosAccount,
+    fetcher: $.SimulationKeys,
     $p: TypeTag[],
   ) {
-    return query_fetch_all_registered_coin_info(app.client, account, app.repo, $p)
+    return query_fetch_all_registered_coin_info(app.client, fetcher, app.repo, $p)
   }
   return maker;
 }
@@ -517,6 +577,7 @@ export function fetch_full_list_ (
 
 export function buildPayload_fetch_full_list (
   list_owner_addr: HexString,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -526,30 +587,31 @@ export function buildPayload_fetch_full_list (
     typeParamStrings,
     [
       list_owner_addr,
-    ]
+    ],
+    isJSON,
   );
 
 }
 
 export async function query_fetch_full_list(
   client: AptosClient,
-  account: AptosAccount,
+  fetcher: $.SimulationKeys,
   repo: AptosParserRepo,
     list_owner_addr: HexString,
   $p: TypeTag[],
 ) {
   const payload = buildPayload_fetch_full_list(list_owner_addr);
   const outputTypeTag = new SimpleStructTag(FullList);
-  const output = await $.simulatePayloadTx(client, account, payload);
+  const output = await $.simulatePayloadTx(client, fetcher, payload);
   return $.takeSimulationValue<FullList>(output, outputTypeTag, repo)
 }
 function make_query_fetch_full_list(app: App) {
   function maker(
-    account: AptosAccount,
+    fetcher: $.SimulationKeys,
       list_owner_addr: HexString,
     $p: TypeTag[],
   ) {
-    return query_fetch_full_list(app.client, account, app.repo, list_owner_addr, $p)
+    return query_fetch_full_list(app.client, fetcher, app.repo, list_owner_addr, $p)
   }
   return maker;
 }
@@ -615,6 +677,7 @@ export function initialize_ (
 
 
 export function buildPayload_initialize (
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -622,7 +685,8 @@ export function buildPayload_initialize (
     "coin_list",
     "initialize",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -674,6 +738,7 @@ export function remove_from_list_ (
 
 export function buildPayload_remove_from_list (
   $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
 ) {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
@@ -681,7 +746,8 @@ export function buildPayload_remove_from_list (
     "coin_list",
     "remove_from_list",
     typeParamStrings,
-    []
+    [],
+    isJSON,
   );
 
 }
@@ -741,8 +807,9 @@ export class App {
     key: Stdlib.String.String,
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_add_extension(key, value, $p);
+    return buildPayload_add_extension(key, value, $p, isJSON);
   }
   async add_extension(
     _account: AptosAccount,
@@ -750,21 +817,51 @@ export class App {
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_add_extension(key, value, $p);
+    const payload = buildPayload_add_extension(key, value, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_add_to_list(
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_add_to_list($p);
+    return buildPayload_add_to_list($p, isJSON);
   }
   async add_to_list(
     _account: AptosAccount,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_add_to_list($p);
+    const payload = buildPayload_add_to_list($p, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
+  payload_add_to_registry_by_admin(
+    name: Stdlib.String.String,
+    symbol: Stdlib.String.String,
+    coingecko_id: Stdlib.String.String,
+    logo_url: Stdlib.String.String,
+    project_url: Stdlib.String.String,
+    is_update: boolean,
+    $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
+  ) {
+    return buildPayload_add_to_registry_by_admin(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
+  }
+  async add_to_registry_by_admin(
+    _account: AptosAccount,
+    name: Stdlib.String.String,
+    symbol: Stdlib.String.String,
+    coingecko_id: Stdlib.String.String,
+    logo_url: Stdlib.String.String,
+    project_url: Stdlib.String.String,
+    is_update: boolean,
+    $p: TypeTag[], /* <CoinType>*/
+    _maxGas = 1000,
+    _isJSON = false,
+  ) {
+    const payload = buildPayload_add_to_registry_by_admin(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_add_to_registry_by_signer(
@@ -775,8 +872,9 @@ export class App {
     project_url: Stdlib.String.String,
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p);
+    return buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
   }
   async add_to_registry_by_signer(
     _account: AptosAccount,
@@ -788,27 +886,31 @@ export class App {
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p);
+    const payload = buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_create_list(
+    isJSON = false,
   ) {
-    return buildPayload_create_list();
+    return buildPayload_create_list(isJSON);
   }
   async create_list(
     _account: AptosAccount,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_create_list();
+    const payload = buildPayload_create_list(_isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_drop_extension(
     key: Stdlib.String.String,
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_drop_extension(key, value, $p);
+    return buildPayload_drop_extension(key, value, $p, isJSON);
   }
   async drop_extension(
     _account: AptosAccount,
@@ -816,58 +918,67 @@ export class App {
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_drop_extension(key, value, $p);
+    const payload = buildPayload_drop_extension(key, value, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_fetch_all_registered_coin_info(
+    isJSON = false,
   ) {
-    return buildPayload_fetch_all_registered_coin_info();
+    return buildPayload_fetch_all_registered_coin_info(isJSON);
   }
   async fetch_all_registered_coin_info(
     _account: AptosAccount,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_fetch_all_registered_coin_info();
+    const payload = buildPayload_fetch_all_registered_coin_info(_isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   get query_fetch_all_registered_coin_info() { return make_query_fetch_all_registered_coin_info(this); }
   payload_fetch_full_list(
     list_owner_addr: HexString,
+    isJSON = false,
   ) {
-    return buildPayload_fetch_full_list(list_owner_addr);
+    return buildPayload_fetch_full_list(list_owner_addr, isJSON);
   }
   async fetch_full_list(
     _account: AptosAccount,
     list_owner_addr: HexString,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_fetch_full_list(list_owner_addr);
+    const payload = buildPayload_fetch_full_list(list_owner_addr, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   get query_fetch_full_list() { return make_query_fetch_full_list(this); }
   payload_initialize(
+    isJSON = false,
   ) {
-    return buildPayload_initialize();
+    return buildPayload_initialize(isJSON);
   }
   async initialize(
     _account: AptosAccount,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_initialize();
+    const payload = buildPayload_initialize(_isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_remove_from_list(
     $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
   ) {
-    return buildPayload_remove_from_list($p);
+    return buildPayload_remove_from_list($p, isJSON);
   }
   async remove_from_list(
     _account: AptosAccount,
     $p: TypeTag[], /* <CoinType>*/
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_remove_from_list($p);
+    const payload = buildPayload_remove_from_list($p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

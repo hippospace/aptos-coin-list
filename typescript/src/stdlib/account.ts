@@ -646,6 +646,7 @@ export function buildPayload_offer_rotation_capability_ed25519 (
   rotation_capability_sig_bytes: U8[],
   account_public_key_bytes: U8[],
   recipient_address: HexString,
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -657,7 +658,8 @@ export function buildPayload_offer_rotation_capability_ed25519 (
       rotation_capability_sig_bytes,
       account_public_key_bytes,
       recipient_address,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -722,6 +724,7 @@ export function buildPayload_rotate_authentication_key_ed25519 (
   new_sig_bytes: U8[],
   curr_pk_bytes: U8[],
   new_pk_bytes: U8[],
+  isJSON = false,
 ) {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
@@ -734,7 +737,8 @@ export function buildPayload_rotate_authentication_key_ed25519 (
       new_sig_bytes,
       curr_pk_bytes,
       new_pk_bytes,
-    ]
+    ],
+    isJSON,
   );
 
 }
@@ -820,8 +824,9 @@ export class App {
     rotation_capability_sig_bytes: U8[],
     account_public_key_bytes: U8[],
     recipient_address: HexString,
+    isJSON = false,
   ) {
-    return buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address);
+    return buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address, isJSON);
   }
   async offer_rotation_capability_ed25519(
     _account: AptosAccount,
@@ -829,8 +834,9 @@ export class App {
     account_public_key_bytes: U8[],
     recipient_address: HexString,
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address);
+    const payload = buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_rotate_authentication_key_ed25519(
@@ -838,8 +844,9 @@ export class App {
     new_sig_bytes: U8[],
     curr_pk_bytes: U8[],
     new_pk_bytes: U8[],
+    isJSON = false,
   ) {
-    return buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes);
+    return buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes, isJSON);
   }
   async rotate_authentication_key_ed25519(
     _account: AptosAccount,
@@ -848,8 +855,9 @@ export class App {
     curr_pk_bytes: U8[],
     new_pk_bytes: U8[],
     _maxGas = 1000,
+    _isJSON = false,
   ) {
-    const payload = buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes);
+    const payload = buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }
