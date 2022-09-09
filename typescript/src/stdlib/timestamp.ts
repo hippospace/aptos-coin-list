@@ -56,31 +56,9 @@ export class CurrentTimeMicroseconds
   }
 
 }
-export function assert_operating_ (
-  $c: AptosDataCache,
-): void {
-  if (!is_operating_($c)) {
-    throw $.abortCode(Error.invalid_state_($.copy(ENOT_OPERATING), $c));
-  }
-  return;
-}
-
-export function is_genesis_ (
-  $c: AptosDataCache,
-): boolean {
-  return !$c.exists(new SimpleStructTag(CurrentTimeMicroseconds), new HexString("0x1"));
-}
-
-export function is_operating_ (
-  $c: AptosDataCache,
-): boolean {
-  return $c.exists(new SimpleStructTag(CurrentTimeMicroseconds), new HexString("0x1"));
-}
-
 export function now_microseconds_ (
   $c: AptosDataCache,
 ): U64 {
-  assert_operating_($c);
   return $.copy($c.borrow_global<CurrentTimeMicroseconds>(new SimpleStructTag(CurrentTimeMicroseconds), new HexString("0x1")).microseconds);
 }
 
@@ -108,7 +86,6 @@ export function update_global_time_ (
   $c: AptosDataCache,
 ): void {
   let global_timer, now;
-  assert_operating_($c);
   System_addresses.assert_vm_(account, $c);
   global_timer = $c.borrow_global_mut<CurrentTimeMicroseconds>(new SimpleStructTag(CurrentTimeMicroseconds), new HexString("0x1"));
   now = $.copy(global_timer.microseconds);

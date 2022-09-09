@@ -10,6 +10,13 @@ export const moduleAddress = new HexString("0x1");
 export const moduleName = "util";
 
 
+export function address_from_bytes_ (
+  bytes: U8[],
+  $c: AptosDataCache,
+): HexString {
+  return from_bytes_($.copy(bytes), $c, [AtomicTypeTag.Address]);
+}
+
 export function from_bytes_ (
   bytes: U8[],
   $c: AptosDataCache,

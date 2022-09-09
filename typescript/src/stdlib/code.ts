@@ -16,9 +16,11 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "code";
 
-export const EINCOMPATIBLE_POLICY_DISABLED : U64 = u64("5");
+export const EDEP_ARBITRARY_NOT_SAME_ADDRESS : U64 = u64("7");
+export const EDEP_WEAKER_POLICY : U64 = u64("6");
 export const EMODULE_MISSING : U64 = u64("4");
 export const EMODULE_NAME_CLASH : U64 = u64("1");
+export const EPACKAGE_DEP_MISSING : U64 = u64("5");
 export const EUPGRADE_IMMUTABLE : U64 = u64("2");
 export const EUPGRADE_WEAKER_POLICY : U64 = u64("3");
 
@@ -36,7 +38,7 @@ export class ModuleMetadata
   { name: "name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "source", typeTag: new VectorTag(AtomicTypeTag.U8) },
   { name: "source_map", typeTag: new VectorTag(AtomicTypeTag.U8) },
-  { name: "extension", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new StructTag(new HexString("0x1"), "any", "Any", [])]) }];
+  { name: "extension", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new StructTag(new HexString("0x1"), "copyable_any", "Any", [])]) }];
 
   name: String.String;
   source: U8[];
@@ -66,6 +68,42 @@ export class ModuleMetadata
 
 }
 
+export class PackageDep 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "PackageDep";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "account", typeTag: AtomicTypeTag.Address },
+  { name: "package_name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) }];
+
+  account: HexString;
+  package_name: String.String;
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.account = proto['account'] as HexString;
+    this.package_name = proto['package_name'] as String.String;
+  }
+
+  static PackageDepParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : PackageDep {
+    const proto = $.parseStructProto(data, typeTag, repo, PackageDep);
+    return new PackageDep(proto, typeTag);
+  }
+
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "PackageDep", []);
+  }
+  async loadFullState(app: $.AppType) {
+    await this.package_name.loadFullState(app);
+    this.__app = app;
+  }
+
+}
+
 export class PackageMetadata 
 {
   static moduleAddress = moduleAddress;
@@ -82,7 +120,8 @@ export class PackageMetadata
   { name: "source_digest", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) },
   { name: "manifest", typeTag: new VectorTag(AtomicTypeTag.U8) },
   { name: "modules", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "code", "ModuleMetadata", [])) },
-  { name: "extension", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new StructTag(new HexString("0x1"), "any", "Any", [])]) }];
+  { name: "deps", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "code", "PackageDep", [])) },
+  { name: "extension", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new StructTag(new HexString("0x1"), "copyable_any", "Any", [])]) }];
 
   name: String.String;
   upgrade_policy: UpgradePolicy;
@@ -90,6 +129,7 @@ export class PackageMetadata
   source_digest: String.String;
   manifest: U8[];
   modules: ModuleMetadata[];
+  deps: PackageDep[];
   extension: Option.Option;
 
   constructor(proto: any, public typeTag: TypeTag) {
@@ -99,6 +139,7 @@ export class PackageMetadata
     this.source_digest = proto['source_digest'] as String.String;
     this.manifest = proto['manifest'] as U8[];
     this.modules = proto['modules'] as ModuleMetadata[];
+    this.deps = proto['deps'] as PackageDep[];
     this.extension = proto['extension'] as Option.Option;
   }
 
@@ -226,6 +267,62 @@ export function check_coexistence_ (
   }return;
 }
 
+export function check_dependencies_ (
+  publish_address: HexString,
+  pack: PackageMetadata,
+  $c: AptosDataCache,
+): void {
+  let dep, dep_pack, deps, found, i, j, m, n, registry;
+  deps = pack.deps;
+  i = u64("0");
+  n = Vector.length_(deps, $c, [new SimpleStructTag(PackageDep)]);
+  while (($.copy(i)).lt($.copy(n))) {
+    {
+      dep = Vector.borrow_(deps, $.copy(i), $c, [new SimpleStructTag(PackageDep)]);
+      if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(dep.account))) {
+        throw $.abortCode(Error.not_found_($.copy(EPACKAGE_DEP_MISSING), $c));
+      }
+      if (is_policy_exempted_address_($.copy(dep.account), $c)) {
+        i = ($.copy(i)).add(u64("1"));
+        continue;
+      }
+      else{
+      }
+      registry = $c.borrow_global<PackageRegistry>(new SimpleStructTag(PackageRegistry), $.copy(dep.account));
+      j = u64("0");
+      m = Vector.length_(registry.packages, $c, [new SimpleStructTag(PackageMetadata)]);
+      found = false;
+      while (($.copy(j)).lt($.copy(m))) {
+        {
+          dep_pack = Vector.borrow_(registry.packages, $.copy(j), $c, [new SimpleStructTag(PackageMetadata)]);
+          if ($.deep_eq($.copy(dep_pack.name), $.copy(dep.package_name))) {
+            if (!($.copy(dep_pack.upgrade_policy.policy)).ge($.copy(pack.upgrade_policy.policy))) {
+              throw $.abortCode(Error.invalid_argument_($.copy(EDEP_WEAKER_POLICY), $c));
+            }
+            if ($.deep_eq($.copy(dep_pack.upgrade_policy), upgrade_policy_arbitrary_($c))) {
+              if (!(($.copy(dep.account)).hex() === ($.copy(publish_address)).hex())) {
+                throw $.abortCode(Error.invalid_argument_($.copy(EDEP_ARBITRARY_NOT_SAME_ADDRESS), $c));
+              }
+            }
+            else{
+            }
+            found = true;
+            break;
+          }
+          else{
+          }
+          j = ($.copy(j)).add(u64("1"));
+        }
+
+      }if (!found) {
+        throw $.abortCode(Error.not_found_($.copy(EPACKAGE_DEP_MISSING), $c));
+      }
+      i = ($.copy(i)).add(u64("1"));
+    }
+
+  }return;
+}
+
 export function check_upgradability_ (
   old_pack: PackageMetadata,
   new_pack: PackageMetadata,
@@ -287,23 +384,82 @@ export function initialize_ (
   return;
 }
 
+export function is_policy_exempted_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+  if ((($.copy(addr)).hex() === (new HexString("0x1")).hex())) {
+    temp$1 = true;
+  }
+  else{
+    temp$1 = (($.copy(addr)).hex() === (new HexString("0x2")).hex());
+  }
+  if (temp$1) {
+    temp$2 = true;
+  }
+  else{
+    temp$2 = (($.copy(addr)).hex() === (new HexString("0x3")).hex());
+  }
+  if (temp$2) {
+    temp$3 = true;
+  }
+  else{
+    temp$3 = (($.copy(addr)).hex() === (new HexString("0x4")).hex());
+  }
+  if (temp$3) {
+    temp$4 = true;
+  }
+  else{
+    temp$4 = (($.copy(addr)).hex() === (new HexString("0x5")).hex());
+  }
+  if (temp$4) {
+    temp$5 = true;
+  }
+  else{
+    temp$5 = (($.copy(addr)).hex() === (new HexString("0x6")).hex());
+  }
+  if (temp$5) {
+    temp$6 = true;
+  }
+  else{
+    temp$6 = (($.copy(addr)).hex() === (new HexString("0x7")).hex());
+  }
+  if (temp$6) {
+    temp$7 = true;
+  }
+  else{
+    temp$7 = (($.copy(addr)).hex() === (new HexString("0x8")).hex());
+  }
+  if (temp$7) {
+    temp$8 = true;
+  }
+  else{
+    temp$8 = (($.copy(addr)).hex() === (new HexString("0x9")).hex());
+  }
+  if (temp$8) {
+    temp$9 = true;
+  }
+  else{
+    temp$9 = (($.copy(addr)).hex() === (new HexString("0xa")).hex());
+  }
+  return temp$9;
+}
+
 export function publish_package_ (
   owner: HexString,
   pack: PackageMetadata,
   code: U8[][],
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, addr, i, index, len, module_names, old, packages, policy, upgrade_number;
-  temp$1 = upgrade_policy_arbitrary_($c);
-  if (!($.copy(pack.upgrade_policy.policy)).gt($.copy(temp$1.policy))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EINCOMPATIBLE_POLICY_DISABLED), $c));
-  }
+  let temp$1, temp$2, addr, i, index, len, module_names, old, packages, policy, upgrade_number;
   addr = Signer.address_of_(owner, $c);
   if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(addr))) {
     $c.move_to(new SimpleStructTag(PackageRegistry), owner, new PackageRegistry({ packages: Vector.empty_($c, [new SimpleStructTag(PackageMetadata)]) }, new SimpleStructTag(PackageRegistry)));
   }
   else{
   }
+  check_dependencies_($.copy(addr), pack, $c);
   module_names = get_module_names_(pack, $c);
   packages = $c.borrow_global_mut<PackageRegistry>(new SimpleStructTag(PackageRegistry), $.copy(addr)).packages;
   len = Vector.length_(packages, $c, [new SimpleStructTag(PackageMetadata)]);
@@ -312,8 +468,8 @@ export function publish_package_ (
   upgrade_number = u64("0");
   while (($.copy(i)).lt($.copy(len))) {
     {
-      [temp$2, temp$3] = [packages, $.copy(i)];
-      old = Vector.borrow_(temp$2, temp$3, $c, [new SimpleStructTag(PackageMetadata)]);
+      [temp$1, temp$2] = [packages, $.copy(i)];
+      old = Vector.borrow_(temp$1, temp$2, $c, [new SimpleStructTag(PackageMetadata)]);
       if ($.deep_eq($.copy(old.name), $.copy(pack.name))) {
         upgrade_number = ($.copy(old.upgrade_number)).add(u64("1"));
         check_upgradability_(old, pack, module_names, $c);
@@ -395,6 +551,7 @@ export function upgrade_policy_immutable_ (
 
 export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::code::ModuleMetadata", ModuleMetadata.ModuleMetadataParser);
+  repo.addParser("0x1::code::PackageDep", PackageDep.PackageDepParser);
   repo.addParser("0x1::code::PackageMetadata", PackageMetadata.PackageMetadataParser);
   repo.addParser("0x1::code::PackageRegistry", PackageRegistry.PackageRegistryParser);
   repo.addParser("0x1::code::UpgradePolicy", UpgradePolicy.UpgradePolicyParser);
@@ -409,6 +566,7 @@ export class App {
   get moduleAddress() {{ return moduleAddress; }}
   get moduleName() {{ return moduleName; }}
   get ModuleMetadata() { return ModuleMetadata; }
+  get PackageDep() { return PackageDep; }
   get PackageMetadata() { return PackageMetadata; }
   get PackageRegistry() { return PackageRegistry; }
   async loadPackageRegistry(

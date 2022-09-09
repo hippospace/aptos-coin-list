@@ -11,6 +11,13 @@ export const moduleAddress = new HexString("0x1");
 export const moduleName = "aptos_hash";
 
 
+export function keccak256_ (
+  bytes: U8[],
+  $c: AptosDataCache,
+): U8[] {
+  return $.aptos_std_aptos_hash_keccak256(bytes, $c);
+
+}
 export function sip_hash_ (
   bytes: U8[],
   $c: AptosDataCache,
