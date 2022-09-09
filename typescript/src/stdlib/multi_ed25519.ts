@@ -6,20 +6,23 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Bcs from "./bcs";
+import * as Ed25519 from "./ed25519";
 import * as Error from "./error";
 import * as Hash from "./hash";
 import * as Option from "./option";
-import * as Type_info from "./type_info";
 import * as Vector from "./vector";
 export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
-export const moduleName = "ed25519";
+export const moduleName = "multi_ed25519";
 
+export const BITMAP_NUM_OF_BYTES : U64 = u64("4");
 export const E_WRONG_PUBKEY_SIZE : U64 = u64("1");
 export const E_WRONG_SIGNATURE_SIZE : U64 = u64("2");
-export const PUBLIC_KEY_NUM_BYTES : U64 = u64("32");
-export const SIGNATURE_NUM_BYTES : U64 = u64("64");
-export const SIGNATURE_SCHEME_ID : U8 = u8("0");
+export const INDIVIDUAL_PUBLIC_KEY_NUM_BYTES : U64 = u64("32");
+export const INDIVIDUAL_SIGNATURE_NUM_BYTES : U64 = u64("64");
+export const MAX_NUMBER_OF_PUBLIC_KEYS : U64 = u64("32");
+export const SIGNATURE_SCHEME_ID : U8 = u8("1");
+export const THRESHOLD_SIZE_BYTES : U64 = u64("1");
 
 
 export class Signature 
@@ -49,43 +52,6 @@ export class Signature
     return new StructTag(moduleAddress, moduleName, "Signature", []);
   }
   async loadFullState(app: $.AppType) {
-    this.__app = app;
-  }
-
-}
-
-export class SignedMessage 
-{
-  static moduleAddress = moduleAddress;
-  static moduleName = moduleName;
-  __app: $.AppType | null = null;
-  static structName: string = "SignedMessage";
-  static typeParameters: TypeParamDeclType[] = [
-    { name: "MessageType", isPhantom: false }
-  ];
-  static fields: FieldDeclType[] = [
-  { name: "type_info", typeTag: new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []) },
-  { name: "inner", typeTag: new $.TypeParamIdx(0) }];
-
-  type_info: Type_info.TypeInfo;
-  inner: any;
-
-  constructor(proto: any, public typeTag: TypeTag) {
-    this.type_info = proto['type_info'] as Type_info.TypeInfo;
-    this.inner = proto['inner'] as any;
-  }
-
-  static SignedMessageParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : SignedMessage {
-    const proto = $.parseStructProto(data, typeTag, repo, SignedMessage);
-    return new SignedMessage(proto, typeTag);
-  }
-
-  static makeTag($p: TypeTag[]): StructTag {
-    return new StructTag(moduleAddress, moduleName, "SignedMessage", $p);
-  }
-  async loadFullState(app: $.AppType) {
-    await this.type_info.loadFullState(app);
-    if (this.inner.typeTag instanceof StructTag) {await this.inner.loadFullState(app);}
     this.__app = app;
   }
 
@@ -158,25 +124,20 @@ export function new_signature_from_bytes_ (
   bytes: U8[],
   $c: AptosDataCache,
 ): Signature {
-  if (!(Vector.length_(bytes, $c, [AtomicTypeTag.U8])).eq(($.copy(SIGNATURE_NUM_BYTES)))) {
+  if (!((Vector.length_(bytes, $c, [AtomicTypeTag.U8])).mod($.copy(INDIVIDUAL_SIGNATURE_NUM_BYTES))).eq(($.copy(BITMAP_NUM_OF_BYTES)))) {
     throw $.abortCode(Error.invalid_argument_($.copy(E_WRONG_SIGNATURE_SIZE), $c));
   }
   return new Signature({ bytes: $.copy(bytes) }, new SimpleStructTag(Signature));
-}
-
-export function new_signed_message_ (
-  data: any,
-  $c: AptosDataCache,
-  $p: TypeTag[], /* <T>*/
-): SignedMessage {
-  return new SignedMessage({ type_info: Type_info.type_of_($c, [$p[0]]), inner: data }, new SimpleStructTag(SignedMessage, [$p[0]]));
 }
 
 export function new_unvalidated_public_key_from_bytes_ (
   bytes: U8[],
   $c: AptosDataCache,
 ): UnvalidatedPublicKey {
-  if (!(Vector.length_(bytes, $c, [AtomicTypeTag.U8])).eq(($.copy(PUBLIC_KEY_NUM_BYTES)))) {
+  if (!((Vector.length_(bytes, $c, [AtomicTypeTag.U8])).div($.copy(INDIVIDUAL_PUBLIC_KEY_NUM_BYTES))).le($.copy(MAX_NUMBER_OF_PUBLIC_KEYS))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(E_WRONG_PUBKEY_SIZE), $c));
+  }
+  if (!((Vector.length_(bytes, $c, [AtomicTypeTag.U8])).mod($.copy(INDIVIDUAL_PUBLIC_KEY_NUM_BYTES))).eq(($.copy(THRESHOLD_SIZE_BYTES)))) {
     throw $.abortCode(Error.invalid_argument_($.copy(E_WRONG_PUBKEY_SIZE), $c));
   }
   return new UnvalidatedPublicKey({ bytes: $.copy(bytes) }, new SimpleStructTag(UnvalidatedPublicKey));
@@ -186,14 +147,20 @@ export function new_validated_public_key_from_bytes_ (
   bytes: U8[],
   $c: AptosDataCache,
 ): Option.Option {
-  let temp$1;
-  if (public_key_validate_internal_($.copy(bytes), $c)) {
-    temp$1 = Option.some_(new ValidatedPublicKey({ bytes: $.copy(bytes) }, new SimpleStructTag(ValidatedPublicKey)), $c, [new SimpleStructTag(ValidatedPublicKey)]);
+  let temp$1, temp$2;
+  if (((Vector.length_(bytes, $c, [AtomicTypeTag.U8])).mod($.copy(INDIVIDUAL_PUBLIC_KEY_NUM_BYTES))).eq(($.copy(THRESHOLD_SIZE_BYTES)))) {
+    temp$1 = public_key_validate_internal_($.copy(bytes), $c);
   }
   else{
-    temp$1 = Option.none_($c, [new SimpleStructTag(ValidatedPublicKey)]);
+    temp$1 = false;
   }
-  return temp$1;
+  if (temp$1) {
+    temp$2 = Option.some_(new ValidatedPublicKey({ bytes: $.copy(bytes) }, new SimpleStructTag(ValidatedPublicKey)), $c, [new SimpleStructTag(ValidatedPublicKey)]);
+  }
+  else{
+    temp$2 = Option.none_($c, [new SimpleStructTag(ValidatedPublicKey)]);
+  }
+  return temp$2;
 }
 
 export function public_key_bytes_to_authentication_key_ (
@@ -229,7 +196,7 @@ export function public_key_validate_internal_ (
   bytes: U8[],
   $c: AptosDataCache,
 ): boolean {
-  return $.aptos_std_ed25519_public_key_validate_internal(bytes, $c);
+  return $.aptos_std_multi_ed25519_public_key_validate_internal(bytes, $c);
 
 }
 export function signature_to_bytes_ (
@@ -240,33 +207,33 @@ export function signature_to_bytes_ (
 }
 
 export function signature_verify_strict_ (
-  signature: Signature,
+  multisignature: Signature,
   public_key: UnvalidatedPublicKey,
   message: U8[],
   $c: AptosDataCache,
 ): boolean {
-  return signature_verify_strict_internal_($.copy(signature.bytes), $.copy(public_key.bytes), $.copy(message), $c);
+  return signature_verify_strict_internal_($.copy(multisignature.bytes), $.copy(public_key.bytes), $.copy(message), $c);
 }
 
 export function signature_verify_strict_internal_ (
-  signature: U8[],
+  multisignature: U8[],
   public_key: U8[],
   message: U8[],
   $c: AptosDataCache,
 ): boolean {
-  return $.aptos_std_ed25519_signature_verify_strict_internal(signature, public_key, message, $c);
+  return $.aptos_std_multi_ed25519_signature_verify_strict_internal(multisignature, public_key, message, $c);
 
 }
 export function signature_verify_strict_t_ (
-  signature: Signature,
+  multisignature: Signature,
   public_key: UnvalidatedPublicKey,
   data: any,
   $c: AptosDataCache,
   $p: TypeTag[], /* <T>*/
 ): boolean {
   let encoded;
-  encoded = new SignedMessage({ type_info: Type_info.type_of_($c, [$p[0]]), inner: data }, new SimpleStructTag(SignedMessage, [$p[0]]));
-  return signature_verify_strict_internal_($.copy(signature.bytes), $.copy(public_key.bytes), Bcs.to_bytes_(encoded, $c, [new SimpleStructTag(SignedMessage, [$p[0]])]), $c);
+  encoded = Ed25519.new_signed_message_(data, $c, [$p[0]]);
+  return signature_verify_strict_internal_($.copy(multisignature.bytes), $.copy(public_key.bytes), Bcs.to_bytes_(encoded, $c, [new StructTag(new HexString("0x1"), "ed25519", "SignedMessage", [$p[0]])]), $c);
 }
 
 export function unvalidated_public_key_to_authentication_key_ (
@@ -298,10 +265,9 @@ export function validated_public_key_to_bytes_ (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0x1::ed25519::Signature", Signature.SignatureParser);
-  repo.addParser("0x1::ed25519::SignedMessage", SignedMessage.SignedMessageParser);
-  repo.addParser("0x1::ed25519::UnvalidatedPublicKey", UnvalidatedPublicKey.UnvalidatedPublicKeyParser);
-  repo.addParser("0x1::ed25519::ValidatedPublicKey", ValidatedPublicKey.ValidatedPublicKeyParser);
+  repo.addParser("0x1::multi_ed25519::Signature", Signature.SignatureParser);
+  repo.addParser("0x1::multi_ed25519::UnvalidatedPublicKey", UnvalidatedPublicKey.UnvalidatedPublicKeyParser);
+  repo.addParser("0x1::multi_ed25519::ValidatedPublicKey", ValidatedPublicKey.ValidatedPublicKeyParser);
 }
 export class App {
   constructor(
@@ -313,7 +279,6 @@ export class App {
   get moduleAddress() {{ return moduleAddress; }}
   get moduleName() {{ return moduleName; }}
   get Signature() { return Signature; }
-  get SignedMessage() { return SignedMessage; }
   get UnvalidatedPublicKey() { return UnvalidatedPublicKey; }
   get ValidatedPublicKey() { return ValidatedPublicKey; }
 }

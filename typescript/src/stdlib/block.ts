@@ -175,7 +175,6 @@ export function block_prologue_ (
   $c: AptosDataCache,
 ): void {
   let temp$1, block_metadata_ref, new_block_event, proposer_index;
-  Timestamp.assert_operating_($c);
   System_addresses.assert_vm_(vm, $c);
   if ((($.copy(proposer)).hex() === (new HexString("0x0")).hex())) {
     temp$1 = true;

@@ -6,7 +6,6 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as System_addresses from "./system_addresses";
-import * as Timestamp from "./timestamp";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "chain_id";
@@ -56,7 +55,6 @@ export class ChainId
 export function get_ (
   $c: AptosDataCache,
 ): U8 {
-  Timestamp.assert_operating_($c);
   return $.copy($c.borrow_global<ChainId>(new SimpleStructTag(ChainId), new HexString("0x1")).id);
 }
 

@@ -11,6 +11,7 @@ import * as Aptos_coin from "./aptos_coin";
 import * as Aptos_governance from "./aptos_governance";
 import * as Block from "./block";
 import * as Chain_id from "./chain_id";
+import * as Chain_status from "./chain_status";
 import * as Coin from "./coin";
 import * as Consensus_config from "./consensus_config";
 import * as Gas_schedule from "./gas_schedule";
@@ -146,7 +147,7 @@ export function initialize_ (
   Account.initialize_(aptos_framework_account, $c);
   Transaction_validation.initialize_(aptos_framework_account, [u8("115"), u8("99"), u8("114"), u8("105"), u8("112"), u8("116"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("109"), u8("111"), u8("100"), u8("117"), u8("108"), u8("101"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("109"), u8("117"), u8("108"), u8("116"), u8("105"), u8("95"), u8("97"), u8("103"), u8("101"), u8("110"), u8("116"), u8("95"), u8("115"), u8("99"), u8("114"), u8("105"), u8("112"), u8("116"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("101"), u8("112"), u8("105"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], $c);
   Aptos_governance.store_signer_cap_(aptos_framework_account, new HexString("0x1"), aptos_framework_signer_cap, $c);
-  framework_reserved_addresses = [new HexString("0x2"), new HexString("0x3"), new HexString("0x4"), new HexString("0x5"), new HexString("0x6"), new HexString("0x7"), new HexString("0x8"), new HexString("0x9"), new HexString("0x10")];
+  framework_reserved_addresses = [new HexString("0x2"), new HexString("0x3"), new HexString("0x4"), new HexString("0x5"), new HexString("0x6"), new HexString("0x7"), new HexString("0x8"), new HexString("0x9"), new HexString("0xa")];
   i = u64("0");
   while (!Vector.is_empty_(framework_reserved_addresses, $c, [AtomicTypeTag.Address])) {
     {
@@ -192,6 +193,14 @@ export function initialize_core_resources_and_aptos_coin_ (
   Account.rotate_authentication_key_internal_(core_resources, $.copy(core_resources_auth_key), $c);
   mint_cap = initialize_aptos_coin_(aptos_framework, $c);
   Aptos_coin.configure_accounts_for_test_(aptos_framework, core_resources, $.copy(mint_cap), $c);
+  return;
+}
+
+export function set_genesis_end_ (
+  aptos_framework: HexString,
+  $c: AptosDataCache,
+): void {
+  Chain_status.set_genesis_end_(aptos_framework, $c);
   return;
 }
 

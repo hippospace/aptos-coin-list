@@ -12,9 +12,9 @@ import * as String from "./string";
 import * as Type_info from "./type_info";
 export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
-export const moduleName = "any";
+export const moduleName = "copyable_any";
 
-export const ETYPE_MISMATCH : U64 = u64("1");
+export const ETYPE_MISMATCH : U64 = u64("0");
 
 
 export class Any 
@@ -79,7 +79,7 @@ export function unpack_ (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0x1::any::Any", Any.AnyParser);
+  repo.addParser("0x1::copyable_any::Any", Any.AnyParser);
 }
 export class App {
   constructor(

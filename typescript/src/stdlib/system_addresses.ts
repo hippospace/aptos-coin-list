@@ -101,7 +101,7 @@ export function assert_framework_reserved_address_ (
     temp$9 = true;
   }
   else{
-    temp$9 = (($.copy(addr)).hex() === (new HexString("0x10")).hex());
+    temp$9 = (($.copy(addr)).hex() === (new HexString("0xa")).hex());
   }
   if (!temp$9) {
     throw $.abortCode(Error.permission_denied_($.copy(ENOT_FRAMEWORK_RESERVED_ADDRESS), $c));

@@ -1015,6 +1015,14 @@ export function deposit_owner_cap_ (
   return;
 }
 
+export function destroy_owner_cap_ (
+  owner_cap: OwnerCapability,
+  $c: AptosDataCache,
+): void {
+  owner_cap;
+  return;
+}
+
 export function distribute_rewards_ (
   stake: Coin.Coin,
   num_successful_proposals: U64,
@@ -1499,7 +1507,7 @@ export function leave_validator_set_ (
   pool_address: HexString,
   $c: AptosDataCache,
 ): void {
-  let config, index, maybe_index, stake_pool, validator_info, validator_set;
+  let config, maybe_active_index, maybe_pending_active_index, stake_pool, validator_info, validator_set, validator_stake;
   config = Staking_config.get_($c);
   if (!Staking_config.get_allow_validator_set_change_(config, $c)) {
     throw $.abortCode(Error.invalid_argument_($.copy(ENO_POST_GENESIS_VALIDATOR_SET_CHANGE_ALLOWED), $c));
@@ -1510,17 +1518,29 @@ export function leave_validator_set_ (
     throw $.abortCode(Error.invalid_argument_($.copy(ENOT_OPERATOR), $c));
   }
   validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
-  maybe_index = find_validator_(validator_set.active_validators, $.copy(pool_address), $c);
-  if (!Option.is_some_(maybe_index, $c, [AtomicTypeTag.U64])) {
-    throw $.abortCode(Error.invalid_argument_($.copy(ENOT_VALIDATOR), $c));
+  maybe_pending_active_index = find_validator_(validator_set.pending_active, $.copy(pool_address), $c);
+  if (Option.is_some_(maybe_pending_active_index, $c, [AtomicTypeTag.U64])) {
+    Vector.swap_remove_(validator_set.pending_active, Option.extract_(maybe_pending_active_index, $c, [AtomicTypeTag.U64]), $c, [new SimpleStructTag(ValidatorInfo)]);
+    validator_stake = u128(get_next_epoch_voting_power_(stake_pool, $c));
+    if (($.copy(validator_set.total_joining_power)).gt($.copy(validator_stake))) {
+      validator_set.total_joining_power = ($.copy(validator_set.total_joining_power)).sub($.copy(validator_stake));
+    }
+    else{
+      validator_set.total_joining_power = u128("0");
+    }
   }
-  index = Option.extract_(maybe_index, $c, [AtomicTypeTag.U64]);
-  validator_info = Vector.swap_remove_(validator_set.active_validators, $.copy(index), $c, [new SimpleStructTag(ValidatorInfo)]);
-  if (!(Vector.length_(validator_set.active_validators, $c, [new SimpleStructTag(ValidatorInfo)])).gt(u64("0"))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(ELAST_VALIDATOR), $c));
+  else{
+    maybe_active_index = find_validator_(validator_set.active_validators, $.copy(pool_address), $c);
+    if (!Option.is_some_(maybe_active_index, $c, [AtomicTypeTag.U64])) {
+      throw $.abortCode(Error.invalid_argument_($.copy(ENOT_VALIDATOR), $c));
+    }
+    validator_info = Vector.swap_remove_(validator_set.active_validators, Option.extract_(maybe_active_index, $c, [AtomicTypeTag.U64]), $c, [new SimpleStructTag(ValidatorInfo)]);
+    if (!(Vector.length_(validator_set.active_validators, $c, [new SimpleStructTag(ValidatorInfo)])).gt(u64("0"))) {
+      throw $.abortCode(Error.invalid_argument_($.copy(ELAST_VALIDATOR), $c));
+    }
+    Vector.push_back_(validator_set.pending_inactive, $.copy(validator_info), $c, [new SimpleStructTag(ValidatorInfo)]);
+    Event.emit_event_(stake_pool.leave_validator_set_events, new LeaveValidatorSetEvent({ pool_address: $.copy(pool_address) }, new SimpleStructTag(LeaveValidatorSetEvent)), $c, [new SimpleStructTag(LeaveValidatorSetEvent)]);
   }
-  Vector.push_back_(validator_set.pending_inactive, $.copy(validator_info), $c, [new SimpleStructTag(ValidatorInfo)]);
-  Event.emit_event_(stake_pool.leave_validator_set_events, new LeaveValidatorSetEvent({ pool_address: $.copy(pool_address) }, new SimpleStructTag(LeaveValidatorSetEvent)), $c, [new SimpleStructTag(LeaveValidatorSetEvent)]);
   return;
 }
 

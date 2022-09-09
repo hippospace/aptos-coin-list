@@ -6,6 +6,7 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount} from "aptos";
 import * as Account from "./account";
+import * as Chain_status from "./chain_status";
 import * as Error from "./error";
 import * as Event from "./event";
 import * as Signer from "./signer";
@@ -218,7 +219,7 @@ export function reconfigure_ (
   $c: AptosDataCache,
 ): void {
   let temp$1, temp$2, config_ref, current_time;
-  if (Timestamp.is_genesis_($c)) {
+  if (Chain_status.is_genesis_($c)) {
     temp$1 = true;
   }
   else{

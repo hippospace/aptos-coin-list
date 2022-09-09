@@ -16,18 +16,20 @@ import * as Bit_vector from './bit_vector';
 import * as Block from './block';
 import * as Bls12381 from './bls12381';
 import * as Bucket_table from './bucket_table';
-import * as Byte_conversions from './byte_conversions';
 import * as Capability from './capability';
 import * as Chain_id from './chain_id';
+import * as Chain_status from './chain_status';
 import * as Code from './code';
 import * as Coin from './coin';
 import * as Comparator from './comparator';
 import * as Consensus_config from './consensus_config';
+import * as Copyable_any from './copyable_any';
 import * as Debug from './debug';
 import * as Ed25519 from './ed25519';
 import * as Error from './error';
 import * as Event from './event';
 import * as Fixed_point32 from './fixed_point32';
+import * as From_bcs from './from_bcs';
 import * as Gas_schedule from './gas_schedule';
 import * as Genesis from './genesis';
 import * as Governance_proposal from './governance_proposal';
@@ -35,8 +37,10 @@ import * as Guid from './guid';
 import * as Hash from './hash';
 import * as Iterable_table from './iterable_table';
 import * as Managed_coin from './managed_coin';
+import * as Multi_ed25519 from './multi_ed25519';
 import * as Option from './option';
 import * as Optional_aggregator from './optional_aggregator';
+import * as Pool_u64 from './pool_u64';
 import * as Reconfiguration from './reconfiguration';
 import * as Resource_account from './resource_account';
 import * as Ristretto255 from './ristretto255';
@@ -74,18 +78,20 @@ export * as Bit_vector from './bit_vector';
 export * as Block from './block';
 export * as Bls12381 from './bls12381';
 export * as Bucket_table from './bucket_table';
-export * as Byte_conversions from './byte_conversions';
 export * as Capability from './capability';
 export * as Chain_id from './chain_id';
+export * as Chain_status from './chain_status';
 export * as Code from './code';
 export * as Coin from './coin';
 export * as Comparator from './comparator';
 export * as Consensus_config from './consensus_config';
+export * as Copyable_any from './copyable_any';
 export * as Debug from './debug';
 export * as Ed25519 from './ed25519';
 export * as Error from './error';
 export * as Event from './event';
 export * as Fixed_point32 from './fixed_point32';
+export * as From_bcs from './from_bcs';
 export * as Gas_schedule from './gas_schedule';
 export * as Genesis from './genesis';
 export * as Governance_proposal from './governance_proposal';
@@ -93,8 +99,10 @@ export * as Guid from './guid';
 export * as Hash from './hash';
 export * as Iterable_table from './iterable_table';
 export * as Managed_coin from './managed_coin';
+export * as Multi_ed25519 from './multi_ed25519';
 export * as Option from './option';
 export * as Optional_aggregator from './optional_aggregator';
+export * as Pool_u64 from './pool_u64';
 export * as Reconfiguration from './reconfiguration';
 export * as Resource_account from './resource_account';
 export * as Ristretto255 from './ristretto255';
@@ -134,18 +142,20 @@ export function loadParsers(repo: AptosParserRepo) {
   Block.loadParsers(repo);
   Bls12381.loadParsers(repo);
   Bucket_table.loadParsers(repo);
-  Byte_conversions.loadParsers(repo);
   Capability.loadParsers(repo);
   Chain_id.loadParsers(repo);
+  Chain_status.loadParsers(repo);
   Code.loadParsers(repo);
   Coin.loadParsers(repo);
   Comparator.loadParsers(repo);
   Consensus_config.loadParsers(repo);
+  Copyable_any.loadParsers(repo);
   Debug.loadParsers(repo);
   Ed25519.loadParsers(repo);
   Error.loadParsers(repo);
   Event.loadParsers(repo);
   Fixed_point32.loadParsers(repo);
+  From_bcs.loadParsers(repo);
   Gas_schedule.loadParsers(repo);
   Genesis.loadParsers(repo);
   Governance_proposal.loadParsers(repo);
@@ -153,8 +163,10 @@ export function loadParsers(repo: AptosParserRepo) {
   Hash.loadParsers(repo);
   Iterable_table.loadParsers(repo);
   Managed_coin.loadParsers(repo);
+  Multi_ed25519.loadParsers(repo);
   Option.loadParsers(repo);
   Optional_aggregator.loadParsers(repo);
+  Pool_u64.loadParsers(repo);
   Reconfiguration.loadParsers(repo);
   Resource_account.loadParsers(repo);
   Ristretto255.loadParsers(repo);
@@ -207,18 +219,20 @@ export class App {
   block : Block.App
   bls12381 : Bls12381.App
   bucket_table : Bucket_table.App
-  byte_conversions : Byte_conversions.App
   capability : Capability.App
   chain_id : Chain_id.App
+  chain_status : Chain_status.App
   code : Code.App
   coin : Coin.App
   comparator : Comparator.App
   consensus_config : Consensus_config.App
+  copyable_any : Copyable_any.App
   debug : Debug.App
   ed25519 : Ed25519.App
   error : Error.App
   event : Event.App
   fixed_point32 : Fixed_point32.App
+  from_bcs : From_bcs.App
   gas_schedule : Gas_schedule.App
   genesis : Genesis.App
   governance_proposal : Governance_proposal.App
@@ -226,8 +240,10 @@ export class App {
   hash : Hash.App
   iterable_table : Iterable_table.App
   managed_coin : Managed_coin.App
+  multi_ed25519 : Multi_ed25519.App
   option : Option.App
   optional_aggregator : Optional_aggregator.App
+  pool_u64 : Pool_u64.App
   reconfiguration : Reconfiguration.App
   resource_account : Resource_account.App
   ristretto255 : Ristretto255.App
@@ -269,18 +285,20 @@ export class App {
     this.block = new Block.App(client, repo, cache);
     this.bls12381 = new Bls12381.App(client, repo, cache);
     this.bucket_table = new Bucket_table.App(client, repo, cache);
-    this.byte_conversions = new Byte_conversions.App(client, repo, cache);
     this.capability = new Capability.App(client, repo, cache);
     this.chain_id = new Chain_id.App(client, repo, cache);
+    this.chain_status = new Chain_status.App(client, repo, cache);
     this.code = new Code.App(client, repo, cache);
     this.coin = new Coin.App(client, repo, cache);
     this.comparator = new Comparator.App(client, repo, cache);
     this.consensus_config = new Consensus_config.App(client, repo, cache);
+    this.copyable_any = new Copyable_any.App(client, repo, cache);
     this.debug = new Debug.App(client, repo, cache);
     this.ed25519 = new Ed25519.App(client, repo, cache);
     this.error = new Error.App(client, repo, cache);
     this.event = new Event.App(client, repo, cache);
     this.fixed_point32 = new Fixed_point32.App(client, repo, cache);
+    this.from_bcs = new From_bcs.App(client, repo, cache);
     this.gas_schedule = new Gas_schedule.App(client, repo, cache);
     this.genesis = new Genesis.App(client, repo, cache);
     this.governance_proposal = new Governance_proposal.App(client, repo, cache);
@@ -288,8 +306,10 @@ export class App {
     this.hash = new Hash.App(client, repo, cache);
     this.iterable_table = new Iterable_table.App(client, repo, cache);
     this.managed_coin = new Managed_coin.App(client, repo, cache);
+    this.multi_ed25519 = new Multi_ed25519.App(client, repo, cache);
     this.option = new Option.App(client, repo, cache);
     this.optional_aggregator = new Optional_aggregator.App(client, repo, cache);
+    this.pool_u64 = new Pool_u64.App(client, repo, cache);
     this.reconfiguration = new Reconfiguration.App(client, repo, cache);
     this.resource_account = new Resource_account.App(client, repo, cache);
     this.ristretto255 = new Ristretto255.App(client, repo, cache);
