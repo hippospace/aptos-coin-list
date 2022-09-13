@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Code from "./code";
 import * as Coin from "./coin";
@@ -78,7 +78,8 @@ export function buildPayload_create_resource_account (
   seed: U8[],
   optional_auth_key: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -114,7 +115,8 @@ export function buildPayload_create_resource_account_and_fund (
   optional_auth_key: U8[],
   fund_amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -150,7 +152,8 @@ export function buildPayload_create_resource_account_and_publish_package (
   metadata_serialized: U8[],
   code: U8[][],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -246,7 +249,8 @@ export class App {
     seed: U8[],
     optional_auth_key: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_create_resource_account(seed, optional_auth_key, isJSON);
   }
   async create_resource_account(
@@ -264,7 +268,8 @@ export class App {
     optional_auth_key: U8[],
     fund_amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, isJSON);
   }
   async create_resource_account_and_fund(
@@ -283,7 +288,8 @@ export class App {
     metadata_serialized: U8[],
     code: U8[][],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, isJSON);
   }
   async create_resource_account_and_publish_package(

@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Error from "./error";
 import * as Event from "./event";
@@ -716,7 +716,8 @@ export function buildPayload_transfer (
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -762,7 +763,8 @@ export function upgrade_supply_ (
 export function buildPayload_upgrade_supply (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -874,7 +876,8 @@ export class App {
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_transfer(to, amount, $p, isJSON);
   }
   async transfer(
@@ -891,7 +894,8 @@ export class App {
   payload_upgrade_supply(
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_upgrade_supply($p, isJSON);
   }
   async upgrade_supply(

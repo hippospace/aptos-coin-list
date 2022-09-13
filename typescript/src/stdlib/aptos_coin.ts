@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Coin from "./coin";
 import * as Error from "./error";
 import * as Option from "./option";
@@ -194,7 +194,8 @@ export function claim_mint_capability_ (
 
 export function buildPayload_claim_mint_capability (
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -249,7 +250,8 @@ export function delegate_mint_capability_ (
 export function buildPayload_delegate_mint_capability (
   to: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -331,7 +333,8 @@ export function buildPayload_mint (
   dst_addr: HexString,
   amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -397,7 +400,8 @@ export class App {
   }
   payload_claim_mint_capability(
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_claim_mint_capability(isJSON);
   }
   async claim_mint_capability(
@@ -411,7 +415,8 @@ export class App {
   payload_delegate_mint_capability(
     to: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_delegate_mint_capability(to, isJSON);
   }
   async delegate_mint_capability(
@@ -427,7 +432,8 @@ export class App {
     dst_addr: HexString,
     amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_mint(dst_addr, amount, isJSON);
   }
   async mint(

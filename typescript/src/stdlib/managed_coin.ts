@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Coin from "./coin";
 import * as Error from "./error";
 import * as Signer from "./signer";
@@ -87,7 +87,8 @@ export function buildPayload_burn (
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -124,7 +125,8 @@ export function buildPayload_initialize (
   monitor_supply: boolean,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -165,7 +167,8 @@ export function buildPayload_mint (
   amount: U64,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -193,7 +196,8 @@ export function register_ (
 export function buildPayload_register (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -233,7 +237,8 @@ export class App {
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_burn(amount, $p, isJSON);
   }
   async burn(
@@ -253,7 +258,8 @@ export class App {
     monitor_supply: boolean,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_initialize(name, symbol, decimals, monitor_supply, $p, isJSON);
   }
   async initialize(
@@ -274,7 +280,8 @@ export class App {
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_mint(dst_addr, amount, $p, isJSON);
   }
   async mint(
@@ -291,7 +298,8 @@ export class App {
   payload_register(
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_register($p, isJSON);
   }
   async register(

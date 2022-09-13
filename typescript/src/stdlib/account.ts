@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Bcs from "./bcs";
 import * as Ed25519 from "./ed25519";
 import * as Error from "./error";
@@ -720,7 +720,8 @@ export function buildPayload_offer_rotation_capability_ed25519 (
   account_public_key_bytes: U8[],
   recipient_address: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -800,7 +801,8 @@ export function buildPayload_offer_signer_capability (
   account_public_key_bytes: U8[],
   recipient_address: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -893,7 +895,8 @@ export function buildPayload_rotate_authentication_key (
   cap_rotate_key: U8[],
   cap_update_table: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -931,7 +934,8 @@ export function buildPayload_rotate_authentication_key_ed25519 (
   curr_pk_bytes: U8[],
   new_pk_bytes: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1055,7 +1059,8 @@ export class App {
     account_public_key_bytes: U8[],
     recipient_address: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address, isJSON);
   }
   async offer_rotation_capability_ed25519(
@@ -1075,7 +1080,8 @@ export class App {
     account_public_key_bytes: U8[],
     recipient_address: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, isJSON);
   }
   async offer_signer_capability(
@@ -1098,7 +1104,8 @@ export class App {
     cap_rotate_key: U8[],
     cap_update_table: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, isJSON);
   }
   async rotate_authentication_key(
@@ -1121,7 +1128,8 @@ export class App {
     curr_pk_bytes: U8[],
     new_pk_bytes: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes, isJSON);
   }
   async rotate_authentication_key_ed25519(

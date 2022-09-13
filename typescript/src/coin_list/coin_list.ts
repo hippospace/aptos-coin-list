@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Stdlib from "../stdlib";
 export const packageName = "CoinList";
 export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
@@ -255,7 +255,8 @@ export function buildPayload_add_extension (
   value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -296,7 +297,8 @@ export function add_to_list_ (
 export function buildPayload_add_to_list (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -363,7 +365,8 @@ export function buildPayload_add_to_registry_by_admin (
   is_update: boolean,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -440,7 +443,8 @@ export function buildPayload_add_to_registry_by_signer (
   is_update: boolean,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -470,7 +474,8 @@ export function create_list_ (
 
 export function buildPayload_create_list (
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -507,7 +512,8 @@ export function buildPayload_drop_extension (
   value: Stdlib.String.String,
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -533,7 +539,8 @@ export function fetch_all_registered_coin_info_ (
 
 export function buildPayload_fetch_all_registered_coin_info (
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -578,7 +585,8 @@ export function fetch_full_list_ (
 export function buildPayload_fetch_full_list (
   list_owner_addr: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -678,7 +686,8 @@ export function initialize_ (
 
 export function buildPayload_initialize (
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -739,7 +748,8 @@ export function remove_from_list_ (
 export function buildPayload_remove_from_list (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -808,7 +818,8 @@ export class App {
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_add_extension(key, value, $p, isJSON);
   }
   async add_extension(
@@ -825,7 +836,8 @@ export class App {
   payload_add_to_list(
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_add_to_list($p, isJSON);
   }
   async add_to_list(
@@ -846,7 +858,8 @@ export class App {
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_add_to_registry_by_admin(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
   }
   async add_to_registry_by_admin(
@@ -873,7 +886,8 @@ export class App {
     is_update: boolean,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
   }
   async add_to_registry_by_signer(
@@ -893,7 +907,8 @@ export class App {
   }
   payload_create_list(
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_create_list(isJSON);
   }
   async create_list(
@@ -909,7 +924,8 @@ export class App {
     value: Stdlib.String.String,
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_drop_extension(key, value, $p, isJSON);
   }
   async drop_extension(
@@ -925,7 +941,8 @@ export class App {
   }
   payload_fetch_all_registered_coin_info(
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_fetch_all_registered_coin_info(isJSON);
   }
   async fetch_all_registered_coin_info(
@@ -940,7 +957,8 @@ export class App {
   payload_fetch_full_list(
     list_owner_addr: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_fetch_full_list(list_owner_addr, isJSON);
   }
   async fetch_full_list(
@@ -955,7 +973,8 @@ export class App {
   get query_fetch_full_list() { return make_query_fetch_full_list(this); }
   payload_initialize(
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_initialize(isJSON);
   }
   async initialize(
@@ -969,7 +988,8 @@ export class App {
   payload_remove_from_list(
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_remove_from_list($p, isJSON);
   }
   async remove_from_list(

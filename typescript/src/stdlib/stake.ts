@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Bls12381 from "./bls12381";
 import * as Coin from "./coin";
@@ -905,7 +905,8 @@ export function add_stake_ (
 export function buildPayload_add_stake (
   amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1241,7 +1242,8 @@ export function increase_lockup_ (
 
 export function buildPayload_increase_lockup (
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1355,7 +1357,8 @@ export function buildPayload_initialize_stake_owner (
   operator: HexString,
   voter: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1398,7 +1401,8 @@ export function buildPayload_initialize_validator (
   network_addresses: U8[],
   fullnode_addresses: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1448,7 +1452,8 @@ export function join_validator_set_ (
 export function buildPayload_join_validator_set (
   pool_address: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1548,7 +1553,8 @@ export function leave_validator_set_ (
 export function buildPayload_leave_validator_set (
   pool_address: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1647,7 +1653,8 @@ export function reactivate_stake_ (
 export function buildPayload_reactivate_stake (
   amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1714,7 +1721,8 @@ export function buildPayload_rotate_consensus_key (
   new_consensus_pubkey: U8[],
   proof_of_possession: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1746,7 +1754,8 @@ export function set_delegated_voter_ (
 export function buildPayload_set_delegated_voter (
   new_delegated_voter: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1787,7 +1796,8 @@ export function set_operator_ (
 export function buildPayload_set_operator (
   new_operator: HexString,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1840,7 +1850,8 @@ export function unlock_ (
 export function buildPayload_unlock (
   amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -1905,7 +1916,8 @@ export function buildPayload_update_network_and_fullnode_addresses (
   new_network_addresses: U8[],
   new_fullnode_addresses: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -2019,7 +2031,8 @@ export function withdraw_ (
 export function buildPayload_withdraw (
   withdraw_amount: U64,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -2181,7 +2194,8 @@ export class App {
   payload_add_stake(
     amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_add_stake(amount, isJSON);
   }
   async add_stake(
@@ -2195,7 +2209,8 @@ export class App {
   }
   payload_increase_lockup(
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_increase_lockup(isJSON);
   }
   async increase_lockup(
@@ -2211,7 +2226,8 @@ export class App {
     operator: HexString,
     voter: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_initialize_stake_owner(initial_stake_amount, operator, voter, isJSON);
   }
   async initialize_stake_owner(
@@ -2231,7 +2247,8 @@ export class App {
     network_addresses: U8[],
     fullnode_addresses: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_initialize_validator(consensus_pubkey, proof_of_possession, network_addresses, fullnode_addresses, isJSON);
   }
   async initialize_validator(
@@ -2249,7 +2266,8 @@ export class App {
   payload_join_validator_set(
     pool_address: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_join_validator_set(pool_address, isJSON);
   }
   async join_validator_set(
@@ -2264,7 +2282,8 @@ export class App {
   payload_leave_validator_set(
     pool_address: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_leave_validator_set(pool_address, isJSON);
   }
   async leave_validator_set(
@@ -2279,7 +2298,8 @@ export class App {
   payload_reactivate_stake(
     amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_reactivate_stake(amount, isJSON);
   }
   async reactivate_stake(
@@ -2296,7 +2316,8 @@ export class App {
     new_consensus_pubkey: U8[],
     proof_of_possession: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_rotate_consensus_key(pool_address, new_consensus_pubkey, proof_of_possession, isJSON);
   }
   async rotate_consensus_key(
@@ -2313,7 +2334,8 @@ export class App {
   payload_set_delegated_voter(
     new_delegated_voter: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_set_delegated_voter(new_delegated_voter, isJSON);
   }
   async set_delegated_voter(
@@ -2328,7 +2350,8 @@ export class App {
   payload_set_operator(
     new_operator: HexString,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_set_operator(new_operator, isJSON);
   }
   async set_operator(
@@ -2343,7 +2366,8 @@ export class App {
   payload_unlock(
     amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_unlock(amount, isJSON);
   }
   async unlock(
@@ -2360,7 +2384,8 @@ export class App {
     new_network_addresses: U8[],
     new_fullnode_addresses: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_update_network_and_fullnode_addresses(pool_address, new_network_addresses, new_fullnode_addresses, isJSON);
   }
   async update_network_and_fullnode_addresses(
@@ -2377,7 +2402,8 @@ export class App {
   payload_withdraw(
     withdraw_amount: U64,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_withdraw(withdraw_amount, isJSON);
   }
   async withdraw(

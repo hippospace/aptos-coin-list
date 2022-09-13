@@ -4,7 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
-import {HexString, AptosClient, AptosAccount} from "aptos";
+import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Coin from "./coin";
 import * as Error from "./error";
@@ -493,7 +493,8 @@ export function buildPayload_create_proposal (
   metadata_location: U8[],
   metadata_hash: U8[],
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -709,7 +710,8 @@ export function buildPayload_vote (
   proposal_id: U64,
   should_pass: boolean,
   isJSON = false,
-) {
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload{
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -810,7 +812,8 @@ export class App {
     metadata_location: U8[],
     metadata_hash: U8[],
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash, isJSON);
   }
   async create_proposal(
@@ -830,7 +833,8 @@ export class App {
     proposal_id: U64,
     should_pass: boolean,
     isJSON = false,
-  ) {
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload{
     return buildPayload_vote(stake_pool, proposal_id, should_pass, isJSON);
   }
   async vote(
