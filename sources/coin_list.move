@@ -1,6 +1,6 @@
 module coin_list::coin_list {
     use aptos_framework::coin;
-    use aptos_std::iterable_table;
+    use coin_list::iterable_table;
     use aptos_std::simple_map;
     use aptos_std::type_info;
     use std::string::String;
