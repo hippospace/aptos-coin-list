@@ -1,6 +1,6 @@
 
-import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
-import { AptosAccount, AptosClient, HexString, Types } from "aptos";
+import { parseTypeTagOrThrow, u64, print, strToU8, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
+import { AptosAccount, AptosClient, HexString } from "aptos";
 import { Command } from "commander";
 import { getProjectRepo } from "./";
 import * as fs from "fs";

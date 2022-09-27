@@ -1,3 +1,15 @@
+
+# How to add to this coin list
+
+1. fork repo
+2. add `TOKEN_ICON.svg` (no larger than 100x100) to `icons` folder
+3. add `RawCoinInfo` to `typescript/src/requestList.ts`
+4. PR
+
+Rest will be taken care of by a group of authorized maintainers.
+- Manahip (Mana)
+- application welcome!
+
 # token-list
 
 A permissionless, on-chain token list for aptos.
@@ -10,7 +22,7 @@ The primary structs are:
 - `CoinInfo`: contains information about a particular coin, including items such as symbol, logo-url, project-url,
   coingecko-id, and a set of owner-defined extensions in the form of `SimpleMap<String, String>`.
 - `CoinRegistry`: there is a single `CoinRegistry` globally that contains all registered CoinInfo. Only module owner of
-  coin type is allowed to edit its own information in the registry.
+  coin type is allowed to edit its own information in the registry. (admins can also edit)
 - `CoinList`: each user can own a `CoinList`, which contains a subset of keys that the user is interested in.
 
 CoinInfo is maintained exclusively in the CoinRegistry, and each user's CoinList only contains the set of included coin

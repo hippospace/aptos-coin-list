@@ -4,7 +4,8 @@
   "version": "0.0.1",
   "scripts": {
     "build": "rm -rf dist; tsc -p tsconfig.json",
-    "cli": "node dist/cli.js",
+    "cli": "node dist/src/cli.js",
+    "admin-cli": "node dist/adminCli.js",
 
     "test": "jest"
   },
