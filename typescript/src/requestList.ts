@@ -3,10 +3,10 @@ import { RawCoinInfo } from "./list";
 export const REQUESTS: RawCoinInfo[] = [
   {
     "name": "DAI",
-    "symbol": "hipDAI",
+    "symbol": "devDAI",
     "coingecko_id": "dai",
     "decimals": 8,
-    "logo_url": "https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.webp",
     "project_url": "project_url",
     "token_type": {
       "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetDAI",
@@ -20,10 +20,10 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Tether",
-    "symbol": "hipUSDT",
+    "symbol": "devUSDT",
     "coingecko_id": "tether",
     "decimals": 8,
-    "logo_url": "https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1598003707",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDT.webp",
     "project_url": "project_url",
     "token_type": {
       "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDT",
@@ -37,10 +37,10 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "USD Coin",
-    "symbol": "hipUSDC",
+    "symbol": "devUSDC",
     "coingecko_id": "usd-coin",
     "decimals": 8,
-    "logo_url": "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.webp",
     "project_url": "project_url",
     "token_type": {
       "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDC",
@@ -54,10 +54,10 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Bitcoin",
-    "symbol": "hipBTC",
+    "symbol": "devBTC",
     "coingecko_id": "bitcoin",
     "decimals": 8,
-    "logo_url": "https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BTC.webp",
     "project_url": "project_url",
     "token_type": {
       "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBTC",
