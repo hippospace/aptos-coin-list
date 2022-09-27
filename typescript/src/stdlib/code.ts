@@ -6,6 +6,7 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Error from "./error";
+import * as Features from "./features";
 import * as Option from "./option";
 import * as Signer from "./signer";
 import * as String from "./string";
@@ -18,12 +19,49 @@ export const moduleName = "code";
 
 export const EDEP_ARBITRARY_NOT_SAME_ADDRESS : U64 = u64("7");
 export const EDEP_WEAKER_POLICY : U64 = u64("6");
+export const EINCOMPATIBLE_POLICY_DISABLED : U64 = u64("8");
 export const EMODULE_MISSING : U64 = u64("4");
 export const EMODULE_NAME_CLASH : U64 = u64("1");
 export const EPACKAGE_DEP_MISSING : U64 = u64("5");
 export const EUPGRADE_IMMUTABLE : U64 = u64("2");
 export const EUPGRADE_WEAKER_POLICY : U64 = u64("3");
 
+
+export class AllowedDep 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "AllowedDep";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "account", typeTag: AtomicTypeTag.Address },
+  { name: "module_name", typeTag: new StructTag(new HexString("0x1"), "string", "String", []) }];
+
+  account: HexString;
+  module_name: String.String;
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.account = proto['account'] as HexString;
+    this.module_name = proto['module_name'] as String.String;
+  }
+
+  static AllowedDepParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : AllowedDep {
+    const proto = $.parseStructProto(data, typeTag, repo, AllowedDep);
+    return new AllowedDep(proto, typeTag);
+  }
+
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "AllowedDep", []);
+  }
+  async loadFullState(app: $.AppType) {
+    await this.module_name.loadFullState(app);
+    this.__app = app;
+  }
+
+}
 
 export class ModuleMetadata 
 {
@@ -271,8 +309,9 @@ export function check_dependencies_ (
   publish_address: HexString,
   pack: PackageMetadata,
   $c: AptosDataCache,
-): void {
-  let dep, dep_pack, deps, found, i, j, m, n, registry;
+): AllowedDep[] {
+  let account, account__1, allowed_module_deps, dep, dep_pack, deps, found, i, j, k, m, module_name, module_name__2, n, r, registry;
+  allowed_module_deps = Vector.empty_($c, [new SimpleStructTag(AllowedDep)]);
   deps = pack.deps;
   i = u64("0");
   n = Vector.length_(deps, $c, [new SimpleStructTag(PackageDep)]);
@@ -283,6 +322,9 @@ export function check_dependencies_ (
         throw $.abortCode(Error.not_found_($.copy(EPACKAGE_DEP_MISSING), $c));
       }
       if (is_policy_exempted_address_($.copy(dep.account), $c)) {
+        account = $.copy(dep.account);
+        module_name = String.utf8_([], $c);
+        Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account), module_name: $.copy(module_name) }, new SimpleStructTag(AllowedDep)), $c, [new SimpleStructTag(AllowedDep)]);
         i = ($.copy(i)).add(u64("1"));
         continue;
       }
@@ -296,6 +338,7 @@ export function check_dependencies_ (
         {
           dep_pack = Vector.borrow_(registry.packages, $.copy(j), $c, [new SimpleStructTag(PackageMetadata)]);
           if ($.deep_eq($.copy(dep_pack.name), $.copy(dep.package_name))) {
+            found = true;
             if (!($.copy(dep_pack.upgrade_policy.policy)).ge($.copy(pack.upgrade_policy.policy))) {
               throw $.abortCode(Error.invalid_argument_($.copy(EDEP_WEAKER_POLICY), $c));
             }
@@ -306,8 +349,17 @@ export function check_dependencies_ (
             }
             else{
             }
-            found = true;
-            break;
+            k = u64("0");
+            r = Vector.length_(dep_pack.modules, $c, [new SimpleStructTag(ModuleMetadata)]);
+            while (($.copy(k)).lt($.copy(r))) {
+              {
+                account__1 = $.copy(dep.account);
+                module_name__2 = $.copy(Vector.borrow_(dep_pack.modules, $.copy(k), $c, [new SimpleStructTag(ModuleMetadata)]).name);
+                Vector.push_back_(allowed_module_deps, new AllowedDep({ account: $.copy(account__1), module_name: $.copy(module_name__2) }, new SimpleStructTag(AllowedDep)), $c, [new SimpleStructTag(AllowedDep)]);
+                k = ($.copy(k)).add(u64("1"));
+              }
+
+            }break;
           }
           else{
           }
@@ -320,7 +372,7 @@ export function check_dependencies_ (
       i = ($.copy(i)).add(u64("1"));
     }
 
-  }return;
+  }return allowed_module_deps;
 }
 
 export function check_upgradability_ (
@@ -452,14 +504,18 @@ export function publish_package_ (
   code: U8[][],
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, addr, i, index, len, module_names, old, packages, policy, upgrade_number;
+  let temp$1, temp$2, temp$3, addr, allowed_deps, i, index, len, module_names, old, packages, policy, upgrade_number;
+  temp$1 = upgrade_policy_arbitrary_($c);
+  if (!($.copy(pack.upgrade_policy.policy)).gt($.copy(temp$1.policy))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINCOMPATIBLE_POLICY_DISABLED), $c));
+  }
   addr = Signer.address_of_(owner, $c);
   if (!$c.exists(new SimpleStructTag(PackageRegistry), $.copy(addr))) {
     $c.move_to(new SimpleStructTag(PackageRegistry), owner, new PackageRegistry({ packages: Vector.empty_($c, [new SimpleStructTag(PackageMetadata)]) }, new SimpleStructTag(PackageRegistry)));
   }
   else{
   }
-  check_dependencies_($.copy(addr), pack, $c);
+  allowed_deps = check_dependencies_($.copy(addr), pack, $c);
   module_names = get_module_names_(pack, $c);
   packages = $c.borrow_global_mut<PackageRegistry>(new SimpleStructTag(PackageRegistry), $.copy(addr)).packages;
   len = Vector.length_(packages, $c, [new SimpleStructTag(PackageMetadata)]);
@@ -468,8 +524,8 @@ export function publish_package_ (
   upgrade_number = u64("0");
   while (($.copy(i)).lt($.copy(len))) {
     {
-      [temp$1, temp$2] = [packages, $.copy(i)];
-      old = Vector.borrow_(temp$1, temp$2, $c, [new SimpleStructTag(PackageMetadata)]);
+      [temp$2, temp$3] = [packages, $.copy(i)];
+      old = Vector.borrow_(temp$2, temp$3, $c, [new SimpleStructTag(PackageMetadata)]);
       if ($.deep_eq($.copy(old.name), $.copy(pack.name))) {
         upgrade_number = ($.copy(old.upgrade_number)).add(u64("1"));
         check_upgradability_(old, pack, module_names, $c);
@@ -489,7 +545,13 @@ export function publish_package_ (
   else{
     Vector.push_back_(packages, pack, $c, [new SimpleStructTag(PackageMetadata)]);
   }
-  return request_publish_($.copy(addr), $.copy(module_names), $.copy(code), $.copy(policy.policy), $c);
+  if (Features.code_dependency_check_enabled_($c)) {
+    request_publish_with_allowed_deps_($.copy(addr), $.copy(module_names), allowed_deps, $.copy(code), $.copy(policy.policy), $c);
+  }
+  else{
+    request_publish_($.copy(addr), $.copy(module_names), $.copy(code), $.copy(policy.policy), $c);
+  }
+  return;
 }
 
 export function publish_package_txn_ (
@@ -507,7 +569,7 @@ export function buildPayload_publish_package_txn (
   code: U8[][],
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -532,6 +594,17 @@ export function request_publish_ (
   return $.aptos_framework_code_request_publish(owner, expected_modules, bundle, policy, $c);
 
 }
+export function request_publish_with_allowed_deps_ (
+  owner: HexString,
+  expected_modules: String.String[],
+  allowed_deps: AllowedDep[],
+  bundle: U8[][],
+  policy: U8,
+  $c: AptosDataCache,
+): void {
+  return $.aptos_framework_code_request_publish_with_allowed_deps(owner, expected_modules, allowed_deps, bundle, policy, $c);
+
+}
 export function upgrade_policy_arbitrary_ (
   $c: AptosDataCache,
 ): UpgradePolicy {
@@ -551,6 +624,7 @@ export function upgrade_policy_immutable_ (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
+  repo.addParser("0x1::code::AllowedDep", AllowedDep.AllowedDepParser);
   repo.addParser("0x1::code::ModuleMetadata", ModuleMetadata.ModuleMetadataParser);
   repo.addParser("0x1::code::PackageDep", PackageDep.PackageDepParser);
   repo.addParser("0x1::code::PackageMetadata", PackageMetadata.PackageMetadataParser);
@@ -566,6 +640,7 @@ export class App {
   }
   get moduleAddress() {{ return moduleAddress; }}
   get moduleName() {{ return moduleName; }}
+  get AllowedDep() { return AllowedDep; }
   get ModuleMetadata() { return ModuleMetadata; }
   get PackageDep() { return PackageDep; }
   get PackageMetadata() { return PackageMetadata; }
@@ -573,10 +648,14 @@ export class App {
   async loadPackageRegistry(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await PackageRegistry.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -586,7 +665,7 @@ export class App {
     code: U8[][],
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_publish_package_txn(metadata_serialized, code, isJSON);
   }
   async publish_package_txn(

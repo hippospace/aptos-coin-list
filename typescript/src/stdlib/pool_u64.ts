@@ -352,6 +352,32 @@ export function total_shares_ (
   return $.copy(pool.total_shares);
 }
 
+export function transfer_shares_ (
+  pool: Pool,
+  shareholder_1: HexString,
+  shareholder_2: HexString,
+  shares_to_transfer: U64,
+  $c: AptosDataCache,
+): void {
+  let temp$1, temp$2, temp$3, temp$4;
+  [temp$1, temp$2] = [pool, $.copy(shareholder_1)];
+  if (!contains_(temp$1, temp$2, $c)) {
+    throw $.abortCode(Error.invalid_argument_($.copy(ESHAREHOLDER_NOT_FOUND), $c));
+  }
+  [temp$3, temp$4] = [pool, $.copy(shareholder_1)];
+  if (!(shares_(temp$3, temp$4, $c)).ge($.copy(shares_to_transfer))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINSUFFICIENT_SHARES), $c));
+  }
+  if (($.copy(shares_to_transfer)).eq((u64("0")))) {
+    return;
+  }
+  else{
+  }
+  deduct_shares_(pool, $.copy(shareholder_1), $.copy(shares_to_transfer), $c);
+  add_shares_(pool, $.copy(shareholder_2), $.copy(shares_to_transfer), $c);
+  return;
+}
+
 export function update_total_coins_ (
   pool: Pool,
   new_total_coins: U64,

@@ -11,6 +11,7 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "staking_config";
 
+export const EINVALID_REWARDS_RATE : U64 = u64("5");
 export const EINVALID_STAKE_RANGE : U64 = u64("3");
 export const EINVALID_VOTING_POWER_INCREASE_LIMIT : U64 = u64("4");
 export const EZERO_LOCKUP_DURATION : U64 = u64("1");
@@ -248,10 +249,14 @@ export class App {
   async loadStakingConfig(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await StakingConfig.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }

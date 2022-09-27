@@ -28,13 +28,12 @@ export const EACCOUNT_DOES_NOT_EXIST : U64 = u64("2");
 export const ECANNOT_RESERVED_ADDRESS : U64 = u64("5");
 export const ED25519_SCHEME : U8 = u8("0");
 export const EINVALID_ACCEPT_ROTATION_CAPABILITY : U64 = u64("10");
-export const EINVALID_ACCEPT_SIGNER_CAPABILITY : U64 = u64("15");
-export const EINVALID_CAPABILITY_TYPE : U64 = u64("14");
 export const EINVALID_ORIGINATING_ADDRESS : U64 = u64("13");
 export const EINVALID_PROOF_OF_KNOWLEDGE : U64 = u64("8");
 export const EINVALID_SCHEME : U64 = u64("12");
 export const EMALFORMED_AUTHENTICATION_KEY : U64 = u64("4");
 export const ENO_CAPABILITY : U64 = u64("9");
+export const ENO_SUCH_SIGNER_CAPABILITY : U64 = u64("14");
 export const ENO_VALID_FRAMEWORK_RESERVED_ADDRESS : U64 = u64("11");
 export const EOUT_OF_GAS : U64 = u64("6");
 export const ESEQUENCE_NUMBER_TOO_BIG : U64 = u64("3");
@@ -423,25 +422,6 @@ export class SignerCapabilityOfferProofChallenge
   }
 
 }
-export function accept_rotation_capability_ed25519_ (
-  account: HexString,
-  offerer_address: HexString,
-  $c: AptosDataCache,
-): RotationCapability {
-  let account_resource, addr, rotation_capability;
-  if (!exists_at_($.copy(offerer_address), $c)) {
-    throw $.abortCode(Error.not_found_($.copy(EACCOUNT_DOES_NOT_EXIST), $c));
-  }
-  account_resource = $c.borrow_global_mut<Account>(new SimpleStructTag(Account), $.copy(offerer_address));
-  addr = Signer.address_of_(account, $c);
-  if (!Option.contains_(account_resource.rotation_capability_offer.for__, addr, $c, [AtomicTypeTag.Address])) {
-    throw $.abortCode(Error.not_found_($.copy(EINVALID_ACCEPT_ROTATION_CAPABILITY), $c));
-  }
-  rotation_capability = new RotationCapability({ account: $.copy(offerer_address) }, new SimpleStructTag(RotationCapability));
-  Option.extract_(account_resource.rotation_capability_offer.for__, $c, [AtomicTypeTag.Address]);
-  return rotation_capability;
-}
-
 export function create_account_ (
   new_address: HexString,
   $c: AptosDataCache,
@@ -493,7 +473,7 @@ export function create_authorized_signer_ (
   account_resource = $c.borrow_global_mut<Account>(new SimpleStructTag(Account), $.copy(offerer_address));
   addr = Signer.address_of_(account, $c);
   if (!Option.contains_(account_resource.signer_capability_offer.for__, addr, $c, [AtomicTypeTag.Address])) {
-    throw $.abortCode(Error.not_found_($.copy(EINVALID_ACCEPT_SIGNER_CAPABILITY), $c));
+    throw $.abortCode(Error.not_found_($.copy(ENO_SUCH_SIGNER_CAPABILITY), $c));
   }
   return create_signer_($.copy(offerer_address), $c);
 }
@@ -681,62 +661,6 @@ export function new_event_handle_ (
   return Event.new_event_handle_(create_guid_(account, $c), $c, [$p[0]]);
 }
 
-export function offer_rotation_capability_ed25519_ (
-  account: HexString,
-  rotation_capability_sig_bytes: U8[],
-  account_public_key_bytes: U8[],
-  recipient_address: HexString,
-  $c: AptosDataCache,
-): void {
-  let temp$1, account_resource, addr, auth_key, pubkey, rotation_capability_offer_proof_challenge, rotation_capability_sig;
-  addr = Signer.address_of_(account, $c);
-  if (exists_at_($.copy(addr), $c)) {
-    temp$1 = exists_at_($.copy(recipient_address), $c);
-  }
-  else{
-    temp$1 = false;
-  }
-  if (!temp$1) {
-    throw $.abortCode(Error.not_found_($.copy(EACCOUNT_DOES_NOT_EXIST), $c));
-  }
-  pubkey = Ed25519.new_unvalidated_public_key_from_bytes_($.copy(account_public_key_bytes), $c);
-  rotation_capability_sig = Ed25519.new_signature_from_bytes_($.copy(rotation_capability_sig_bytes), $c);
-  account_resource = $c.borrow_global_mut<Account>(new SimpleStructTag(Account), $.copy(addr));
-  auth_key = Ed25519.unvalidated_public_key_to_authentication_key_(pubkey, $c);
-  if (!$.veq($.copy(account_resource.authentication_key), $.copy(auth_key))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EWRONG_CURRENT_PUBLIC_KEY), $c));
-  }
-  rotation_capability_offer_proof_challenge = new RotationCapabilityOfferProofChallenge({ sequence_number: $.copy(account_resource.sequence_number), recipient_address: $.copy(recipient_address) }, new SimpleStructTag(RotationCapabilityOfferProofChallenge));
-  if (!Ed25519.signature_verify_strict_t_(rotation_capability_sig, pubkey, rotation_capability_offer_proof_challenge, $c, [new SimpleStructTag(RotationCapabilityOfferProofChallenge)])) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_PROOF_OF_KNOWLEDGE), $c));
-  }
-  Option.fill_(account_resource.rotation_capability_offer.for__, $.copy(recipient_address), $c, [AtomicTypeTag.Address]);
-  return;
-}
-
-
-export function buildPayload_offer_rotation_capability_ed25519 (
-  rotation_capability_sig_bytes: U8[],
-  account_public_key_bytes: U8[],
-  recipient_address: HexString,
-  isJSON = false,
-): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
-  const typeParamStrings = [] as string[];
-  return $.buildPayload(
-    new HexString("0x1"),
-    "account",
-    "offer_rotation_capability_ed25519",
-    typeParamStrings,
-    [
-      rotation_capability_sig_bytes,
-      account_public_key_bytes,
-      recipient_address,
-    ],
-    isJSON,
-  );
-
-}
 export function offer_signer_capability_ (
   account: HexString,
   signer_capability_sig_bytes: U8[],
@@ -785,12 +709,7 @@ export function offer_signer_capability_ (
       throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_SCHEME), $c));
     }
   }
-  if (Option.is_some_(account_resource.signer_capability_offer.for__, $c, [AtomicTypeTag.Address])) {
-    Option.swap_(account_resource.signer_capability_offer.for__, $.copy(recipient_address), $c, [AtomicTypeTag.Address]);
-  }
-  else{
-    Option.fill_(account_resource.signer_capability_offer.for__, $.copy(recipient_address), $c, [AtomicTypeTag.Address]);
-  }
+  Option.swap_or_fill_(account_resource.signer_capability_offer.for__, $.copy(recipient_address), $c, [AtomicTypeTag.Address]);
   return;
 }
 
@@ -802,7 +721,7 @@ export function buildPayload_offer_signer_capability (
   recipient_address: HexString,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -830,6 +749,49 @@ export function register_coin_ (
   return;
 }
 
+export function revoke_signer_capability_ (
+  account: HexString,
+  to_be_revoked_address: HexString,
+  $c: AptosDataCache,
+): void {
+  let temp$1, account_resource, addr;
+  addr = Signer.address_of_(account, $c);
+  if (exists_at_($.copy(addr), $c)) {
+    temp$1 = exists_at_($.copy(to_be_revoked_address), $c);
+  }
+  else{
+    temp$1 = false;
+  }
+  if (!temp$1) {
+    throw $.abortCode(Error.not_found_($.copy(EACCOUNT_DOES_NOT_EXIST), $c));
+  }
+  account_resource = $c.borrow_global_mut<Account>(new SimpleStructTag(Account), $.copy(addr));
+  if (!Option.contains_(account_resource.signer_capability_offer.for__, to_be_revoked_address, $c, [AtomicTypeTag.Address])) {
+    throw $.abortCode(Error.not_found_($.copy(ENO_SUCH_SIGNER_CAPABILITY), $c));
+  }
+  Option.extract_(account_resource.signer_capability_offer.for__, $c, [AtomicTypeTag.Address]);
+  return;
+}
+
+
+export function buildPayload_revoke_signer_capability (
+  to_be_revoked_address: HexString,
+  isJSON = false,
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload {
+  const typeParamStrings = [] as string[];
+  return $.buildPayload(
+    new HexString("0x1"),
+    "account",
+    "revoke_signer_capability",
+    typeParamStrings,
+    [
+      to_be_revoked_address,
+    ],
+    isJSON,
+  );
+
+}
 export function rotate_authentication_key_ (
   account: HexString,
   from_scheme: U8,
@@ -882,6 +844,7 @@ export function rotate_authentication_key_ (
   }
   Table.add_(address_map, $.copy(new_address), $.copy(addr), $c, [AtomicTypeTag.Address, AtomicTypeTag.Address]);
   account_resource__6 = $c.borrow_global_mut<Account>(new SimpleStructTag(Account), $.copy(addr));
+  Event.emit_event_(account_resource__6.key_rotation_events, new KeyRotationEvent({ old_authentication_key: $.copy(account_resource__6.authentication_key), new_authentication_key: $.copy(new_auth_key) }, new SimpleStructTag(KeyRotationEvent)), $c, [new SimpleStructTag(KeyRotationEvent)]);
   account_resource__6.authentication_key = $.copy(new_auth_key);
   return;
 }
@@ -896,7 +859,7 @@ export function buildPayload_rotate_authentication_key (
   cap_update_table: U8[],
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -910,43 +873,6 @@ export function buildPayload_rotate_authentication_key (
       to_public_key_bytes,
       cap_rotate_key,
       cap_update_table,
-    ],
-    isJSON,
-  );
-
-}
-export function rotate_authentication_key_ed25519_ (
-  account: HexString,
-  curr_sig_bytes: U8[],
-  new_sig_bytes: U8[],
-  curr_pk_bytes: U8[],
-  new_pk_bytes: U8[],
-  $c: AptosDataCache,
-): void {
-  rotate_authentication_key_(account, u8("0"), $.copy(curr_pk_bytes), u8("0"), $.copy(new_pk_bytes), $.copy(curr_sig_bytes), $.copy(new_sig_bytes), $c);
-  return;
-}
-
-
-export function buildPayload_rotate_authentication_key_ed25519 (
-  curr_sig_bytes: U8[],
-  new_sig_bytes: U8[],
-  curr_pk_bytes: U8[],
-  new_pk_bytes: U8[],
-  isJSON = false,
-): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
-  const typeParamStrings = [] as string[];
-  return $.buildPayload(
-    new HexString("0x1"),
-    "account",
-    "rotate_authentication_key_ed25519",
-    typeParamStrings,
-    [
-      curr_sig_bytes,
-      new_sig_bytes,
-      curr_pk_bytes,
-      new_pk_bytes,
     ],
     isJSON,
   );
@@ -1028,10 +954,14 @@ export class App {
   async loadAccount(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await Account.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -1042,10 +972,14 @@ export class App {
   async loadOriginatingAddress(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await OriginatingAddress.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -1054,26 +988,6 @@ export class App {
   get RotationProofChallenge() { return RotationProofChallenge; }
   get SignerCapability() { return SignerCapability; }
   get SignerCapabilityOfferProofChallenge() { return SignerCapabilityOfferProofChallenge; }
-  payload_offer_rotation_capability_ed25519(
-    rotation_capability_sig_bytes: U8[],
-    account_public_key_bytes: U8[],
-    recipient_address: HexString,
-    isJSON = false,
-  ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
-    return buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address, isJSON);
-  }
-  async offer_rotation_capability_ed25519(
-    _account: AptosAccount,
-    rotation_capability_sig_bytes: U8[],
-    account_public_key_bytes: U8[],
-    recipient_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
-  ) {
-    const payload = buildPayload_offer_rotation_capability_ed25519(rotation_capability_sig_bytes, account_public_key_bytes, recipient_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
-  }
   payload_offer_signer_capability(
     signer_capability_sig_bytes: U8[],
     account_scheme: U8,
@@ -1081,7 +995,7 @@ export class App {
     recipient_address: HexString,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, isJSON);
   }
   async offer_signer_capability(
@@ -1096,6 +1010,22 @@ export class App {
     const payload = buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
+  payload_revoke_signer_capability(
+    to_be_revoked_address: HexString,
+    isJSON = false,
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload {
+    return buildPayload_revoke_signer_capability(to_be_revoked_address, isJSON);
+  }
+  async revoke_signer_capability(
+    _account: AptosAccount,
+    to_be_revoked_address: HexString,
+    _maxGas = 1000,
+    _isJSON = false,
+  ) {
+    const payload = buildPayload_revoke_signer_capability(to_be_revoked_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
   payload_rotate_authentication_key(
     from_scheme: U8,
     from_public_key_bytes: U8[],
@@ -1105,7 +1035,7 @@ export class App {
     cap_update_table: U8[],
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, isJSON);
   }
   async rotate_authentication_key(
@@ -1120,28 +1050,6 @@ export class App {
     _isJSON = false,
   ) {
     const payload = buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
-  }
-  payload_rotate_authentication_key_ed25519(
-    curr_sig_bytes: U8[],
-    new_sig_bytes: U8[],
-    curr_pk_bytes: U8[],
-    new_pk_bytes: U8[],
-    isJSON = false,
-  ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
-    return buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes, isJSON);
-  }
-  async rotate_authentication_key_ed25519(
-    _account: AptosAccount,
-    curr_sig_bytes: U8[],
-    new_sig_bytes: U8[],
-    curr_pk_bytes: U8[],
-    new_pk_bytes: U8[],
-    _maxGas = 1000,
-    _isJSON = false,
-  ) {
-    const payload = buildPayload_rotate_authentication_key_ed25519(curr_sig_bytes, new_sig_bytes, curr_pk_bytes, new_pk_bytes, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
 }

@@ -140,7 +140,7 @@ export function buildPayload_set_version (
   major: U64,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -171,10 +171,14 @@ export class App {
   async loadSetVersionCapability(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await SetVersionCapability.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -182,10 +186,14 @@ export class App {
   async loadVersion(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await Version.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -193,7 +201,7 @@ export class App {
     major: U64,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_set_version(major, isJSON);
   }
   async set_version(

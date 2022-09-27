@@ -592,10 +592,14 @@ export class App {
     owner: HexString,
     $p: TypeTag[], /* <ProposalType> */
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await VotingForum.load(this.repo, this.client, owner, $p);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }

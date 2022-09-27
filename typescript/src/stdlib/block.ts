@@ -22,6 +22,7 @@ export const moduleName = "block";
 export const EINVALID_PROPOSER : U64 = u64("2");
 export const ENUM_NEW_BLOCK_EVENTS_DOES_NOT_MATCH_BLOCK_HEIGHT : U64 = u64("1");
 export const EZERO_EPOCH_INTERVAL : U64 = u64("3");
+export const MAX_U64 : U64 = u64("18446744073709551615");
 
 
 export class BlockResource 
@@ -230,6 +231,19 @@ export function emit_new_block_event_ (
   return;
 }
 
+export function emit_writeset_block_event_ (
+  vm_signer: HexString,
+  fake_block_hash: HexString,
+  $c: AptosDataCache,
+): void {
+  let block_metadata_ref;
+  System_addresses.assert_vm_(vm_signer, $c);
+  block_metadata_ref = $c.borrow_global_mut<BlockResource>(new SimpleStructTag(BlockResource), new HexString("0x1"));
+  block_metadata_ref.height = Event.counter_(block_metadata_ref.new_block_events, $c, [new SimpleStructTag(NewBlockEvent)]);
+  Event.emit_event_(block_metadata_ref.new_block_events, new NewBlockEvent({ hash: $.copy(fake_block_hash), epoch: Reconfiguration.current_epoch_($c), round: $.copy(MAX_U64), height: $.copy(block_metadata_ref.height), previous_block_votes_bitvec: Vector.empty_($c, [AtomicTypeTag.U8]), proposer: new HexString("0x0"), failed_proposer_indices: Vector.empty_($c, [AtomicTypeTag.U64]), time_microseconds: Timestamp.now_microseconds_($c) }, new SimpleStructTag(NewBlockEvent)), $c, [new SimpleStructTag(NewBlockEvent)]);
+  return;
+}
+
 export function get_current_block_height_ (
   $c: AptosDataCache,
 ): U64 {
@@ -290,10 +304,14 @@ export class App {
   async loadBlockResource(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await BlockResource.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }

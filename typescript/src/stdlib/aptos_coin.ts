@@ -195,7 +195,7 @@ export function claim_mint_capability_ (
 export function buildPayload_claim_mint_capability (
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -251,7 +251,7 @@ export function buildPayload_delegate_mint_capability (
   to: HexString,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -299,6 +299,13 @@ export function find_delegation_ (
   }return $.copy(index);
 }
 
+export function has_mint_capability_ (
+  account: HexString,
+  $c: AptosDataCache,
+): boolean {
+  return $c.exists(new SimpleStructTag(MintCapStore), Signer.address_of_(account, $c));
+}
+
 export function initialize_ (
   aptos_framework: HexString,
   $c: AptosDataCache,
@@ -334,7 +341,7 @@ export function buildPayload_mint (
   amount: U64,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -368,10 +375,14 @@ export class App {
   async loadAptosCoin(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await AptosCoin.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -380,10 +391,14 @@ export class App {
   async loadDelegations(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await Delegations.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -391,17 +406,21 @@ export class App {
   async loadMintCapStore(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await MintCapStore.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
   payload_claim_mint_capability(
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_claim_mint_capability(isJSON);
   }
   async claim_mint_capability(
@@ -416,7 +435,7 @@ export class App {
     to: HexString,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_delegate_mint_capability(to, isJSON);
   }
   async delegate_mint_capability(
@@ -433,7 +452,7 @@ export class App {
     amount: U64,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_mint(dst_addr, amount, isJSON);
   }
   async mint(

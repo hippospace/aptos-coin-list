@@ -6,6 +6,7 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
+import * as Aptos_coin from "./aptos_coin";
 import * as Coin from "./coin";
 import * as Error from "./error";
 import * as Event from "./event";
@@ -34,7 +35,7 @@ export const ENOT_DELEGATED_VOTER : U64 = u64("2");
 export const ENO_VOTING_POWER : U64 = u64("5");
 export const EPROPOSAL_NOT_RESOLVABLE_YET : U64 = u64("6");
 export const EPROPOSAL_NOT_RESOLVED_YET : U64 = u64("8");
-export const ESCRIPT_HASH_ALREADY_ADDED : U64 = u64("7");
+export const EUNAUTHORIZED : U64 = u64("11");
 export const METADATA_HASH_KEY : U8[] = [u8("109"), u8("101"), u8("116"), u8("97"), u8("100"), u8("97"), u8("116"), u8("97"), u8("95"), u8("104"), u8("97"), u8("115"), u8("104")];
 export const METADATA_LOCATION_KEY : U8[] = [u8("109"), u8("101"), u8("116"), u8("97"), u8("100"), u8("97"), u8("116"), u8("97"), u8("95"), u8("108"), u8("111"), u8("99"), u8("97"), u8("116"), u8("105"), u8("111"), u8("110")];
 export const PROPOSAL_STATE_SUCCEEDED : U64 = u64("1");
@@ -430,8 +431,10 @@ export function add_approved_script_hash_ (
 ): void {
   let approved_hashes, execution_hash, proposal_state;
   approved_hashes = $c.borrow_global_mut<ApprovedExecutionHashes>(new SimpleStructTag(ApprovedExecutionHashes), new HexString("0x1"));
-  if (!!Simple_map.contains_key_(approved_hashes.hashes, proposal_id, $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)])) {
-    throw $.abortCode(Error.invalid_argument_($.copy(ESCRIPT_HASH_ALREADY_ADDED), $c));
+  if (Simple_map.contains_key_(approved_hashes.hashes, proposal_id, $c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)])) {
+    return;
+  }
+  else{
   }
   proposal_state = Voting.get_proposal_state_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
   if (!($.copy(proposal_state)).eq(($.copy(PROPOSAL_STATE_SUCCEEDED)))) {
@@ -442,6 +445,32 @@ export function add_approved_script_hash_ (
   return;
 }
 
+export function add_approved_script_hash_script_ (
+  proposal_id: U64,
+  $c: AptosDataCache,
+): void {
+  return add_approved_script_hash_($.copy(proposal_id), $c);
+}
+
+
+export function buildPayload_add_approved_script_hash_script (
+  proposal_id: U64,
+  isJSON = false,
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload {
+  const typeParamStrings = [] as string[];
+  return $.buildPayload(
+    new HexString("0x1"),
+    "aptos_governance",
+    "add_approved_script_hash_script",
+    typeParamStrings,
+    [
+      proposal_id,
+    ],
+    isJSON,
+  );
+
+}
 export function create_proposal_ (
   proposer: HexString,
   stake_pool: HexString,
@@ -494,7 +523,7 @@ export function buildPayload_create_proposal (
   metadata_hash: U8[],
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -544,7 +573,6 @@ export function get_required_proposer_stake_ (
 }
 
 export function get_signer_ (
-  _proposal: Governance_proposal.GovernanceProposal,
   signer_address: HexString,
   $c: AptosDataCache,
 ): HexString {
@@ -552,6 +580,18 @@ export function get_signer_ (
   governance_responsibility = $c.borrow_global<GovernanceResponsbility>(new SimpleStructTag(GovernanceResponsbility), new HexString("0x1"));
   signer_cap = Simple_map.borrow_(governance_responsibility.signer_caps, signer_address, $c, [AtomicTypeTag.Address, new StructTag(new HexString("0x1"), "account", "SignerCapability", [])]);
   return Account.create_signer_with_capability_(signer_cap, $c);
+}
+
+export function get_signer_testnet_only_ (
+  core_resources: HexString,
+  signer_address: HexString,
+  $c: AptosDataCache,
+): HexString {
+  System_addresses.assert_core_resource_(core_resources, $c);
+  if (!Aptos_coin.has_mint_capability_(core_resources, $c)) {
+    throw $.abortCode(Error.unauthenticated_($.copy(EUNAUTHORIZED), $c));
+  }
+  return get_signer_($.copy(signer_address), $c);
 }
 
 export function get_voting_duration_secs_ (
@@ -597,6 +637,17 @@ export function initialize_ (
   return $c.move_to(new SimpleStructTag(ApprovedExecutionHashes), aptos_framework, new ApprovedExecutionHashes({ hashes: Simple_map.create_($c, [AtomicTypeTag.U64, new VectorTag(AtomicTypeTag.U8)]) }, new SimpleStructTag(ApprovedExecutionHashes)));
 }
 
+export function initialize_for_verification_ (
+  aptos_framework: HexString,
+  min_voting_threshold: U128,
+  required_proposer_stake: U64,
+  voting_duration_secs: U64,
+  $c: AptosDataCache,
+): void {
+  initialize_(aptos_framework, $.copy(min_voting_threshold), $.copy(required_proposer_stake), $.copy(voting_duration_secs), $c);
+  return;
+}
+
 export function reconfigure_ (
   aptos_framework: HexString,
   $c: AptosDataCache,
@@ -629,10 +680,9 @@ export function resolve_ (
   signer_address: HexString,
   $c: AptosDataCache,
 ): HexString {
-  let proposal;
-  proposal = Voting.resolve_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  Voting.resolve_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
   remove_approved_hash_($.copy(proposal_id), $c);
-  return get_signer_(proposal, $.copy(signer_address), $c);
+  return get_signer_($.copy(signer_address), $c);
 }
 
 export function store_signer_cap_ (
@@ -678,7 +728,7 @@ export function vote_ (
   should_pass: boolean,
   $c: AptosDataCache,
 ): void {
-  let temp$1, events, proposal_expiration, record_key, voter_address, voting_power, voting_records;
+  let temp$1, events, proposal_expiration, proposal_state, record_key, voter_address, voting_power, voting_records;
   voter_address = Signer.address_of_(voter, $c);
   if (!((Stake.get_delegated_voter_($.copy(stake_pool), $c)).hex() === ($.copy(voter_address)).hex())) {
     throw $.abortCode(Error.invalid_argument_($.copy(ENOT_DELEGATED_VOTER), $c));
@@ -701,6 +751,12 @@ export function vote_ (
   Voting.vote_(temp$1, new HexString("0x1"), $.copy(proposal_id), $.copy(voting_power), should_pass, $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
   events = $c.borrow_global_mut<GovernanceEvents>(new SimpleStructTag(GovernanceEvents), new HexString("0x1"));
   Event.emit_event_(events.vote_events, new VoteEvent({ proposal_id: $.copy(proposal_id), voter: $.copy(voter_address), stake_pool: $.copy(stake_pool), num_votes: $.copy(voting_power), should_pass: should_pass }, new SimpleStructTag(VoteEvent)), $c, [new SimpleStructTag(VoteEvent)]);
+  proposal_state = Voting.get_proposal_state_(new HexString("0x1"), $.copy(proposal_id), $c, [new StructTag(new HexString("0x1"), "governance_proposal", "GovernanceProposal", [])]);
+  if (($.copy(proposal_state)).eq(($.copy(PROPOSAL_STATE_SUCCEEDED)))) {
+    add_approved_script_hash_($.copy(proposal_id), $c);
+  }
+  else{
+  }
   return;
 }
 
@@ -711,7 +767,7 @@ export function buildPayload_vote (
   should_pass: boolean,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -751,10 +807,14 @@ export class App {
   async loadApprovedExecutionHashes(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await ApprovedExecutionHashes.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -763,10 +823,14 @@ export class App {
   async loadGovernanceConfig(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await GovernanceConfig.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -774,10 +838,14 @@ export class App {
   async loadGovernanceEvents(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await GovernanceEvents.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -785,10 +853,14 @@ export class App {
   async loadGovernanceResponsbility(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await GovernanceResponsbility.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -799,12 +871,32 @@ export class App {
   async loadVotingRecords(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await VotingRecords.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
     }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
+    }
     return val;
+  }
+  payload_add_approved_script_hash_script(
+    proposal_id: U64,
+    isJSON = false,
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload {
+    return buildPayload_add_approved_script_hash_script(proposal_id, isJSON);
+  }
+  async add_approved_script_hash_script(
+    _account: AptosAccount,
+    proposal_id: U64,
+    _maxGas = 1000,
+    _isJSON = false,
+  ) {
+    const payload = buildPayload_add_approved_script_hash_script(proposal_id, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_create_proposal(
     stake_pool: HexString,
@@ -813,7 +905,7 @@ export class App {
     metadata_hash: U8[],
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_proposal(stake_pool, execution_hash, metadata_location, metadata_hash, isJSON);
   }
   async create_proposal(
@@ -834,7 +926,7 @@ export class App {
     should_pass: boolean,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_vote(stake_pool, proposal_id, should_pass, isJSON);
   }
   async vote(

@@ -1,16 +1,19 @@
 
 import { AptosClient } from "aptos";
-import { AptosParserRepo, AptosLocalCache } from "@manahippo/move-to-ts";
+import { AptosParserRepo, AptosLocalCache, AptosSyncedCache } from "@manahippo/move-to-ts";
 import * as Coin_list from './coin_list';
 import * as Devnet_coins from './devnet_coins';
+import * as Iterable_table from './iterable_table';
 
 export * as Coin_list from './coin_list';
 export * as Devnet_coins from './devnet_coins';
+export * as Iterable_table from './iterable_table';
 
 
 export function loadParsers(repo: AptosParserRepo) {
   Coin_list.loadParsers(repo);
   Devnet_coins.loadParsers(repo);
+  Iterable_table.loadParsers(repo);
 }
 
 export function getPackageRepo(): AptosParserRepo {
@@ -29,6 +32,7 @@ export type AppType = {
 export class App {
   coin_list : Coin_list.App
   devnet_coins : Devnet_coins.App
+  iterable_table : Iterable_table.App
   constructor(
     public client: AptosClient,
     public repo: AptosParserRepo,
@@ -36,5 +40,6 @@ export class App {
   ) {
     this.coin_list = new Coin_list.App(client, repo, cache);
     this.devnet_coins = new Devnet_coins.App(client, repo, cache);
+    this.iterable_table = new Iterable_table.App(client, repo, cache);
   }
 }

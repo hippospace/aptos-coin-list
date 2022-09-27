@@ -6,6 +6,7 @@ import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Stdlib from "../stdlib";
+import * as Iterable_table from "./iterable_table";
 export const packageName = "CoinList";
 export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
 export const moduleName = "coin_list";
@@ -87,12 +88,12 @@ export class CoinList
 
   ];
   static fields: FieldDeclType[] = [
-  { name: "coin_types", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "Nothing", [])]) }];
+  { name: "coin_types", typeTag: new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "Nothing", [])]) }];
 
-  coin_types: Stdlib.Iterable_table.IterableTable;
+  coin_types: Iterable_table.IterableTable;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.coin_types = proto['coin_types'] as Stdlib.Iterable_table.IterableTable;
+    this.coin_types = proto['coin_types'] as Iterable_table.IterableTable;
   }
 
   static CoinListParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinList {
@@ -129,12 +130,12 @@ export class CoinRegistry
 
   ];
   static fields: FieldDeclType[] = [
-  { name: "type_to_coin_info", typeTag: new StructTag(new HexString("0x1"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "CoinInfo", [])]) }];
+  { name: "type_to_coin_info", typeTag: new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "iterable_table", "IterableTable", [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "coin_list", "CoinInfo", [])]) }];
 
-  type_to_coin_info: Stdlib.Iterable_table.IterableTable;
+  type_to_coin_info: Iterable_table.IterableTable;
 
   constructor(proto: any, public typeTag: TypeTag) {
-    this.type_to_coin_info = proto['type_to_coin_info'] as Stdlib.Iterable_table.IterableTable;
+    this.type_to_coin_info = proto['type_to_coin_info'] as Iterable_table.IterableTable;
   }
 
   static CoinRegistryParser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : CoinRegistry {
@@ -244,7 +245,7 @@ export function add_extension_ (
   if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
-  coin_info = Stdlib.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  coin_info = Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   Stdlib.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
   return;
 }
@@ -256,7 +257,7 @@ export function buildPayload_add_extension (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -289,7 +290,7 @@ export function add_to_list_ (
   }
   list = $c.borrow_global_mut<CoinList>(new SimpleStructTag(CoinList), $.copy(owner_addr));
   coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  Stdlib.Iterable_table.add_(list.coin_types, $.copy(coin_type), new Nothing({  }, new SimpleStructTag(Nothing)), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  Iterable_table.add_(list.coin_types, $.copy(coin_type), new Nothing({  }, new SimpleStructTag(Nothing)), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   return;
 }
 
@@ -298,7 +299,7 @@ export function buildPayload_add_to_list (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -326,14 +327,14 @@ export function add_to_registry_ (
   type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
   coin_info = new CoinInfo({ name: $.copy(name), symbol: $.copy(symbol), coingecko_id: $.copy(coingecko_id), decimals: Stdlib.Coin.decimals_($c, [$p[0]]), logo_url: $.copy(logo_url), project_url: $.copy(project_url), token_type: $.copy(type_info), extensions: Stdlib.Simple_map.create_($c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]) }, new SimpleStructTag(CoinInfo));
   if (!is_update) {
-    if (!!Stdlib.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)])) {
+    if (!!Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)])) {
       throw $.abortCode($.copy(E_TYPE_ALREADY_EXISTS));
     }
   }
   else{
-    Stdlib.Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+    Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   }
-  Stdlib.Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   return;
 }
 
@@ -366,7 +367,7 @@ export function buildPayload_add_to_registry_by_admin (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -444,7 +445,7 @@ export function buildPayload_add_to_registry_by_signer (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -468,14 +469,14 @@ export function create_list_ (
   list_owner: HexString,
   $c: AptosDataCache,
 ): void {
-  return $c.move_to(new SimpleStructTag(CoinList), list_owner, new CoinList({ coin_types: Stdlib.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]) }, new SimpleStructTag(CoinList)));
+  return $c.move_to(new SimpleStructTag(CoinList), list_owner, new CoinList({ coin_types: Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]) }, new SimpleStructTag(CoinList)));
 }
 
 
 export function buildPayload_create_list (
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -501,7 +502,7 @@ export function drop_extension_ (
   if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
     throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
   }
-  coin_info = Stdlib.Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  coin_info = Iterable_table.borrow_mut_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   Stdlib.Simple_map.add_(coin_info.extensions, $.copy(key), $.copy(value), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new StructTag(new HexString("0x1"), "string", "String", [])]);
   return;
 }
@@ -513,7 +514,7 @@ export function buildPayload_drop_extension (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -540,7 +541,7 @@ export function fetch_all_registered_coin_info_ (
 export function buildPayload_fetch_all_registered_coin_info (
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -586,7 +587,7 @@ export function buildPayload_fetch_full_list (
   list_owner_addr: HexString,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -628,14 +629,14 @@ export function get_all_registered_coin_info_ (
 ): FullList {
   let coin_info, fulllist, prev, registry, tail, tail_key;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  tail = Stdlib.Iterable_table.tail_key_(registry.type_to_coin_info, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  tail = Iterable_table.tail_key_(registry.type_to_coin_info, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
   fulllist = new FullList({ coin_info_list: Stdlib.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
   while (Stdlib.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
     {
       tail_key = $.copy(Stdlib.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
-      coin_info = Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      coin_info = Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
       Stdlib.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
-      [, prev, ] = Stdlib.Iterable_table.borrow_iter_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      [, prev, ] = Iterable_table.borrow_iter_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
       tail = $.copy(prev);
     }
 
@@ -649,7 +650,7 @@ export function get_coin_info_ (
   let registry, type_info;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  return $.copy(Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]));
+  return $.copy(Iterable_table.borrow_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]));
 }
 
 export function get_full_list_ (
@@ -659,14 +660,14 @@ export function get_full_list_ (
   let coin_info, fulllist, list, prev, registry, tail, tail_key;
   list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  tail = Stdlib.Iterable_table.tail_key_(list.coin_types, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  tail = Iterable_table.tail_key_(list.coin_types, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   fulllist = new FullList({ coin_info_list: Stdlib.Vector.empty_($c, [new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(FullList));
   while (Stdlib.Option.is_some_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])])) {
     {
       tail_key = $.copy(Stdlib.Option.borrow_(tail, $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", [])]));
-      coin_info = Stdlib.Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+      coin_info = Iterable_table.borrow_(registry.type_to_coin_info, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
       Stdlib.Vector.push_back_(fulllist.coin_info_list, $.copy(coin_info), $c, [new SimpleStructTag(CoinInfo)]);
-      [, prev, ] = Stdlib.Iterable_table.borrow_iter_(list.coin_types, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+      [, prev, ] = Iterable_table.borrow_iter_(list.coin_types, $.copy(tail_key), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
       tail = $.copy(prev);
     }
 
@@ -680,14 +681,14 @@ export function initialize_ (
   if (!((Stdlib.Signer.address_of_(admin, $c)).hex() === (new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68")).hex())) {
     throw $.abortCode($.copy(E_CONTRACT_OWNER_ONLY));
   }
-  return $c.move_to(new SimpleStructTag(CoinRegistry), admin, new CoinRegistry({ type_to_coin_info: Stdlib.Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(CoinRegistry)));
+  return $c.move_to(new SimpleStructTag(CoinRegistry), admin, new CoinRegistry({ type_to_coin_info: Iterable_table.new___($c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]) }, new SimpleStructTag(CoinRegistry)));
 }
 
 
 export function buildPayload_initialize (
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -713,7 +714,7 @@ export function is_coin_in_list_ (
   }
   list = $c.borrow_global<CoinList>(new SimpleStructTag(CoinList), $.copy(list_owner_addr));
   coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  return Stdlib.Iterable_table.contains_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  return Iterable_table.contains_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
 }
 
 export function is_coin_registered_ (
@@ -723,7 +724,7 @@ export function is_coin_registered_ (
   let registry, type_info;
   registry = $c.borrow_global<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
   type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  return Stdlib.Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  return Iterable_table.contains_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
 }
 
 export function is_registry_initialized_ (
@@ -740,7 +741,7 @@ export function remove_from_list_ (
   let coin_type, list;
   list = $c.borrow_global_mut<CoinList>(new SimpleStructTag(CoinList), Stdlib.Signer.address_of_(list_owner, $c));
   coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  Stdlib.Iterable_table.remove_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
+  Iterable_table.remove_(list.coin_types, $.copy(coin_type), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(Nothing)]);
   return;
 }
 
@@ -749,7 +750,7 @@ export function buildPayload_remove_from_list (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -783,10 +784,14 @@ export class App {
   async loadCoinList(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await CoinList.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -794,10 +799,14 @@ export class App {
   async loadCoinRegistry(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await CoinRegistry.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -805,10 +814,14 @@ export class App {
   async loadFullList(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await FullList.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -819,7 +832,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_add_extension(key, value, $p, isJSON);
   }
   async add_extension(
@@ -837,7 +850,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_add_to_list($p, isJSON);
   }
   async add_to_list(
@@ -859,7 +872,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_add_to_registry_by_admin(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
   }
   async add_to_registry_by_admin(
@@ -887,7 +900,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_add_to_registry_by_signer(name, symbol, coingecko_id, logo_url, project_url, is_update, $p, isJSON);
   }
   async add_to_registry_by_signer(
@@ -908,7 +921,7 @@ export class App {
   payload_create_list(
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_list(isJSON);
   }
   async create_list(
@@ -925,7 +938,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_drop_extension(key, value, $p, isJSON);
   }
   async drop_extension(
@@ -942,7 +955,7 @@ export class App {
   payload_fetch_all_registered_coin_info(
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_fetch_all_registered_coin_info(isJSON);
   }
   async fetch_all_registered_coin_info(
@@ -958,7 +971,7 @@ export class App {
     list_owner_addr: HexString,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_fetch_full_list(list_owner_addr, isJSON);
   }
   async fetch_full_list(
@@ -974,7 +987,7 @@ export class App {
   payload_initialize(
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_initialize(isJSON);
   }
   async initialize(
@@ -989,7 +1002,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_remove_from_list($p, isJSON);
   }
   async remove_from_list(

@@ -79,7 +79,7 @@ export function buildPayload_create_resource_account (
   optional_auth_key: U8[],
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -116,7 +116,7 @@ export function buildPayload_create_resource_account_and_fund (
   fund_amount: U64,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -153,7 +153,7 @@ export function buildPayload_create_resource_account_and_publish_package (
   code: U8[][],
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -238,10 +238,14 @@ export class App {
   async loadContainer(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await Container.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -250,7 +254,7 @@ export class App {
     optional_auth_key: U8[],
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_resource_account(seed, optional_auth_key, isJSON);
   }
   async create_resource_account(
@@ -269,7 +273,7 @@ export class App {
     fund_amount: U64,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, isJSON);
   }
   async create_resource_account_and_fund(
@@ -289,7 +293,7 @@ export class App {
     code: U8[][],
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, isJSON);
   }
   async create_resource_account_and_publish_package(

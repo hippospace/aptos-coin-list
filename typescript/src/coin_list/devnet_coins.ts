@@ -314,7 +314,7 @@ export function deploy_ (
 export function buildPayload_deploy (
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -417,7 +417,7 @@ export function buildPayload_mint_to_wallet (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
@@ -456,10 +456,14 @@ export class App {
     owner: HexString,
     $p: TypeTag[], /* <T> */
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await CoinCaps.load(this.repo, this.client, owner, $p);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -473,7 +477,7 @@ export class App {
   payload_deploy(
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_deploy(isJSON);
   }
   async deploy(
@@ -489,7 +493,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_mint_to_wallet(amount, $p, isJSON);
   }
   async mint_to_wallet(

@@ -21,13 +21,17 @@ export const moduleName = "coin";
 export const ECOIN_INFO_ADDRESS_MISMATCH : U64 = u64("1");
 export const ECOIN_INFO_ALREADY_PUBLISHED : U64 = u64("2");
 export const ECOIN_INFO_NOT_PUBLISHED : U64 = u64("3");
+export const ECOIN_NAME_TOO_LONG : U64 = u64("12");
 export const ECOIN_STORE_ALREADY_PUBLISHED : U64 = u64("4");
 export const ECOIN_STORE_NOT_PUBLISHED : U64 = u64("5");
 export const ECOIN_SUPPLY_UPGRADE_NOT_SUPPORTED : U64 = u64("11");
+export const ECOIN_SYMBOL_TOO_LONG : U64 = u64("13");
 export const EDESTRUCTION_OF_NONZERO_TOKEN : U64 = u64("7");
 export const EFROZEN : U64 = u64("10");
 export const EINSUFFICIENT_BALANCE : U64 = u64("6");
 export const EZERO_COIN_AMOUNT : U64 = u64("9");
+export const MAX_COIN_NAME_LENGTH : U64 = u64("32");
+export const MAX_COIN_SYMBOL_LENGTH : U64 = u64("10");
 export const MAX_U128 : U128 = u128("340282366920938463463374607431768211455");
 
 
@@ -566,6 +570,12 @@ export function initialize_internal_ (
   if (!!$c.exists(new SimpleStructTag(CoinInfo, [$p[0]]), $.copy(account_addr))) {
     throw $.abortCode(Error.already_exists_($.copy(ECOIN_INFO_ALREADY_PUBLISHED), $c));
   }
+  if (!(String.length_(name, $c)).le($.copy(MAX_COIN_NAME_LENGTH))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(ECOIN_NAME_TOO_LONG), $c));
+  }
+  if (!(String.length_(symbol, $c)).le($.copy(MAX_COIN_SYMBOL_LENGTH))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(ECOIN_SYMBOL_TOO_LONG), $c));
+  }
   temp$4 = $.copy(name);
   temp$3 = $.copy(symbol);
   temp$2 = $.copy(decimals);
@@ -623,6 +633,7 @@ export function merge_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
+  ;
   dst_coin.value = ($.copy(dst_coin.value)).add($.copy(source_coin.value));
   source_coin;
   return;
@@ -717,7 +728,7 @@ export function buildPayload_transfer (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -764,7 +775,7 @@ export function buildPayload_upgrade_supply (
   $p: TypeTag[], /* <CoinType>*/
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
     new HexString("0x1"),
@@ -837,10 +848,14 @@ export class App {
     owner: HexString,
     $p: TypeTag[], /* <CoinType> */
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await CoinInfo.load(this.repo, this.client, owner, $p);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -849,10 +864,14 @@ export class App {
     owner: HexString,
     $p: TypeTag[], /* <CoinType> */
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await CoinStore.load(this.repo, this.client, owner, $p);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -863,10 +882,14 @@ export class App {
   async loadSupplyConfig(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await SupplyConfig.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -877,7 +900,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_transfer(to, amount, $p, isJSON);
   }
   async transfer(
@@ -895,7 +918,7 @@ export class App {
     $p: TypeTag[], /* <CoinType>*/
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_upgrade_supply($p, isJSON);
   }
   async upgrade_supply(

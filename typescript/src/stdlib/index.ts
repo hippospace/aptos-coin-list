@@ -1,6 +1,6 @@
 
 import { AptosClient } from "aptos";
-import { AptosParserRepo, AptosLocalCache } from "@manahippo/move-to-ts";
+import { AptosParserRepo, AptosLocalCache, AptosSyncedCache } from "@manahippo/move-to-ts";
 import * as Account from './account';
 import * as Acl from './acl';
 import * as Aggregator from './aggregator';
@@ -11,11 +11,9 @@ import * as Aptos_coin from './aptos_coin';
 import * as Aptos_governance from './aptos_governance';
 import * as Aptos_hash from './aptos_hash';
 import * as Bcs from './bcs';
-import * as Big_vector from './big_vector';
 import * as Bit_vector from './bit_vector';
 import * as Block from './block';
 import * as Bls12381 from './bls12381';
-import * as Bucket_table from './bucket_table';
 import * as Capability from './capability';
 import * as Chain_id from './chain_id';
 import * as Chain_status from './chain_status';
@@ -28,6 +26,7 @@ import * as Debug from './debug';
 import * as Ed25519 from './ed25519';
 import * as Error from './error';
 import * as Event from './event';
+import * as Features from './features';
 import * as Fixed_point32 from './fixed_point32';
 import * as From_bcs from './from_bcs';
 import * as Gas_schedule from './gas_schedule';
@@ -35,8 +34,9 @@ import * as Genesis from './genesis';
 import * as Governance_proposal from './governance_proposal';
 import * as Guid from './guid';
 import * as Hash from './hash';
-import * as Iterable_table from './iterable_table';
 import * as Managed_coin from './managed_coin';
+import * as Math128 from './math128';
+import * as Math64 from './math64';
 import * as Multi_ed25519 from './multi_ed25519';
 import * as Option from './option';
 import * as Optional_aggregator from './optional_aggregator';
@@ -48,7 +48,9 @@ import * as Signer from './signer';
 import * as Simple_map from './simple_map';
 import * as Stake from './stake';
 import * as Staking_config from './staking_config';
+import * as Staking_contract from './staking_contract';
 import * as State_storage from './state_storage';
+import * as Storage_gas from './storage_gas';
 import * as String from './string';
 import * as System_addresses from './system_addresses';
 import * as Table from './table';
@@ -61,6 +63,7 @@ import * as Type_info from './type_info';
 import * as Util from './util';
 import * as Vector from './vector';
 import * as Version from './version';
+import * as Vesting from './vesting';
 import * as Voting from './voting';
 
 export * as Account from './account';
@@ -73,11 +76,9 @@ export * as Aptos_coin from './aptos_coin';
 export * as Aptos_governance from './aptos_governance';
 export * as Aptos_hash from './aptos_hash';
 export * as Bcs from './bcs';
-export * as Big_vector from './big_vector';
 export * as Bit_vector from './bit_vector';
 export * as Block from './block';
 export * as Bls12381 from './bls12381';
-export * as Bucket_table from './bucket_table';
 export * as Capability from './capability';
 export * as Chain_id from './chain_id';
 export * as Chain_status from './chain_status';
@@ -90,6 +91,7 @@ export * as Debug from './debug';
 export * as Ed25519 from './ed25519';
 export * as Error from './error';
 export * as Event from './event';
+export * as Features from './features';
 export * as Fixed_point32 from './fixed_point32';
 export * as From_bcs from './from_bcs';
 export * as Gas_schedule from './gas_schedule';
@@ -97,8 +99,9 @@ export * as Genesis from './genesis';
 export * as Governance_proposal from './governance_proposal';
 export * as Guid from './guid';
 export * as Hash from './hash';
-export * as Iterable_table from './iterable_table';
 export * as Managed_coin from './managed_coin';
+export * as Math128 from './math128';
+export * as Math64 from './math64';
 export * as Multi_ed25519 from './multi_ed25519';
 export * as Option from './option';
 export * as Optional_aggregator from './optional_aggregator';
@@ -110,7 +113,9 @@ export * as Signer from './signer';
 export * as Simple_map from './simple_map';
 export * as Stake from './stake';
 export * as Staking_config from './staking_config';
+export * as Staking_contract from './staking_contract';
 export * as State_storage from './state_storage';
+export * as Storage_gas from './storage_gas';
 export * as String from './string';
 export * as System_addresses from './system_addresses';
 export * as Table from './table';
@@ -123,6 +128,7 @@ export * as Type_info from './type_info';
 export * as Util from './util';
 export * as Vector from './vector';
 export * as Version from './version';
+export * as Vesting from './vesting';
 export * as Voting from './voting';
 
 
@@ -137,11 +143,9 @@ export function loadParsers(repo: AptosParserRepo) {
   Aptos_governance.loadParsers(repo);
   Aptos_hash.loadParsers(repo);
   Bcs.loadParsers(repo);
-  Big_vector.loadParsers(repo);
   Bit_vector.loadParsers(repo);
   Block.loadParsers(repo);
   Bls12381.loadParsers(repo);
-  Bucket_table.loadParsers(repo);
   Capability.loadParsers(repo);
   Chain_id.loadParsers(repo);
   Chain_status.loadParsers(repo);
@@ -154,6 +158,7 @@ export function loadParsers(repo: AptosParserRepo) {
   Ed25519.loadParsers(repo);
   Error.loadParsers(repo);
   Event.loadParsers(repo);
+  Features.loadParsers(repo);
   Fixed_point32.loadParsers(repo);
   From_bcs.loadParsers(repo);
   Gas_schedule.loadParsers(repo);
@@ -161,8 +166,9 @@ export function loadParsers(repo: AptosParserRepo) {
   Governance_proposal.loadParsers(repo);
   Guid.loadParsers(repo);
   Hash.loadParsers(repo);
-  Iterable_table.loadParsers(repo);
   Managed_coin.loadParsers(repo);
+  Math128.loadParsers(repo);
+  Math64.loadParsers(repo);
   Multi_ed25519.loadParsers(repo);
   Option.loadParsers(repo);
   Optional_aggregator.loadParsers(repo);
@@ -174,7 +180,9 @@ export function loadParsers(repo: AptosParserRepo) {
   Simple_map.loadParsers(repo);
   Stake.loadParsers(repo);
   Staking_config.loadParsers(repo);
+  Staking_contract.loadParsers(repo);
   State_storage.loadParsers(repo);
+  Storage_gas.loadParsers(repo);
   String.loadParsers(repo);
   System_addresses.loadParsers(repo);
   Table.loadParsers(repo);
@@ -187,6 +195,7 @@ export function loadParsers(repo: AptosParserRepo) {
   Util.loadParsers(repo);
   Vector.loadParsers(repo);
   Version.loadParsers(repo);
+  Vesting.loadParsers(repo);
   Voting.loadParsers(repo);
 }
 
@@ -214,11 +223,9 @@ export class App {
   aptos_governance : Aptos_governance.App
   aptos_hash : Aptos_hash.App
   bcs : Bcs.App
-  big_vector : Big_vector.App
   bit_vector : Bit_vector.App
   block : Block.App
   bls12381 : Bls12381.App
-  bucket_table : Bucket_table.App
   capability : Capability.App
   chain_id : Chain_id.App
   chain_status : Chain_status.App
@@ -231,6 +238,7 @@ export class App {
   ed25519 : Ed25519.App
   error : Error.App
   event : Event.App
+  features : Features.App
   fixed_point32 : Fixed_point32.App
   from_bcs : From_bcs.App
   gas_schedule : Gas_schedule.App
@@ -238,8 +246,9 @@ export class App {
   governance_proposal : Governance_proposal.App
   guid : Guid.App
   hash : Hash.App
-  iterable_table : Iterable_table.App
   managed_coin : Managed_coin.App
+  math128 : Math128.App
+  math64 : Math64.App
   multi_ed25519 : Multi_ed25519.App
   option : Option.App
   optional_aggregator : Optional_aggregator.App
@@ -251,7 +260,9 @@ export class App {
   simple_map : Simple_map.App
   stake : Stake.App
   staking_config : Staking_config.App
+  staking_contract : Staking_contract.App
   state_storage : State_storage.App
+  storage_gas : Storage_gas.App
   string : String.App
   system_addresses : System_addresses.App
   table : Table.App
@@ -264,6 +275,7 @@ export class App {
   util : Util.App
   vector : Vector.App
   version : Version.App
+  vesting : Vesting.App
   voting : Voting.App
   constructor(
     public client: AptosClient,
@@ -280,11 +292,9 @@ export class App {
     this.aptos_governance = new Aptos_governance.App(client, repo, cache);
     this.aptos_hash = new Aptos_hash.App(client, repo, cache);
     this.bcs = new Bcs.App(client, repo, cache);
-    this.big_vector = new Big_vector.App(client, repo, cache);
     this.bit_vector = new Bit_vector.App(client, repo, cache);
     this.block = new Block.App(client, repo, cache);
     this.bls12381 = new Bls12381.App(client, repo, cache);
-    this.bucket_table = new Bucket_table.App(client, repo, cache);
     this.capability = new Capability.App(client, repo, cache);
     this.chain_id = new Chain_id.App(client, repo, cache);
     this.chain_status = new Chain_status.App(client, repo, cache);
@@ -297,6 +307,7 @@ export class App {
     this.ed25519 = new Ed25519.App(client, repo, cache);
     this.error = new Error.App(client, repo, cache);
     this.event = new Event.App(client, repo, cache);
+    this.features = new Features.App(client, repo, cache);
     this.fixed_point32 = new Fixed_point32.App(client, repo, cache);
     this.from_bcs = new From_bcs.App(client, repo, cache);
     this.gas_schedule = new Gas_schedule.App(client, repo, cache);
@@ -304,8 +315,9 @@ export class App {
     this.governance_proposal = new Governance_proposal.App(client, repo, cache);
     this.guid = new Guid.App(client, repo, cache);
     this.hash = new Hash.App(client, repo, cache);
-    this.iterable_table = new Iterable_table.App(client, repo, cache);
     this.managed_coin = new Managed_coin.App(client, repo, cache);
+    this.math128 = new Math128.App(client, repo, cache);
+    this.math64 = new Math64.App(client, repo, cache);
     this.multi_ed25519 = new Multi_ed25519.App(client, repo, cache);
     this.option = new Option.App(client, repo, cache);
     this.optional_aggregator = new Optional_aggregator.App(client, repo, cache);
@@ -317,7 +329,9 @@ export class App {
     this.simple_map = new Simple_map.App(client, repo, cache);
     this.stake = new Stake.App(client, repo, cache);
     this.staking_config = new Staking_config.App(client, repo, cache);
+    this.staking_contract = new Staking_contract.App(client, repo, cache);
     this.state_storage = new State_storage.App(client, repo, cache);
+    this.storage_gas = new Storage_gas.App(client, repo, cache);
     this.string = new String.App(client, repo, cache);
     this.system_addresses = new System_addresses.App(client, repo, cache);
     this.table = new Table.App(client, repo, cache);
@@ -330,6 +344,7 @@ export class App {
     this.util = new Util.App(client, repo, cache);
     this.vector = new Vector.App(client, repo, cache);
     this.version = new Version.App(client, repo, cache);
+    this.vesting = new Vesting.App(client, repo, cache);
     this.voting = new Voting.App(client, repo, cache);
   }
 }

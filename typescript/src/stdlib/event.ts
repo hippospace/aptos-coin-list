@@ -72,6 +72,7 @@ export function emit_event_ (
   $p: TypeTag[], /* <T>*/
 ): void {
   write_to_event_store_(Bcs.to_bytes_(handle_ref.guid, $c, [new StructTag(new HexString("0x1"), "guid", "GUID", [])]), $.copy(handle_ref.counter), msg, $c, [$p[0]]);
+  ;
   handle_ref.counter = ($.copy(handle_ref.counter)).add(u64("1"));
   return;
 }

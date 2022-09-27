@@ -7,6 +7,7 @@ import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@ma
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Error from "./error";
 import * as Reconfiguration from "./reconfiguration";
+import * as Storage_gas from "./storage_gas";
 import * as String from "./string";
 import * as System_addresses from "./system_addresses";
 import * as Util from "./util";
@@ -15,6 +16,7 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "gas_schedule";
 
+export const EINVALID_GAS_FEATURE_VERSION : U64 = u64("2");
 export const EINVALID_GAS_SCHEDULE : U64 = u64("1");
 
 
@@ -94,16 +96,62 @@ export class GasSchedule
   }
 
 }
+
+export class GasScheduleV2 
+{
+  static moduleAddress = moduleAddress;
+  static moduleName = moduleName;
+  __app: $.AppType | null = null;
+  static structName: string = "GasScheduleV2";
+  static typeParameters: TypeParamDeclType[] = [
+
+  ];
+  static fields: FieldDeclType[] = [
+  { name: "feature_version", typeTag: AtomicTypeTag.U64 },
+  { name: "entries", typeTag: new VectorTag(new StructTag(new HexString("0x1"), "gas_schedule", "GasEntry", [])) }];
+
+  feature_version: U64;
+  entries: GasEntry[];
+
+  constructor(proto: any, public typeTag: TypeTag) {
+    this.feature_version = proto['feature_version'] as U64;
+    this.entries = proto['entries'] as GasEntry[];
+  }
+
+  static GasScheduleV2Parser(data:any, typeTag: TypeTag, repo: AptosParserRepo) : GasScheduleV2 {
+    const proto = $.parseStructProto(data, typeTag, repo, GasScheduleV2);
+    return new GasScheduleV2(proto, typeTag);
+  }
+
+  static async load(repo: AptosParserRepo, client: AptosClient, address: HexString, typeParams: TypeTag[]) {
+    const result = await repo.loadResource(client, address, GasScheduleV2, typeParams);
+    return result as unknown as GasScheduleV2;
+  }
+  static async loadByApp(app: $.AppType, address: HexString, typeParams: TypeTag[]) {
+    const result = await app.repo.loadResource(app.client, address, GasScheduleV2, typeParams);
+    await result.loadFullState(app)
+    return result as unknown as GasScheduleV2;
+  }
+  static getTag(): StructTag {
+    return new StructTag(moduleAddress, moduleName, "GasScheduleV2", []);
+  }
+  async loadFullState(app: $.AppType) {
+    this.__app = app;
+  }
+
+}
 export function initialize_ (
   aptos_framework: HexString,
   gas_schedule_blob: U8[],
   $c: AptosDataCache,
 ): void {
+  let gas_schedule;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
-  if (!(Vector.length_(gas_schedule_blob, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+  if (!!Vector.is_empty_(gas_schedule_blob, $c, [AtomicTypeTag.U8])) {
     throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_SCHEDULE), $c));
   }
-  $c.move_to(new SimpleStructTag(GasSchedule), aptos_framework, Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasSchedule)]));
+  gas_schedule = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasScheduleV2)]);
+  $c.move_to(new SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(gas_schedule));
   return;
 }
 
@@ -112,13 +160,38 @@ export function set_gas_schedule_ (
   gas_schedule_blob: U8[],
   $c: AptosDataCache,
 ): void {
-  let gas_schedule;
+  let gas_schedule, new_gas_schedule, new_gas_schedule__1;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
-  if (!(Vector.length_(gas_schedule_blob, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
+  if (!!Vector.is_empty_(gas_schedule_blob, $c, [AtomicTypeTag.U8])) {
     throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_SCHEDULE), $c));
   }
-  gas_schedule = $c.borrow_global_mut<GasSchedule>(new SimpleStructTag(GasSchedule), new HexString("0x1"));
-  $.set(gas_schedule, Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasSchedule)]));
+  if ($c.exists(new SimpleStructTag(GasScheduleV2), new HexString("0x1"))) {
+    gas_schedule = $c.borrow_global_mut<GasScheduleV2>(new SimpleStructTag(GasScheduleV2), new HexString("0x1"));
+    new_gas_schedule = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasScheduleV2)]);
+    if (!($.copy(new_gas_schedule.feature_version)).ge($.copy(gas_schedule.feature_version))) {
+      throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_FEATURE_VERSION), $c));
+    }
+    $.set(gas_schedule, $.copy(new_gas_schedule));
+  }
+  else{
+    if ($c.exists(new SimpleStructTag(GasSchedule), new HexString("0x1"))) {
+      $c.move_from<GasSchedule>(new SimpleStructTag(GasSchedule), new HexString("0x1"));
+    }
+    else{
+    }
+    new_gas_schedule__1 = Util.from_bytes_($.copy(gas_schedule_blob), $c, [new SimpleStructTag(GasScheduleV2)]);
+    $c.move_to(new SimpleStructTag(GasScheduleV2), aptos_framework, $.copy(new_gas_schedule__1));
+  }
+  Reconfiguration.reconfigure_($c);
+  return;
+}
+
+export function set_storage_gas_config_ (
+  aptos_framework: HexString,
+  config: Storage_gas.StorageGasConfig,
+  $c: AptosDataCache,
+): void {
+  Storage_gas.set_config_(aptos_framework, $.copy(config), $c);
   Reconfiguration.reconfigure_($c);
   return;
 }
@@ -126,6 +199,7 @@ export function set_gas_schedule_ (
 export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::gas_schedule::GasEntry", GasEntry.GasEntryParser);
   repo.addParser("0x1::gas_schedule::GasSchedule", GasSchedule.GasScheduleParser);
+  repo.addParser("0x1::gas_schedule::GasScheduleV2", GasScheduleV2.GasScheduleV2Parser);
 }
 export class App {
   constructor(
@@ -141,10 +215,29 @@ export class App {
   async loadGasSchedule(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await GasSchedule.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
+    }
+    return val;
+  }
+  get GasScheduleV2() { return GasScheduleV2; }
+  async loadGasScheduleV2(
+    owner: HexString,
+    loadFull=true,
+    fillCache=true,
+  ) {
+    const val = await GasScheduleV2.load(this.repo, this.client, owner, [] as TypeTag[]);
+    if (loadFull) {
+      await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }

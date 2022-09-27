@@ -47,9 +47,42 @@ export function assert_framework_reserved_address_ (
   account: HexString,
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, addr;
-  addr = Signer.address_of_(account, $c);
-  if ((($.copy(addr)).hex() === (new HexString("0x1")).hex())) {
+  if (!is_framework_reserved_address_(Signer.address_of_(account, $c), $c)) {
+    throw $.abortCode(Error.permission_denied_($.copy(ENOT_FRAMEWORK_RESERVED_ADDRESS), $c));
+  }
+  return;
+}
+
+export function assert_vm_ (
+  account: HexString,
+  $c: AptosDataCache,
+): void {
+  if (!is_vm_(account, $c)) {
+    throw $.abortCode(Error.permission_denied_($.copy(EVM), $c));
+  }
+  return;
+}
+
+export function is_aptos_framework_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  return (($.copy(addr)).hex() === (new HexString("0x1")).hex());
+}
+
+export function is_core_resource_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  return (($.copy(addr)).hex() === (new HexString("0xa550c18")).hex());
+}
+
+export function is_framework_reserved_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  let temp$1, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9;
+  if (is_aptos_framework_address_($.copy(addr), $c)) {
     temp$1 = true;
   }
   else{
@@ -103,34 +136,35 @@ export function assert_framework_reserved_address_ (
   else{
     temp$9 = (($.copy(addr)).hex() === (new HexString("0xa")).hex());
   }
-  if (!temp$9) {
-    throw $.abortCode(Error.permission_denied_($.copy(ENOT_FRAMEWORK_RESERVED_ADDRESS), $c));
-  }
-  return;
+  return temp$9;
 }
 
-export function assert_vm_ (
+export function is_reserved_address_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  let temp$1;
+  if (is_aptos_framework_address_($.copy(addr), $c)) {
+    temp$1 = true;
+  }
+  else{
+    temp$1 = is_vm_address_($.copy(addr), $c);
+  }
+  return temp$1;
+}
+
+export function is_vm_ (
   account: HexString,
   $c: AptosDataCache,
-): void {
-  if (!((Signer.address_of_(account, $c)).hex() === (new HexString("0x0")).hex())) {
-    throw $.abortCode(Error.permission_denied_($.copy(EVM), $c));
-  }
-  return;
+): boolean {
+  return is_vm_address_(Signer.address_of_(account, $c), $c);
 }
 
-export function is_aptos_framework_address_ (
+export function is_vm_address_ (
   addr: HexString,
   $c: AptosDataCache,
 ): boolean {
-  return (($.copy(addr)).hex() === (new HexString("0x1")).hex());
-}
-
-export function is_core_resource_address_ (
-  addr: HexString,
-  $c: AptosDataCache,
-): boolean {
-  return (($.copy(addr)).hex() === (new HexString("0xa550c18")).hex());
+  return (($.copy(addr)).hex() === (new HexString("0x0")).hex());
 }
 
 export function loadParsers(repo: AptosParserRepo) {

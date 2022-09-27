@@ -11,7 +11,7 @@ import * as Error from "./error";
 import * as Event from "./event";
 import * as Signer from "./signer";
 import * as Stake from "./stake";
-import * as State_storage from "./state_storage";
+import * as Storage_gas from "./storage_gas";
 import * as System_addresses from "./system_addresses";
 import * as Timestamp from "./timestamp";
 export const packageName = "AptosFramework";
@@ -244,11 +244,12 @@ export function reconfigure_ (
   else{
   }
   Stake.on_new_epoch_($c);
-  State_storage.on_reconfig_($c);
+  Storage_gas.on_reconfig_($c);
   if (!($.copy(current_time)).gt($.copy(config_ref.last_reconfiguration_time))) {
     throw $.abortCode(Error.invalid_state_($.copy(EINVALID_BLOCK_TIME), $c));
   }
   config_ref.last_reconfiguration_time = $.copy(current_time);
+  ;
   config_ref.epoch = ($.copy(config_ref.epoch)).add(u64("1"));
   Event.emit_event_(config_ref.events, new NewEpochEvent({ epoch: $.copy(config_ref.epoch) }, new SimpleStructTag(NewEpochEvent)), $c, [new SimpleStructTag(NewEpochEvent)]);
   return;
@@ -272,10 +273,14 @@ export class App {
   async loadConfiguration(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await Configuration.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }
@@ -283,10 +288,14 @@ export class App {
   async loadDisableReconfiguration(
     owner: HexString,
     loadFull=true,
+    fillCache=true,
   ) {
     const val = await DisableReconfiguration.load(this.repo, this.client, owner, [] as TypeTag[]);
     if (loadFull) {
       await val.loadFullState(this);
+    }
+    if (fillCache) {
+      this.cache.move_to(val.typeTag, owner, val);
     }
     return val;
   }

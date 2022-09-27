@@ -7,10 +7,34 @@ import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@ma
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Coin from "./coin";
+import * as Error from "./error";
 export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "aptos_account";
 
+export const EACCOUNT_NOT_FOUND : U64 = u64("1");
+export const EACCOUNT_NOT_REGISTERED_FOR_APT : U64 = u64("2");
+
+export function assert_account_exists_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): void {
+  if (!Account.exists_at_($.copy(addr), $c)) {
+    throw $.abortCode(Error.not_found_($.copy(EACCOUNT_NOT_FOUND), $c));
+  }
+  return;
+}
+
+export function assert_account_is_registered_for_apt_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): void {
+  assert_account_exists_($.copy(addr), $c);
+  if (!Coin.is_account_registered_($.copy(addr), $c, [new StructTag(new HexString("0x1"), "aptos_coin", "AptosCoin", [])])) {
+    throw $.abortCode(Error.not_found_($.copy(EACCOUNT_NOT_REGISTERED_FOR_APT), $c));
+  }
+  return;
+}
 
 export function create_account_ (
   auth_key: HexString,
@@ -27,7 +51,7 @@ export function buildPayload_create_account (
   auth_key: HexString,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -61,7 +85,7 @@ export function buildPayload_transfer (
   amount: U64,
   isJSON = false,
 ): TxnBuilderTypes.TransactionPayloadEntryFunction
-   | Types.TransactionPayload_EntryFunctionPayload{
+   | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
     new HexString("0x1"),
@@ -91,7 +115,7 @@ export class App {
     auth_key: HexString,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_create_account(auth_key, isJSON);
   }
   async create_account(
@@ -108,7 +132,7 @@ export class App {
     amount: U64,
     isJSON = false,
   ): TxnBuilderTypes.TransactionPayloadEntryFunction
-        | Types.TransactionPayload_EntryFunctionPayload{
+        | Types.TransactionPayload_EntryFunctionPayload {
     return buildPayload_transfer(to, amount, isJSON);
   }
   async transfer(
