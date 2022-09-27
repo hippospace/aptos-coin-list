@@ -102,10 +102,6 @@ module coin_list::devnet_coins {
 
     #[cmd(desc=b"Register devnet coins")]
     public entry fun deploy(admin: &signer) {
-        if (!coin_list::is_registry_initialized()) {
-            coin_list::initialize(admin);
-        };
-
         init_coin_and_register<DevnetBTC>(
             admin,
             utf8(b"Bitcoin"),

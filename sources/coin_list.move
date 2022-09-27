@@ -14,6 +14,7 @@ module coin_list::coin_list {
     const E_TYPE_ALREADY_EXISTS:u64 = 2;
     const E_COIN_NOT_IN_REGISTRY:u64 = 3;
     const E_LIST_DOES_NOT_EXIST:u64 = 4;
+    const E_APPROVER_ONLY: u64 = 5;
 
 
     // For ease of iteration, we do not store CoinInfo as independent resource. Instead we put all CoinInfo under a
@@ -33,27 +34,66 @@ module coin_list::coin_list {
 
     struct CoinRegistry has key {
         type_to_coin_info: iterable_table::IterableTable<type_info::TypeInfo, CoinInfo>,
+        approvers: vector<address>,
     }
 
     struct Nothing has store, copy, drop {}
 
     struct CoinList has key {
         coin_types: iterable_table::IterableTable<type_info::TypeInfo, Nothing>,
+        approvers: vector<address>,
     }
 
-    #[cmd]
-    public entry fun initialize(admin: &signer) {
+    entry fun init_module(admin: &signer) {
         assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
+        let approvers = vector::empty<address>();
+        vector::push_back(&mut approvers, std::signer::address_of(admin));
         move_to(admin, CoinRegistry {
             type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
+            approvers,
         })
     }
 
     #[cmd]
     public entry fun create_list(list_owner: &signer) {
+        let approvers = vector::empty<address>();
+        vector::push_back(&mut approvers, std::signer::address_of(list_owner));
         move_to(list_owner, CoinList {
             coin_types: iterable_table::new<type_info::TypeInfo, Nothing>(),
+            approvers,
         })
+    }
+
+    #[cmd]
+    public entry fun add_approver_to_registry(admin: &signer, approver: address) acquires CoinRegistry {
+        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(!vector::contains(&registry.approvers, &approver), 0);
+        vector::push_back(&mut registry.approvers, approver);
+    }
+
+    #[cmd]
+    public entry fun remove_approver_from_registry(admin: &signer, approver: address) acquires CoinRegistry {
+        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(vector::contains(&registry.approvers, &approver), 0);
+        let (_, i) = vector::index_of(&registry.approvers, &approver);
+        vector::remove(&mut registry.approvers, i);
+    }
+
+    #[cmd]
+    public entry fun add_approver_to_list(list_owner: &signer, approver: address) acquires CoinList {
+        let list = borrow_global_mut<CoinList>(std::signer::address_of(list_owner));
+        assert!(!vector::contains(&list.approvers, &approver), 0);
+        vector::push_back(&mut list.approvers, approver);
+    }
+
+    #[cmd]
+    public entry fun remove_approver_from_list(list_owner: &signer, approver: address) acquires CoinList {
+        let list = borrow_global_mut<CoinList>(std::signer::address_of(list_owner));
+        assert!(vector::contains(&list.approvers, &approver), 0);
+        let (_, i) = vector::index_of(&list.approvers, &approver);
+        vector::remove(&mut list.approvers, i);
     }
 
     #[cmd]
@@ -68,12 +108,13 @@ module coin_list::coin_list {
     ) acquires CoinRegistry {
         let type_info = type_info::type_of<CoinType>();
         assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
-        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        add_to_registry<CoinType>(registry, name, symbol, coingecko_id, logo_url, project_url, is_update);
     }
 
     #[cmd]
-    public entry fun add_to_registry_by_admin<CoinType>(
-        admin: &signer,
+    public entry fun add_to_registry_by_approver<CoinType>(
+        approver: &signer,
         name: String,
         symbol: String,
         coingecko_id: String,
@@ -81,8 +122,9 @@ module coin_list::coin_list {
         project_url: String,
         is_update: bool,
     ) acquires CoinRegistry {
-        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
-        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
+        add_to_registry<CoinType>(registry, name, symbol, coingecko_id, logo_url, project_url, is_update);
     }
 
     public fun add_to_registry_by_proof<CoinType, OwnershipProof>(
@@ -101,7 +143,8 @@ module coin_list::coin_list {
         let ownership_name = type_info::module_name(&ownership_type);
         assert!(ownership_name == b"OwnershipProof", E_COIN_OWNER_ONLY);
         assert!(type_address == ownership_address, E_COIN_OWNER_ONLY);
-        add_to_registry<CoinType>(name, symbol, coingecko_id, logo_url, project_url, is_update);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        add_to_registry<CoinType>(registry, name, symbol, coingecko_id, logo_url, project_url, is_update);
     }
 
     #[cmd]
@@ -133,14 +176,14 @@ module coin_list::coin_list {
     }
 
     fun add_to_registry<CoinType>(
+        registry: &mut CoinRegistry,
         name: String,
         symbol: String,
         coingecko_id: String,
         logo_url: String,
         project_url: String,
         is_update: bool,
-    ) acquires CoinRegistry {
-        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+    ) {
         let type_info = type_info::type_of<CoinType>();
 
         let coin_info = CoinInfo {
@@ -190,13 +233,10 @@ module coin_list::coin_list {
     }
     
     #[cmd]
-    public entry fun add_to_list<CoinType>(list_owner: &signer) acquires CoinRegistry, CoinList {
+    public entry fun add_to_list<CoinType>(approver: &signer, list: address) acquires CoinRegistry, CoinList {
         assert!(is_coin_registered<CoinType>(), E_COIN_NOT_IN_REGISTRY);
-        let owner_addr = signer::address_of(list_owner);
-        if (!exists<CoinList>(owner_addr)) {
-            create_list(list_owner);
-        };
-        let list = borrow_global_mut<CoinList>(owner_addr);
+        let list = borrow_global_mut<CoinList>(list);
+        assert!(vector::contains(&list.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
         let coin_type = type_info::type_of<CoinType>();
         iterable_table::add(&mut list.coin_types, coin_type, Nothing {});
     }
