@@ -23,7 +23,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "symbol": "stAPT",
     "coingecko_id": "",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DittoStakeAptos.svg",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DittoStakedAptos.svg",
     "project_url": "https://www.dittofinance.io/",
     "token_type": {
       "type": "0x4d87417a2fb3248887d820f7737d9c4aeeb9591c5de91d08f7f490550e733894::staked_coin::StakedAptos",
