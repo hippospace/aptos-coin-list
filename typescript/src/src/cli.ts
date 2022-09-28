@@ -1,6 +1,6 @@
 
-import { parseTypeTagOrThrow, u64, print, strToU8, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
-import { AptosAccount, AptosClient, HexString } from "aptos";
+import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
+import { AptosAccount, AptosClient, HexString, Types } from "aptos";
 import { Command } from "commander";
 import { getProjectRepo } from "./";
 import * as fs from "fs";
@@ -42,6 +42,34 @@ program
   .option('-p, --profile <PROFILE>', 'aptos config profile to use', 'default')
 
 
+const coin_list_add_approver_to_list = async (approver: string) => {
+  const {client, account} = readConfig(program);
+  const approver_ = new HexString(approver);
+  const payload = Coin_list.Coin_list.buildPayload_add_approver_to_list(approver_);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:add-approver-to-list")
+  .description("")
+  .argument('<approver>')
+  .action(coin_list_add_approver_to_list);
+
+
+const coin_list_add_approver_to_registry = async (approver: string) => {
+  const {client, account} = readConfig(program);
+  const approver_ = new HexString(approver);
+  const payload = Coin_list.Coin_list.buildPayload_add_approver_to_registry(approver_);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:add-approver-to-registry")
+  .description("")
+  .argument('<approver>')
+  .action(coin_list_add_approver_to_registry);
+
+
 const coin_list_add_extension = async (CoinType: string, key: string, value: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
@@ -60,10 +88,11 @@ program
   .action(coin_list_add_extension);
 
 
-const coin_list_add_to_list = async (CoinType: string) => {
+const coin_list_add_to_list = async (CoinType: string, list: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
-  const payload = Coin_list.Coin_list.buildPayload_add_to_list([CoinType_]);
+  const list_ = new HexString(list);
+  const payload = Coin_list.Coin_list.buildPayload_add_to_list(list_, [CoinType_]);
   await sendPayloadTx(client, account, payload, 10000, true);
 }
 
@@ -71,10 +100,11 @@ program
   .command("coin-list:add-to-list")
   .description("")
   .argument('<TYPE_CoinType>')
+  .argument('<list>')
   .action(coin_list_add_to_list);
 
 
-const coin_list_add_to_registry_by_admin = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
+const coin_list_add_to_registry_by_approver = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const name_ = new ActualStringClass({bytes: strToU8(name)}, parseTypeTagOrThrow('0x1::string::String'));
@@ -83,12 +113,12 @@ const coin_list_add_to_registry_by_admin = async (CoinType: string, name: string
   const logo_url_ = new ActualStringClass({bytes: strToU8(logo_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const project_url_ = new ActualStringClass({bytes: strToU8(project_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const is_update_ = is_update=='true';
-  const payload = Coin_list.Coin_list.buildPayload_add_to_registry_by_admin(name_, symbol_, coingecko_id_, logo_url_, project_url_, is_update_, [CoinType_]);
+  const payload = Coin_list.Coin_list.buildPayload_add_to_registry_by_approver(name_, symbol_, coingecko_id_, logo_url_, project_url_, is_update_, [CoinType_]);
   await sendPayloadTx(client, account, payload, 10000, true);
 }
 
 program
-  .command("coin-list:add-to-registry-by-admin")
+  .command("coin-list:add-to-registry-by-approver")
   .description("")
   .argument('<TYPE_CoinType>')
   .argument('<name>')
@@ -97,7 +127,7 @@ program
   .argument('<logo_url>')
   .argument('<project_url>')
   .argument('<is_update>')
-  .action(coin_list_add_to_registry_by_admin);
+  .action(coin_list_add_to_registry_by_approver);
 
 
 const coin_list_add_to_registry_by_signer = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
@@ -158,18 +188,32 @@ program
   .action(coin_list_drop_extension);
 
 
-const coin_list_initialize = async () => {
+const coin_list_remove_approver_from_list = async (approver: string) => {
   const {client, account} = readConfig(program);
-
-  const payload = Coin_list.Coin_list.buildPayload_initialize();
+  const approver_ = new HexString(approver);
+  const payload = Coin_list.Coin_list.buildPayload_remove_approver_from_list(approver_);
   await sendPayloadTx(client, account, payload, 10000, true);
 }
 
 program
-  .command("coin-list:initialize")
+  .command("coin-list:remove-approver-from-list")
   .description("")
+  .argument('<approver>')
+  .action(coin_list_remove_approver_from_list);
 
-  .action(coin_list_initialize);
+
+const coin_list_remove_approver_from_registry = async (approver: string) => {
+  const {client, account} = readConfig(program);
+  const approver_ = new HexString(approver);
+  const payload = Coin_list.Coin_list.buildPayload_remove_approver_from_registry(approver_);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:remove-approver-from-registry")
+  .description("")
+  .argument('<approver>')
+  .action(coin_list_remove_approver_from_registry);
 
 
 const coin_list_remove_from_list = async (CoinType: string) => {

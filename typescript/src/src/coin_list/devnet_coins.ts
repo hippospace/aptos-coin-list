@@ -8,7 +8,7 @@ import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "apto
 import * as Stdlib from "../stdlib";
 import * as Coin_list from "./coin_list";
 export const packageName = "CoinList";
-export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
+export const moduleAddress = new HexString("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7");
 export const moduleName = "devnet_coins";
 
 
@@ -295,11 +295,6 @@ export function deploy_ (
   admin: HexString,
   $c: AptosDataCache,
 ): void {
-  if (!Coin_list.is_registry_initialized_($c)) {
-    Coin_list.initialize_(admin, $c);
-  }
-  else{
-  }
   init_coin_and_register_(admin, Stdlib.String.utf8_([u8("66"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("66"), u8("84"), u8("67")], $c), Stdlib.String.utf8_([u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("49"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("105"), u8("116"), u8("99"), u8("111"), u8("105"), u8("110"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("52"), u8("55"), u8("48"), u8("51"), u8("51"), u8("53"), u8("55"), u8("57")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBTC)]);
   init_coin_and_register_(admin, Stdlib.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Stdlib.String.utf8_([u8("66"), u8("78"), u8("66")], $c), Stdlib.String.utf8_([u8("98"), u8("105"), u8("110"), u8("97"), u8("110"), u8("99"), u8("101"), u8("99"), u8("111"), u8("105"), u8("110")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("56"), u8("50"), u8("53"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("98"), u8("110"), u8("98"), u8("45"), u8("105"), u8("99"), u8("111"), u8("110"), u8("50"), u8("95"), u8("50"), u8("120"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("54"), u8("52"), u8("52"), u8("57"), u8("55"), u8("57"), u8("56"), u8("53"), u8("48")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetBNB)]);
   init_coin_and_register_(admin, Stdlib.String.utf8_([u8("69"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Stdlib.String.utf8_([u8("69"), u8("84"), u8("72")], $c), Stdlib.String.utf8_([u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109")], $c), Stdlib.String.utf8_([u8("104"), u8("116"), u8("116"), u8("112"), u8("115"), u8("58"), u8("47"), u8("47"), u8("97"), u8("115"), u8("115"), u8("101"), u8("116"), u8("115"), u8("46"), u8("99"), u8("111"), u8("105"), u8("110"), u8("103"), u8("101"), u8("99"), u8("107"), u8("111"), u8("46"), u8("99"), u8("111"), u8("109"), u8("47"), u8("99"), u8("111"), u8("105"), u8("110"), u8("115"), u8("47"), u8("105"), u8("109"), u8("97"), u8("103"), u8("101"), u8("115"), u8("47"), u8("50"), u8("55"), u8("57"), u8("47"), u8("115"), u8("109"), u8("97"), u8("108"), u8("108"), u8("47"), u8("101"), u8("116"), u8("104"), u8("101"), u8("114"), u8("101"), u8("117"), u8("109"), u8("46"), u8("112"), u8("110"), u8("103"), u8("63"), u8("49"), u8("53"), u8("57"), u8("53"), u8("51"), u8("52"), u8("56"), u8("56"), u8("56"), u8("48")], $c), Stdlib.String.utf8_([u8("112"), u8("114"), u8("111"), u8("106"), u8("101"), u8("99"), u8("116"), u8("95"), u8("117"), u8("114"), u8("108")], $c), u8("8"), $c, [new SimpleStructTag(DevnetETH)]);
@@ -317,7 +312,7 @@ export function buildPayload_deploy (
    | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = [] as string[];
   return $.buildPayload(
-    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    new HexString("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7"),
     "devnet_coins",
     "deploy",
     typeParamStrings,
@@ -390,7 +385,7 @@ export function mint_ (
   $p: TypeTag[], /* <CoinType>*/
 ): Stdlib.Coin.Coin {
   let caps;
-  caps = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
+  caps = $c.borrow_global<CoinCaps>(new SimpleStructTag(CoinCaps, [$p[0]]), new HexString("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7"));
   return Stdlib.Coin.mint_($.copy(amount), caps.mint, $c, [$p[0]]);
 }
 
@@ -420,7 +415,7 @@ export function buildPayload_mint_to_wallet (
    | Types.TransactionPayload_EntryFunctionPayload {
   const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
   return $.buildPayload(
-    new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"),
+    new HexString("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7"),
     "devnet_coins",
     "mint_to_wallet",
     typeParamStrings,
@@ -433,14 +428,14 @@ export function buildPayload_mint_to_wallet (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::CoinCaps", CoinCaps.CoinCapsParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBNB", DevnetBNB.DevnetBNBParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBTC", DevnetBTC.DevnetBTCParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetDAI", DevnetDAI.DevnetDAIParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetETH", DevnetETH.DevnetETHParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetSOL", DevnetSOL.DevnetSOLParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDC", DevnetUSDC.DevnetUSDCParser);
-  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDT", DevnetUSDT.DevnetUSDTParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::CoinCaps", CoinCaps.CoinCapsParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetBNB", DevnetBNB.DevnetBNBParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetBTC", DevnetBTC.DevnetBTCParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetDAI", DevnetDAI.DevnetDAIParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetETH", DevnetETH.DevnetETHParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetSOL", DevnetSOL.DevnetSOLParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetUSDC", DevnetUSDC.DevnetUSDCParser);
+  repo.addParser("0x48265636b9e378f31bfaf20bc5108e894798646e496e1c586eea6dc07dbf84b7::devnet_coins::DevnetUSDT", DevnetUSDT.DevnetUSDTParser);
 }
 export class App {
   constructor(

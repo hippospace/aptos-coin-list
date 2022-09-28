@@ -45,7 +45,7 @@ const makeStr = (s: string) => {
 }
 
 
-const adminApprove = async (coinType: string) => {
+const adminApproveByType = async (coinType: string) => {
   const {client, account} = readConfig(program);
   let CoinType: TypeTag;
   try{
@@ -69,27 +69,64 @@ const adminApprove = async (coinType: string) => {
 
   const app = new App(client).coin_list.coin_list;
 
-  const payload = app.payload_add_to_registry_by_admin(
+  const payload = app.payload_add_to_registry_by_approver(
     makeStr(info.name),
     makeStr(info.symbol),
     makeStr(info.coingecko_id),
     makeStr(info.logo_url),
     makeStr(info.project_url),
     false,
-    []
+    [CoinType]
   );
   await sendPayloadTx(client, account, payload, 1000, true);
   
-  const payload2 = app.payload_add_to_list([CoinType]);
+  const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
   await sendPayloadTx(client, account, payload2, 1000, true);
-
 }
 
 program
-  .command("admin-approve")
+  .command("approve-type")
   .description("")
   .argument('<TYPE_CoinType>')
-  .action(adminApprove);
+  .action(adminApproveByType);
 
+
+const adminApproveBySymbol = async (symbol: string) => {
+  const {client, account} = readConfig(program);
+  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
+  if (rawInfos.length === 0) {
+    console.log(`Not found in REQUESTS: ${symbol}`);
+    return;
+  }
+  if (rawInfos.length > 1) {
+    console.log(`Found multiple entries of the same symbol: ${symbol}`);
+    return;
+  }
+
+  const info = rawInfos[0];
+  const CoinType = parseTypeTagOrThrow(info.token_type.type);
+
+  const app = new App(client).coin_list.coin_list;
+
+  const payload = app.payload_add_to_registry_by_approver(
+    makeStr(info.name),
+    makeStr(info.symbol),
+    makeStr(info.coingecko_id),
+    makeStr(info.logo_url),
+    makeStr(info.project_url),
+    false,
+    [CoinType]
+  );
+  await sendPayloadTx(client, account, payload, 1000, true);
+  
+  const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
+  await sendPayloadTx(client, account, payload2, 1000, true);
+}
+
+program
+  .command("approve-symbol")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .action(adminApproveBySymbol);
 
 program.parse();
