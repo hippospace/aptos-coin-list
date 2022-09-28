@@ -45,13 +45,19 @@ module coin_list::coin_list {
     }
 
     entry fun init_module(admin: &signer) {
+        initialize(admin);
+    }
+
+    #[cmd]
+    public entry fun initialize(admin: &signer) {
         assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
         let approvers = vector::empty<address>();
         vector::push_back(&mut approvers, std::signer::address_of(admin));
         move_to(admin, CoinRegistry {
             type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
             approvers,
-        })
+        });
+        create_list(admin);
     }
 
     #[cmd]
@@ -235,6 +241,9 @@ module coin_list::coin_list {
     #[cmd]
     public entry fun add_to_list<CoinType>(approver: &signer, list: address) acquires CoinRegistry, CoinList {
         assert!(is_coin_registered<CoinType>(), E_COIN_NOT_IN_REGISTRY);
+        if (!exists<CoinList>(list) && list == std::signer::address_of(approver)) {
+            create_list(approver);
+        };
         let list = borrow_global_mut<CoinList>(list);
         assert!(vector::contains(&list.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
         let coin_type = type_info::type_of<CoinType>();
@@ -427,8 +436,8 @@ module coin_list::coin_list {
         coin::destroy_burn_cap(burn);
 
         do_add_token<FakeBtc>(admin);
-        add_to_list<FakeBtc>(admin);
-        add_to_list<FakeBtc>(admin);
+        add_to_list<FakeBtc>(admin, std::signer::address_of(admin));
+        add_to_list<FakeBtc>(admin, std::signer::address_of(admin));
     }
 
     #[test(admin=@coin_list)]
@@ -446,13 +455,13 @@ module coin_list::coin_list {
 
         // add to list
         assert!(!is_coin_in_list<FakeBtc>(signer::address_of(admin)), 7);
-        add_to_list<FakeBtc>(admin);
+        add_to_list<FakeBtc>(admin, std::signer::address_of(admin));
         assert!(is_coin_in_list<FakeBtc>(signer::address_of(admin)), 8);
 
         remove_from_list<FakeBtc>(admin);
         assert!(!is_coin_in_list<FakeBtc>(signer::address_of(admin)), 9);
 
-        add_to_list<FakeBtc>(admin);
+        add_to_list<FakeBtc>(admin, std::signer::address_of(admin));
     }
 
 

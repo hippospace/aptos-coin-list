@@ -100,7 +100,6 @@ module coin_list::devnet_coins {
         );
     }
 
-    #[cmd(desc=b"Register devnet coins")]
     public entry fun deploy(admin: &signer) {
         init_coin_and_register<DevnetBTC>(
             admin,
@@ -193,6 +192,7 @@ module coin_list::devnet_coins {
 
     #[test(admin = @coin_list)]
     fun test_deploy(admin: &signer){
+        coin_list::initialize(admin);
         deploy(admin)
     }
 

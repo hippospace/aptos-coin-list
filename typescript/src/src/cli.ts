@@ -188,6 +188,20 @@ program
   .action(coin_list_drop_extension);
 
 
+const coin_list_initialize = async () => {
+  const {client, account} = readConfig(program);
+
+  const payload = Coin_list.Coin_list.buildPayload_initialize();
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:initialize")
+  .description("")
+
+  .action(coin_list_initialize);
+
+
 const coin_list_remove_approver_from_list = async (approver: string) => {
   const {client, account} = readConfig(program);
   const approver_ = new HexString(approver);
@@ -228,20 +242,6 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .action(coin_list_remove_from_list);
-
-
-const devnet_coins_deploy = async () => {
-  const {client, account} = readConfig(program);
-
-  const payload = Coin_list.Devnet_coins.buildPayload_deploy();
-  await sendPayloadTx(client, account, payload, 10000, true);
-}
-
-program
-  .command("devnet-coins:deploy")
-  .description("Register devnet coins")
-
-  .action(devnet_coins_deploy);
 
 
 const devnet_coins_mint_to_wallet = async (CoinType: string, amount: string) => {
