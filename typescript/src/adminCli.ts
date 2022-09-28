@@ -5,6 +5,7 @@ import { App, stdlib } from "./src";
 import * as fs from "fs";
 import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";
+import { RawCoinInfo } from "./list";
 
 export const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -45,16 +46,31 @@ const makeStr = (s: string) => {
 }
 
 
-const adminApproveByType = async (coinType: string) => {
+const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   const {client, account} = readConfig(program);
-  let CoinType: TypeTag;
-  try{
-    CoinType = parseTypeTagOrThrow(coinType);
+  const CoinType = parseTypeTagOrThrow(info.token_type.type);
+
+  const app = new App(client).coin_list.coin_list;
+
+  const payload = app.payload_add_to_registry_by_approver(
+    makeStr(info.name),
+    makeStr(info.symbol),
+    makeStr(info.coingecko_id),
+    makeStr(info.logo_url),
+    makeStr(info.project_url),
+    isUpdate,
+    [CoinType]
+  );
+  await sendPayloadTx(client, account, payload, 1000, true);
+  
+  if (!isUpdate) {
+    const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
+    await sendPayloadTx(client, account, payload2, 1000, true);
   }
-  catch (e) {
-    console.log(`Bad type: ${coinType}`);
-    return;
-  }
+}
+
+
+const adminApproveByType = async (coinType: string) => {
   const rawInfos = REQUESTS.filter(req => req.token_type.type === coinType);
   if (rawInfos.length === 0) {
     console.log(`Not found in REQUESTS: ${coinType}`);
@@ -67,21 +83,7 @@ const adminApproveByType = async (coinType: string) => {
 
   const info = rawInfos[0];
 
-  const app = new App(client).coin_list.coin_list;
-
-  const payload = app.payload_add_to_registry_by_approver(
-    makeStr(info.name),
-    makeStr(info.symbol),
-    makeStr(info.coingecko_id),
-    makeStr(info.logo_url),
-    makeStr(info.project_url),
-    false,
-    [CoinType]
-  );
-  await sendPayloadTx(client, account, payload, 1000, true);
-  
-  const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
-  await sendPayloadTx(client, account, payload2, 1000, true);
+  await approveCoin(info, false);
 }
 
 program
@@ -92,7 +94,6 @@ program
 
 
 const adminApproveBySymbol = async (symbol: string) => {
-  const {client, account} = readConfig(program);
   const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
   if (rawInfos.length === 0) {
     console.log(`Not found in REQUESTS: ${symbol}`);
@@ -104,23 +105,7 @@ const adminApproveBySymbol = async (symbol: string) => {
   }
 
   const info = rawInfos[0];
-  const CoinType = parseTypeTagOrThrow(info.token_type.type);
-
-  const app = new App(client).coin_list.coin_list;
-
-  const payload = app.payload_add_to_registry_by_approver(
-    makeStr(info.name),
-    makeStr(info.symbol),
-    makeStr(info.coingecko_id),
-    makeStr(info.logo_url),
-    makeStr(info.project_url),
-    false,
-    [CoinType]
-  );
-  await sendPayloadTx(client, account, payload, 1000, true);
-  
-  const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
-  await sendPayloadTx(client, account, payload2, 1000, true);
+  await approveCoin(info, false);
 }
 
 program
@@ -128,5 +113,27 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .action(adminApproveBySymbol);
+
+
+const adminUpdateBySymbol = async (symbol: string) => {
+  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
+  if (rawInfos.length === 0) {
+    console.log(`Not found in REQUESTS: ${symbol}`);
+    return;
+  }
+  if (rawInfos.length > 1) {
+    console.log(`Found multiple entries of the same symbol: ${symbol}`);
+    return;
+  }
+
+  const info = rawInfos[0];
+  await approveCoin(info, true);
+}
+
+program
+  .command("update-symbol")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .action(adminUpdateBySymbol);
 
 program.parse();
