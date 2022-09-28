@@ -10,6 +10,11 @@ Rest will be taken care of by a group of authorized maintainers.
 - Manahip (Mana)
 - application welcome!
 
+# Use the CoinList TS SDK
+
+npm repo: `@manahippo/coin-list`
+Client interface: [here](https://github.com/hippospace/aptos-coin-list/blob/2663369014b2035654bf4778e3794ecbf0b0fc06/typescript/src/client.ts#L51)
+
 # token-list
 
 A permissionless, on-chain token list for aptos.
