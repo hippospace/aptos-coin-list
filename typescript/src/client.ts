@@ -9,6 +9,7 @@ export function coinInfoToRaw(coinInfo: coin_list.Coin_list.CoinInfo): RawCoinIn
   return {
     name: coinInfo.name.str(),
     symbol: coinInfo.symbol.str(),
+    official_symbol: coinInfo.official_symbol.str(),
     coingecko_id: coinInfo.coingecko_id.str(),
     decimals: coinInfo.decimals.toJsNumber(),
     logo_url: coinInfo.logo_url.str(),

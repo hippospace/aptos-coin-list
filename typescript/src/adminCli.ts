@@ -1,4 +1,4 @@
-import { parseTypeTagOrThrow, TypeTag, strToU8, sendPayloadTx } from "@manahippo/move-to-ts";
+import { parseTypeTagOrThrow, strToU8, sendPayloadTx } from "@manahippo/move-to-ts";
 import { AptosAccount, AptosClient, HexString } from "aptos";
 import { Command } from "commander";
 import { App, stdlib } from "./src";
