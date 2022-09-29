@@ -104,7 +104,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetBTC>(
             admin,
             utf8(b"Bitcoin"),
-            utf8(b"BTC"),
+            utf8(b"devBTC"),
             utf8(b"bitcoin"),
             utf8(b"https://assets.coingecko.com/coins/images/1/small/bitcoin.png?1547033579"),
             utf8(b"project_url"),
@@ -114,7 +114,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetBNB>(
             admin,
             utf8(b"BNB"),
-            utf8(b"BNB"),
+            utf8(b"devBNB"),
             utf8(b"binancecoin"),
             utf8(b"https://assets.coingecko.com/coins/images/825/small/bnb-icon2_2x.png?1644979850"),
             utf8(b"project_url"),
@@ -124,7 +124,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetETH>(
             admin,
             utf8(b"Ethereum"),
-            utf8(b"ETH"),
+            utf8(b"devETH"),
             utf8(b"ethereum"),
             utf8(b"https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880"),
             utf8(b"project_url"),
@@ -134,7 +134,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetSOL>(
             admin,
             utf8(b"Solana"),
-            utf8(b"SOL"),
+            utf8(b"devSOL"),
             utf8(b"solana"),
             utf8(b"https://assets.coingecko.com/coins/images/4128/small/solana.png?1640133422"),
             utf8(b"project_url"),
@@ -144,7 +144,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetUSDC>(
             admin,
             utf8(b"USD Coin"),
-            utf8(b"USDC"),
+            utf8(b"devUSDC"),
             utf8(b"usd-coin"),
             utf8(b"https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389"),
             utf8(b"project_url"),
@@ -154,7 +154,7 @@ module coin_list::devnet_coins {
         init_coin_and_register<DevnetUSDT>(
             admin,
             utf8(b"Tether"),
-            utf8(b"USDT"),
+            utf8(b"devUSDT"),
             utf8(b"tether"),
             utf8(b"https://assets.coingecko.com/coins/images/325/small/Tether-logo.png?1598003707"),
             utf8(b"project_url"),
@@ -163,8 +163,8 @@ module coin_list::devnet_coins {
 
         init_coin_and_register<DevnetDAI>(
             admin,
-            utf8(b"Dai"),
             utf8(b"DAI"),
+            utf8(b"devDAI"),
             utf8(b"dai"),
             utf8(b"https://assets.coingecko.com/coins/images/9956/small/4943.png?1636636734"),
             utf8(b"project_url"),

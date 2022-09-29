@@ -7,6 +7,7 @@ module coin_list::coin_list {
     use std::signer;
     use std::vector;
     use std::option;
+    use aptos_std::table;
 
 
     const E_CONTRACT_OWNER_ONLY: u64 = 0;
@@ -15,6 +16,7 @@ module coin_list::coin_list {
     const E_COIN_NOT_IN_REGISTRY:u64 = 3;
     const E_LIST_DOES_NOT_EXIST:u64 = 4;
     const E_APPROVER_ONLY: u64 = 5;
+    const E_UID_ALREADY_EXISTS:u64 = 6;
 
 
     // For ease of iteration, we do not store CoinInfo as independent resource. Instead we put all CoinInfo under a
@@ -23,6 +25,7 @@ module coin_list::coin_list {
     struct CoinInfo has store, drop, copy {
         name: String,
         symbol: String,
+        official_symbol: String,
         coingecko_id: String,
         decimals: u8,
         logo_url: String,
@@ -34,6 +37,7 @@ module coin_list::coin_list {
 
     struct CoinRegistry has key {
         type_to_coin_info: iterable_table::IterableTable<type_info::TypeInfo, CoinInfo>,
+        uids: table::Table<String, Nothing>,
         approvers: vector<address>,
     }
 
@@ -55,6 +59,7 @@ module coin_list::coin_list {
         vector::push_back(&mut approvers, std::signer::address_of(admin));
         move_to(admin, CoinRegistry {
             type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
+            uids: table::new<String, Nothing>(),
             approvers,
         });
         create_list(admin);
@@ -195,6 +200,7 @@ module coin_list::coin_list {
         let coin_info = CoinInfo {
             name,
             symbol,
+            official_symbol: coin::symbol<CoinType>(),
             coingecko_id,
             decimals: coin::decimals<CoinType>(),
             logo_url,
@@ -205,6 +211,7 @@ module coin_list::coin_list {
 
         if (!is_update) {
             assert!(!iterable_table::contains(&registry.type_to_coin_info, type_info), E_TYPE_ALREADY_EXISTS);
+            assert!(!table::contains(&registry.uids, symbol), E_UID_ALREADY_EXISTS);
         }
         else {
             iterable_table::remove(&mut registry.type_to_coin_info, type_info);
@@ -395,6 +402,20 @@ module coin_list::coin_list {
         do_add_token<FakeBtc>(admin);
         coin::destroy_freeze_cap(freeze);
         do_add_token<FakeBtc>(admin);
+    }
+
+    #[test(admin=@coin_list)]
+    #[expected_failure]
+    fun test_duplicate_uid(admin: &signer) acquires CoinRegistry {
+        initialize(admin);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
+        coin::destroy_burn_cap(burn);
+
+        do_add_token<FakeBtc>(admin);
+        coin::destroy_freeze_cap(freeze);
+        do_add_token<FakeEth>(admin);
     }
 
     #[test(admin=@coin_list)]
