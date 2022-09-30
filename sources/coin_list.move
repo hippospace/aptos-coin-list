@@ -8,6 +8,7 @@ module coin_list::coin_list {
     use std::vector;
     use std::option;
     use aptos_std::table;
+    use coin_list::devnet_coins;
 
 
     const E_CONTRACT_OWNER_ONLY: u64 = 0;
@@ -64,6 +65,7 @@ module coin_list::coin_list {
         });
         create_list(admin);
         // create coins for devnet/testnet
+        devnet_coins::deploy(admin);
 
     }
 
