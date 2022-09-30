@@ -156,12 +156,8 @@ module coin_list::devnet_coins {
         burn(c)
     }
 
-    #[test_only]
-    use coin_list::coin_list;
-
     #[test(admin = @coin_list)]
     fun test_deploy(admin: &signer){
-        coin_list::initialize(admin);
         deploy(admin)
     }
 
