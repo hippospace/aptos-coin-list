@@ -52,51 +52,6 @@ const makeStr = (s: string) => {
   return new stdlib.String.String({bytes: strToU8(s)}, stdlib.String.String.getTag())
 }
 
-const initTestCoin = async(info: RawCoinInfo) => {
-  const {client, account} = readConfig(program);
-  const app = new App(client).coin_list.devnet_coins;
-  let res = await app.init_coin(
-      account,
-      strToU8(info.name),
-      strToU8(info.official_symbol),
-      new U8(bigInt(info.decimals)),
-      [parseTypeTagOrThrow(info.token_type.type)]
-  )
-  consoleTransactionResult("Init", info, res)
-}
-
-const adminInitTestCoinBySymbol = async (symbol: string) => {
-  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
-  if (rawInfos.length === 0) {
-    console.log(`Not found in REQUESTS: ${symbol}`);
-    return;
-  }
-  if (rawInfos.length > 1) {
-    console.log(`Found multiple entries of the same symbol: ${symbol}`);
-    return;
-  }
-  const info = rawInfos[0];
-  await initTestCoin(info);
-}
-
-program
-    .command("init-symbol")
-    .description("")
-    .argument('<TYPE_CoinType>')
-    .action(adminInitTestCoinBySymbol);
-
-const adminInitTestCoin = async () => {
-  for (const info of REQUESTS) {
-    await initTestCoin(info);
-    console.log("")
-  }
-}
-
-program
-    .command("init-all")
-    .description("")
-    .action(adminInitTestCoin);
-
 const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   const {client, account} = readConfig(program);
   const CoinType = parseTypeTagOrThrow(info.token_type.type);
