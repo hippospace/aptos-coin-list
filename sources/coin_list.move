@@ -63,6 +63,8 @@ module coin_list::coin_list {
             approvers,
         });
         create_list(admin);
+        // create coins for devnet/testnet
+
     }
 
     #[cmd]
