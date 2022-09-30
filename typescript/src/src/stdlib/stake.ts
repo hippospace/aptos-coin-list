@@ -38,6 +38,7 @@ export const ESTAKE_TOO_LOW : U64 = u64("2");
 export const EVALIDATOR_CONFIG : U64 = u64("1");
 export const EVALIDATOR_SET_TOO_LARGE : U64 = u64("12");
 export const EVOTING_POWER_INCREASE_EXCEEDS_LIMIT : U64 = u64("13");
+export const MAX_REWARDS_RATE : U64 = u64("1000000");
 export const MAX_VALIDATOR_SET_SIZE : U64 = u64("65536");
 export const VALIDATOR_STATUS_ACTIVE : U64 = u64("2");
 export const VALIDATOR_STATUS_INACTIVE : U64 = u64("4");
@@ -1035,7 +1036,7 @@ export function assert_stake_pool_exists_ (
   pool_address: HexString,
   $c: AptosDataCache,
 ): void {
-  if (!$c.exists(new SimpleStructTag(StakePool), $.copy(pool_address))) {
+  if (!stake_pool_exists_($.copy(pool_address), $c)) {
     throw $.abortCode(Error.invalid_argument_($.copy(ESTAKE_POOL_DOES_NOT_EXIST), $c));
   }
   return;
@@ -1050,6 +1051,7 @@ export function calculate_rewards_amount_ (
   $c: AptosDataCache,
 ): U64 {
   let temp$1, rewards_denominator, rewards_numerator;
+  ;
   rewards_numerator = ((u128($.copy(stake_amount))).mul(u128($.copy(rewards_rate)))).mul(u128($.copy(num_successful_proposals)));
   rewards_denominator = (u128($.copy(rewards_rate_denominator))).mul(u128($.copy(num_total_proposals)));
   if (($.copy(rewards_denominator)).gt(u128("0"))) {
@@ -1393,7 +1395,7 @@ export function initialize_owner_ (
   if (!is_allowed_($.copy(owner_address), $c)) {
     throw $.abortCode(Error.not_found_($.copy(EINELIGIBLE_VALIDATOR), $c));
   }
-  if (!!$c.exists(new SimpleStructTag(StakePool), $.copy(owner_address))) {
+  if (!!stake_pool_exists_($.copy(owner_address), $c)) {
     throw $.abortCode(Error.already_exists_($.copy(EALREADY_REGISTERED), $c));
   }
   temp$20 = owner;
@@ -2003,6 +2005,13 @@ export function set_operator_with_cap_ (
   stake_pool.operator_address = $.copy(new_operator);
   Event.emit_event_(stake_pool.set_operator_events, new SetOperatorEvent({ pool_address: $.copy(pool_address), old_operator: $.copy(old_operator), new_operator: $.copy(new_operator) }, new SimpleStructTag(SetOperatorEvent)), $c, [new SimpleStructTag(SetOperatorEvent)]);
   return;
+}
+
+export function stake_pool_exists_ (
+  addr: HexString,
+  $c: AptosDataCache,
+): boolean {
+  return $c.exists(new SimpleStructTag(StakePool), $.copy(addr));
 }
 
 export function store_aptos_coin_mint_cap_ (

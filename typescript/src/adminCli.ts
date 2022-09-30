@@ -1,11 +1,12 @@
-import { parseTypeTagOrThrow, strToU8, sendPayloadTx } from "@manahippo/move-to-ts";
-import { AptosAccount, AptosClient, HexString } from "aptos";
+import {parseTypeTagOrThrow, strToU8, sendPayloadTx, U8} from "@manahippo/move-to-ts";
+import {AptosAccount, AptosClient, HexString, Types} from "aptos";
 import { Command } from "commander";
 import { App, stdlib } from "./src";
 import * as fs from "fs";
 import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
+import bigInt from "big-integer";
 
 export const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -40,35 +41,82 @@ program
   .requiredOption('-c, --config <path>', 'path to your aptos config.yml (generated with "aptos init")')
   .option('-p, --profile <PROFILE>', 'aptos config profile to use', 'default')
 
+const consoleTransactionResult = (prefix:string, info: RawCoinInfo, res: Types.UserTransaction) => {
+  console.log(prefix +" " + info.token_type.type + " "+ res.success)
+  if (!res.success){
+    console.log(res.vm_status)
+  }
+}
 
 const makeStr = (s: string) => {
   return new stdlib.String.String({bytes: strToU8(s)}, stdlib.String.String.getTag())
 }
 
+const initTestCoin = async(info: RawCoinInfo) => {
+  const {client, account} = readConfig(program);
+  const app = new App(client).coin_list.devnet_coins;
+  let res = await app.init_coin(
+      account,
+      strToU8(info.name),
+      strToU8(info.official_symbol),
+      new U8(bigInt(info.decimals)),
+      [parseTypeTagOrThrow(info.token_type.type)]
+  )
+  consoleTransactionResult("Init", info, res)
+}
 
+const adminInitTestCoin = async () => {
+  for (const info of REQUESTS) {
+    await initTestCoin(info);
+    console.log("")
+  }
+}
+
+program
+    .command("init-all")
+    .description("")
+    .action(adminInitTestCoin);
+
+const adminInitTestCoinBySymbol = async (symbol: string) => {
+  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
+  if (rawInfos.length === 0) {
+    console.log(`Not found in REQUESTS: ${symbol}`);
+    return;
+  }
+  if (rawInfos.length > 1) {
+    console.log(`Found multiple entries of the same symbol: ${symbol}`);
+    return;
+  }
+  const info = rawInfos[0];
+  await initTestCoin(info);
+}
+
+program
+    .command("init-symbol")
+    .description("")
+    .argument('<TYPE_CoinType>')
+    .action(adminInitTestCoinBySymbol);
 const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   const {client, account} = readConfig(program);
   const CoinType = parseTypeTagOrThrow(info.token_type.type);
 
   const app = new App(client).coin_list.coin_list;
-
-  const payload = app.payload_add_to_registry_by_approver(
-    makeStr(info.name),
-    makeStr(info.symbol),
-    makeStr(info.coingecko_id),
-    makeStr(info.logo_url),
-    makeStr(info.project_url),
-    isUpdate,
-    [CoinType]
-  );
-  await sendPayloadTx(client, account, payload, 1000, true);
+  let res = await app.add_to_registry_by_approver(
+      account,
+      makeStr(info.name),
+      makeStr(info.symbol),
+      makeStr(info.coingecko_id),
+      makeStr(info.logo_url),
+      makeStr(info.project_url),
+      isUpdate,
+      [CoinType])
+  consoleTransactionResult(isUpdate?"Update":"Approve", info, res)
   
-  if (!isUpdate) {
-    const payload2 = app.payload_add_to_list(app.moduleAddress, [CoinType]);
-    await sendPayloadTx(client, account, payload2, 1000, true);
+  if (res.success && !isUpdate) {
+    res = await app.add_to_list(account,app.moduleAddress, [CoinType])
+    consoleTransactionResult("Add to list", info, res)
   }
 }
-
 
 const adminApproveByType = async (coinType: string) => {
   const rawInfos = REQUESTS.filter(req => req.token_type.type === coinType);
@@ -114,6 +162,17 @@ program
   .argument('<TYPE_CoinType>')
   .action(adminApproveBySymbol);
 
+const adminApproveAll = async () => {
+  for (const info of REQUESTS) {
+    await approveCoin(info, false);
+    console.log("")
+  }
+}
+
+program
+    .command("approve-all")
+    .description("")
+    .action(adminApproveAll);
 
 const adminUpdateBySymbol = async (symbol: string) => {
   const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
@@ -135,5 +194,17 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .action(adminUpdateBySymbol);
+
+const adminUpdateAll = async () => {
+  for (const info of REQUESTS) {
+    await approveCoin(info, true);
+    console.log("")
+  }
+}
+
+program
+    .command("update-all")
+    .description("")
+    .action(adminUpdateAll);
 
 program.parse();

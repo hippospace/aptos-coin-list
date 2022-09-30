@@ -350,6 +350,31 @@ export function init_coin_ (
   return;
 }
 
+
+export function buildPayload_init_coin (
+  name: U8[],
+  symbol: U8[],
+  decimals: U8,
+  $p: TypeTag[], /* <CoinType>*/
+  isJSON = false,
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload {
+  const typeParamStrings = $p.map(t=>$.getTypeTagFullname(t));
+  return $.buildPayload(
+    new HexString("0xdeae46f81671e76f444e2ce5a299d9e1ea06a8fa26e81dfd49aa7fa5a5a60e01"),
+    "devnet_coins",
+    "init_coin",
+    typeParamStrings,
+    [
+      name,
+      symbol,
+      decimals,
+    ],
+    isJSON,
+  );
+
+}
+
 export function init_coin_and_register_ (
   admin: HexString,
   name: Stdlib.String.String,
@@ -480,6 +505,28 @@ export class App {
     _isJSON = false,
   ) {
     const payload = buildPayload_deploy(_isJSON);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
+  payload_init_coin(
+    name: U8[],
+    symbol: U8[],
+    decimals: U8,
+    $p: TypeTag[], /* <CoinType>*/
+    isJSON = false,
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload {
+    return buildPayload_init_coin(name, symbol, decimals, $p, isJSON);
+  }
+  async init_coin(
+    _account: AptosAccount,
+    name: U8[],
+    symbol: U8[],
+    decimals: U8,
+    $p: TypeTag[], /* <CoinType>*/
+    _maxGas = 1000,
+    _isJSON = false,
+  ) {
+    const payload = buildPayload_init_coin(name, symbol, decimals, $p, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_mint_to_wallet(

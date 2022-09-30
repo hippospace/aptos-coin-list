@@ -16,10 +16,12 @@ export const moduleName = "storage_gas";
 export const BASIS_POINT_DENOMINATION : U64 = u64("10000");
 export const EINVALID_GAS_RANGE : U64 = u64("2");
 export const EINVALID_MONOTONICALLY_NON_DECREASING_CURVE : U64 = u64("5");
+export const EINVALID_POINT_RANGE : U64 = u64("6");
 export const ESTORAGE_GAS : U64 = u64("1");
 export const ESTORAGE_GAS_CONFIG : U64 = u64("0");
 export const ETARGET_USAGE_TOO_BIG : U64 = u64("4");
 export const EZERO_TARGET_USAGE : U64 = u64("3");
+export const MAX_U64 : U64 = u64("18446744073709551615");
 
 
 export class GasCurve 
@@ -262,7 +264,7 @@ export function calculate_gas_ (
   curve: GasCurve,
   $c: AptosDataCache,
 ): U64 {
-  let temp$1, temp$10, temp$11, temp$12, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, capped_current_usage, current_usage_bps, i, j, left, mid, num_points, points, right;
+  let temp$1, temp$10, temp$11, temp$12, temp$13, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, capped_current_usage, current_usage_bps, i, j, left, mid, num_points, points, right, y_interpolated;
   if (($.copy(current_usage)).gt($.copy(max_usage))) {
     temp$1 = $.copy(max_usage);
   }
@@ -277,40 +279,47 @@ export function calculate_gas_ (
     temp$3 = new Point({ x: u64("0"), y: u64("0") }, new SimpleStructTag(Point));
     temp$4 = temp$3;
     temp$2 = new Point({ x: $.copy(BASIS_POINT_DENOMINATION), y: $.copy(BASIS_POINT_DENOMINATION) }, new SimpleStructTag(Point));
-    [temp$11, temp$12] = [temp$4, temp$2];
+    [temp$12, temp$13] = [temp$4, temp$2];
   }
   else{
-    [i, j] = [u64("0"), ($.copy(num_points)).sub(u64("1"))];
-    while (($.copy(i)).lt($.copy(j))) {
-      {
-        mid = ($.copy(j)).sub((($.copy(j)).sub($.copy(i))).div(u64("2")));
-        if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, $.copy(mid), $c, [new SimpleStructTag(Point)]).x))) {
-          j = ($.copy(mid)).sub(u64("1"));
-        }
-        else{
-          i = $.copy(mid);
-        }
-      }
-
-    }if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, u64("0"), $c, [new SimpleStructTag(Point)]).x))) {
+    if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, u64("0"), $c, [new SimpleStructTag(Point)]).x))) {
       temp$5 = new Point({ x: u64("0"), y: u64("0") }, new SimpleStructTag(Point));
-      [temp$9, temp$10] = [temp$5, Vector.borrow_(points, u64("0"), $c, [new SimpleStructTag(Point)])];
+      [temp$10, temp$11] = [temp$5, Vector.borrow_(points, u64("0"), $c, [new SimpleStructTag(Point)])];
     }
     else{
-      temp$8 = Vector.borrow_(points, $.copy(i), $c, [new SimpleStructTag(Point)]);
-      if (($.copy(i)).eq((($.copy(num_points)).sub(u64("1"))))) {
+      if (($.copy(Vector.borrow_(points, ($.copy(num_points)).sub(u64("1")), $c, [new SimpleStructTag(Point)]).x)).le($.copy(current_usage_bps))) {
+        temp$7 = Vector.borrow_(points, ($.copy(num_points)).sub(u64("1")), $c, [new SimpleStructTag(Point)]);
         temp$6 = new Point({ x: $.copy(BASIS_POINT_DENOMINATION), y: $.copy(BASIS_POINT_DENOMINATION) }, new SimpleStructTag(Point));
-        temp$7 = temp$6;
+        [temp$8, temp$9] = [temp$7, temp$6];
       }
       else{
-        temp$7 = Vector.borrow_(points, ($.copy(i)).add(u64("1")), $c, [new SimpleStructTag(Point)]);
+        [i, j] = [u64("0"), ($.copy(num_points)).sub(u64("2"))];
+        while (true) {
+          {
+            ;
+          }
+          if (!(($.copy(i)).lt($.copy(j)))) break;
+          {
+            mid = ($.copy(j)).sub((($.copy(j)).sub($.copy(i))).div(u64("2")));
+            if (($.copy(current_usage_bps)).lt($.copy(Vector.borrow_(points, $.copy(mid), $c, [new SimpleStructTag(Point)]).x))) {
+              ;
+              j = ($.copy(mid)).sub(u64("1"));
+            }
+            else{
+              ;
+              i = $.copy(mid);
+            }
+          }
+
+        }[temp$8, temp$9] = [Vector.borrow_(points, $.copy(i), $c, [new SimpleStructTag(Point)]), Vector.borrow_(points, ($.copy(i)).add(u64("1")), $c, [new SimpleStructTag(Point)])];
       }
-      [temp$9, temp$10] = [temp$8, temp$7];
+      [temp$10, temp$11] = [temp$8, temp$9];
     }
-    [temp$11, temp$12] = [temp$9, temp$10];
+    [temp$12, temp$13] = [temp$10, temp$11];
   }
-  [left, right] = [temp$11, temp$12];
-  return ($.copy(curve.min_gas)).add(((($.copy(curve.max_gas)).sub($.copy(curve.min_gas))).mul(($.copy(left.y)).add(((($.copy(current_usage_bps)).sub($.copy(left.x))).mul(($.copy(right.y)).sub($.copy(left.y)))).div(($.copy(right.x)).sub($.copy(left.x)))))).div($.copy(BASIS_POINT_DENOMINATION)));
+  [left, right] = [temp$12, temp$13];
+  y_interpolated = interpolate_($.copy(left.x), $.copy(right.x), $.copy(left.y), $.copy(right.y), $.copy(current_usage_bps), $c);
+  return interpolate_(u64("0"), $.copy(BASIS_POINT_DENOMINATION), $.copy(curve.min_gas), $.copy(curve.max_gas), $.copy(y_interpolated), $c);
 }
 
 export function calculate_read_gas_ (
@@ -348,8 +357,6 @@ export function initialize_ (
   }
   item_config = new UsageGasConfig({ target_usage: u64("1000000000"), read_curve: base_8192_exponential_curve_(u64("80000"), (u64("80000")).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_(u64("2000000"), (u64("2000000")).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_(u64("400000"), (u64("400000")).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
   byte_config = new UsageGasConfig({ target_usage: u64("500000000000"), read_curve: base_8192_exponential_curve_(u64("40"), (u64("40")).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_(u64("1000"), (u64("1000")).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_(u64("200"), (u64("200")).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
-  validate_usage_config_(item_config, $c);
-  validate_usage_config_(item_config, $c);
   $c.move_to(new SimpleStructTag(StorageGasConfig), aptos_framework, new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new SimpleStructTag(StorageGasConfig)));
   if (!!$c.exists(new SimpleStructTag(StorageGas), new HexString("0x1"))) {
     throw $.abortCode(Error.already_exists_($.copy(ESTORAGE_GAS), $c));
@@ -358,12 +365,30 @@ export function initialize_ (
   return;
 }
 
+export function interpolate_ (
+  x0: U64,
+  x1: U64,
+  y0: U64,
+  y1: U64,
+  x: U64,
+  $c: AptosDataCache,
+): U64 {
+  return ($.copy(y0)).add(((($.copy(x)).sub($.copy(x0))).mul(($.copy(y1)).sub($.copy(y0)))).div(($.copy(x1)).sub($.copy(x0))));
+}
+
 export function new_gas_curve_ (
   min_gas: U64,
   max_gas: U64,
   points: Point[],
   $c: AptosDataCache,
 ): GasCurve {
+  if (!($.copy(max_gas)).ge($.copy(min_gas))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_RANGE), $c));
+  }
+  if (!($.copy(max_gas)).le(($.copy(MAX_U64)).div($.copy(BASIS_POINT_DENOMINATION)))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_RANGE), $c));
+  }
+  validate_points_(points, $c);
   return new GasCurve({ min_gas: $.copy(min_gas), max_gas: $.copy(max_gas), points: $.copy(points) }, new SimpleStructTag(GasCurve));
 }
 
@@ -372,6 +397,16 @@ export function new_point_ (
   y: U64,
   $c: AptosDataCache,
 ): Point {
+  let temp$1;
+  if (($.copy(x)).le($.copy(BASIS_POINT_DENOMINATION))) {
+    temp$1 = ($.copy(y)).le($.copy(BASIS_POINT_DENOMINATION));
+  }
+  else{
+    temp$1 = false;
+  }
+  if (!temp$1) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_POINT_RANGE), $c));
+  }
   return new Point({ x: $.copy(x), y: $.copy(y) }, new SimpleStructTag(Point));
 }
 
@@ -390,6 +425,12 @@ export function new_usage_gas_config_ (
   write_curve: GasCurve,
   $c: AptosDataCache,
 ): UsageGasConfig {
+  if (!($.copy(target_usage)).gt(u64("0"))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EZERO_TARGET_USAGE), $c));
+  }
+  if (!($.copy(target_usage)).le(($.copy(MAX_U64)).div($.copy(BASIS_POINT_DENOMINATION)))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(ETARGET_USAGE_TOO_BIG), $c));
+  }
   return new UsageGasConfig({ target_usage: $.copy(target_usage), read_curve: $.copy(read_curve), create_curve: $.copy(create_curve), write_curve: $.copy(write_curve) }, new SimpleStructTag(UsageGasConfig));
 }
 
@@ -421,24 +462,23 @@ export function set_config_ (
   $c: AptosDataCache,
 ): void {
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
-  validate_usage_config_(config.item_config, $c);
-  validate_usage_config_(config.byte_config, $c);
   $.set($c.borrow_global_mut<StorageGasConfig>(new SimpleStructTag(StorageGasConfig), new HexString("0x1")), $.copy(config));
   return;
 }
 
-export function validate_curve_ (
-  curve: GasCurve,
+export function validate_points_ (
+  points: Point[],
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, temp$3, temp$4, temp$5, cur, i, len, next, points;
-  if (!($.copy(curve.max_gas)).ge($.copy(curve.min_gas))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_GAS_RANGE), $c));
-  }
-  points = curve.points;
+  let temp$1, temp$2, temp$3, temp$4, temp$5, cur, i, len, next;
   len = Vector.length_(points, $c, [new SimpleStructTag(Point)]);
+  ;
   i = u64("0");
-  while (($.copy(i)).le($.copy(len))) {
+  while (true) {
+    {
+      ;
+    }
+    if (!(($.copy(i)).le($.copy(len)))) break;
     {
       if (($.copy(i)).eq((u64("0")))) {
         temp$1 = new Point({ x: u64("0"), y: u64("0") }, new SimpleStructTag(Point));
@@ -469,22 +509,6 @@ export function validate_curve_ (
     }
 
   }return;
-}
-
-export function validate_usage_config_ (
-  config: UsageGasConfig,
-  $c: AptosDataCache,
-): void {
-  if (!($.copy(config.target_usage)).gt(u64("0"))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EZERO_TARGET_USAGE), $c));
-  }
-  if (!($.copy(config.target_usage)).le((u64("18446744073709551615")).div($.copy(BASIS_POINT_DENOMINATION)))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(ETARGET_USAGE_TOO_BIG), $c));
-  }
-  validate_curve_(config.read_curve, $c);
-  validate_curve_(config.create_curve, $c);
-  validate_curve_(config.write_curve, $c);
-  return;
 }
 
 export function loadParsers(repo: AptosParserRepo) {

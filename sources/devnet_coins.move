@@ -25,7 +25,8 @@ module coin_list::devnet_coins {
         init_coin<TokenType>(admin, name, name, decimals)
     }
 
-    public fun init_coin<CoinType>(
+    #[cmd]
+    public entry fun init_coin<CoinType>(
         admin: &signer,
         name: vector<u8>,
         symbol: vector<u8>,

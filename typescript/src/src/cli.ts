@@ -244,6 +244,26 @@ program
   .action(coin_list_remove_from_list);
 
 
+const devnet_coins_init_coin = async (CoinType: string, name: string, symbol: string, decimals: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const name_ = strToU8(name);
+  const symbol_ = strToU8(symbol);
+  const decimals_ = u8(decimals);
+  const payload = Coin_list.Devnet_coins.buildPayload_init_coin(name_, symbol_, decimals_, [CoinType_]);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("devnet-coins:init-coin")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .argument('<name>')
+  .argument('<symbol>')
+  .argument('<decimals>')
+  .action(devnet_coins_init_coin);
+
+
 const devnet_coins_mint_to_wallet = async (CoinType: string, amount: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);

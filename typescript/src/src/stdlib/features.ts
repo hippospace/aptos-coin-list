@@ -5,13 +5,15 @@ import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
-import * as System_addresses from "./system_addresses";
+import * as Error from "./error";
+import * as Signer from "./signer";
 import * as Vector from "./vector";
-export const packageName = "AptosFramework";
+export const packageName = "MoveStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "features";
 
 export const CODE_DEPENDENCY_CHECK : U64 = u64("1");
+export const EFRAMEWORK_SIGNER_NEEDED : U64 = u64("1");
 export const TREAT_FRIEND_AS_PRIVATE : U64 = u64("2");
 
 
@@ -56,15 +58,17 @@ export class Features
 
 }
 export function change_feature_flags_ (
-  aptos_framework: HexString,
+  framework: HexString,
   enable: U64[],
   disable: U64[],
   $c: AptosDataCache,
 ): void {
   let features, i, i__1, n, n__2;
-  System_addresses.assert_aptos_framework_(aptos_framework, $c);
+  if (!((Signer.address_of_(framework, $c)).hex() === (new HexString("0x1")).hex())) {
+    throw $.abortCode(Error.permission_denied_($.copy(EFRAMEWORK_SIGNER_NEEDED), $c));
+  }
   if (!$c.exists(new SimpleStructTag(Features), new HexString("0x1"))) {
-    $c.move_to(new SimpleStructTag(Features), aptos_framework, new Features({ features: [] as U8[] }, new SimpleStructTag(Features)));
+    $c.move_to(new SimpleStructTag(Features), framework, new Features({ features: [] as U8[] }, new SimpleStructTag(Features)));
   }
   else{
   }

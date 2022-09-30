@@ -49,6 +49,7 @@ import * as Simple_map from './simple_map';
 import * as Stake from './stake';
 import * as Staking_config from './staking_config';
 import * as Staking_contract from './staking_contract';
+import * as Staking_proxy from './staking_proxy';
 import * as State_storage from './state_storage';
 import * as Storage_gas from './storage_gas';
 import * as String from './string';
@@ -114,6 +115,7 @@ export * as Simple_map from './simple_map';
 export * as Stake from './stake';
 export * as Staking_config from './staking_config';
 export * as Staking_contract from './staking_contract';
+export * as Staking_proxy from './staking_proxy';
 export * as State_storage from './state_storage';
 export * as Storage_gas from './storage_gas';
 export * as String from './string';
@@ -181,6 +183,7 @@ export function loadParsers(repo: AptosParserRepo) {
   Stake.loadParsers(repo);
   Staking_config.loadParsers(repo);
   Staking_contract.loadParsers(repo);
+  Staking_proxy.loadParsers(repo);
   State_storage.loadParsers(repo);
   Storage_gas.loadParsers(repo);
   String.loadParsers(repo);
@@ -261,6 +264,7 @@ export class App {
   stake : Stake.App
   staking_config : Staking_config.App
   staking_contract : Staking_contract.App
+  staking_proxy : Staking_proxy.App
   state_storage : State_storage.App
   storage_gas : Storage_gas.App
   string : String.App
@@ -330,6 +334,7 @@ export class App {
     this.stake = new Stake.App(client, repo, cache);
     this.staking_config = new Staking_config.App(client, repo, cache);
     this.staking_contract = new Staking_contract.App(client, repo, cache);
+    this.staking_proxy = new Staking_proxy.App(client, repo, cache);
     this.state_storage = new State_storage.App(client, repo, cache);
     this.storage_gas = new Storage_gas.App(client, repo, cache);
     this.string = new String.App(client, repo, cache);

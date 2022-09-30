@@ -1067,6 +1067,22 @@ export function get_vesting_account_signer_internal_ (
   return Account.create_signer_with_capability_(vesting_contract.signer_cap, $c);
 }
 
+export function operator_ (
+  vesting_contract_address: HexString,
+  $c: AptosDataCache,
+): HexString {
+  assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+  return $.copy($c.borrow_global<VestingContract>(new SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.operator);
+}
+
+export function operator_commission_percentage_ (
+  vesting_contract_address: HexString,
+  $c: AptosDataCache,
+): U64 {
+  assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+  return $.copy($c.borrow_global<VestingContract>(new SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.commission_percentage);
+}
+
 export function remaining_grant_ (
   vesting_contract_address: HexString,
   $c: AptosDataCache,
@@ -1429,6 +1445,39 @@ export function buildPayload_update_operator (
   );
 
 }
+export function update_operator_with_same_commission_ (
+  admin: HexString,
+  contract_address: HexString,
+  new_operator: HexString,
+  $c: AptosDataCache,
+): void {
+  let commission_percentage;
+  commission_percentage = operator_commission_percentage_($.copy(contract_address), $c);
+  update_operator_(admin, $.copy(contract_address), $.copy(new_operator), $.copy(commission_percentage), $c);
+  return;
+}
+
+
+export function buildPayload_update_operator_with_same_commission (
+  contract_address: HexString,
+  new_operator: HexString,
+  isJSON = false,
+): TxnBuilderTypes.TransactionPayloadEntryFunction
+   | Types.TransactionPayload_EntryFunctionPayload {
+  const typeParamStrings = [] as string[];
+  return $.buildPayload(
+    new HexString("0x1"),
+    "vesting",
+    "update_operator_with_same_commission",
+    typeParamStrings,
+    [
+      contract_address,
+      new_operator,
+    ],
+    isJSON,
+  );
+
+}
 export function update_voter_ (
   admin: HexString,
   contract_address: HexString,
@@ -1526,12 +1575,34 @@ export function buildPayload_vest (
   );
 
 }
+export function vesting_contracts_ (
+  admin: HexString,
+  $c: AptosDataCache,
+): HexString[] {
+  let temp$1;
+  if (!$c.exists(new SimpleStructTag(AdminStore), $.copy(admin))) {
+    temp$1 = Vector.empty_($c, [AtomicTypeTag.Address]);
+  }
+  else{
+    temp$1 = $.copy($c.borrow_global<AdminStore>(new SimpleStructTag(AdminStore), $.copy(admin)).vesting_contracts);
+  }
+  return temp$1;
+}
+
 export function vesting_start_secs_ (
   vesting_contract_address: HexString,
   $c: AptosDataCache,
 ): U64 {
   assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
   return $.copy($c.borrow_global<VestingContract>(new SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).vesting_schedule.start_timestamp_secs);
+}
+
+export function voter_ (
+  vesting_contract_address: HexString,
+  $c: AptosDataCache,
+): HexString {
+  assert_vesting_contract_exists_($.copy(vesting_contract_address), $c);
+  return $.copy($c.borrow_global<VestingContract>(new SimpleStructTag(VestingContract), $.copy(vesting_contract_address)).staking.voter);
 }
 
 export function withdraw_stake_ (
@@ -1804,6 +1875,24 @@ export class App {
     _isJSON = false,
   ) {
     const payload = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+  }
+  payload_update_operator_with_same_commission(
+    contract_address: HexString,
+    new_operator: HexString,
+    isJSON = false,
+  ): TxnBuilderTypes.TransactionPayloadEntryFunction
+        | Types.TransactionPayload_EntryFunctionPayload {
+    return buildPayload_update_operator_with_same_commission(contract_address, new_operator, isJSON);
+  }
+  async update_operator_with_same_commission(
+    _account: AptosAccount,
+    contract_address: HexString,
+    new_operator: HexString,
+    _maxGas = 1000,
+    _isJSON = false,
+  ) {
+    const payload = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
     return $.sendPayloadTx(this.client, _account, payload, _maxGas);
   }
   payload_update_voter(
