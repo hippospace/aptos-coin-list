@@ -65,18 +65,6 @@ const initTestCoin = async(info: RawCoinInfo) => {
   consoleTransactionResult("Init", info, res)
 }
 
-const adminInitTestCoin = async () => {
-  for (const info of REQUESTS) {
-    await initTestCoin(info);
-    console.log("")
-  }
-}
-
-program
-    .command("init-all")
-    .description("")
-    .action(adminInitTestCoin);
-
 const adminInitTestCoinBySymbol = async (symbol: string) => {
   const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
   if (rawInfos.length === 0) {
@@ -96,6 +84,19 @@ program
     .description("")
     .argument('<TYPE_CoinType>')
     .action(adminInitTestCoinBySymbol);
+
+const adminInitTestCoin = async () => {
+  for (const info of REQUESTS) {
+    await initTestCoin(info);
+    console.log("")
+  }
+}
+
+program
+    .command("init-all")
+    .description("")
+    .action(adminInitTestCoin);
+
 const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   const {client, account} = readConfig(program);
   const CoinType = parseTypeTagOrThrow(info.token_type.type);
