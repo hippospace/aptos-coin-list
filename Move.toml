@@ -9,4 +9,4 @@ subdir = 'aptos-move/framework/aptos-framework'
 
 
 [addresses]
-coin_list = "deae46f81671e76f444e2ce5a299d9e1ea06a8fa26e81dfd49aa7fa5a5a60e01"
+coin_list = "498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"
