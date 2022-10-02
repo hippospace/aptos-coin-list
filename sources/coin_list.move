@@ -18,6 +18,7 @@ module coin_list::coin_list {
     const E_LIST_DOES_NOT_EXIST:u64 = 4;
     const E_APPROVER_ONLY: u64 = 5;
     const E_UID_ALREADY_EXISTS:u64 = 6;
+    const E_UNSUPPORTED_METHOD: u64 = 7;
 
 
     // For ease of iteration, we do not store CoinInfo as independent resource. Instead we put all CoinInfo under a
@@ -129,12 +130,9 @@ module coin_list::coin_list {
 
     #[cmd]
     public entry fun remove_from_registry_by_signer<CoinType>(
-        coin_owner: &signer,
-    ) acquires CoinRegistry {
-        let type_info = type_info::type_of<CoinType>();
-        assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
-        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
-        remove_from_registry<CoinType>(registry);
+        _coin_owner: &signer,
+    ) {
+        abort E_UNSUPPORTED_METHOD
     }
 
     #[cmd]
@@ -154,11 +152,9 @@ module coin_list::coin_list {
 
     #[cmd]
     public entry fun remove_from_registry_by_approver<CoinType>(
-        approver: &signer
-    ) acquires CoinRegistry {
-        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
-        assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
-        remove_from_registry<CoinType>(registry);
+        _approver: &signer
+    ) {
+        abort E_UNSUPPORTED_METHOD
     }
 
     public fun add_to_registry_by_proof<CoinType, OwnershipProof>(
@@ -183,16 +179,8 @@ module coin_list::coin_list {
 
     public fun remove_from_registry_by_proof<CoinType, OwnershipProof>(
         _ownership_proof: &OwnershipProof,
-    ) acquires CoinRegistry {
-        let coin_type = type_info::type_of<CoinType>();
-        let ownership_type = type_info::type_of<OwnershipProof>();
-        let type_address = type_info::account_address(&coin_type);
-        let ownership_address = type_info::account_address(&ownership_type);
-        let ownership_name = type_info::module_name(&ownership_type);
-        assert!(ownership_name == b"OwnershipProof", E_COIN_OWNER_ONLY);
-        assert!(type_address == ownership_address, E_COIN_OWNER_ONLY);
-        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
-        remove_from_registry<CoinType>(registry);
+    ) {
+        abort E_UNSUPPORTED_METHOD
     }
 
     #[cmd]
@@ -251,15 +239,15 @@ module coin_list::coin_list {
             assert!(!table::contains(&registry.uids, symbol), E_UID_ALREADY_EXISTS);
         }
         else {
+            // updating, remove from tables first
             iterable_table::remove(&mut registry.type_to_coin_info, type_info);
+            if (table::contains(&registry.uids, symbol)) {
+                table::remove(&mut registry.uids, symbol);
+            }
         };
-        // add it to table
+        // add to tables
         iterable_table::add(&mut registry.type_to_coin_info, type_info, coin_info);
-    }
-
-    fun remove_from_registry<CoinType>(registry: &mut CoinRegistry) {
-        let type_info = type_info::type_of<CoinType>();
-        iterable_table::remove(&mut registry.type_to_coin_info, type_info);
+        table::add(&mut registry.uids, symbol, Nothing {});
     }
 
     public fun is_registry_initialized(): bool {
@@ -389,9 +377,8 @@ module coin_list::coin_list {
 
 
     #[test_only]
-    fun do_add_token<CoinType>(admin: &signer) acquires CoinRegistry {
+    fun do_add_token_symbol<CoinType>(admin: &signer, symbol: vector<u8>) acquires CoinRegistry {
         let name = b"name123";
-        let symbol = b"SYMBOL";
         let coingecko_id = b"id123";
         let logo = b"logo123";
         let project = b"project123";
@@ -412,6 +399,11 @@ module coin_list::coin_list {
         assert!(token_info.coingecko_id == string::utf8(coingecko_id), 5);
         assert!(token_info.logo_url == string::utf8(logo), 5);
         assert!(token_info.project_url == string::utf8(project), 5);
+    }
+
+    #[test_only]
+    fun do_add_token<CoinType>(admin: &signer) acquires CoinRegistry {
+        do_add_token_symbol<CoinType>(admin, b"SYMBOL")
     }
 
 
@@ -485,8 +477,8 @@ module coin_list::coin_list {
         coin::destroy_freeze_cap(freeze);
         coin::destroy_burn_cap(burn);
 
-        do_add_token<FakeBtc>(admin);
-        do_add_token<FakeEth>(admin);
+        do_add_token_symbol<FakeBtc>(admin, b"SYMBOL1");
+        do_add_token_symbol<FakeEth>(admin, b"SYMBOL2");
     }
 
     #[test(admin=@coin_list)]
