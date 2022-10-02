@@ -20,24 +20,6 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "StakedAptosCoin",
-    "symbol": "tAPT",
-    "official_symbol": "tAPT",
-    "coingecko_id": "",
-    "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/TortugaStakedAptos.png",
-    "project_url": "https://tortuga.finance/",
-    "token_type": {
-      "type": "0x2a2ad97dfdbe4e34cdc9321c63592dda455f18bc25c9bb1f28260312159eae27::staked_aptos_coin::StakedAptosCoin",
-      "account_address": "0x2a2ad97dfdbe4e34cdc9321c63592dda455f18bc25c9bb1f28260312159eae27",
-      "module_name": "staked_aptos_coin",
-      "struct_name": "StakedAptosCoin"
-    },
-    "extensions": {
-      "data": []
-    }
-  },
-  {
     "name": "Ditto Staked Aptos",
     "symbol": "stAPT",
     "official_symbol": "stAPT",
@@ -64,8 +46,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.webp",
     "project_url": "project_url",
     "token_type": {
-      "type": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::devnet_coins::DevnetDAI",
-      "account_address": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46",
+      "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetDAI",
+      "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
       "module_name": "devnet_coins",
       "struct_name": "DevnetDAI"
     },
@@ -82,8 +64,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDT.webp",
     "project_url": "project_url",
     "token_type": {
-      "type": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::devnet_coins::DevnetUSDT",
-      "account_address": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46",
+      "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDT",
+      "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
       "module_name": "devnet_coins",
       "struct_name": "DevnetUSDT"
     },
@@ -100,8 +82,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.webp",
     "project_url": "project_url",
     "token_type": {
-      "type": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::devnet_coins::DevnetUSDC",
-      "account_address": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46",
+      "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetUSDC",
+      "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
       "module_name": "devnet_coins",
       "struct_name": "DevnetUSDC"
     },
@@ -118,8 +100,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BTC.webp",
     "project_url": "project_url",
     "token_type": {
-      "type": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::devnet_coins::DevnetBTC",
-      "account_address": "0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46",
+      "type": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::devnet_coins::DevnetBTC",
+      "account_address": "0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68",
       "module_name": "devnet_coins",
       "struct_name": "DevnetBTC"
     },

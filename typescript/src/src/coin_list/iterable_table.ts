@@ -7,7 +7,7 @@ import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@ma
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Stdlib from "../stdlib";
 export const packageName = "CoinList";
-export const moduleAddress = new HexString("0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46");
+export const moduleAddress = new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68");
 export const moduleName = "iterable_table";
 
 
@@ -23,7 +23,7 @@ export class IterableTable
     { name: "V", isPhantom: false }
   ];
   static fields: FieldDeclType[] = [
-  { name: "inner", typeTag: new StructTag(new HexString("0x1"), "table_with_length", "TableWithLength", [new $.TypeParamIdx(0), new StructTag(new HexString("0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46"), "iterable_table", "IterableValue", [new $.TypeParamIdx(0), new $.TypeParamIdx(1)])]) },
+  { name: "inner", typeTag: new StructTag(new HexString("0x1"), "table_with_length", "TableWithLength", [new $.TypeParamIdx(0), new StructTag(new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"), "iterable_table", "IterableValue", [new $.TypeParamIdx(0), new $.TypeParamIdx(1)])]) },
   { name: "head", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new $.TypeParamIdx(0)]) },
   { name: "tail", typeTag: new StructTag(new HexString("0x1"), "option", "Option", [new $.TypeParamIdx(0)]) }];
 
@@ -304,8 +304,8 @@ export function tail_key_ (
 }
 
 export function loadParsers(repo: AptosParserRepo) {
-  repo.addParser("0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::iterable_table::IterableTable", IterableTable.IterableTableParser);
-  repo.addParser("0xb5d6dbc225e8c42cec66664ebbccaef2098107f699510613a0b90214f659bb46::iterable_table::IterableValue", IterableValue.IterableValueParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::iterable_table::IterableTable", IterableTable.IterableTableParser);
+  repo.addParser("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68::iterable_table::IterableValue", IterableValue.IterableValueParser);
 }
 export class App {
   constructor(
