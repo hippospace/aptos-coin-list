@@ -74,29 +74,6 @@ const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   }
 }
 
-const adminApproveByType = async (coinType: string) => {
-  const rawInfos = REQUESTS.filter(req => req.token_type.type === coinType);
-  if (rawInfos.length === 0) {
-    console.log(`Not found in REQUESTS: ${coinType}`);
-    return;
-  }
-  if (rawInfos.length > 1) {
-    console.log(`Found multiple entries of the same type: ${coinType}`);
-    return;
-  }
-
-  const info = rawInfos[0];
-
-  await approveCoin(info, false);
-}
-
-program
-  .command("approve-type")
-  .description("")
-  .argument('<TYPE_CoinType>')
-  .action(adminApproveByType);
-
-
 const adminApproveBySymbol = async (symbol: string) => {
   const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
   if (rawInfos.length === 0) {
@@ -162,5 +139,51 @@ program
     .command("update-all")
     .description("")
     .action(adminUpdateAll);
+
+const removeCoin = async(info: RawCoinInfo) => {
+  const {client, account} = readConfig(program);
+  const CoinType = parseTypeTagOrThrow(info.token_type.type);
+
+  const app = new App(client).coin_list.coin_list;
+  let res = await app.remove_from_list(
+      account,
+      [CoinType])
+  consoleTransactionResult("Remove from list", info, res)
+  res = await app.remove_from_registry_by_approver(account, [CoinType])
+  consoleTransactionResult("Remove from registry", info, res)
+}
+
+const adminRemoveBySymbol = async (symbol: string) => {
+  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
+  if (rawInfos.length === 0) {
+    console.log(`Not found in REQUESTS: ${symbol}`);
+    return;
+  }
+  if (rawInfos.length > 1) {
+    console.log(`Found multiple entries of the same symbol: ${symbol}`);
+    return;
+  }
+
+  const info = rawInfos[0];
+  await removeCoin(info);
+}
+
+program
+    .command("remove-symbol")
+    .description("")
+    .argument('<TYPE_CoinType>')
+    .action(adminRemoveBySymbol);
+
+const adminRemoveAll = async () => {
+  for (const info of REQUESTS) {
+    await removeCoin(info);
+    console.log("")
+  }
+}
+
+program
+    .command("remove-all")
+    .description("")
+    .action(adminRemoveAll);
 
 program.parse();

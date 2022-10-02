@@ -244,6 +244,34 @@ program
   .action(coin_list_remove_from_list);
 
 
+const coin_list_remove_from_registry_by_approver = async (CoinType: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const payload = Coin_list.Coin_list.buildPayload_remove_from_registry_by_approver([CoinType_]);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:remove-from-registry-by-approver")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .action(coin_list_remove_from_registry_by_approver);
+
+
+const coin_list_remove_from_registry_by_signer = async (CoinType: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const payload = Coin_list.Coin_list.buildPayload_remove_from_registry_by_signer([CoinType_]);
+  await sendPayloadTx(client, account, payload, 10000, true);
+}
+
+program
+  .command("coin-list:remove-from-registry-by-signer")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .action(coin_list_remove_from_registry_by_signer);
+
+
 const devnet_coins_mint_to_wallet = async (CoinType: string, amount: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);

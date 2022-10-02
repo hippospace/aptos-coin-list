@@ -128,6 +128,16 @@ module coin_list::coin_list {
     }
 
     #[cmd]
+    public entry fun remove_from_registry_by_signer<CoinType>(
+        coin_owner: &signer,
+    ) acquires CoinRegistry {
+        let type_info = type_info::type_of<CoinType>();
+        assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        remove_from_registry<CoinType>(registry);
+    }
+
+    #[cmd]
     public entry fun add_to_registry_by_approver<CoinType>(
         approver: &signer,
         name: String,
@@ -140,6 +150,15 @@ module coin_list::coin_list {
         let registry = borrow_global_mut<CoinRegistry>(@coin_list);
         assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
         add_to_registry<CoinType>(registry, name, symbol, coingecko_id, logo_url, project_url, is_update);
+    }
+
+    #[cmd]
+    public entry fun remove_from_registry_by_approver<CoinType>(
+        approver: &signer
+    ) acquires CoinRegistry {
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
+        remove_from_registry<CoinType>(registry);
     }
 
     public fun add_to_registry_by_proof<CoinType, OwnershipProof>(
@@ -160,6 +179,20 @@ module coin_list::coin_list {
         assert!(type_address == ownership_address, E_COIN_OWNER_ONLY);
         let registry = borrow_global_mut<CoinRegistry>(@coin_list);
         add_to_registry<CoinType>(registry, name, symbol, coingecko_id, logo_url, project_url, is_update);
+    }
+
+    public fun remove_from_registry_by_proof<CoinType, OwnershipProof>(
+        _ownership_proof: &OwnershipProof,
+    ) acquires CoinRegistry {
+        let coin_type = type_info::type_of<CoinType>();
+        let ownership_type = type_info::type_of<OwnershipProof>();
+        let type_address = type_info::account_address(&coin_type);
+        let ownership_address = type_info::account_address(&ownership_type);
+        let ownership_name = type_info::module_name(&ownership_type);
+        assert!(ownership_name == b"OwnershipProof", E_COIN_OWNER_ONLY);
+        assert!(type_address == ownership_address, E_COIN_OWNER_ONLY);
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        remove_from_registry<CoinType>(registry);
     }
 
     #[cmd]
@@ -222,6 +255,11 @@ module coin_list::coin_list {
         };
         // add it to table
         iterable_table::add(&mut registry.type_to_coin_info, type_info, coin_info);
+    }
+
+    fun remove_from_registry<CoinType>(registry: &mut CoinRegistry) {
+        let type_info = type_info::type_of<CoinType>();
+        iterable_table::remove(&mut registry.type_to_coin_info, type_info);
     }
 
     public fun is_registry_initialized(): bool {
