@@ -68,7 +68,7 @@ const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
       [CoinType])
   consoleTransactionResult(isUpdate?"Update":"Approve", info, res)
   
-  if (res.success && !isUpdate) {
+  if (!isUpdate) {
     res = await app.add_to_list(account,app.moduleAddress, [CoinType])
     consoleTransactionResult("Add to list", info, res)
   }
