@@ -1,7 +1,7 @@
 
 {
   "name": "@manahippo/coin-list",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "scripts": {
     "build": "rm -rf dist; tsc -p tsconfig.json",
     "cli": "node dist/src/cli.js",

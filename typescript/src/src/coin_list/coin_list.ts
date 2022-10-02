@@ -19,6 +19,7 @@ export const E_CONTRACT_OWNER_ONLY : U64 = u64("0");
 export const E_LIST_DOES_NOT_EXIST : U64 = u64("4");
 export const E_TYPE_ALREADY_EXISTS : U64 = u64("2");
 export const E_UID_ALREADY_EXISTS : U64 = u64("6");
+export const E_UNSUPPORTED_METHOD : U64 = u64("7");
 
 
 export class CoinInfo 
@@ -438,8 +439,14 @@ export function add_to_registry_ (
   }
   else{
     Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+    if (Stdlib.Table.contains_(registry.uids, $.copy(symbol), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new SimpleStructTag(Nothing)])) {
+      Stdlib.Table.remove_(registry.uids, $.copy(symbol), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new SimpleStructTag(Nothing)]);
+    }
+    else{
+    }
   }
   Iterable_table.add_(registry.type_to_coin_info, $.copy(type_info), $.copy(coin_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
+  Stdlib.Table.add_(registry.uids, $.copy(symbol), new Nothing({  }, new SimpleStructTag(Nothing)), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new SimpleStructTag(Nothing)]);
   return;
 }
 
@@ -980,31 +987,12 @@ export function buildPayload_remove_from_list (
 
 }
 
-export function remove_from_registry_ (
-  registry: CoinRegistry,
-  $c: AptosDataCache,
-  $p: TypeTag[], /* <CoinType>*/
-): void {
-  let type_info;
-  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  Iterable_table.remove_(registry.type_to_coin_info, $.copy(type_info), $c, [new StructTag(new HexString("0x1"), "type_info", "TypeInfo", []), new SimpleStructTag(CoinInfo)]);
-  return;
-}
-
 export function remove_from_registry_by_approver_ (
-  approver: HexString,
+  _approver: HexString,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
-  let temp$1, temp$2, registry;
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  temp$2 = registry.approvers;
-  temp$1 = Stdlib.Signer.address_of_(approver, $c);
-  if (!Stdlib.Vector.contains_(temp$2, temp$1, $c, [AtomicTypeTag.Address])) {
-    throw $.abortCode($.copy(E_APPROVER_ONLY));
-  }
-  remove_from_registry_(registry, $c, [$p[0]]);
-  return;
+  throw $.abortCode($.copy(E_UNSUPPORTED_METHOD));
 }
 
 
@@ -1030,36 +1018,15 @@ export function remove_from_registry_by_proof_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType, OwnershipProof>*/
 ): void {
-  let coin_type, ownership_address, ownership_name, ownership_type, registry, type_address;
-  coin_type = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  ownership_type = Stdlib.Type_info.type_of_($c, [$p[1]]);
-  type_address = Stdlib.Type_info.account_address_(coin_type, $c);
-  ownership_address = Stdlib.Type_info.account_address_(ownership_type, $c);
-  ownership_name = Stdlib.Type_info.module_name_(ownership_type, $c);
-  if (!$.veq($.copy(ownership_name), [u8("79"), u8("119"), u8("110"), u8("101"), u8("114"), u8("115"), u8("104"), u8("105"), u8("112"), u8("80"), u8("114"), u8("111"), u8("111"), u8("102")])) {
-    throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
-  }
-  if (!(($.copy(type_address)).hex() === ($.copy(ownership_address)).hex())) {
-    throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
-  }
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  remove_from_registry_(registry, $c, [$p[0]]);
-  return;
+  throw $.abortCode($.copy(E_UNSUPPORTED_METHOD));
 }
 
 export function remove_from_registry_by_signer_ (
-  coin_owner: HexString,
+  _coin_owner: HexString,
   $c: AptosDataCache,
   $p: TypeTag[], /* <CoinType>*/
 ): void {
-  let registry, type_info;
-  type_info = Stdlib.Type_info.type_of_($c, [$p[0]]);
-  if (!((Stdlib.Signer.address_of_(coin_owner, $c)).hex() === (Stdlib.Type_info.account_address_(type_info, $c)).hex())) {
-    throw $.abortCode($.copy(E_COIN_OWNER_ONLY));
-  }
-  registry = $c.borrow_global_mut<CoinRegistry>(new SimpleStructTag(CoinRegistry), new HexString("0x498d8926f16eb9ca90cab1b3a26aa6f97a080b3fcbe6e83ae150b7243a00fb68"));
-  remove_from_registry_(registry, $c, [$p[0]]);
-  return;
+  throw $.abortCode($.copy(E_UNSUPPORTED_METHOD));
 }
 
 
