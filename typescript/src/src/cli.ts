@@ -244,20 +244,6 @@ program
   .action(coin_list_remove_from_list);
 
 
-const devnet_coins_deploy = async () => {
-  const {client, account} = readConfig(program);
-
-  const payload = Coin_list.Devnet_coins.buildPayload_deploy();
-  await sendPayloadTx(client, account, payload, 10000, true);
-}
-
-program
-  .command("devnet-coins:deploy")
-  .description("")
-
-  .action(devnet_coins_deploy);
-
-
 const devnet_coins_mint_to_wallet = async (CoinType: string, amount: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
