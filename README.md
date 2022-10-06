@@ -9,6 +9,39 @@
 Once PR is accepted, any [authorized maintainer](https://github.com/hippospace/aptos-coin-list/blob/main/sources/coin_list.move#L37)
 will be able to add the RawCoinInfo to our on-chain list by running `yarn admin-cli -c config.yaml approve-symbol SYMBOL`.
 
+# Using/Editing RawCoinInfo
+In `RawCoinInfo`, we have these fields:
+- `name`: coin name, preferrably include project name
+- `symbol`: globally unique symbol within this coin registry
+- `official symbol`: same as `aptos_framework::coin::CoinInfo.symbol`, duplicates allowed
+- `logo_url`: URL to token logo, preferrably a githubusercontent url
+- `project_url`: URL to project
+- `token_type`: token address info
+- `extensions`: other informal info that you want to add, in the form of a list of string-string key-value pairs
+
+Example:
+
+```typescript
+{
+  "name": "Argo USD",
+  "symbol": "USDA",
+  "official_symbol": "USDA",
+  "coingecko_id": "",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDA.svg",
+  "project_url": "https://argo.fi/",
+  "token_type": {
+    "type": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa::usda::USDA",
+    "account_address": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa",
+    "module_name": "usda",
+    "struct_name": "USDA"
+  },
+  "extensions": {
+    "data": []
+  }
+},
+```
+
 # Use the CoinList TS SDK
 
 npm repo: `@manahippo/coin-list`
