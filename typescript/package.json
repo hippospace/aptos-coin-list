@@ -1,7 +1,7 @@
 
 {
   "name": "@manahippo/coin-list",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "build": "rm -rf dist; tsc -p tsconfig.json",
     "cli": "node dist/src/cli.js",
@@ -31,6 +31,6 @@
     "commander": "^9.3.0",
     "yaml": "^2.1.1",
 
-    "@manahippo/move-to-ts": "^0.3.10"
+    "@manahippo/move-to-ts": "^0.3.12"
   }
 }

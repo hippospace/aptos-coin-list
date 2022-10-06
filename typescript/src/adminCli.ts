@@ -1,4 +1,4 @@
-import {parseTypeTagOrThrow, strToU8, sendPayloadTx, U8} from "@manahippo/move-to-ts";
+import {parseTypeTagOrThrow, strToU8, sendPayloadTx, U8, getSimulationKeys} from "@manahippo/move-to-ts";
 import {AptosAccount, AptosClient, HexString, Types} from "aptos";
 import { Command } from "commander";
 import { App, stdlib } from "./src";
@@ -51,6 +51,20 @@ const consoleTransactionResult = (prefix:string, info: RawCoinInfo, res: Types.U
 const makeStr = (s: string) => {
   return new stdlib.String.String({bytes: strToU8(s)}, stdlib.String.String.getTag())
 }
+
+
+const showList = async() => {
+  const {client, account} = readConfig(program);
+
+  const app = new App(client).coin_list.coin_list;
+  let res = await app.query_fetch_full_list(app.moduleAddress, []);
+  console.log(res);
+}
+
+program
+  .command("show-list")
+  .action(showList);
+
 
 const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
   const {client, account} = readConfig(program);
