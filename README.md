@@ -9,11 +9,21 @@
 Once PR is accepted, any [authorized maintainer](https://github.com/hippospace/aptos-coin-list/blob/main/sources/coin_list.move#L37)
 will be able to add the RawCoinInfo to our on-chain list by running `yarn admin-cli -c config.yaml approve-symbol SYMBOL`.
 
-# Using/Editing RawCoinInfo
-In `RawCoinInfo`, we have these fields:
+# Displaying RawCoinInfo
+We recommend frontends display the following information for each coin:
+- `name`: full coin name, usually includes project name
+- `symbol` or `official_symbol`: short 3-6 letter representation
+- `logo_url`: coin logo
+
+The reason we have both `symbol` field and `official_symbol` is that the `symbol` field is required to be unique within
+this registry, whereas for `official_symbol` there is no such requirement. For example, different bridge protocols may
+have their own bridged versions of `USDC`. They are allowed to use `USDC` as the `official_symbol`, but are required to
+use distinct `symbol`s (e.g. `xUSDC`, `yUSDC`).
+
+In a complete `RawCoinInfo`, we have these fields:
 - `name`: coin name, preferrably include project name
 - `symbol`: globally unique symbol within this coin registry
-- `official symbol`: same as `aptos_framework::coin::CoinInfo.symbol`, duplicates allowed
+- `official_symbol`: same as `aptos_framework::coin::CoinInfo.symbol`, duplicates allowed
 - `logo_url`: URL to token logo, preferrably a githubusercontent url
 - `project_url`: URL to project
 - `token_type`: token address info
