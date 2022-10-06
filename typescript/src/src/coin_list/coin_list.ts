@@ -688,8 +688,8 @@ export async function query_fetch_all_registered_coin_info(
 }
 function make_query_fetch_all_registered_coin_info(app: App) {
   function maker(
-    fetcher: $.SimulationKeys,
     $p: TypeTag[],
+    fetcher: $.SimulationKeys = $.SIM_KEYS,
   ) {
     return query_fetch_all_registered_coin_info(app.client, fetcher, app.repo, $p)
   }
@@ -737,9 +737,9 @@ export async function query_fetch_full_list(
 }
 function make_query_fetch_full_list(app: App) {
   function maker(
-    fetcher: $.SimulationKeys,
       list_owner_addr: HexString,
     $p: TypeTag[],
+    fetcher: $.SimulationKeys = $.SIM_KEYS,
   ) {
     return query_fetch_full_list(app.client, fetcher, app.repo, list_owner_addr, $p)
   }
@@ -1075,7 +1075,7 @@ export class App {
       await val.loadFullState(this);
     }
     if (fillCache) {
-      this.cache.move_to(val.typeTag, owner, val);
+      this.cache.set(val.typeTag, owner, val);
     }
     return val;
   }
@@ -1090,7 +1090,7 @@ export class App {
       await val.loadFullState(this);
     }
     if (fillCache) {
-      this.cache.move_to(val.typeTag, owner, val);
+      this.cache.set(val.typeTag, owner, val);
     }
     return val;
   }
@@ -1105,7 +1105,7 @@ export class App {
       await val.loadFullState(this);
     }
     if (fillCache) {
-      this.cache.move_to(val.typeTag, owner, val);
+      this.cache.set(val.typeTag, owner, val);
     }
     return val;
   }

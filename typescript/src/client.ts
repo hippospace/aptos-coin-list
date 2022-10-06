@@ -31,20 +31,14 @@ export function coinInfoToRaw(coinInfo: coin_list.Coin_list.CoinInfo): RawCoinIn
 
 export async function fetchUpdatedList(client: AptosClient, owner=coin_list.Coin_list.moduleAddress): Promise<RawCoinInfo[]> {
   const app = new App(client);
-  const list = await app.coin_list.coin_list.query_fetch_full_list({
-    pubkey: new HexString('0x0000000000000000000000000000000000000000000000000000000000000001'),
-    address: new HexString('0x0000000000000000000000000000000000000000000000000000000000000001'),
-  }, owner, []);
+  const list = await app.coin_list.coin_list.query_fetch_full_list(owner, []);
 
   return list.coin_info_list.map(coinInfoToRaw);
 }
 
 export async function fetchFullRegistry(client: AptosClient): Promise<RawCoinInfo[]> {
   const app = new App(client);
-  const list = await app.coin_list.coin_list.query_fetch_all_registered_coin_info({
-    pubkey: new HexString('0x1'),
-    address: new HexString('0x1'),
-  }, []);
+  const list = await app.coin_list.coin_list.query_fetch_all_registered_coin_info([]);
 
   return list.coin_info_list.map(coinInfoToRaw);
 }

@@ -31,6 +31,6 @@
     "commander": "^9.3.0",
     "yaml": "^2.1.1",
 
-    "@manahippo/move-to-ts": "^0.3.6"
+    "@manahippo/move-to-ts": "^0.3.10"
   }
 }

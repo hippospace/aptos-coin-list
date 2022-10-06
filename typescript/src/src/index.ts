@@ -1,12 +1,13 @@
 
 import { AptosClient } from "aptos";
-import { AptosParserRepo, AptosLocalCache, AptosSyncedCache } from "@manahippo/move-to-ts";
+import { AptosParserRepo, AptosLocalCache, AptosSyncedCache, u8, u64, u128 } from "@manahippo/move-to-ts";
 import * as coin_list from './coin_list';
 import * as stdlib from './stdlib';
 
 export * as coin_list from './coin_list';
 export * as stdlib from './stdlib';
 
+export { u8, u64, u128 };
 
 export function getProjectRepo(): AptosParserRepo {
   const repo = new AptosParserRepo();
