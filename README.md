@@ -24,6 +24,7 @@ In a complete `RawCoinInfo`, we have these fields:
 - `name`: coin name, preferrably include project name
 - `symbol`: globally unique symbol within this coin registry
 - `official_symbol`: same as `aptos_framework::coin::CoinInfo.symbol`, duplicates allowed
+- `coingecko_id`: coingecko id. May be used by various clients to look up coin price
 - `logo_url`: URL to token logo, preferrably a githubusercontent url
 - `project_url`: URL to project
 - `token_type`: token address info
@@ -33,18 +34,18 @@ Example:
 
 ```typescript
 {
-  "name": "Argo USD",
-  "symbol": "USDA",
-  "official_symbol": "USDA",
-  "coingecko_id": "",
-  "decimals": 6,
-  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDA.svg",
-  "project_url": "https://argo.fi/",
+  "name": "Aptos Coin",
+  "symbol": "APT",
+  "official_symbol": "APT",
+  "coingecko_id": "aptos",
+  "decimals": 8,
+  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APT.webp",
+  "project_url": "https://aptoslabs.com/",
   "token_type": {
-    "type": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa::usda::USDA",
-    "account_address": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa",
-    "module_name": "usda",
-    "struct_name": "USDA"
+    "type": "0x1::aptos_coin::AptosCoin",
+    "account_address": "0x1",
+    "module_name": "aptos_coin",
+    "struct_name": "AptosCoin"
   },
   "extensions": {
     "data": []
