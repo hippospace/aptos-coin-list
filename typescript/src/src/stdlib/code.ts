@@ -4,6 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
+import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Error from "./error";
 import * as Features from "./features";
@@ -672,11 +673,11 @@ export class App {
     _account: AptosAccount,
     metadata_serialized: U8[],
     code: U8[][],
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
 }
 

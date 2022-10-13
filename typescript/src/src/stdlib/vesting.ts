@@ -4,6 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
+import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Aptos_account from "./aptos_account";
@@ -1711,11 +1712,11 @@ export class App {
   async admin_withdraw(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_admin_withdraw(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_distribute(
     contract_address: HexString,
@@ -1727,11 +1728,11 @@ export class App {
   async distribute(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_distribute(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_reset_beneficiary(
     contract_address: HexString,
@@ -1745,11 +1746,11 @@ export class App {
     _account: AptosAccount,
     contract_address: HexString,
     shareholder: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_reset_beneficiary(contract_address, shareholder, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_reset_lockup(
     contract_address: HexString,
@@ -1761,11 +1762,11 @@ export class App {
   async reset_lockup(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_reset_lockup(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_set_beneficiary(
     contract_address: HexString,
@@ -1781,11 +1782,11 @@ export class App {
     contract_address: HexString,
     shareholder: HexString,
     new_beneficiary: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_set_beneficiary_resetter(
     contract_address: HexString,
@@ -1799,11 +1800,11 @@ export class App {
     _account: AptosAccount,
     contract_address: HexString,
     beneficiary_resetter: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_set_management_role(
     contract_address: HexString,
@@ -1819,11 +1820,11 @@ export class App {
     contract_address: HexString,
     role: String.String,
     role_holder: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_set_management_role(contract_address, role, role_holder, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_terminate_vesting_contract(
     contract_address: HexString,
@@ -1835,11 +1836,11 @@ export class App {
   async terminate_vesting_contract(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_terminate_vesting_contract(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_unlock_rewards(
     contract_address: HexString,
@@ -1851,11 +1852,11 @@ export class App {
   async unlock_rewards(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_unlock_rewards(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_update_operator(
     contract_address: HexString,
@@ -1871,11 +1872,11 @@ export class App {
     contract_address: HexString,
     new_operator: HexString,
     commission_percentage: U64,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_update_operator_with_same_commission(
     contract_address: HexString,
@@ -1889,11 +1890,11 @@ export class App {
     _account: AptosAccount,
     contract_address: HexString,
     new_operator: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_update_voter(
     contract_address: HexString,
@@ -1907,11 +1908,11 @@ export class App {
     _account: AptosAccount,
     contract_address: HexString,
     new_voter: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_update_voter(contract_address, new_voter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_vest(
     contract_address: HexString,
@@ -1923,11 +1924,11 @@ export class App {
   async vest(
     _account: AptosAccount,
     contract_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_vest(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
 }
 

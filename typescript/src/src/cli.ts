@@ -1,5 +1,5 @@
 
-import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx, getSimulationKeys } from "@manahippo/move-to-ts";
+import { AptosParserRepo, getTypeTagFullname, StructTag, parseTypeTagOrThrow, u8, u64, u128, print, strToU8, u8str, DummyCache, ActualStringClass, sendPayloadTx, sendPayloadTxAndLog, getSimulationKeys } from "@manahippo/move-to-ts";
 import { AptosAccount, AptosClient, HexString, Types } from "aptos";
 import { Command } from "commander";
 import { getProjectRepo } from "./";
@@ -42,41 +42,46 @@ program
   .option('-p, --profile <PROFILE>', 'aptos config profile to use', 'default')
 
 
-const coin_list_add_approver_to_list = async (approver: string) => {
+const coin_list_add_approver_to_list = async (approver: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const approver_ = new HexString(approver);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_approver_to_list(approver_);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:add-approver-to-list")
   .description("")
   .argument('<approver>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_approver_to_list);
 
 
-const coin_list_add_approver_to_registry = async (approver: string) => {
+const coin_list_add_approver_to_registry = async (approver: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const approver_ = new HexString(approver);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_approver_to_registry(approver_);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:add-approver-to-registry")
   .description("")
   .argument('<approver>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_approver_to_registry);
 
 
-const coin_list_add_extension = async (CoinType: string, key: string, value: string) => {
+const coin_list_add_extension = async (CoinType: string,key: string,value: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const key_ = new ActualStringClass({bytes: strToU8(key)}, parseTypeTagOrThrow('0x1::string::String'));
   const value_ = new ActualStringClass({bytes: strToU8(value)}, parseTypeTagOrThrow('0x1::string::String'));
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_extension(key_, value_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -85,15 +90,17 @@ program
   .argument('<TYPE_CoinType>')
   .argument('<key>')
   .argument('<value>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_extension);
 
 
-const coin_list_add_to_list = async (CoinType: string, list: string) => {
+const coin_list_add_to_list = async (CoinType: string,list: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const list_ = new HexString(list);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_to_list(list_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -101,10 +108,11 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .argument('<list>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_to_list);
 
 
-const coin_list_add_to_registry_by_approver = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
+const coin_list_add_to_registry_by_approver = async (CoinType: string,name: string,symbol: string,coingecko_id: string,logo_url: string,project_url: string,is_update: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const name_ = new ActualStringClass({bytes: strToU8(name)}, parseTypeTagOrThrow('0x1::string::String'));
@@ -113,8 +121,9 @@ const coin_list_add_to_registry_by_approver = async (CoinType: string, name: str
   const logo_url_ = new ActualStringClass({bytes: strToU8(logo_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const project_url_ = new ActualStringClass({bytes: strToU8(project_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const is_update_ = is_update=='true';
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_to_registry_by_approver(name_, symbol_, coingecko_id_, logo_url_, project_url_, is_update_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -127,10 +136,11 @@ program
   .argument('<logo_url>')
   .argument('<project_url>')
   .argument('<is_update>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_to_registry_by_approver);
 
 
-const coin_list_add_to_registry_by_signer = async (CoinType: string, name: string, symbol: string, coingecko_id: string, logo_url: string, project_url: string, is_update: string) => {
+const coin_list_add_to_registry_by_signer = async (CoinType: string,name: string,symbol: string,coingecko_id: string,logo_url: string,project_url: string,is_update: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const name_ = new ActualStringClass({bytes: strToU8(name)}, parseTypeTagOrThrow('0x1::string::String'));
@@ -139,8 +149,9 @@ const coin_list_add_to_registry_by_signer = async (CoinType: string, name: strin
   const logo_url_ = new ActualStringClass({bytes: strToU8(logo_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const project_url_ = new ActualStringClass({bytes: strToU8(project_url)}, parseTypeTagOrThrow('0x1::string::String'));
   const is_update_ = is_update=='true';
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_add_to_registry_by_signer(name_, symbol_, coingecko_id_, logo_url_, project_url_, is_update_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -153,30 +164,32 @@ program
   .argument('<logo_url>')
   .argument('<project_url>')
   .argument('<is_update>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_add_to_registry_by_signer);
 
 
-const coin_list_create_list = async () => {
+const coin_list_create_list = async (max_gas: string) => {
   const {client, account} = readConfig(program);
-
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_create_list();
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:create-list")
   .description("")
-
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_create_list);
 
 
-const coin_list_drop_extension = async (CoinType: string, key: string, value: string) => {
+const coin_list_drop_extension = async (CoinType: string,key: string,value: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const key_ = new ActualStringClass({bytes: strToU8(key)}, parseTypeTagOrThrow('0x1::string::String'));
   const value_ = new ActualStringClass({bytes: strToU8(value)}, parseTypeTagOrThrow('0x1::string::String'));
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_drop_extension(key_, value_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -185,99 +198,111 @@ program
   .argument('<TYPE_CoinType>')
   .argument('<key>')
   .argument('<value>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_drop_extension);
 
 
-const coin_list_initialize = async () => {
+const coin_list_initialize = async (max_gas: string) => {
   const {client, account} = readConfig(program);
-
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_initialize();
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:initialize")
   .description("")
-
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_initialize);
 
 
-const coin_list_remove_approver_from_list = async (approver: string) => {
+const coin_list_remove_approver_from_list = async (approver: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const approver_ = new HexString(approver);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_remove_approver_from_list(approver_);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:remove-approver-from-list")
   .description("")
   .argument('<approver>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_remove_approver_from_list);
 
 
-const coin_list_remove_approver_from_registry = async (approver: string) => {
+const coin_list_remove_approver_from_registry = async (approver: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const approver_ = new HexString(approver);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_remove_approver_from_registry(approver_);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:remove-approver-from-registry")
   .description("")
   .argument('<approver>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_remove_approver_from_registry);
 
 
-const coin_list_remove_from_list = async (CoinType: string) => {
+const coin_list_remove_from_list = async (CoinType: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_remove_from_list([CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:remove-from-list")
   .description("")
   .argument('<TYPE_CoinType>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_remove_from_list);
 
 
-const coin_list_remove_from_registry_by_approver = async (CoinType: string) => {
+const coin_list_remove_from_registry_by_approver = async (CoinType: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_remove_from_registry_by_approver([CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:remove-from-registry-by-approver")
   .description("")
   .argument('<TYPE_CoinType>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_remove_from_registry_by_approver);
 
 
-const coin_list_remove_from_registry_by_signer = async (CoinType: string) => {
+const coin_list_remove_from_registry_by_signer = async (CoinType: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Coin_list.buildPayload_remove_from_registry_by_signer([CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
   .command("coin-list:remove-from-registry-by-signer")
   .description("")
   .argument('<TYPE_CoinType>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_remove_from_registry_by_signer);
 
 
-const devnet_coins_mint_to_wallet = async (CoinType: string, amount: string) => {
+const devnet_coins_mint_to_wallet = async (CoinType: string,amount: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const amount_ = u64(amount);
+  const max_gas_ = parseInt(max_gas);
   const payload = Coin_list.Devnet_coins.buildPayload_mint_to_wallet(amount_, [CoinType_]);
-  await sendPayloadTx(client, account, payload, 10000, true);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
 program
@@ -285,32 +310,34 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .argument('<amount>')
+  .argument('[max_gas]', '', '10000')
   .action(devnet_coins_mint_to_wallet);
 
 
-const coin_list_fetch_all_registered_coin_info = async () => {
+const coin_list_fetch_all_registered_coin_info = async (max_gas: string) => {
   const {client, account} = readConfig(program);
   const repo = getProjectRepo();
-  const value = await Coin_list.Coin_list.query_fetch_all_registered_coin_info(client, getSimulationKeys(account), repo, [])
+  const value = await Coin_list.Coin_list.query_fetch_all_registered_coin_info(client, getSimulationKeys(account), repo, [], {maxGasAmount: parseInt(max_gas)})
   print(value);
 }
 
 program
   .command("coin-list:query-fetch-all-registered-coin-info")
-
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_fetch_all_registered_coin_info)
 
 
-const coin_list_fetch_full_list = async (list_owner_addr: string) => {
+const coin_list_fetch_full_list = async (list_owner_addr: string, max_gas: string) => {
   const {client, account} = readConfig(program);
   const repo = getProjectRepo();
-  const value = await Coin_list.Coin_list.query_fetch_full_list(client, getSimulationKeys(account), repo, new HexString(list_owner_addr), [])
+  const value = await Coin_list.Coin_list.query_fetch_full_list(client, getSimulationKeys(account), repo, new HexString(list_owner_addr), [], {maxGasAmount: parseInt(max_gas)})
   print(value);
 }
 
 program
   .command("coin-list:query-fetch-full-list")
   .argument('<list_owner_addr>')
+  .argument('[max_gas]', '', '10000')
   .action(coin_list_fetch_full_list)
 
 

@@ -4,6 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
+import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
 import * as Error from "./error";
@@ -908,11 +909,11 @@ export class App {
     to: HexString,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_transfer(to, amount, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_upgrade_supply(
     $p: TypeTag[], /* <CoinType>*/
@@ -924,11 +925,11 @@ export class App {
   async upgrade_supply(
     _account: AptosAccount,
     $p: TypeTag[], /* <CoinType>*/
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_upgrade_supply($p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
 }
 

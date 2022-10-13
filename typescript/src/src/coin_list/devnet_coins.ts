@@ -4,6 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
+import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Stdlib from "../stdlib";
 export const packageName = "CoinList";
@@ -495,11 +496,11 @@ export class App {
   }
   async deploy(
     _account: AptosAccount,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_deploy(_isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_init_coin(
     name: U8[],
@@ -517,11 +518,11 @@ export class App {
     symbol: U8[],
     decimals: U8,
     $p: TypeTag[], /* <CoinType>*/
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_init_coin(name, symbol, decimals, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_mint_to_wallet(
     amount: U64,
@@ -535,11 +536,11 @@ export class App {
     _account: AptosAccount,
     amount: U64,
     $p: TypeTag[], /* <CoinType>*/
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_mint_to_wallet(amount, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
 }
 

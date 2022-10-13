@@ -4,6 +4,7 @@ import {U8, U64, U128} from "@manahippo/move-to-ts";
 import {u8, u64, u128} from "@manahippo/move-to-ts";
 import {TypeParamDeclType, FieldDeclType} from "@manahippo/move-to-ts";
 import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@manahippo/move-to-ts";
+import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Bcs from "./bcs";
 import * as Ed25519 from "./ed25519";
@@ -1004,11 +1005,11 @@ export class App {
     account_scheme: U8,
     account_public_key_bytes: U8[],
     recipient_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_offer_signer_capability(signer_capability_sig_bytes, account_scheme, account_public_key_bytes, recipient_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_revoke_signer_capability(
     to_be_revoked_address: HexString,
@@ -1020,11 +1021,11 @@ export class App {
   async revoke_signer_capability(
     _account: AptosAccount,
     to_be_revoked_address: HexString,
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_revoke_signer_capability(to_be_revoked_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
   payload_rotate_authentication_key(
     from_scheme: U8,
@@ -1046,11 +1047,11 @@ export class App {
     to_public_key_bytes: U8[],
     cap_rotate_key: U8[],
     cap_update_table: U8[],
-    _maxGas = 1000,
-    _isJSON = false,
+    option?: OptionTransaction,
+    _isJSON = false
   ) {
     const payload = buildPayload_rotate_authentication_key(from_scheme, from_public_key_bytes, to_scheme, to_public_key_bytes, cap_rotate_key, cap_update_table, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, _maxGas);
+    return $.sendPayloadTx(this.client, _account, payload, option);
   }
 }
 
