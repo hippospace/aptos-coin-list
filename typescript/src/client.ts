@@ -78,6 +78,7 @@ export class CoinListClient {
   async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
     this.coinList = await fetchUpdatedList(client, owner);
     this.buildCache();
+    return this.coinList;
   }
 
   private buildCache() {
