@@ -1,4 +1,4 @@
-import {parseTypeTagOrThrow, strToU8, sendPayloadTx, U8, getSimulationKeys} from "@manahippo/move-to-ts";
+import {parseTypeTagOrThrow, strToU8, print} from "@manahippo/move-to-ts";
 import {AptosAccount, AptosClient, HexString, Types} from "aptos";
 import { Command } from "commander";
 import { App, stdlib } from "./src";
@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
-import bigInt from "big-integer";
+import { CoinListClient } from "./client";
 
 export const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -54,7 +54,7 @@ const makeStr = (s: string) => {
 
 
 const showList = async() => {
-  const {client, account} = readConfig(program);
+  const {client} = readConfig(program);
 
   const app = new App(client).coin_list.coin_list;
   let res = await app.query_fetch_full_list(app.moduleAddress, []);
@@ -67,6 +67,31 @@ const showList = async() => {
 program
   .command("show-list")
   .action(showList);
+
+
+const showDefaultList = async() => {
+  const client = new CoinListClient();
+  console.log(JSON.stringify(client.coinList, null, 2));
+}
+
+program
+  .command("show-default-list")
+  .action(showDefaultList);
+
+
+const writeDefaultListJson = async(outfile: string) => {
+  const {client} = readConfig(program);
+  const listClient = new CoinListClient();
+  const list = await listClient.update(client);
+  const content = JSON.stringify(list, null, 2);
+  fs.writeFileSync(outfile, content);
+  console.log(`Done writing to ${outfile}`);
+}
+
+program
+  .command("write-default-list-json")
+  .argument("JSON_FILENAME")
+  .action(writeDefaultListJson);
 
 
 const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
