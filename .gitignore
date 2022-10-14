@@ -2,3 +2,5 @@ build
 .idea
 typescript/dist
 typescript/node_modules
+.DS_Store
+.aptos/

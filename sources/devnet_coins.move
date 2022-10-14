@@ -4,6 +4,7 @@ module coin_list::devnet_coins {
     use std::signer;
     use std::string;
     use aptos_std::type_info;
+    use aptos_framework::coin::CoinInfo;
 
     struct DevnetBTC {}
     struct DevnetBNB {}
@@ -30,19 +31,21 @@ module coin_list::devnet_coins {
         symbol: vector<u8>,
         decimals: u8,
     ) {
-        let (burn, freeze, mint) =
-            coin::initialize<CoinType>(
-                admin,
-                utf8(name),
-                utf8(symbol),
-                decimals,
-                false
-            );
-        move_to(admin, CoinCaps {
-            mint,
-            freeze,
-            burn,
-        });
+        if (!coin::is_coin_initialized<CoinType>()) {
+            let (burn, freeze, mint) =
+                coin::initialize<CoinType>(
+                    admin,
+                    utf8(name),
+                    utf8(symbol),
+                    decimals,
+                    false
+                );
+            move_to(admin, CoinCaps{
+                mint,
+                freeze,
+                burn,
+            });
+        }
     }
 
     public fun mint<CoinType>(amount: u64): coin::Coin<CoinType> acquires CoinCaps {

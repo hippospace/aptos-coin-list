@@ -56,14 +56,19 @@ module coin_list::coin_list {
 
     #[cmd]
     public entry fun initialize(admin: &signer) {
-        assert!(signer::address_of(admin) == @coin_list, E_CONTRACT_OWNER_ONLY);
-        let approvers = vector::empty<address>();
-        vector::push_back(&mut approvers, std::signer::address_of(admin));
-        move_to(admin, CoinRegistry {
-            type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
-            uids: table::new<String, Nothing>(),
-            approvers,
-        });
+        let admin_addr = signer::address_of(admin);
+        assert!(admin_addr == @coin_list, E_CONTRACT_OWNER_ONLY);
+
+        if (!exists<CoinRegistry>(admin_addr)) {
+            let approvers = vector::empty<address>();
+            vector::push_back(&mut approvers, admin_addr);
+            move_to(admin, CoinRegistry {
+                type_to_coin_info: iterable_table::new<type_info::TypeInfo, CoinInfo>(),
+                uids: table::new<String, Nothing>(),
+                approvers,
+            });
+        };
+
         create_list(admin);
         // create coins for devnet/testnet
         devnet_coins::deploy(admin);
@@ -74,10 +79,12 @@ module coin_list::coin_list {
     public entry fun create_list(list_owner: &signer) {
         let approvers = vector::empty<address>();
         vector::push_back(&mut approvers, std::signer::address_of(list_owner));
-        move_to(list_owner, CoinList {
-            coin_types: iterable_table::new<type_info::TypeInfo, Nothing>(),
-            approvers,
-        })
+        if (!exists<CoinList>(signer::address_of(list_owner))) {
+            move_to(list_owner, CoinList {
+                coin_types: iterable_table::new<type_info::TypeInfo, Nothing>(),
+                approvers,
+            })
+        };
     }
 
     #[cmd]
