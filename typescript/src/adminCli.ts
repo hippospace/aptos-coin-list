@@ -58,7 +58,10 @@ const showList = async() => {
 
   const app = new App(client).coin_list.coin_list;
   let res = await app.query_fetch_full_list(app.moduleAddress, []);
-  console.log(res);
+  res.coin_info_list.forEach(coinInfo => {
+    console.log(coinInfo.token_type.typeFullname())
+  })
+
 }
 
 program
