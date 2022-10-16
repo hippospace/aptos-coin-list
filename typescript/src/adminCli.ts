@@ -6,7 +6,7 @@ import * as fs from "fs";
 import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
-import { CoinListClient } from "./client";
+import { CoinListClient, NetworkType } from "./client";
 
 export const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -58,10 +58,7 @@ const showList = async() => {
 
   const app = new App(client).coin_list.coin_list;
   let res = await app.query_fetch_full_list(app.moduleAddress, []);
-  res.coin_info_list.forEach(coinInfo => {
-    console.log(coinInfo.token_type.typeFullname())
-  })
-
+  print(res.coin_info_list);
 }
 
 program
@@ -79,9 +76,13 @@ program
   .action(showDefaultList);
 
 
-const writeDefaultListJson = async(outfile: string) => {
+const writeDefaultListJson = async(network: string, outfile: string) => {
   const {client} = readConfig(program);
-  const listClient = new CoinListClient();
+  if (!['mainnet', 'testnet'].includes(network)) {
+    console.log(`network can only be mainnet or testnet`);
+    return;
+  }
+  const listClient = new CoinListClient(network as NetworkType);
   const list = await listClient.update(client);
   const content = JSON.stringify(list, null, 2);
   fs.writeFileSync(outfile, content);
@@ -90,6 +91,7 @@ const writeDefaultListJson = async(outfile: string) => {
 
 program
   .command("write-default-list-json")
+  .argument("network", "mainnet or testnet")
   .argument("JSON_FILENAME")
   .action(writeDefaultListJson);
 

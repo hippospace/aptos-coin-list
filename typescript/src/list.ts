@@ -1,4 +1,6 @@
 import jsonList from "./defaultList.json";
+import mainnetList from "./defaultList.mainnet.json";
+import testnetList from "./defaultList.testnet.json";
 export type TokenType = {
   type: string,
   account_address: string,
@@ -23,4 +25,7 @@ export type RawCoinInfo = {
 };
 
 export const DEFAULT_COIN_LIST: RawCoinInfo[] = jsonList;
+export const DEFAULT_MAINNET_LIST: RawCoinInfo[] = mainnetList;
+export const DEFAULT_TESTNET_LIST: RawCoinInfo[] = testnetList;
+
 

@@ -1,6 +1,6 @@
 import { u8str } from "@manahippo/move-to-ts";
 import { AptosClient, HexString } from "aptos";
-import { DEFAULT_COIN_LIST, RawCoinInfo } from "./list";
+import { DEFAULT_COIN_LIST, DEFAULT_MAINNET_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
 import { App, stdlib, coin_list } from "./src";
 import { Simple_map } from "./src/stdlib";
 import { TypeInfo } from "./src/stdlib/type_info";
@@ -43,14 +43,18 @@ export async function fetchFullRegistry(client: AptosClient): Promise<RawCoinInf
   return list.coin_info_list.map(coinInfoToRaw);
 }
 
+export type NetworkType = 'testnet' | 'mainnet';
+
 export class CoinListClient {
   fullnameToCoinInfo: Record<string, RawCoinInfo>;
   symbolToCoinInfo: Record<string, RawCoinInfo[]>;
   coinList: RawCoinInfo[];
-  constructor(list: RawCoinInfo[] | undefined = undefined) {
+  network: NetworkType;
+  constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
-    this.coinList = list || DEFAULT_COIN_LIST;
+    this.coinList = list || network === 'mainnet' ? DEFAULT_MAINNET_LIST : DEFAULT_TESTNET_LIST;
+    this.network = network;
     this.buildCache();
   }
 
@@ -70,9 +74,9 @@ export class CoinListClient {
     return this.fullnameToCoinInfo[tokenType.typeFullname()];
   }
 
-  static async load(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
+  static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress) {
     const list = await fetchUpdatedList(client, owner);
-    return new CoinListClient(list);
+    return new CoinListClient(network, list);
   }
 
   async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
