@@ -9,6 +9,13 @@
 Once PR is accepted, any [authorized maintainer](https://github.com/hippospace/aptos-coin-list/blob/main/sources/coin_list.move#L37)
 will be able to add the RawCoinInfo to our on-chain list by running `yarn admin-cli -c config.yaml approve-symbol SYMBOL`.
 
+# Fetching list
+You can use the [client](https://github.com/hippospace/aptos-coin-list/blob/2663369014b2035654bf4778e3794ecbf0b0fc06/typescript/src/client.ts#L51) 
+provided in the included typescript sdk to fetch an updated list from the chain, or you could fetch the json file 
+from github which is frequently updated:
+- [testnet list](https://github.com/hippospace/aptos-coin-list/blob/main/typescript/src/defaultList.testnet.json)
+- [mainnet list](https://github.com/hippospace/aptos-coin-list/blob/main/typescript/src/defaultList.mainnet.json)
+
 # Displaying RawCoinInfo
 We recommend frontends display the following information for each coin:
 - `name`: full coin name, usually includes project name
