@@ -162,5 +162,59 @@ export const REQUESTS: RawCoinInfo[] = [
     "extensions": {
       "data": []
     }
+  },
+  {
+    "name": "USD Coin",
+    "symbol": "USDC",
+    "official_symbol": "USDC",
+    "coingecko_id": "usd-coin",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    "project_url": "",
+    "token_type": {
+      "type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC",
+      "account_address": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+      "module_name": "asset",
+      "struct_name": "USDC"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "USD Tether",
+    "symbol": "USDT",
+    "official_symbol": "USDT",
+    "coingecko_id": "tether",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDT.svg",
+    "project_url": "",
+    "token_type": {
+      "type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDT",
+      "account_address": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+      "module_name": "asset",
+      "struct_name": "USDT"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Wrapped Ether",
+    "symbol": "WETH",
+    "official_symbol": "WETH",
+    "coingecko_id": "weth",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WETH.svg",
+    "project_url": "",
+    "token_type": {
+      "type": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::WETH",
+      "account_address": "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+      "module_name": "asset",
+      "struct_name": "WETH"
+    },
+    "extensions": {
+      "data": []
+    }
   }
 ];
