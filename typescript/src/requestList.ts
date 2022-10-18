@@ -10,8 +10,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDA.svg",
     "project_url": "https://argo.fi/",
     "token_type": {
-      "type": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa::usda::USDA",
-      "account_address": "0x1000000f373eb95323f8f73af0e324427ca579541e3b70c0df15c493c72171aa",
+      "type": "0x1000000af78954894e9c03df86e5d7dcf6f39e59e4576893108da284f4f886ff::usda::USDA",
+      "account_address": "0x1000000af78954894e9c03df86e5d7dcf6f39e59e4576893108da284f4f886ff",
       "module_name": "usda",
       "struct_name": "USDA"
     },
