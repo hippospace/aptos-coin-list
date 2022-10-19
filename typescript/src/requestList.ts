@@ -154,8 +154,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/TortugaStakedAptos.png",
     "project_url": "https://tortuga.finance/",
     "token_type": {
-      "type": "0xfa8c09437aa00eef18849eb9bfabf2be0dac73f03da91f46218cd1647278931b::staked_aptos_coin::StakedAptosCoin",
-      "account_address": "0xfa8c09437aa00eef18849eb9bfabf2be0dac73f03da91f46218cd1647278931b",
+      "type": "0x84d7aeef42d38a5ffc3ccef853e1b82e4958659d16a7de736a29c55fbbeb0114::staked_aptos_coin::StakedAptosCoin",
+      "account_address": "0x84d7aeef42d38a5ffc3ccef853e1b82e4958659d16a7de736a29c55fbbeb0114",
       "module_name": "staked_aptos_coin",
       "struct_name": "StakedAptosCoin"
     },
