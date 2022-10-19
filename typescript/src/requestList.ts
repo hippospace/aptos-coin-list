@@ -542,7 +542,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin",
+    "name": "USD Coin (LayerZero)",
     "symbol": "zUSDC",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -560,7 +560,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Tether",
+    "name": "USD Tether (LayerZero)",
     "symbol": "zUSDT",
     "official_symbol": "USDT",
     "coingecko_id": "tether",
@@ -578,7 +578,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped Ether",
+    "name": "Wrapped Ether (LayerZero)",
     "symbol": "zWETH",
     "official_symbol": "WETH",
     "coingecko_id": "weth",
