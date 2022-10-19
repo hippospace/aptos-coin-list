@@ -28,8 +28,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DittoStakedAptos.svg",
     "project_url": "https://www.dittofinance.io/",
     "token_type": {
-      "type": "0x4d87417a2fb3248887d820f7737d9c4aeeb9591c5de91d08f7f490550e733894::staked_coin::StakedAptos",
-      "account_address": "0x4d87417a2fb3248887d820f7737d9c4aeeb9591c5de91d08f7f490550e733894",
+      "type": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::staked_coin::StakedAptos",
+      "account_address": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
       "module_name": "staked_coin",
       "struct_name": "StakedAptos"
     },
