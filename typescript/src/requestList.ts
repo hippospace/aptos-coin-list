@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Mojito",
+    "symbol": "MOJO",
+    "official_symbol": "MOJO",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOJO.svg",
+    "project_url": "https://www.mojito.markets/",
+    "token_type": {
+      "type": "0x881ac202b1f1e6ad4efcff7a1d0579411533f2502417a19211cfc49751ddb5f4::coin::MOJO",
+      "account_address": "0x881ac202b1f1e6ad4efcff7a1d0579411533f2502417a19211cfc49751ddb5f4",
+      "module_name": "coin",
+      "struct_name": "MOJO"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Argo USD",
     "symbol": "USDA",
     "official_symbol": "USDA",
