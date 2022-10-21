@@ -594,5 +594,23 @@ export const REQUESTS: RawCoinInfo[] = [
     "extensions": {
       "data": []
     }
+  },
+  {
+  "name": "Alepou",
+  "symbol": "ALE",
+  "official_symbol": "ALE",
+  "coingecko_id": "alepoutoken",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/AlepouToken/aptos-coin-list/786409feb8c0738141c4f0e4fe4294bfcab06f39/icons/ALE.png",
+  "project_url": "https://alepoutoken.com/",
+  "token_type": {
+    "type": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2::PRT__FPJZUY::protonkkjq",
+    "account_address": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2",
+    "module_name": "token",
+    "struct_name": "AlepouToken"
+  },
+  "extensions": {
+    "data": []
   }
+},
 ];
