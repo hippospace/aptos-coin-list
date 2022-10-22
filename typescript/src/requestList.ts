@@ -596,6 +596,24 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
+    "name": "Shit Swap",
+    "symbol": "SHIT",
+    "official_symbol": "SHIT",
+    "coingecko_id": "",
+    "decimals": 4,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/SHIT.svg",
+    "project_url": "https://twitter.com/ShitSwap",
+    "token_type": {
+      "type": "0xc0ba6328b5c6f7c7c60bc63dffbb254dd489981f2fb7f4f40a2fb86619d4e57c::shitcoin::SHIT",
+      "account_address": "0xc0ba6328b5c6f7c7c60bc63dffbb254dd489981f2fb7f4f40a2fb86619d4e57c",
+      "module_name": "shitcoin",
+      "struct_name": "SHIT"
+    },
+    "extensions": {
+      "data": []
+    }
+  }
+  {
     "name": "Wrapped Ether (LayerZero)",
     "symbol": "zWETH",
     "official_symbol": "WETH",
