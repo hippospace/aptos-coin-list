@@ -673,7 +673,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "official_symbol": "WBTC",
     "coingecko_id": "wrapped-bitcoin",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.svg",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WBTC.svg",
     "project_url": "project_url",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WbtcCoin",
@@ -691,7 +691,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "official_symbol": "WETH",
     "coingecko_id": "ethereum",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.svg",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WETH.svg",
     "project_url": "project_url",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WethCoin",
