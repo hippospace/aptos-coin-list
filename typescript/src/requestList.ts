@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "AptosPad",
+    "symbol": "APP",
+    "official_symbol": "APP",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APP.svg",
+    "project_url": "https://aptospad.space/",
+    "token_type": {
+      "type": "0x62522289446eb966a8f5ff90fcb5c123f4560a7c5a0d7a9ae91ddcd8e5a66a07::app::APP",
+      "account_address": "0x62522289446eb966a8f5ff90fcb5c123f4560a7c5a0d7a9ae91ddcd8e5a66a07",
+      "module_name": "app",
+      "struct_name": "APP"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Mojito",
     "symbol": "MOJO",
     "official_symbol": "MOJO",
