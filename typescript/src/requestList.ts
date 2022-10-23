@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Aptoge",
+    "symbol": "APTOGE",
+    "official_symbol": "APTOGE",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTOGE.svg",
+    "project_url": "https://aptoge.com",
+    "token_type": {
+      "type": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf::Aptoge::Aptoge",
+      "account_address": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf",
+      "module_name": "Aptoge",
+      "struct_name": "Aptoge"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Mojito",
     "symbol": "MOJO",
     "official_symbol": "MOJO",
