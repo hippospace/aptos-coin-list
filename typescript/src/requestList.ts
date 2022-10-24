@@ -630,5 +630,131 @@ export const REQUESTS: RawCoinInfo[] = [
     "extensions": {
       "data": []
     }
+  },
+  {
+    "name": "USD Coin",
+    "symbol": "ceUSDC",
+    "official_symbol": "USDC",
+    "coingecko_id": "usd-coin",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::UsdcCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "UsdcCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Tether USD",
+    "symbol": "ceUSDT",
+    "official_symbol": "USDT",
+    "coingecko_id": "tether",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDT.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::UsdtCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "UsdtCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Dai Stablecoin",
+    "symbol": "ceDAI",
+    "official_symbol": "DAI",
+    "coingecko_id": "dai",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::DaiCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "DaiCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Wrapped BTC",
+    "symbol": "ceWBTC",
+    "official_symbol": "WBTC",
+    "coingecko_id": "wrapped-bitcoin",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WBTC.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WbtcCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "WbtcCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Wrapped Ether",
+    "symbol": "ceWETH",
+    "official_symbol": "WETH",
+    "coingecko_id": "ethereum",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WETH.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WethCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "WethCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Binance Coin",
+    "symbol": "ceBNB",
+    "official_symbol": "BNB",
+    "coingecko_id": "binancecoin",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BNB.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::BnbCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "BnbCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Binance USD",
+    "symbol": "ceBUSD",
+    "official_symbol": "BUSD",
+    "coingecko_id": "binance-usd",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BUSD.svg",
+    "project_url": "celer.network",
+    "token_type": {
+      "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::BusdCoin",
+      "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
+      "module_name": "celer_coin_manager",
+      "struct_name": "BusdCoin"
+    },
+    "extensions": {
+      "data": []
+    }
   }
 ];
