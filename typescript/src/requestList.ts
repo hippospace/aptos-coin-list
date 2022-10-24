@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Woofy",
+    "symbol": "WOOFY",
+    "official_symbol": "WOOFY",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WOOFY.svg",
+    "project_url": "https://woofytoken.info",
+    "token_type": {
+      "type": "0x8f4da36da3410075d31a769fe99ff27759ba16e0a6eb43cb0fc145bb8f64f135::woofy::WOOFY",
+      "account_address": "0x8f4da36da3410075d31a769fe99ff27759ba16e0a6eb43cb0fc145bb8f64f135",
+      "module_name": "woofy",
+      "struct_name": "WOOFY"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Aptoge",
     "symbol": "APTOGE",
     "official_symbol": "APTOGE",
