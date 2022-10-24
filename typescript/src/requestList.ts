@@ -200,7 +200,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped Ether",
+    "name": "Wrapped Ether (Wormhole)",
     "symbol": "WETH",
     "official_symbol": "WETH",
     "coingecko_id": "weth",
@@ -236,7 +236,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin",
+    "name": "USD Coin (Wormhole)",
     "symbol": "USDC",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -254,7 +254,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Solana)",
+    "name": "USD Coin (Wormhole Solana)",
     "symbol": "USDCso",
     "official_symbol": "USDC",
     "coingecko_id": "",
@@ -272,7 +272,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "SOL",
+    "name": "SOL (Wormhole)",
     "symbol": "SOL",
     "official_symbol": "SOL",
     "coingecko_id": "solana",
@@ -290,7 +290,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Tether USD",
+    "name": "Tether USD (Wormhole)",
     "symbol": "USDT",
     "official_symbol": "USDT",
     "coingecko_id": "tether",
@@ -362,7 +362,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped BNB",
+    "name": "Wrapped BNB (Wormhole)",
     "symbol": "WBNB",
     "official_symbol": "WBNB",
     "coingecko_id": "binancecoin",
@@ -380,7 +380,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "NEAR",
+    "name": "NEAR (Wormhole)",
     "symbol": "NEAR",
     "official_symbol": "NEAR",
     "coingecko_id": "near",
@@ -398,7 +398,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped AVAX",
+    "name": "Wrapped AVAX (Wormhole)",
     "symbol": "WAVAX",
     "official_symbol": "WAVAX",
     "coingecko_id": "avalanche-2",
@@ -416,7 +416,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Celo",
+    "name": "Celo (Wormhole)",
     "symbol": "CELO",
     "official_symbol": "CELO",
     "coingecko_id": "celo",
@@ -434,7 +434,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "SushiToken",
+    "name": "SushiToken (Wormhole)",
     "symbol": "SUSHI",
     "official_symbol": "SUSHI",
     "coingecko_id": "sushi",
@@ -452,7 +452,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped BTC",
+    "name": "Wrapped BTC (Wormhole)",
     "symbol": "WBTC",
     "official_symbol": "WBTC",
     "coingecko_id": "wrapped-bitcoin",
@@ -470,7 +470,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "BUSD Token",
+    "name": "BUSD Token (Wormhole)",
     "symbol": "BUSD",
     "official_symbol": "BUSD",
     "coingecko_id": "binance-usd",
@@ -488,7 +488,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (BSC)",
+    "name": "USD Coin (Wormhole, BSC)",
     "symbol": "USDCbs",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -524,7 +524,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Avalanche)",
+    "name": "USD Coin (Wormhole Avalanche)",
     "symbol": "USDCav",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -542,7 +542,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Dai Stablecoin",
+    "name": "Dai Stablecoin (Wormhole)",
     "symbol": "DAI",
     "official_symbol": "DAI",
     "coingecko_id": "dai",
@@ -560,7 +560,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Polygon)",
+    "name": "USD Coin (Wormhole Polygon)",
     "symbol": "USDCpo",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -632,13 +632,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin",
+    "name": "USD Coin (Celer)",
     "symbol": "ceUSDC",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
     "decimals": 6,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::UsdcCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -650,13 +650,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Tether USD",
+    "name": "Tether USD (Celer)",
     "symbol": "ceUSDT",
     "official_symbol": "USDT",
     "coingecko_id": "tether",
     "decimals": 6,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDT.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::UsdtCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -668,13 +668,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Dai Stablecoin",
+    "name": "Dai Stablecoin (Celer)",
     "symbol": "ceDAI",
     "official_symbol": "DAI",
     "coingecko_id": "dai",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DAI.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::DaiCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -686,13 +686,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped BTC",
+    "name": "Wrapped BTC (Celer)",
     "symbol": "ceWBTC",
     "official_symbol": "WBTC",
     "coingecko_id": "wrapped-bitcoin",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WBTC.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WbtcCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -704,13 +704,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped Ether",
+    "name": "Wrapped Ether (Celer)",
     "symbol": "ceWETH",
     "official_symbol": "WETH",
     "coingecko_id": "ethereum",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WETH.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::WethCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -722,13 +722,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Binance Coin",
+    "name": "Binance Coin (Celer)",
     "symbol": "ceBNB",
     "official_symbol": "BNB",
     "coingecko_id": "binancecoin",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BNB.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::BnbCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
@@ -740,13 +740,13 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Binance USD",
+    "name": "Binance USD (Celer)",
     "symbol": "ceBUSD",
     "official_symbol": "BUSD",
     "coingecko_id": "binance-usd",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BUSD.svg",
-    "project_url": "celer.network",
+    "project_url": "https://celer.network",
     "token_type": {
       "type": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d::celer_coin_manager::BusdCoin",
       "account_address": "0x8d87a65ba30e09357fa2edea2c80dbac296e5dec2b18287113500b902942929d",
