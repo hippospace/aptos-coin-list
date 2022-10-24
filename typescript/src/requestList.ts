@@ -615,7 +615,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "USD Coin",
-    "symbol": "USDC",
+    "symbol": "ceUSDC",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
     "decimals": 6,
@@ -633,7 +633,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Tether USD",
-    "symbol": "USDT",
+    "symbol": "ceUSDT",
     "official_symbol": "USDT",
     "coingecko_id": "tether",
     "decimals": 6,
@@ -651,7 +651,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Dai Stablecoin",
-    "symbol": "DAI",
+    "symbol": "ceDAI",
     "official_symbol": "DAI",
     "coingecko_id": "dai",
     "decimals": 8,
@@ -669,7 +669,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Wrapped BTC",
-    "symbol": "WBTC",
+    "symbol": "ceWBTC",
     "official_symbol": "WBTC",
     "coingecko_id": "wrapped-bitcoin",
     "decimals": 8,
@@ -687,7 +687,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Wrapped Ether",
-    "symbol": "WETH",
+    "symbol": "ceWETH",
     "official_symbol": "WETH",
     "coingecko_id": "ethereum",
     "decimals": 8,
@@ -705,7 +705,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Binance Coin",
-    "symbol": "BNB",
+    "symbol": "ceBNB",
     "official_symbol": "BNB",
     "coingecko_id": "binancecoin",
     "decimals": 8,
@@ -723,7 +723,7 @@ export const REQUESTS: RawCoinInfo[] = [
   },
   {
     "name": "Binance USD",
-    "symbol": "BUSD",
+    "symbol": "ceBUSD",
     "official_symbol": "BUSD",
     "coingecko_id": "binance-usd",
     "decimals": 8,
