@@ -2,6 +2,42 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Aptoge",
+    "symbol": "APTOGE",
+    "official_symbol": "APTOGE",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTOGE.svg",
+    "project_url": "https://aptoge.com",
+    "token_type": {
+      "type": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf::Aptoge::Aptoge",
+      "account_address": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf",
+      "module_name": "Aptoge",
+      "struct_name": "Aptoge"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
+    "name": "Mojito",
+    "symbol": "MOJO",
+    "official_symbol": "MOJO",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOJO.svg",
+    "project_url": "https://www.mojito.markets/",
+    "token_type": {
+      "type": "0x881ac202b1f1e6ad4efcff7a1d0579411533f2502417a19211cfc49751ddb5f4::coin::MOJO",
+      "account_address": "0x881ac202b1f1e6ad4efcff7a1d0579411533f2502417a19211cfc49751ddb5f4",
+      "module_name": "coin",
+      "struct_name": "MOJO"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Argo USD",
     "symbol": "USDA",
     "official_symbol": "USDA",
@@ -164,7 +200,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped Ether",
+    "name": "Wrapped Ether (Wormhole)",
     "symbol": "WETH",
     "official_symbol": "WETH",
     "coingecko_id": "weth",
@@ -200,7 +236,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin",
+    "name": "USD Coin (Wormhole)",
     "symbol": "USDC",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -218,7 +254,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Solana)",
+    "name": "USD Coin (Wormhole Solana)",
     "symbol": "USDCso",
     "official_symbol": "USDC",
     "coingecko_id": "",
@@ -236,7 +272,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "SOL",
+    "name": "SOL (Wormhole)",
     "symbol": "SOL",
     "official_symbol": "SOL",
     "coingecko_id": "solana",
@@ -254,7 +290,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Tether USD",
+    "name": "Tether USD (Wormhole)",
     "symbol": "USDT",
     "official_symbol": "USDT",
     "coingecko_id": "tether",
@@ -326,7 +362,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped BNB",
+    "name": "Wrapped BNB (Wormhole)",
     "symbol": "WBNB",
     "official_symbol": "WBNB",
     "coingecko_id": "binancecoin",
@@ -344,7 +380,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "NEAR",
+    "name": "NEAR (Wormhole)",
     "symbol": "NEAR",
     "official_symbol": "NEAR",
     "coingecko_id": "near",
@@ -362,7 +398,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped AVAX",
+    "name": "Wrapped AVAX (Wormhole)",
     "symbol": "WAVAX",
     "official_symbol": "WAVAX",
     "coingecko_id": "avalanche-2",
@@ -380,7 +416,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Celo",
+    "name": "Celo (Wormhole)",
     "symbol": "CELO",
     "official_symbol": "CELO",
     "coingecko_id": "celo",
@@ -398,7 +434,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "SushiToken",
+    "name": "SushiToken (Wormhole)",
     "symbol": "SUSHI",
     "official_symbol": "SUSHI",
     "coingecko_id": "sushi",
@@ -416,7 +452,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Wrapped BTC",
+    "name": "Wrapped BTC (Wormhole)",
     "symbol": "WBTC",
     "official_symbol": "WBTC",
     "coingecko_id": "wrapped-bitcoin",
@@ -434,7 +470,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "BUSD Token",
+    "name": "BUSD Token (Wormhole)",
     "symbol": "BUSD",
     "official_symbol": "BUSD",
     "coingecko_id": "binance-usd",
@@ -452,7 +488,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (BSC)",
+    "name": "USD Coin (Wormhole, BSC)",
     "symbol": "USDCbs",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -488,7 +524,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Avalanche)",
+    "name": "USD Coin (Wormhole Avalanche)",
     "symbol": "USDCav",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -506,7 +542,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "Dai Stablecoin",
+    "name": "Dai Stablecoin (Wormhole)",
     "symbol": "DAI",
     "official_symbol": "DAI",
     "coingecko_id": "dai",
@@ -524,7 +560,7 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
-    "name": "USD Coin (Polygon)",
+    "name": "USD Coin (Wormhole Polygon)",
     "symbol": "USDCpo",
     "official_symbol": "USDC",
     "coingecko_id": "usd-coin",
@@ -594,23 +630,5 @@ export const REQUESTS: RawCoinInfo[] = [
     "extensions": {
       "data": []
     }
-  },
-  {
-  "name": "Alepou",
-  "symbol": "ALE",
-  "official_symbol": "ALE",
-  "coingecko_id": "alepoutoken",
-  "decimals": 6,
-  "logo_url": "https://raw.githubusercontent.com/AlepouToken/aptos-coin-list/786409feb8c0738141c4f0e4fe4294bfcab06f39/icons/ALE.png",
-  "project_url": "https://alepoutoken.com/",
-  "token_type": {
-    "type": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2::PRT__FPJZUY::protonkkjq",
-    "account_address": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2",
-    "module_name": "token",
-    "struct_name": "AlepouToken"
-  },
-  "extensions": {
-    "data": []
-  }
-},
+  }, 
 ];
