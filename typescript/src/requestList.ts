@@ -2,6 +2,23 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+  "name": "Alepou",
+  "symbol": "ALE",
+  "official_symbol": "ALE",
+  "coingecko_id": "alepoutoken",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/AlepouToken/aptos-coin-list/main/icons/ALE.png",
+  "project_url": "https://alepoutoken.com/",
+  "token_type": {
+    "type": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2::PRT__FPJZUY::protonkkjq",
+    "account_address": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2",
+    "module_name": "Alepou",
+    "struct_name": "AlepouToken"
+  },
+  "extensions": {
+    "data": []
+  },
+  {
     "name": "Aptoge",
     "symbol": "APTOGE",
     "official_symbol": "APTOGE",
