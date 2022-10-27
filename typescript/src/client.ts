@@ -50,9 +50,11 @@ export class CoinListClient {
   symbolToCoinInfo: Record<string, RawCoinInfo[]>;
   coinList: RawCoinInfo[];
   network: NetworkType;
+  isUpdated:boolean
   constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
+    this.isUpdated = false;
     this.coinList = list || network === 'mainnet' ? DEFAULT_MAINNET_LIST : DEFAULT_TESTNET_LIST;
     this.network = network;
     this.buildCache();
@@ -82,6 +84,7 @@ export class CoinListClient {
   async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
     this.coinList = await fetchUpdatedList(client, owner);
     this.buildCache();
+    this.isUpdated = true
     return this.coinList;
   }
 
