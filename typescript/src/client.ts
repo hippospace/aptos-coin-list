@@ -51,6 +51,7 @@ export class CoinListClient {
   coinList: RawCoinInfo[];
   network: NetworkType;
   isUpdated:boolean
+
   constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
@@ -78,10 +79,19 @@ export class CoinListClient {
 
   static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress) {
     const list = await fetchUpdatedList(client, owner);
-    return new CoinListClient(network, list);
+    const coinListClient = new CoinListClient(network, list);
+    coinListClient.isUpdated = true
+    return coinListClient
   }
 
   async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
+    if (this.isUpdated){
+      return
+    }
+    await this.updateDirect(client,owner)
+  }
+
+  async updateDirect(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
     this.coinList = await fetchUpdatedList(client, owner);
     this.buildCache();
     this.isUpdated = true
