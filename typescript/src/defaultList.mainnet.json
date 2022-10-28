@@ -1,5 +1,69 @@
 [
   {
+    "name": "Aries Aptos Coin LP Token",
+    "symbol": "aAPT",
+    "official_symbol": "aAPT",
+    "decimals": 8,
+    "project_url": "https://ariesmarkets.xyz/",
+    "token_type": {
+      "type": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3::reserve::LP<0x1::aptos_coin::AptosCoin>",
+      "account_address": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3",
+      "module_name": "reserve",
+      "struct_name": "LP<0x1::aptos_coin::AptosCoin>"
+    },
+    "extensions": {
+      "data": ["aries", "lp-token"]
+    }
+  },
+  {
+    "name": "Aries Solana (Wormhole) LP Token",
+    "symbol": "aSOL",
+    "official_symbol": "aSOL",
+    "decimals": 8,
+    "project_url": "https://ariesmarkets.xyz/",
+    "token_type": {
+      "type": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3::reserve::LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>",
+      "account_address": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3",
+      "module_name": "reserve",
+      "struct_name": "LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>"
+    },
+    "extensions": {
+      "data": ["aries", "lp-token"]
+    }
+  },
+  {
+    "name": "Aries USDC (Layerzero) LP Token",
+    "symbol": "azUSDC",
+    "official_symbol": "aUSDC",
+    "decimals": 6,
+    "project_url": "https://ariesmarkets.xyz/",
+    "token_type": {
+      "type": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3::reserve::LP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>",
+      "account_address": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3",
+      "module_name": "reserve",
+      "struct_name": "LP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>"
+    },
+    "extensions": {
+      "data": ["aries", "lp-token"]
+    }
+  },
+  {
+    "name": "Aries USDC (Wormhole) LP Token",
+    "symbol": "aUSDC",
+    "official_symbol": "aUSDC",
+    "decimals": 6,
+    "project_url": "https://ariesmarkets.xyz/",
+    "token_type": {
+      "type": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3::reserve::LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>",
+      "account_address": "0x9770fa9c725cbd97eb50b2be5f7416efdfd1f1554beb0750d4dae4c64e860da3",
+      "module_name": "reserve",
+      "struct_name": "LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>"
+    },
+    "extensions": {
+      "data": ["aries", "lp-token"]
+    }
+  },
+  {
     "name": "USD Coin (Celer)",
     "symbol": "ceUSDC",
     "official_symbol": "USDC",
