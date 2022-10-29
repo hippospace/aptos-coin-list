@@ -1,7 +1,7 @@
 import {parseTypeTagOrThrow, strToU8, print} from "@manahippo/move-to-ts";
 import {AptosAccount, AptosClient, HexString, Types} from "aptos";
 import { Command } from "commander";
-import { App, stdlib } from "./src";
+import { App, stdlib } from "./lib";
 import * as fs from "fs";
 import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";

@@ -1,9 +1,9 @@
 import { u8str } from "@manahippo/move-to-ts";
 import { AptosClient, HexString } from "aptos";
 import { DEFAULT_COIN_LIST, DEFAULT_MAINNET_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
-import { App, stdlib, coin_list } from "./src";
-import { Simple_map } from "./src/stdlib";
-import { TypeInfo } from "./src/stdlib/type_info";
+import { App, stdlib, coin_list } from "./lib";
+import { Simple_map } from "./lib/stdlib";
+import { TypeInfo } from "./lib/stdlib/type_info";
 
 export function coinInfoToRaw(coinInfo: coin_list.Coin_list.CoinInfo): RawCoinInfo {
   return {
