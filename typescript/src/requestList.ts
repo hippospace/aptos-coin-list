@@ -12,8 +12,8 @@ export const REQUESTS: RawCoinInfo[] = [
   "token_type": {
     "type": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2::PRT__FPJZUY::protonkkjq",
     "account_address": "0xed00fda8839950caf71f8ac494311f2e33ab294999a6b580b2664d57e8560cd2",
-    "module_name": "Alepou",
-    "struct_name": "AlepouToken"
+    "module_name": "PRT__FPJZUY",
+    "struct_name": "protonkkjq"
   },
   "extensions": {
     "data": []
