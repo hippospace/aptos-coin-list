@@ -74,7 +74,14 @@ export class CoinListClient {
   }
 
   getCoinInfoByType(tokenType: TypeInfo) {
+    if (!this.hasTokenType(tokenType)) throw new Error('Coin info not found by type');
     return this.fullnameToCoinInfo[tokenType.typeFullname()];
+  }
+
+  getCoinInfoByFullName(fullname: string) {
+    const coinInfo = this.fullnameToCoinInfo[fullname];
+    if (!coinInfo) throw new Error('Coin info not found by the full name');
+    return coinInfo;
   }
 
   static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress) {
