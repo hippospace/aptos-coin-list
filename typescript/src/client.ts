@@ -90,9 +90,9 @@ export class CoinListClient {
 
   async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
     if (this.isUpdated){
-      return
+      return this.coinList;
     }
-    await this.updateDirect(client,owner)
+    return await this.updateDirect(client,owner)
   }
 
   async updateDirect(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {

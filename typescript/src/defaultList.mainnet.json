@@ -2,7 +2,8 @@
   {
     "name": "Aries Aptos Coin LP Token",
     "symbol": "ar-APT",
-    "official_symbol": "aAPT",
+    "official_symbol": "AAPT",
+    "coingecko_id": "",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ar-APT.svg",
     "project_url": "https://ariesmarkets.xyz/",
@@ -13,13 +14,14 @@
       "struct_name": "LP<0x1::aptos_coin::AptosCoin>"
     },
     "extensions": {
-      "data": ["aries", "lp-token"]
+      "data": []
     }
   },
   {
     "name": "Aries Solana (Wormhole) LP Token",
     "symbol": "ar-SOL",
-    "official_symbol": "aSOL",
+    "official_symbol": "ASOL",
+    "coingecko_id": "",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ar-SOL.svg",
     "project_url": "https://ariesmarkets.xyz/",
@@ -30,13 +32,14 @@
       "struct_name": "LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>"
     },
     "extensions": {
-      "data": ["aries", "lp-token"]
+      "data": []
     }
   },
   {
     "name": "Aries USDC (Layerzero) LP Token",
     "symbol": "ar-zUSDC",
-    "official_symbol": "aUSDC",
+    "official_symbol": "AUSDC",
+    "coingecko_id": "",
     "decimals": 6,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ar-USDC.svg",
     "project_url": "https://ariesmarkets.xyz/",
@@ -47,13 +50,14 @@
       "struct_name": "LP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>"
     },
     "extensions": {
-      "data": ["aries", "lp-token"]
+      "data": []
     }
   },
   {
     "name": "Aries USDC (Wormhole) LP Token",
     "symbol": "ar-USDC",
-    "official_symbol": "aUSDC",
+    "official_symbol": "AUSDC",
+    "coingecko_id": "",
     "decimals": 6,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ar-USDC.svg",
     "project_url": "https://ariesmarkets.xyz/",
@@ -64,7 +68,7 @@
       "struct_name": "LP<0x5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea::coin::T>"
     },
     "extensions": {
-      "data": ["aries", "lp-token"]
+      "data": []
     }
   },
   {
