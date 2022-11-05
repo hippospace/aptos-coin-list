@@ -5,6 +5,7 @@
 2. add `TOKEN_ICON.svg` (no larger than 100x100) to `icons` folder
 3. add `RawCoinInfo` to [requestList.ts](https://github.com/hippospace/aptos-coin-list/blob/main/typescript/src/requestList.ts)
 4. PR
+5. Shout in [TG](https://t.me/+LBfzjYgGlVdjN2Y1)
 
 Once PR is accepted, any [authorized maintainer](https://github.com/hippospace/aptos-coin-list/blob/main/sources/coin_list.move#L37)
 will be able to add the RawCoinInfo to our on-chain list by running `yarn admin-cli -c config.yaml approve-symbol SYMBOL`.
