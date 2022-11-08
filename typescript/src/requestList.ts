@@ -28,8 +28,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APETOS.webp",
     "project_url": "https://apetoscoin.com",
     "token_type": {
-      "type": "0x52582b2b41e43a956e632d2f6f8ed98d15a580ea207ca488af4b118c91156d93::apetos_coin::ApetosCoin",
-      "account_address": "0x52582b2b41e43a956e632d2f6f8ed98d15a580ea207ca488af4b118c91156d93",
+      "type": "0x69c1b21fc28610043a57412568fd28d4199c0f57f90b1af8f687ec7fcc4ddd46::apetos_coin::ApetosCoin",
+      "account_address": "0x69c1b21fc28610043a57412568fd28d4199c0f57f90b1af8f687ec7fcc4ddd46",
       "module_name": "apetos_coin",
       "struct_name": "ApetosCoin"
     },
