@@ -835,7 +835,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "official_symbol": "ANI",
     "coingecko_id": "",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ANI.svg",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ANI.png",
     "project_url": "http://animeswap.org/",
     "token_type": {
       "type": "0x16fe2df00ea7dde4a63409201f7f4e536bde7bb7335526a35d05111e68aa322c::AnimeCoin::ANI",
