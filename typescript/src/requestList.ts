@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Meeiro",
+    "symbol": "MEE",
+    "official_symbol": "MEE",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MEE.svg",
+    "project_url": "https://meeiro.xyz",
+    "token_type": {
+      "type": "0xe9c192ff55cffab3963c695cff6dbf9dad6aff2bb5ac19a6415cad26a81860d9::mee_coin::MeeCoin",
+      "account_address": "0xe9c192ff55cffab3963c695cff6dbf9dad6aff2bb5ac19a6415cad26a81860d9",
+      "module_name": "mee_coin",
+      "struct_name": "MeeCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Aptoge",
     "symbol": "APTOGE",
     "official_symbol": "APTOGE",
