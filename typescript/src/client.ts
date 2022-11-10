@@ -52,7 +52,7 @@ export class CoinListClient {
   network: NetworkType;
   isUpdated:boolean
 
-  constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined, private option?: OptionTransaction) {
+  constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
     this.isUpdated = false;
@@ -83,20 +83,20 @@ export class CoinListClient {
 
   static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress, option?: OptionTransaction) {
     const list = await fetchUpdatedList(client, owner, option);
-    const coinListClient = new CoinListClient(network, list, option);
+    const coinListClient = new CoinListClient(network, list);
     coinListClient.isUpdated = true
     return coinListClient
   }
 
-  async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
+  async update(client: AptosClient, owner=coin_list.Coin_list.moduleAddress, option?: OptionTransaction ) {
     if (this.isUpdated){
       return this.coinList;
     }
-    return await this.updateDirect(client,owner)
+    return await this.updateDirect(client,owner,option)
   }
 
-  async updateDirect(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
-    this.coinList = await fetchUpdatedList(client, owner, this.option);
+  async updateDirect(client: AptosClient, owner=coin_list.Coin_list.moduleAddress, option?: OptionTransaction) {
+    this.coinList = await fetchUpdatedList(client, owner, option);
     this.buildCache();
     this.isUpdated = true
     return this.coinList;
