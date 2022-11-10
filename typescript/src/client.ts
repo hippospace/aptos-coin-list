@@ -1,4 +1,4 @@
-import { u8str } from "@manahippo/move-to-ts";
+import {OptionTransaction, u8str} from "@manahippo/move-to-ts";
 import { AptosClient, HexString } from "aptos";
 import { DEFAULT_COIN_LIST, DEFAULT_MAINNET_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
 import { App, stdlib, coin_list } from "./lib";
@@ -29,9 +29,9 @@ export function coinInfoToRaw(coinInfo: coin_list.Coin_list.CoinInfo): RawCoinIn
   };
 }
 
-export async function fetchUpdatedList(client: AptosClient, owner=coin_list.Coin_list.moduleAddress): Promise<RawCoinInfo[]> {
+export async function fetchUpdatedList(client: AptosClient, owner=coin_list.Coin_list.moduleAddress, option?: OptionTransaction,): Promise<RawCoinInfo[]> {
   const app = new App(client);
-  const list = await app.coin_list.coin_list.query_fetch_full_list(owner, []);
+  const list = await app.coin_list.coin_list.query_fetch_full_list(owner, [], option);
 
   return list.coin_info_list.map(coinInfoToRaw);
 }
@@ -52,7 +52,7 @@ export class CoinListClient {
   network: NetworkType;
   isUpdated:boolean
 
-  constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
+  constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined, private option?: OptionTransaction) {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
     this.isUpdated = false;
@@ -81,9 +81,9 @@ export class CoinListClient {
     return this.fullnameToCoinInfo[fullname];
   }
 
-  static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress) {
-    const list = await fetchUpdatedList(client, owner);
-    const coinListClient = new CoinListClient(network, list);
+  static async load(client: AptosClient, network: NetworkType, owner=coin_list.Coin_list.moduleAddress, option?: OptionTransaction) {
+    const list = await fetchUpdatedList(client, owner, option);
+    const coinListClient = new CoinListClient(network, list, option);
     coinListClient.isUpdated = true
     return coinListClient
   }
@@ -96,7 +96,7 @@ export class CoinListClient {
   }
 
   async updateDirect(client: AptosClient, owner=coin_list.Coin_list.moduleAddress) {
-    this.coinList = await fetchUpdatedList(client, owner);
+    this.coinList = await fetchUpdatedList(client, owner, this.option);
     this.buildCache();
     this.isUpdated = true
     return this.coinList;
