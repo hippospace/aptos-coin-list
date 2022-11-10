@@ -854,7 +854,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "coingecko_id": "",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/Doglaikacoin/aptos-coin-list/main/icons/Doglaikacoin.png",
-    "project_url": "http://linktr.ee/doglaika/",
+    "project_url": "http://linktr.ee/doglaikacoin/",
     "token_type": {
       "type": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272::coin::DLC",
       "account_address": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272",
