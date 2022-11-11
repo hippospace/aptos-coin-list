@@ -865,4 +865,23 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+  "name": "Doglaika Token",
+  "symbol": "DLC",
+  "official_symbol": "DLC",
+  "coingecko_id": "",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DLC.svg",
+  "project_url": "",
+  "token_type": {
+    "type": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272::coin::DLC",
+    "account_address": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272",
+    "module_name": "doglaika_token",
+    "struct_name": "DoglaikaToken"
+  },
+  "extensions": {
+    "data": []
+  }
+},
 ];
+
