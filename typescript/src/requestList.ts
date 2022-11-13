@@ -865,4 +865,3 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
-];
