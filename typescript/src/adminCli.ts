@@ -7,8 +7,9 @@ import * as yaml from "yaml";
 import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
 import { CoinListClient, NetworkType } from "./client";
+import {tokenTypeToTag} from "./utils";
 
-export const readConfig = (program: Command) => {
+const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
   const ymlContent = fs.readFileSync(config, {encoding: "utf-8"});
   const result = yaml.parse(ymlContent);
@@ -34,12 +35,51 @@ export const readConfig = (program: Command) => {
   return {client, account};
 }
 
-const program = new Command();
+const getCoinInfoBySymbol = (symbol: string): RawCoinInfo => {
+  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
+  if (rawInfos.length === 0) {
+    throw new Error(`Not found in REQUESTS: ${symbol}`);
+  }
+  if (rawInfos.length > 1) {
+    throw new Error(`Found multiple entries of the same symbol: ${symbol}`);
+  }
+  return rawInfos[0]
+}
 
-program
-  .name('yarn adminCli')
-  .requiredOption('-c, --config <path>', 'path to your aptos config.yml (generated with "aptos init")')
-  .option('-p, --profile <PROFILE>', 'aptos config profile to use', 'default')
+const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
+  const {client, account} = readConfig(program);
+  const CoinType = parseTypeTagOrThrow(info.token_type.type);
+
+  const app = new App(client).coin_list.coin_list;
+  let res = await app.add_to_registry_by_approver(
+      account,
+      makeStr(info.name),
+      makeStr(info.symbol),
+      makeStr(info.coingecko_id),
+      makeStr(info.logo_url),
+      makeStr(info.project_url),
+      isUpdate,
+      [CoinType])
+  consoleTransactionResult(isUpdate?"Update":"Approve", info, res)
+
+  if (!isUpdate) {
+    res = await app.add_to_list(account,app.moduleAddress, [CoinType])
+    consoleTransactionResult("Add to list", info, res)
+  }
+}
+
+const removeCoin = async(info: RawCoinInfo) => {
+  const {client, account} = readConfig(program);
+  const CoinType = parseTypeTagOrThrow(info.token_type.type);
+
+  const app = new App(client).coin_list.coin_list;
+  let res = await app.remove_from_list(
+      account,
+      [CoinType])
+  consoleTransactionResult("Remove from list", info, res)
+  res = await app.remove_from_registry_by_approver(account, [CoinType])
+  consoleTransactionResult("Remove from registry", info, res)
+}
 
 const consoleTransactionResult = (prefix:string, info: RawCoinInfo, res: Types.UserTransaction) => {
   console.log(prefix +" " + info.token_type.type + " "+ res.success)
@@ -53,9 +93,17 @@ const makeStr = (s: string) => {
 }
 
 
+const program = new Command();
+
+program
+  .name('yarn adminCli')
+  .requiredOption('-c, --config <path>', 'path to your aptos config.yml (generated with "aptos init")')
+  .option('-p, --profile <PROFILE>', 'aptos config profile to use', 'default')
+
+
+
 const showList = async() => {
   const {client} = readConfig(program);
-
   const app = new App(client).coin_list.coin_list;
   let res = await app.query_fetch_full_list(app.moduleAddress, []);
   print(res.coin_info_list);
@@ -95,41 +143,8 @@ program
   .argument("JSON_FILENAME")
   .action(writeDefaultListJson);
 
-
-const approveCoin = async(info: RawCoinInfo, isUpdate: boolean) => {
-  const {client, account} = readConfig(program);
-  const CoinType = parseTypeTagOrThrow(info.token_type.type);
-
-  const app = new App(client).coin_list.coin_list;
-  let res = await app.add_to_registry_by_approver(
-      account,
-      makeStr(info.name),
-      makeStr(info.symbol),
-      makeStr(info.coingecko_id),
-      makeStr(info.logo_url),
-      makeStr(info.project_url),
-      isUpdate,
-      [CoinType])
-  consoleTransactionResult(isUpdate?"Update":"Approve", info, res)
-  
-  if (!isUpdate) {
-    res = await app.add_to_list(account,app.moduleAddress, [CoinType])
-    consoleTransactionResult("Add to list", info, res)
-  }
-}
-
 const adminApproveBySymbol = async (symbol: string) => {
-  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
-  if (rawInfos.length === 0) {
-    console.log(`Not found in REQUESTS: ${symbol}`);
-    return;
-  }
-  if (rawInfos.length > 1) {
-    console.log(`Found multiple entries of the same symbol: ${symbol}`);
-    return;
-  }
-
-  const info = rawInfos[0];
+  const info = getCoinInfoBySymbol(symbol)
   await approveCoin(info, false);
 }
 
@@ -139,30 +154,8 @@ program
   .argument('<TYPE_CoinType>')
   .action(adminApproveBySymbol);
 
-const adminApproveAll = async () => {
-  for (const info of REQUESTS) {
-    await approveCoin(info, false);
-    console.log("")
-  }
-}
-
-program
-    .command("approve-all")
-    .description("")
-    .action(adminApproveAll);
-
 const adminUpdateBySymbol = async (symbol: string) => {
-  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
-  if (rawInfos.length === 0) {
-    console.log(`Not found in REQUESTS: ${symbol}`);
-    return;
-  }
-  if (rawInfos.length > 1) {
-    console.log(`Found multiple entries of the same symbol: ${symbol}`);
-    return;
-  }
-
-  const info = rawInfos[0];
+  const info = getCoinInfoBySymbol(symbol)
   await approveCoin(info, true);
 }
 
@@ -172,43 +165,8 @@ program
   .argument('<TYPE_CoinType>')
   .action(adminUpdateBySymbol);
 
-const adminUpdateAll = async () => {
-  for (const info of REQUESTS) {
-    await approveCoin(info, true);
-    console.log("")
-  }
-}
-
-program
-    .command("update-all")
-    .description("")
-    .action(adminUpdateAll);
-
-const removeCoin = async(info: RawCoinInfo) => {
-  const {client, account} = readConfig(program);
-  const CoinType = parseTypeTagOrThrow(info.token_type.type);
-
-  const app = new App(client).coin_list.coin_list;
-  let res = await app.remove_from_list(
-      account,
-      [CoinType])
-  consoleTransactionResult("Remove from list", info, res)
-  res = await app.remove_from_registry_by_approver(account, [CoinType])
-  consoleTransactionResult("Remove from registry", info, res)
-}
-
 const adminRemoveBySymbol = async (symbol: string) => {
-  const rawInfos = REQUESTS.filter(req => req.symbol === symbol);
-  if (rawInfos.length === 0) {
-    console.log(`Not found in REQUESTS: ${symbol}`);
-    return;
-  }
-  if (rawInfos.length > 1) {
-    console.log(`Found multiple entries of the same symbol: ${symbol}`);
-    return;
-  }
-
-  const info = rawInfos[0];
+  const info = getCoinInfoBySymbol(symbol);
   await removeCoin(info);
 }
 
@@ -218,16 +176,63 @@ program
     .argument('<TYPE_CoinType>')
     .action(adminRemoveBySymbol);
 
-const adminRemoveAll = async () => {
-  for (const info of REQUESTS) {
-    await removeCoin(info);
-    console.log("")
+const createAccount = async (address: string)=>{
+  const {client, account} = readConfig(program)
+
+  try {
+    await client.getAccount(address)
+    console.log("Account of " + address +" has created.")
+  } catch (e: any){
+    if (e.status === 404 && e.errorCode === "resource_not_found"){
+      const app = new App(client)
+      console.log("Creating account of " + address + " ...")
+      const result = await app.stdlib.aptos_account.create_account(account, new HexString(address),undefined, true)
+      if (result.success){
+        console.log("Create success.")
+      } else {
+        console.log(result)
+      }
+    } else {
+      throw e
+    }
   }
 }
 
 program
-    .command("remove-all")
+    .command("create-account")
     .description("")
-    .action(adminRemoveAll);
+    .argument('<address>')
+    .action(createAccount);
+
+const registerCoin = async (symbol: string) => {
+  const info = getCoinInfoBySymbol(symbol)
+  const {client, account} = readConfig(program)
+  const app = new App(client)
+  try {
+    await client.getAccount(account.address())
+  } catch (e: any){
+    if (e.status === 404 && e.errorCode === "resource_not_found"){
+      throw new Error("Account of " + account.address() + " has not bean created")
+    } else {
+      throw e
+    }
+  }
+  console.log("Register " + symbol + " " + info.token_type.type + " ...")
+  const result = await app.stdlib.managed_coin.register(account, [tokenTypeToTag(info.token_type)], undefined, true)
+  if (result.success){
+    console.log("Register success")
+  } else if (result.vm_status === "Move abort in 0x1::coin: ECOIN_STORE_ALREADY_PUBLISHED(0x80004): Account already has `CoinStore` registered for `CoinType`"){
+    console.log("Coin has bean registered")
+  } else {
+    console.log(result)
+  }
+}
+
+program
+    .command("register-coin-symbol")
+    .description("")
+    .argument('<TYPE_CoinType>')
+    .action(registerCoin);
+
 
 program.parse();
