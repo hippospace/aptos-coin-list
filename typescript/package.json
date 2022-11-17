@@ -5,7 +5,8 @@
   "scripts": {
     "build": "rm -rf dist; rollup -c rollup.config.js",
     "cli": "ts-node src/lib/cli.ts",
-    "admin-cli": "ts-node src/adminCli.ts"
+    "admin-cli": "ts-node src/adminCli.ts",
+    "test": "ts-node src/adminCli.ts register-coin-symbol USDC -c ../../.aptos/config.yaml -p fee_to"
   },
   "exports": {
     ".": {

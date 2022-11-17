@@ -176,34 +176,6 @@ program
     .argument('<TYPE_CoinType>')
     .action(adminRemoveBySymbol);
 
-const createAccount = async (address: string)=>{
-  const {client, account} = readConfig(program)
-
-  try {
-    await client.getAccount(address)
-    console.log("Account of " + address +" has created.")
-  } catch (e: any){
-    if (e.status === 404 && e.errorCode === "resource_not_found"){
-      const app = new App(client)
-      console.log("Creating account of " + address + " ...")
-      const result = await app.stdlib.aptos_account.create_account(account, new HexString(address),undefined, true)
-      if (result.success){
-        console.log("Create success.")
-      } else {
-        console.log(result)
-      }
-    } else {
-      throw e
-    }
-  }
-}
-
-program
-    .command("create-account")
-    .description("")
-    .argument('<address>')
-    .action(createAccount);
-
 const registerCoin = async (symbol: string) => {
   const info = getCoinInfoBySymbol(symbol)
   const {client, account} = readConfig(program)
@@ -234,5 +206,32 @@ program
     .argument('<TYPE_CoinType>')
     .action(registerCoin);
 
+const createAccount = async (address: string)=>{
+  const {client, account} = readConfig(program)
+
+  try {
+    await client.getAccount(address)
+    console.log("Account of " + address +" has created.")
+  } catch (e: any){
+    if (e.status === 404 && e.errorCode === "resource_not_found"){
+      const app = new App(client)
+      console.log("Creating account of " + address + " ...")
+      const result = await app.stdlib.aptos_account.create_account(account, new HexString(address),undefined, true)
+      if (result.success){
+        console.log("Create success.")
+      } else {
+        console.log(result)
+      }
+    } else {
+      throw e
+    }
+  }
+}
+
+program
+    .command("create-account")
+    .description("")
+    .argument('<address>')
+    .action(createAccount);
 
 program.parse();
