@@ -165,6 +165,18 @@ program
   .argument('<TYPE_CoinType>')
   .action(adminUpdateBySymbol);
 
+const adminUpdateAll = async () => {
+  for (const info of REQUESTS) {
+    await approveCoin(info, true);
+    console.log("")
+  }
+}
+
+program
+    .command("update-all")
+    .description("")
+    .action(adminUpdateAll);
+
 const adminRemoveBySymbol = async (symbol: string) => {
   const info = getCoinInfoBySymbol(symbol);
   await removeCoin(info);
