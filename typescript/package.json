@@ -1,7 +1,7 @@
 
 {
   "name": "@manahippo/coin-list",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "scripts": {
     "build": "rm -rf dist; rollup -c rollup.config.js",
     "cli": "ts-node src/lib/cli.ts",
