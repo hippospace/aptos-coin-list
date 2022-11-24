@@ -218,4 +218,34 @@ program
     .argument('<TYPE_CoinType>')
     .action(registerCoin);
 
+const registerCoinAll = async (symbol: string) => {
+  const {client, account} = readConfig(program)
+  const app = new App(client)
+  try {
+    await client.getAccount(account.address())
+  } catch (e: any){
+    if (e.status === 404 && e.errorCode === "resource_not_found"){
+      throw new Error("Account of " + account.address() + " has not bean created")
+    } else {
+      throw e
+    }
+  }
+  for (const info of REQUESTS) {
+    console.log("Register " + symbol + " " + info.token_type.type + " ...")
+    const result = await app.stdlib.managed_coin.register(account, [tokenTypeToTag(info.token_type)], undefined, true)
+    if (result.success){
+      console.log("Register success")
+    } else if (result.vm_status === "Move abort in 0x1::coin: ECOIN_STORE_ALREADY_PUBLISHED(0x80004): Account already has `CoinStore` registered for `CoinType`"){
+      console.log("Coin has bean registered")
+    } else {
+      console.log(result)
+    }
+  }
+}
+
+program
+    .command("register-coin-all")
+    .description("")
+    .action(registerCoinAll);
+
 program.parse();
