@@ -883,4 +883,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "Aptos Flip Coin",
+    "symbol": "AFT",
+    "official_symbol": "AFT",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/woodyallenapt/aptos-coin-list/main/icons/0.webp",
+    "project_url": "https://aptflip.com",
+    "token_type": {
+      "type": "0xb4764d723baf7eda976cc923e8d61fa52913343deb825b449160be9400f073eb::aptos_flip_token::AptosFlipToken",
+      "account_address": "0xb4764d723baf7eda976cc923e8d61fa52913343deb825b449160be9400f073eb",
+      "module_name": "aptos_flip_token",
+      "struct_name": "AptosFlipToken"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
