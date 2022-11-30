@@ -883,4 +883,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "Abel Coin",
+    "symbol": "ABEL",
+    "official_symbol": "ABEL",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ABEL.jpg",
+    "project_url": "https://www.abelfinance.xyz/",
+    "token_type": {
+      "type": "0x7c0322595a73b3fc53bb166f5783470afeb1ed9f46d1176db62139991505dc61::abel_coin::AbelCoin",
+      "account_address": "0x7c0322595a73b3fc53bb166f5783470afeb1ed9f46d1176db62139991505dc61",
+      "module_name": "abel_coin",
+      "struct_name": "AbelCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
