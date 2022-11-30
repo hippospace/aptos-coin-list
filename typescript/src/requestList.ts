@@ -866,6 +866,23 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
+    "name": "CUTE CHICKS",
+    "symbol": "CUCHI",
+    "official_symbol": "CUCHI",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/CUCHI.svg",
+    "project_url": "https://cutechicks.xyz",
+    "token_type": {
+      "type": "0x8b633e663f6c78177f4cfe5761395cf9f78fd18ab81d456ee58a5d03e9af93c1::proton_ba3::PROTON_49D",
+      "account_address": "0x8b633e663f6c78177f4cfe5761395cf9f78fd18ab81d456ee58a5d03e9af93c1",
+      "module_name": "proton_ba3",
+      "struct_name": "PROTON_49D"
+    },
+    "extensions": {
+      "data": []
+    }
+  {
     "name": "Doglaika Coin",
     "symbol": "DLC",
     "official_symbol": "DLC",
