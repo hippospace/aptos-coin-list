@@ -8,6 +8,7 @@ import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
 import { CoinListClient, NetworkType } from "./client";
 import {tokenTypeToTag} from "./utils";
+import { String } from "./lib/stdlib";
 
 const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -247,5 +248,24 @@ program
     .command("register-coin-all")
     .description("")
     .action(registerCoinAll);
+
+const addExtension = async (symbol: string, key: string, value: string) => {
+  const info = getCoinInfoBySymbol(symbol)
+  const {client, account} = readConfig(program)
+  const app = new App(client)
+  console.log(`Setting for ${symbol}: ${key} -> ${value}`);
+  const strKey = new String.String({bytes: strToU8(key)}, String.String.getTag());
+  const strValue = new String.String({bytes: strToU8(value)}, String.String.getTag());
+  const txResult = await app.coin_list.coin_list.add_extension(account, strKey, strValue, [parseTypeTagOrThrow(info.token_type.type)]);
+  console.log(txResult);
+}
+
+program
+    .command("add-extension")
+    .description("")
+    .argument('<SYMBOL>')
+    .argument('<KEY>')
+    .argument('<VALUE>')
+    .action(addExtension);
 
 program.parse();
