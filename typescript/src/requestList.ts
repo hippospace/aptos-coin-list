@@ -16,7 +16,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "MeeCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -34,7 +34,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "Aptoge"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -52,7 +52,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "MOJO"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -70,7 +70,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDA"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -88,7 +88,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "StakedAptos"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -178,7 +178,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "AptosCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -214,7 +214,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "StakedAptosCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -232,7 +232,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -250,7 +250,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -268,7 +268,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -286,7 +286,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-solana"]]
     }
   },
   {
@@ -304,7 +304,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-solana"]]
     }
   },
   {
@@ -322,7 +322,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -340,7 +340,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -358,7 +358,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -376,7 +376,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -394,7 +394,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -412,7 +412,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -430,7 +430,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -448,7 +448,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -466,7 +466,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -484,7 +484,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -502,7 +502,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -520,7 +520,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-bsc"]]
     }
   },
   {
@@ -538,7 +538,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-bsc"]]
     }
   },
   {
@@ -556,7 +556,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-avalanche"]]
     }
   },
   {
@@ -574,7 +574,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -592,7 +592,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-polygon"]]
     }
   },
   {
@@ -610,7 +610,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDC"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -628,7 +628,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDT"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -646,7 +646,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WETH"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -664,7 +664,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "UsdcCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -682,7 +682,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "UsdtCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -700,7 +700,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "DaiCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -718,7 +718,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WbtcCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -736,7 +736,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WethCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -754,7 +754,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "BnbCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -772,7 +772,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "BusdCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -790,7 +790,10 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0x1::aptos_coin::AptosCoin>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [
+        ["lp", "aries"],
+        ["bridge", "native"]
+      ]
     }
   },
   {
@@ -808,7 +811,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -826,7 +829,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -844,7 +847,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0x5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea::coin::T>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -862,7 +865,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "ANI"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -880,7 +883,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "DLC"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -898,7 +901,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "AbelCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
 ];

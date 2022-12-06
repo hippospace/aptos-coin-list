@@ -268,4 +268,24 @@ program
     .argument('<VALUE>')
     .action(addExtension);
 
+const addExtensionAll = async () => {
+  const coinlist = new CoinListClient();
+  for (const coininfo of coinlist.getCoinInfoList()) {
+    const request = getCoinInfoBySymbol(coininfo.symbol);
+    for(const [key, value] of request.extensions.data) {
+      console.log(`Setting extension for ${coininfo.symbol}: ${key} -> ${value}`);
+      try{
+        await addExtension(coininfo.symbol, key, value);
+      }
+      catch (e) {
+        console.log(`Failed setting ${key} -> ${value} for ${coininfo.symbol}`);
+      }
+    }
+  }
+}
+
+program
+    .command("add-extension-all")
+    .action(addExtensionAll);
+
 program.parse();
