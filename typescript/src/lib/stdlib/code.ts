@@ -676,8 +676,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_publish_package_txn(metadata_serialized, code, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

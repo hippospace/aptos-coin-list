@@ -256,7 +256,7 @@ const addExtension = async (symbol: string, key: string, value: string) => {
   console.log(`Setting for ${symbol}: ${key} -> ${value}`);
   const strKey = new String.String({bytes: strToU8(key)}, String.String.getTag());
   const strValue = new String.String({bytes: strToU8(value)}, String.String.getTag());
-  const txResult = await app.coin_list.coin_list.add_extension(account, strKey, strValue, [parseTypeTagOrThrow(info.token_type.type)]);
+  const txResult = await app.coin_list.coin_list.add_extension_by_approver(account, strKey, strValue, [parseTypeTagOrThrow(info.token_type.type)]);
   console.log(txResult);
 }
 

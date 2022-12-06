@@ -7,11 +7,14 @@ import {AtomicTypeTag, StructTag, TypeTag, VectorTag, SimpleStructTag} from "@ma
 import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Account from "./account";
+import * as Bcs from "./bcs";
 import * as Error from "./error";
 import * as Event from "./event";
+import * as From_bcs from "./from_bcs";
 import * as Option from "./option";
 import * as Signer from "./signer";
 import * as Simple_map from "./simple_map";
+import * as String from "./string";
 import * as Table from "./table";
 import * as Timestamp from "./timestamp";
 import * as Transaction_context from "./transaction_context";
@@ -21,13 +24,18 @@ export const packageName = "AptosFramework";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "voting";
 
+export const EINVALID_MIN_VOTE_THRESHOLD : U64 = u64("7");
 export const EPROPOSAL_ALREADY_RESOLVED : U64 = u64("3");
 export const EPROPOSAL_CANNOT_BE_RESOLVED : U64 = u64("2");
 export const EPROPOSAL_EMPTY_EXECUTION_HASH : U64 = u64("4");
 export const EPROPOSAL_EXECUTION_HASH_NOT_MATCHING : U64 = u64("1");
+export const EPROPOSAL_VOTING_ALREADY_ENDED : U64 = u64("5");
+export const ERESOLUTION_CANNOT_BE_ATOMIC : U64 = u64("8");
+export const EVOTING_FORUM_ALREADY_REGISTERED : U64 = u64("6");
 export const PROPOSAL_STATE_FAILED : U64 = u64("3");
 export const PROPOSAL_STATE_PENDING : U64 = u64("0");
 export const PROPOSAL_STATE_SUCCEEDED : U64 = u64("1");
+export const RESOLVABLE_TIME_METADATA_KEY : U8[] = [u8("82"), u8("69"), u8("83"), u8("79"), u8("76"), u8("86"), u8("65"), u8("66"), u8("76"), u8("69"), u8("95"), u8("84"), u8("73"), u8("77"), u8("69"), u8("95"), u8("77"), u8("69"), u8("84"), u8("65"), u8("68"), u8("65"), u8("84"), u8("65"), u8("95"), u8("75"), u8("69"), u8("89")];
 
 
 export class CreateProposalEvent 
@@ -390,6 +398,13 @@ export function create_proposal_ (
   $p: TypeTag[], /* <ProposalType>*/
 ): U64 {
   let temp$1, temp$10, temp$11, temp$12, temp$13, temp$14, temp$2, temp$3, temp$4, temp$5, temp$6, temp$7, temp$8, temp$9, proposal_id, voting_forum;
+  if (Option.is_some_(early_resolution_vote_threshold, $c, [AtomicTypeTag.U128])) {
+    if (!($.copy(min_vote_threshold)).le($.copy(Option.borrow_(early_resolution_vote_threshold, $c, [AtomicTypeTag.U128])))) {
+      throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_MIN_VOTE_THRESHOLD), $c));
+    }
+  }
+  else{
+  }
   if (!(Vector.length_(execution_hash, $c, [AtomicTypeTag.U8])).gt(u64("0"))) {
     throw $.abortCode(Error.invalid_argument_($.copy(EPROPOSAL_EMPTY_EXECUTION_HASH), $c));
   }
@@ -496,9 +511,17 @@ export function is_voting_closed_ (
     temp$1 = true;
   }
   else{
-    temp$1 = (Timestamp.now_seconds_($c)).ge($.copy(proposal.expiration_secs));
+    temp$1 = is_voting_period_over_(proposal, $c, [$p[0]]);
   }
   return temp$1;
+}
+
+export function is_voting_period_over_ (
+  proposal: Proposal,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <ProposalType>*/
+): boolean {
+  return (Timestamp.now_seconds_($c)).gt($.copy(proposal.expiration_secs));
 }
 
 export function register_ (
@@ -506,12 +529,16 @@ export function register_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <ProposalType>*/
 ): void {
-  let temp$1, temp$2, temp$3, voting_forum;
+  let temp$1, temp$2, temp$3, addr, voting_forum;
+  addr = Signer.address_of_(account, $c);
+  if (!!$c.exists(new SimpleStructTag(VotingForum, [$p[0]]), $.copy(addr))) {
+    throw $.abortCode(Error.already_exists_($.copy(EVOTING_FORUM_ALREADY_REGISTERED), $c));
+  }
   temp$1 = u64("0");
   temp$2 = Table.new___($c, [AtomicTypeTag.U64, new SimpleStructTag(Proposal, [$p[0]])]);
   temp$3 = new VotingEvents({ create_proposal_events: Account.new_event_handle_(account, $c, [new SimpleStructTag(CreateProposalEvent)]), register_forum_events: Account.new_event_handle_(account, $c, [new SimpleStructTag(RegisterForumEvent)]), resolve_proposal_events: Account.new_event_handle_(account, $c, [new SimpleStructTag(ResolveProposal)]), vote_events: Account.new_event_handle_(account, $c, [new SimpleStructTag(VoteEvent)]) }, new SimpleStructTag(VotingEvents));
   voting_forum = new VotingForum({ proposals: temp$2, events: temp$3, next_proposal_id: temp$1 }, new SimpleStructTag(VotingForum, [$p[0]]));
-  Event.emit_event_(voting_forum.events.register_forum_events, new RegisterForumEvent({ hosting_account: Signer.address_of_(account, $c), proposal_type_info: Type_info.type_of_($c, [$p[0]]) }, new SimpleStructTag(RegisterForumEvent)), $c, [new SimpleStructTag(RegisterForumEvent)]);
+  Event.emit_event_(voting_forum.events.register_forum_events, new RegisterForumEvent({ hosting_account: $.copy(addr), proposal_type_info: Type_info.type_of_($c, [$p[0]]) }, new SimpleStructTag(RegisterForumEvent)), $c, [new SimpleStructTag(RegisterForumEvent)]);
   $c.move_to(new SimpleStructTag(VotingForum, [$p[0]]), account, voting_forum);
   return;
 }
@@ -522,15 +549,21 @@ export function resolve_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <ProposalType>*/
 ): any {
-  let proposal, proposal_state, resolved_early, voting_forum;
+  let temp$1, temp$2, proposal, proposal_state, resolvable_time, resolved_early, voting_forum;
   proposal_state = get_proposal_state_($.copy(voting_forum_address), $.copy(proposal_id), $c, [$p[0]]);
   if (!($.copy(proposal_state)).eq(($.copy(PROPOSAL_STATE_SUCCEEDED)))) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EPROPOSAL_CANNOT_BE_RESOLVED), $c));
+    throw $.abortCode(Error.invalid_state_($.copy(EPROPOSAL_CANNOT_BE_RESOLVED), $c));
   }
   voting_forum = $c.borrow_global_mut<VotingForum>(new SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
   proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [AtomicTypeTag.U64, new SimpleStructTag(Proposal, [$p[0]])]);
   if (!!$.copy(proposal.is_resolved)) {
-    throw $.abortCode(Error.invalid_argument_($.copy(EPROPOSAL_ALREADY_RESOLVED), $c));
+    throw $.abortCode(Error.invalid_state_($.copy(EPROPOSAL_ALREADY_RESOLVED), $c));
+  }
+  temp$2 = proposal.metadata;
+  temp$1 = String.utf8_($.copy(RESOLVABLE_TIME_METADATA_KEY), $c);
+  resolvable_time = From_bcs.to_u64_($.copy(Simple_map.borrow_(temp$2, temp$1, $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)])), $c);
+  if (!(Timestamp.now_seconds_($c)).gt($.copy(resolvable_time))) {
+    throw $.abortCode(Error.invalid_state_($.copy(ERESOLUTION_CANNOT_BE_ATOMIC), $c));
   }
   resolved_early = can_be_resolved_early_(proposal, $c, [$p[0]]);
   proposal.is_resolved = true;
@@ -551,14 +584,29 @@ export function vote_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <ProposalType>*/
 ): void {
-  let proposal, voting_forum;
+  let temp$1, key, proposal, timestamp_secs_bytes, voting_forum;
   voting_forum = $c.borrow_global_mut<VotingForum>(new SimpleStructTag(VotingForum, [$p[0]]), $.copy(voting_forum_address));
   proposal = Table.borrow_mut_(voting_forum.proposals, $.copy(proposal_id), $c, [AtomicTypeTag.U64, new SimpleStructTag(Proposal, [$p[0]])]);
+  if (!!is_voting_period_over_(proposal, $c, [$p[0]])) {
+    throw $.abortCode(Error.invalid_state_($.copy(EPROPOSAL_VOTING_ALREADY_ENDED), $c));
+  }
+  if (!!$.copy(proposal.is_resolved)) {
+    throw $.abortCode(Error.invalid_state_($.copy(EPROPOSAL_ALREADY_RESOLVED), $c));
+  }
   if (should_pass) {
     proposal.yes_votes = ($.copy(proposal.yes_votes)).add(u128($.copy(num_votes)));
   }
   else{
     proposal.no_votes = ($.copy(proposal.no_votes)).add(u128($.copy(num_votes)));
+  }
+  temp$1 = Timestamp.now_seconds_($c);
+  timestamp_secs_bytes = Bcs.to_bytes_(temp$1, $c, [AtomicTypeTag.U64]);
+  key = String.utf8_($.copy(RESOLVABLE_TIME_METADATA_KEY), $c);
+  if (Simple_map.contains_key_(proposal.metadata, key, $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)])) {
+    $.set(Simple_map.borrow_mut_(proposal.metadata, key, $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]), $.copy(timestamp_secs_bytes));
+  }
+  else{
+    Simple_map.add_(proposal.metadata, $.copy(key), $.copy(timestamp_secs_bytes), $c, [new StructTag(new HexString("0x1"), "string", "String", []), new VectorTag(AtomicTypeTag.U8)]);
   }
   Event.emit_event_(voting_forum.events.vote_events, new VoteEvent({ proposal_id: $.copy(proposal_id), num_votes: $.copy(num_votes) }, new SimpleStructTag(VoteEvent)), $c, [new SimpleStructTag(VoteEvent)]);
   return;

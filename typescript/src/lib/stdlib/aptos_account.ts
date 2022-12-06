@@ -125,8 +125,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_create_account(auth_key, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_create_account(auth_key, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_transfer(
     to: HexString,
@@ -143,8 +143,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_transfer(to, amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_transfer(to, amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

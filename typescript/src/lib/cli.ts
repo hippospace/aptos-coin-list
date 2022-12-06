@@ -94,6 +94,26 @@ program
   .action(coin_list_add_extension);
 
 
+const coin_list_add_extension_by_approver = async (CoinType: string,key: string,value: string,max_gas: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const key_ = new ActualStringClass({bytes: strToU8(key)}, parseTypeTagOrThrow('0x1::string::String'));
+  const value_ = new ActualStringClass({bytes: strToU8(value)}, parseTypeTagOrThrow('0x1::string::String'));
+  const max_gas_ = parseInt(max_gas);
+  const payload = Coin_list.Coin_list.buildPayload_add_extension_by_approver(key_, value_, [CoinType_]);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
+}
+
+program
+  .command("coin-list:add-extension-by-approver")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .argument('<key>')
+  .argument('<value>')
+  .argument('[max_gas]', '', '10000')
+  .action(coin_list_add_extension_by_approver);
+
+
 const coin_list_add_to_list = async (CoinType: string,list: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
@@ -182,13 +202,13 @@ program
   .action(coin_list_create_list);
 
 
-const coin_list_drop_extension = async (CoinType: string,key: string,value: string,max_gas: string) => {
+const coin_list_drop_extension = async (CoinType: string,key: string,_value: string,max_gas: string) => {
   const {client, account} = readConfig(program);
   const CoinType_ = parseTypeTagOrThrow(CoinType);
   const key_ = new ActualStringClass({bytes: strToU8(key)}, parseTypeTagOrThrow('0x1::string::String'));
-  const value_ = new ActualStringClass({bytes: strToU8(value)}, parseTypeTagOrThrow('0x1::string::String'));
+  const _value_ = new ActualStringClass({bytes: strToU8(_value)}, parseTypeTagOrThrow('0x1::string::String'));
   const max_gas_ = parseInt(max_gas);
-  const payload = Coin_list.Coin_list.buildPayload_drop_extension(key_, value_, [CoinType_]);
+  const payload = Coin_list.Coin_list.buildPayload_drop_extension(key_, _value_, [CoinType_]);
   await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
 }
 
@@ -197,9 +217,27 @@ program
   .description("")
   .argument('<TYPE_CoinType>')
   .argument('<key>')
-  .argument('<value>')
+  .argument('<_value>')
   .argument('[max_gas]', '', '10000')
   .action(coin_list_drop_extension);
+
+
+const coin_list_drop_extension_by_approver = async (CoinType: string,key: string,max_gas: string) => {
+  const {client, account} = readConfig(program);
+  const CoinType_ = parseTypeTagOrThrow(CoinType);
+  const key_ = new ActualStringClass({bytes: strToU8(key)}, parseTypeTagOrThrow('0x1::string::String'));
+  const max_gas_ = parseInt(max_gas);
+  const payload = Coin_list.Coin_list.buildPayload_drop_extension_by_approver(key_, [CoinType_]);
+  await sendPayloadTxAndLog(client, account, payload,{maxGasAmount: max_gas_});
+}
+
+program
+  .command("coin-list:drop-extension-by-approver")
+  .description("")
+  .argument('<TYPE_CoinType>')
+  .argument('<key>')
+  .argument('[max_gas]', '', '10000')
+  .action(coin_list_drop_extension_by_approver);
 
 
 const coin_list_initialize = async (max_gas: string) => {

@@ -339,30 +339,24 @@ export function calculate_write_gas_ (
   return calculate_gas_($.copy(config.target_usage), $.copy(usage), config.write_curve, $c);
 }
 
-export function init_module_ (
-  aptos_framework: HexString,
-  $c: AptosDataCache,
-): void {
-  initialize_(aptos_framework, $c);
-  return;
-}
-
 export function initialize_ (
   aptos_framework: HexString,
   $c: AptosDataCache,
 ): void {
-  let byte_config, item_config;
+  let byte_config, item_config, k, m;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   if (!!$c.exists(new SimpleStructTag(StorageGasConfig), new HexString("0x1"))) {
     throw $.abortCode(Error.already_exists_($.copy(ESTORAGE_GAS_CONFIG), $c));
   }
-  item_config = new UsageGasConfig({ target_usage: u64("1000000000"), read_curve: base_8192_exponential_curve_(u64("80000"), (u64("80000")).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_(u64("2000000"), (u64("2000000")).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_(u64("400000"), (u64("400000")).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
-  byte_config = new UsageGasConfig({ target_usage: u64("500000000000"), read_curve: base_8192_exponential_curve_(u64("40"), (u64("40")).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_(u64("1000"), (u64("1000")).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_(u64("200"), (u64("200")).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
+  k = u64("1000");
+  m = (u64("1000")).mul(u64("1000"));
+  item_config = new UsageGasConfig({ target_usage: ((u64("2")).mul($.copy(k))).mul($.copy(m)), read_curve: base_8192_exponential_curve_((u64("300")).mul($.copy(k)), ((u64("300")).mul($.copy(k))).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_((u64("5")).mul($.copy(m)), ((u64("5")).mul($.copy(m))).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_((u64("300")).mul($.copy(k)), ((u64("300")).mul($.copy(k))).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
+  byte_config = new UsageGasConfig({ target_usage: ((u64("1")).mul($.copy(m))).mul($.copy(m)), read_curve: base_8192_exponential_curve_(u64("300"), (u64("300")).mul(u64("100")), $c), create_curve: base_8192_exponential_curve_((u64("5")).mul($.copy(k)), ((u64("5")).mul($.copy(k))).mul(u64("100")), $c), write_curve: base_8192_exponential_curve_((u64("5")).mul($.copy(k)), ((u64("5")).mul($.copy(k))).mul(u64("100")), $c) }, new SimpleStructTag(UsageGasConfig));
   $c.move_to(new SimpleStructTag(StorageGasConfig), aptos_framework, new StorageGasConfig({ item_config: $.copy(item_config), byte_config: $.copy(byte_config) }, new SimpleStructTag(StorageGasConfig)));
   if (!!$c.exists(new SimpleStructTag(StorageGas), new HexString("0x1"))) {
     throw $.abortCode(Error.already_exists_($.copy(ESTORAGE_GAS), $c));
   }
-  $c.move_to(new SimpleStructTag(StorageGas), aptos_framework, new StorageGas({ per_item_read: u64("8000"), per_item_create: u64("1280000"), per_item_write: u64("160000"), per_byte_read: u64("1000"), per_byte_create: u64("10000"), per_byte_write: u64("10000") }, new SimpleStructTag(StorageGas)));
+  $c.move_to(new SimpleStructTag(StorageGas), aptos_framework, new StorageGas({ per_item_read: (u64("300")).mul($.copy(k)), per_item_create: (u64("5")).mul($.copy(m)), per_item_write: (u64("300")).mul($.copy(k)), per_byte_read: u64("300"), per_byte_create: (u64("5")).mul($.copy(k)), per_byte_write: (u64("5")).mul($.copy(k)) }, new SimpleStructTag(StorageGas)));
   return;
 }
 

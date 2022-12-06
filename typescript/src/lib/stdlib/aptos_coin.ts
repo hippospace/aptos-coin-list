@@ -429,8 +429,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_claim_mint_capability(_isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_claim_mint_capability(_isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_delegate_mint_capability(
     to: HexString,
@@ -445,8 +445,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_delegate_mint_capability(to, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_delegate_mint_capability(to, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_mint(
     dst_addr: HexString,
@@ -463,8 +463,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_mint(dst_addr, amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_mint(dst_addr, amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

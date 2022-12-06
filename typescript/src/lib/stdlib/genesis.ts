@@ -253,6 +253,8 @@ export function create_accounts_ (
 }
 
 export function create_employee_validators_ (
+  employee_vesting_start: U64,
+  employee_vesting_period_duration: U64,
   employees: EmployeeAccountMap[],
   $c: AptosDataCache,
 ): void {
@@ -291,7 +293,7 @@ export function create_employee_validators_ (
           j__1 = ($.copy(j__1)).add(u64("1"));
         }
 
-      }vesting_schedule = Vesting.create_vesting_schedule_($.copy(schedule), u64("1663456089"), (((u64("30")).mul(u64("24"))).mul(u64("60"))).mul(u64("60")), $c);
+      }vesting_schedule = Vesting.create_vesting_schedule_($.copy(schedule), $.copy(employee_vesting_start), $.copy(employee_vesting_period_duration), $c);
       admin = $.copy(employee_group.validator.validator_config.owner_address);
       temp$2 = create_signer_($.copy(admin), $c);
       admin_signer = temp$2;
@@ -415,19 +417,17 @@ export function initialize_ (
   voting_power_increase_limit: U64,
   $c: AptosDataCache,
 ): void {
-  let address, aptos_account, aptos_framework_account, aptos_framework_signer_cap, framework_reserved_addresses, framework_signer_cap, i;
+  let address, aptos_account, aptos_framework_account, aptos_framework_signer_cap, framework_reserved_addresses, framework_signer_cap;
   [aptos_framework_account, aptos_framework_signer_cap] = Account.create_framework_reserved_account_(new HexString("0x1"), $c);
   Account.initialize_(aptos_framework_account, $c);
   Transaction_validation.initialize_(aptos_framework_account, [u8("115"), u8("99"), u8("114"), u8("105"), u8("112"), u8("116"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("109"), u8("111"), u8("100"), u8("117"), u8("108"), u8("101"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("109"), u8("117"), u8("108"), u8("116"), u8("105"), u8("95"), u8("97"), u8("103"), u8("101"), u8("110"), u8("116"), u8("95"), u8("115"), u8("99"), u8("114"), u8("105"), u8("112"), u8("116"), u8("95"), u8("112"), u8("114"), u8("111"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], [u8("101"), u8("112"), u8("105"), u8("108"), u8("111"), u8("103"), u8("117"), u8("101")], $c);
   Aptos_governance.store_signer_cap_(aptos_framework_account, new HexString("0x1"), aptos_framework_signer_cap, $c);
   framework_reserved_addresses = [new HexString("0x2"), new HexString("0x3"), new HexString("0x4"), new HexString("0x5"), new HexString("0x6"), new HexString("0x7"), new HexString("0x8"), new HexString("0x9"), new HexString("0xa")];
-  i = u64("0");
   while (!Vector.is_empty_(framework_reserved_addresses, $c, [AtomicTypeTag.Address])) {
     {
       address = Vector.pop_back_(framework_reserved_addresses, $c, [AtomicTypeTag.Address]);
       [aptos_account, framework_signer_cap] = Account.create_framework_reserved_account_($.copy(address), $c);
       Aptos_governance.store_signer_cap_(aptos_account, $.copy(address), framework_signer_cap, $c);
-      i = ($.copy(i)).add(u64("1"));
     }
 
   }Consensus_config.initialize_(aptos_framework_account, $.copy(consensus_config), $c);

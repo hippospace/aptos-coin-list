@@ -4,6 +4,7 @@ module coin_list::coin_list {
     use aptos_std::simple_map;
     use aptos_std::type_info;
     use std::string::String;
+    use std::string;
     use std::signer;
     use std::vector;
     use std::option;
@@ -19,6 +20,7 @@ module coin_list::coin_list {
     const E_APPROVER_ONLY: u64 = 5;
     const E_UID_ALREADY_EXISTS:u64 = 6;
     const E_UNSUPPORTED_METHOD: u64 = 7;
+    const E_PRIVILEDGED_EXTENSION: u64 = 8;
 
 
     // For ease of iteration, we do not store CoinInfo as independent resource. Instead we put all CoinInfo under a
@@ -193,6 +195,28 @@ module coin_list::coin_list {
         let type_info = type_info::type_of<CoinType>();
         assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
 
+        if (value == string::utf8(b"bridge")) {
+            abort E_PRIVILEDGED_EXTENSION
+        };
+        if (value == string::utf8(b"verified")) {
+            abort E_PRIVILEDGED_EXTENSION
+        };
+
+        let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
+        simple_map::add(&mut coin_info.extensions, key, value);
+    }
+
+    #[cmd]
+    public entry fun add_extension_by_approver<CoinType>(
+        approver: &signer,
+        key: String,
+        value: String,
+    ) acquires CoinRegistry {
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
+
+        let type_info = type_info::type_of<CoinType>();
+
         let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
         simple_map::add(&mut coin_info.extensions, key, value);
     }
@@ -201,14 +225,27 @@ module coin_list::coin_list {
     public entry fun drop_extension<CoinType>(
         coin_owner: &signer,
         key: String,
-        value: String,
+        _value: String,
     ) acquires CoinRegistry {
         let registry = borrow_global_mut<CoinRegistry>(@coin_list);
         let type_info = type_info::type_of<CoinType>();
         assert!(signer::address_of(coin_owner) == type_info::account_address(&type_info), E_COIN_OWNER_ONLY);
 
         let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
-        simple_map::add(&mut coin_info.extensions, key, value);
+        simple_map::remove(&mut coin_info.extensions, &key);
+    }
+
+    #[cmd]
+    public entry fun drop_extension_by_approver<CoinType>(
+        approver: &signer,
+        key: String,
+    ) acquires CoinRegistry {
+        let registry = borrow_global_mut<CoinRegistry>(@coin_list);
+        assert!(vector::contains(&registry.approvers, &std::signer::address_of(approver)), E_APPROVER_ONLY);
+
+        let type_info = type_info::type_of<CoinType>();
+        let coin_info = iterable_table::borrow_mut(&mut registry.type_to_coin_info, type_info);
+        simple_map::remove(&mut coin_info.extensions, &key);
     }
 
     fun add_to_registry<CoinType>(

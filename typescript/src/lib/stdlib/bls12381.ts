@@ -8,10 +8,12 @@ import {OptionTransaction} from "@manahippo/move-to-ts";
 import {HexString, AptosClient, AptosAccount, TxnBuilderTypes, Types} from "aptos";
 import * as Error from "./error";
 import * as Option from "./option";
+import * as Vector from "./vector";
 export const packageName = "AptosStdlib";
 export const moduleAddress = new HexString("0x1");
 export const moduleName = "bls12381";
 
+export const EWRONG_SIZE : U64 = u64("2");
 export const EZERO_PUBKEYS : U64 = u64("1");
 export const PUBLIC_KEY_NUM_BYTES : U64 = u64("48");
 export const RANDOM_PK : U8[] = [u8("138"), u8("83"), u8("231"), u8("174"), u8("82"), u8("112"), u8("227"), u8("231"), u8("101"), u8("205"), u8("138"), u8("64"), u8("50"), u8("194"), u8("231"), u8("124"), u8("111"), u8("126"), u8("135"), u8("164"), u8("78"), u8("187"), u8("133"), u8("191"), u8("40"), u8("164"), u8("215"), u8("134"), u8("85"), u8("101"), u8("105"), u8("143"), u8("151"), u8("83"), u8("70"), u8("113"), u8("66"), u8("98"), u8("249"), u8("228"), u8("124"), u8("111"), u8("62"), u8("13"), u8("93"), u8("149"), u8("22"), u8("96")];
@@ -210,6 +212,16 @@ export class Signature
   }
 
 }
+export function aggr_or_multi_signature_from_bytes_ (
+  bytes: U8[],
+  $c: AptosDataCache,
+): AggrOrMultiSignature {
+  if (!(Vector.length_(bytes, $c, [AtomicTypeTag.U8])).eq(($.copy(SIGNATURE_SIZE)))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EWRONG_SIZE), $c));
+  }
+  return new AggrOrMultiSignature({ bytes: $.copy(bytes) }, new SimpleStructTag(AggrOrMultiSignature));
+}
+
 export function aggr_or_multi_signature_subgroup_check_ (
   signature: AggrOrMultiSignature,
   $c: AptosDataCache,

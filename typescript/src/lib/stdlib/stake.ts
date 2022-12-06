@@ -25,6 +25,7 @@ export const moduleName = "stake";
 export const EALREADY_ACTIVE_VALIDATOR : U64 = u64("4");
 export const EALREADY_REGISTERED : U64 = u64("8");
 export const EINELIGIBLE_VALIDATOR : U64 = u64("17");
+export const EINVALID_LOCKUP : U64 = u64("18");
 export const EINVALID_PUBLIC_KEY : U64 = u64("11");
 export const ELAST_VALIDATOR : U64 = u64("6");
 export const ENOT_OPERATOR : U64 = u64("9");
@@ -1358,14 +1359,18 @@ export function increase_lockup_with_cap_ (
   owner_cap: OwnerCapability,
   $c: AptosDataCache,
 ): void {
-  let config, old_locked_until_secs, pool_address, stake_pool;
+  let config, new_locked_until_secs, old_locked_until_secs, pool_address, stake_pool;
   pool_address = $.copy(owner_cap.pool_address);
   assert_stake_pool_exists_($.copy(pool_address), $c);
   config = Staking_config.get_($c);
   stake_pool = $c.borrow_global_mut<StakePool>(new SimpleStructTag(StakePool), $.copy(pool_address));
   old_locked_until_secs = $.copy(stake_pool.locked_until_secs);
-  stake_pool.locked_until_secs = (Timestamp.now_seconds_($c)).add(Staking_config.get_recurring_lockup_duration_(config, $c));
-  Event.emit_event_(stake_pool.increase_lockup_events, new IncreaseLockupEvent({ pool_address: $.copy(pool_address), old_locked_until_secs: $.copy(old_locked_until_secs), new_locked_until_secs: $.copy(stake_pool.locked_until_secs) }, new SimpleStructTag(IncreaseLockupEvent)), $c, [new SimpleStructTag(IncreaseLockupEvent)]);
+  new_locked_until_secs = (Timestamp.now_seconds_($c)).add(Staking_config.get_recurring_lockup_duration_(config, $c));
+  if (!($.copy(old_locked_until_secs)).lt($.copy(new_locked_until_secs))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_LOCKUP), $c));
+  }
+  stake_pool.locked_until_secs = $.copy(new_locked_until_secs);
+  Event.emit_event_(stake_pool.increase_lockup_events, new IncreaseLockupEvent({ pool_address: $.copy(pool_address), old_locked_until_secs: $.copy(old_locked_until_secs), new_locked_until_secs: $.copy(new_locked_until_secs) }, new SimpleStructTag(IncreaseLockupEvent)), $c, [new SimpleStructTag(IncreaseLockupEvent)]);
   return;
 }
 
@@ -1615,13 +1620,13 @@ export function join_validator_set_internal_ (
     throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_PUBLIC_KEY), $c));
   }
   validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
+  temp$4 = validator_set.pending_active;
+  [temp$1, temp$2, temp$3] = [$.copy(pool_address), stake_pool, $.copy(validator_config)];
+  Vector.push_back_(temp$4, generate_validator_info_(temp$1, temp$2, temp$3, $c), $c, [new SimpleStructTag(ValidatorInfo)]);
   validator_set_size = (Vector.length_(validator_set.active_validators, $c, [new SimpleStructTag(ValidatorInfo)])).add(Vector.length_(validator_set.pending_active, $c, [new SimpleStructTag(ValidatorInfo)]));
   if (!($.copy(validator_set_size)).le($.copy(MAX_VALIDATOR_SET_SIZE))) {
     throw $.abortCode(Error.invalid_argument_($.copy(EVALIDATOR_SET_TOO_LARGE), $c));
   }
-  temp$4 = validator_set.pending_active;
-  [temp$1, temp$2, temp$3] = [$.copy(pool_address), stake_pool, $.copy(validator_config)];
-  Vector.push_back_(temp$4, generate_validator_info_(temp$1, temp$2, temp$3, $c), $c, [new SimpleStructTag(ValidatorInfo)]);
   Event.emit_event_(stake_pool.join_validator_set_events, new JoinValidatorSetEvent({ pool_address: $.copy(pool_address) }, new SimpleStructTag(JoinValidatorSetEvent)), $c, [new SimpleStructTag(JoinValidatorSetEvent)]);
   return;
 }
@@ -1828,19 +1833,11 @@ export function remove_validators_ (
   validators: HexString[],
   $c: AptosDataCache,
 ): void {
-  let validator_set;
+  let temp$1, temp$2, active_validators, i, len, pending_inactive, validator, validator_index, validator_info, validator_set;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   validator_set = $c.borrow_global_mut<ValidatorSet>(new SimpleStructTag(ValidatorSet), new HexString("0x1"));
-  remove_validators_internal_(validator_set.active_validators, validators, $c);
-  return;
-}
-
-export function remove_validators_internal_ (
-  active_validators: ValidatorInfo[],
-  validators: HexString[],
-  $c: AptosDataCache,
-): void {
-  let temp$1, temp$2, i, len, validator, validator_index;
+  active_validators = validator_set.active_validators;
+  pending_inactive = validator_set.pending_inactive;
   len = Vector.length_(validators, $c, [AtomicTypeTag.Address]);
   i = u64("0");
   while (true) {
@@ -1853,7 +1850,8 @@ export function remove_validators_internal_ (
       [temp$1, temp$2] = [active_validators, $.copy(validator)];
       validator_index = find_validator_(temp$1, temp$2, $c);
       if (Option.is_some_(validator_index, $c, [AtomicTypeTag.U64])) {
-        Vector.remove_(active_validators, $.copy(Option.borrow_(validator_index, $c, [AtomicTypeTag.U64])), $c, [new SimpleStructTag(ValidatorInfo)]);
+        validator_info = Vector.swap_remove_(active_validators, $.copy(Option.borrow_(validator_index, $c, [AtomicTypeTag.U64])), $c, [new SimpleStructTag(ValidatorInfo)]);
+        Vector.push_back_(pending_inactive, $.copy(validator_info), $c, [new SimpleStructTag(ValidatorInfo)]);
       }
       else{
       }
@@ -2443,8 +2441,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_add_stake(amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_add_stake(amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_increase_lockup(
     isJSON = false,
@@ -2457,8 +2455,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_increase_lockup(_isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_increase_lockup(_isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_initialize_stake_owner(
     initial_stake_amount: U64,
@@ -2477,8 +2475,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_initialize_stake_owner(initial_stake_amount, operator, voter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_initialize_stake_owner(initial_stake_amount, operator, voter, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_initialize_validator(
     consensus_pubkey: U8[],
@@ -2499,8 +2497,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_initialize_validator(consensus_pubkey, proof_of_possession, network_addresses, fullnode_addresses, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_initialize_validator(consensus_pubkey, proof_of_possession, network_addresses, fullnode_addresses, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_join_validator_set(
     pool_address: HexString,
@@ -2515,8 +2513,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_join_validator_set(pool_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_join_validator_set(pool_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_leave_validator_set(
     pool_address: HexString,
@@ -2531,8 +2529,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_leave_validator_set(pool_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_leave_validator_set(pool_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_reactivate_stake(
     amount: U64,
@@ -2547,8 +2545,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_reactivate_stake(amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_reactivate_stake(amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_rotate_consensus_key(
     pool_address: HexString,
@@ -2567,8 +2565,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_rotate_consensus_key(pool_address, new_consensus_pubkey, proof_of_possession, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_rotate_consensus_key(pool_address, new_consensus_pubkey, proof_of_possession, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_set_delegated_voter(
     new_voter: HexString,
@@ -2583,8 +2581,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_delegated_voter(new_voter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_delegated_voter(new_voter, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_set_operator(
     new_operator: HexString,
@@ -2599,8 +2597,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_operator(new_operator, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_operator(new_operator, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_unlock(
     amount: U64,
@@ -2615,8 +2613,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_unlock(amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_unlock(amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_update_network_and_fullnode_addresses(
     pool_address: HexString,
@@ -2635,8 +2633,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_update_network_and_fullnode_addresses(pool_address, new_network_addresses, new_fullnode_addresses, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_update_network_and_fullnode_addresses(pool_address, new_network_addresses, new_fullnode_addresses, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_withdraw(
     withdraw_amount: U64,
@@ -2651,8 +2649,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_withdraw(withdraw_amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_withdraw(withdraw_amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

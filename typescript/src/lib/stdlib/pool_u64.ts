@@ -126,7 +126,7 @@ export function amount_to_shares_with_total_coins_ (
     temp$1 = ($.copy(pool.total_shares)).eq((u64("0")));
   }
   if (temp$1) {
-    temp$2 = $.copy(coins_amount);
+    temp$2 = ($.copy(coins_amount)).mul($.copy(pool.scaling_factor));
   }
   else{
     temp$2 = multiply_then_divide_(pool, $.copy(coins_amount), $.copy(pool.total_shares), $.copy(total_coins), $c);
@@ -233,15 +233,14 @@ export function destroy_empty_ (
 }
 
 export function multiply_then_divide_ (
-  pool: Pool,
+  _pool: Pool,
   x: U64,
   y: U64,
   z: U64,
   $c: AptosDataCache,
 ): U64 {
-  let result, scaling_factor;
-  scaling_factor = to_u128_($.copy(pool.scaling_factor), $c);
-  result = (((to_u128_($.copy(x), $c)).mul(to_u128_($.copy(y), $c))).mul($.copy(scaling_factor))).div((to_u128_($.copy(z), $c)).mul($.copy(scaling_factor)));
+  let result;
+  result = ((to_u128_($.copy(x), $c)).mul(to_u128_($.copy(y), $c))).div(to_u128_($.copy(z), $c));
   return u64($.copy(result));
 }
 

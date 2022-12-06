@@ -499,8 +499,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_deploy(_isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_deploy(_isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_init_coin(
     name: U8[],
@@ -521,8 +521,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_init_coin(name, symbol, decimals, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_init_coin(name, symbol, decimals, $p, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_mint_to_wallet(
     amount: U64,
@@ -539,8 +539,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_mint_to_wallet(amount, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_mint_to_wallet(amount, $p, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

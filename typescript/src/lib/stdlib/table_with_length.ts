@@ -158,6 +158,24 @@ export function remove_ (
   return val;
 }
 
+export function upsert_ (
+  table: TableWithLength,
+  key: any,
+  value: any,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <K, V>*/
+): void {
+  let ref;
+  if (!Table.contains_(table.inner, $.copy(key), $c, [$p[0], $p[1]])) {
+    add_(table, $.copy(key), value, $c, [$p[0], $p[1]]);
+  }
+  else{
+    ref = Table.borrow_mut_(table.inner, $.copy(key), $c, [$p[0], $p[1]]);
+    $.set(ref, value);
+  }
+  return;
+}
+
 export function loadParsers(repo: AptosParserRepo) {
   repo.addParser("0x1::table_with_length::TableWithLength", TableWithLength.TableWithLengthParser);
 }

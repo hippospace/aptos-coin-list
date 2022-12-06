@@ -265,8 +265,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_create_resource_account(seed, optional_auth_key, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_create_resource_account(seed, optional_auth_key, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_create_resource_account_and_fund(
     seed: U8[],
@@ -285,8 +285,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_create_resource_account_and_fund(seed, optional_auth_key, fund_amount, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_create_resource_account_and_publish_package(
     seed: U8[],
@@ -305,8 +305,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_create_resource_account_and_publish_package(seed, metadata_serialized, code, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 
