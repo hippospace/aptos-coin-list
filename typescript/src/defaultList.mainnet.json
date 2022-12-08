@@ -1,5 +1,28 @@
 [
   {
+    "name": "Ditto Discount Token",
+    "symbol": "DTO",
+    "official_symbol": "dscDTO",
+    "coingecko_id": "ditto-discount-token",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DTO.svg",
+    "project_url": "https://www.dittofinance.io/",
+    "token_type": {
+      "type": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::ditto_discount_coin::DittoDiscountCoin",
+      "account_address": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
+      "module_name": "ditto_discount_coin",
+      "struct_name": "DittoDiscountCoin"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    }
+  },
+  {
     "name": "Abel Coin",
     "symbol": "ABEL",
     "official_symbol": "ABEL",
