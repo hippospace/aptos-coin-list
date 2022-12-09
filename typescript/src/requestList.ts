@@ -41,7 +41,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "name": "Mojito",
     "symbol": "MOJO",
     "official_symbol": "MOJO",
-    "coingecko_id": "",
+    "coingecko_id": "mojito",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOJO.svg",
     "project_url": "https://www.mojito.markets/",
