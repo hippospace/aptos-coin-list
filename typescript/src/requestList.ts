@@ -937,7 +937,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "CakeOFT"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
 ];
