@@ -922,4 +922,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": [["bridge", "native"]]
     }
   },
+  {
+    "name": "PancakeSwap Token",
+    "symbol": "CAKE",
+    "official_symbol": "CAKE",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://tokens.pancakeswap.finance/images/aptos/0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT.png",
+    "project_url": "https://pancakeswap.finance/",
+    "token_type": {
+      "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
+      "account_address": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6",
+      "module_name": "oft",
+      "struct_name": "CakeOFT"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
