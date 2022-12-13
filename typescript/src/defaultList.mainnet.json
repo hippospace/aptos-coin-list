@@ -1,9 +1,32 @@
 [
   {
+    "name": "PancakeSwap Token",
+    "symbol": "CAKE",
+    "official_symbol": "Cake",
+    "coingecko_id": "pancakeswap-token",
+    "decimals": 8,
+    "logo_url": "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    "project_url": "https://pancakeswap.finance/",
+    "token_type": {
+      "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
+      "account_address": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6",
+      "module_name": "oft",
+      "struct_name": "CakeOFT"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    }
+  },
+  {
     "name": "Ditto Discount Token",
     "symbol": "DTO",
     "official_symbol": "dscDTO",
-    "coingecko_id": "ditto-discount-token",
+    "coingecko_id": "",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DTO.svg",
     "project_url": "https://www.dittofinance.io/",
@@ -14,12 +37,7 @@
       "struct_name": "DittoDiscountCoin"
     },
     "extensions": {
-      "data": [
-        [
-          "bridge",
-          "native"
-        ]
-      ]
+      "data": []
     }
   },
   {
@@ -421,12 +439,7 @@
       "struct_name": "MOJO"
     },
     "extensions": {
-      "data": [
-        [
-          "bridge",
-          "native"
-        ]
-      ]
+      "data": []
     }
   },
   {
