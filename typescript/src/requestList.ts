@@ -940,4 +940,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": [["bridge", "native"]]
     }
   },
+  {
+    "name": "EON",
+    "symbol": "EON",
+    "official_symbol": "EON",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/EON.svg",
+    "project_url": "https://eonlabz.com/",
+    "token_type": {
+      "type": "0x389dbbc6884a1d5b1ab4e1df2913a8c1b01251e50aed377554372b2842c5e3ef::EONcoin::EONCoin",
+      "account_address": "0x389dbbc6884a1d5b1ab4e1df2913a8c1b01251e50aed377554372b2842c5e3ef",
+      "module_name": "EONcoin",
+      "struct_name": "EONCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
 ];
