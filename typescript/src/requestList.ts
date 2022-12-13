@@ -926,9 +926,9 @@ export const REQUESTS: RawCoinInfo[] = [
     "name": "PancakeSwap Token",
     "symbol": "CAKE",
     "official_symbol": "CAKE",
-    "coingecko_id": "",
+    "coingecko_id": "pancakeswap-token",
     "decimals": 8,
-    "logo_url": "https://tokens.pancakeswap.finance/images/aptos/0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT.png",
+    "logo_url": "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
     "project_url": "https://pancakeswap.finance/",
     "token_type": {
       "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
