@@ -41,7 +41,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "name": "Mojito",
     "symbol": "MOJO",
     "official_symbol": "MOJO",
-    "coingecko_id": "",
+    "coingecko_id": "mojito",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOJO.svg",
     "project_url": "https://www.mojito.markets/",
@@ -86,6 +86,24 @@ export const REQUESTS: RawCoinInfo[] = [
       "account_address": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
       "module_name": "staked_coin",
       "struct_name": "StakedAptos"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "Ditto Discount Token",
+    "symbol": "DTO",
+    "official_symbol": "DTO",
+    "coingecko_id": "ditto-discount-token",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DTO.svg",
+    "project_url": "https://www.dittofinance.io/",
+    "token_type": {
+      "type": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::ditto_discount_coin::DittoDiscountCoin",
+      "account_address": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
+      "module_name": "ditto_discount_coin",
+      "struct_name": "DittoDiscountCoin"
     },
     "extensions": {
       "data": [["bridge", "native"]]
@@ -904,7 +922,25 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": [["bridge", "native"]]
     }
   },
-{
+  {
+    "name": "PancakeSwap Token",
+    "symbol": "CAKE",
+    "official_symbol": "CAKE",
+    "coingecko_id": "pancakeswap-token",
+    "decimals": 8,
+    "logo_url": "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    "project_url": "https://pancakeswap.finance/",
+    "token_type": {
+      "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
+      "account_address": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6",
+      "module_name": "oft",
+      "struct_name": "CakeOFT"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
     "name": "EON",
     "symbol": "EON",
     "official_symbol": "EON",
