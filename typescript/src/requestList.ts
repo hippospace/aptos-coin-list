@@ -74,6 +74,24 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
+    "name": "Apetos Coin",
+    "symbol": "APETOS",
+    "official_symbol": "APETOS",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APETOS.webp",
+    "project_url": "https://apetoscoin.com",
+    "token_type": {
+      "type": "0x69c1b21fc28610043a57412568fd28d4199c0f57f90b1af8f687ec7fcc4ddd46::apetos_coin::ApetosCoin",
+      "account_address": "0x69c1b21fc28610043a57412568fd28d4199c0f57f90b1af8f687ec7fcc4ddd46",
+      "module_name": "apetos_coin",
+      "struct_name": "ApetosCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
+  {
     "name": "Ditto Staked Aptos",
     "symbol": "stAPT",
     "official_symbol": "stAPT",
