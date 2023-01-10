@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "AptosLaunch Token",
+    "symbol": "ALT",
+    "official_symbol": "ALT",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Aptoslaunchlogob.svg",
+    "project_url": "https://aptoslaunch.io",
+    "token_type": {
+      "type": "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e::aptos_launch_token::AptosLaunchToken",
+      "account_address": "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e",
+      "module_name": "aptos_launch_token",
+      "struct_name": "AptosLaunchToken"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
     "name": "Meeiro",
     "symbol": "MEE",
     "official_symbol": "MEE",
