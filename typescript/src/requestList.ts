@@ -958,4 +958,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": [["bridge", "native"]]
     }
   },
+  {
+    "name": "APass Coin",
+    "symbol": "APC",
+    "official_symbol": "APC",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APC.svg",
+    "project_url": "https://aptpp.com",
+    "token_type": {
+      "type": "0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb::apcoin::ApCoin",
+      "account_address": "0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb",
+      "module_name": "apcoin",
+      "struct_name": "ApCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
 ];
