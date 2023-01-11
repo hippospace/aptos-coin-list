@@ -994,4 +994,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": [["bridge", "native"]]
     }
   },
+  {
+    "name": "SPRING",
+    "symbol": "SPRING",
+    "official_symbol": "SPRING",
+    "coingecko_id": "spring",
+    "decimals": 9,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/SPRING.webp",
+    "project_url": "https://springers.co.in/",
+    "token_type": {
+      "type": "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10::spring_coin::Spring_Coin",
+      "account_address": "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10",
+      "module_name": "spring_coin",
+      "struct_name": "Spring_Coin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
