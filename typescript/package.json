@@ -1,7 +1,7 @@
 
 {
   "name": "@manahippo/coin-list",
-  "version": "2.3.5",
+  "version": "2.4.0",
   "scripts": {
     "build": "rm -rf dist; rollup -c rollup.config.js",
     "cli": "ts-node src/lib/cli.ts",
@@ -33,8 +33,8 @@
     "rollup": "^2.79.0"
   },
   "dependencies": {
-    "aptos": "1.3.15",
-    "@manahippo/move-to-ts": "0.5.0",
+    "aptos": "1.3.17",
+    "@manahippo/move-to-ts": "0.6.1",
     "big-integer": "^1.6.51",
     "commander": "^9.3.0",
     "yaml": "^2.1.1"
