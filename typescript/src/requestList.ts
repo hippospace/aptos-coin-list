@@ -1012,4 +1012,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "Wombaptos",
+    "symbol": "WBT",
+    "official_symbol": "WBT",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WBT.png",
+    "project_url": "https://wombaptos.com/",
+    "token_type": {
+      "type": "0xcbbb7184810ec827cf96d8fb31eaf2409d56e801d1d47d5ba335fa2e086698c2::WombaptosV2::WBT",
+      "account_address": "0xcbbb7184810ec827cf96d8fb31eaf2409d56e801d1d47d5ba335fa2e086698c2",
+      "module_name": "WombaptosV2",
+      "struct_name": "WBT"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
