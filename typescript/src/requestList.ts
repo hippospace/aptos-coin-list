@@ -1018,7 +1018,7 @@ export const REQUESTS: RawCoinInfo[] = [
   "official_symbol": "BOFA",
   "coingecko_id": "",
   "decimals": 6,
-  "logo_url": "https://raw.githubusercontent.com/bigchickendefi/aptos-coin-list/main/icons/BOFA.svg",
+  "logo_url": "https://raw.githubusercontent.com/bigchickendefi/aptos-coin-list/main/icons/BOFA.png",
   "project_url": "https://bofachiku.com/",
   "token_type": {
     "type": "0xd1fe830dd863890ead995cbed2e1584da1558df1de184f31c8d0adf95fe19bc::proton_d69::PROTON_75C",
