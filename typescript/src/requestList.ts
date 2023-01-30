@@ -43,7 +43,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "official_symbol": "APTSWAP",
     "coingecko_id": "",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/AptSwaplogo.png",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/AptSwap.svg",
     "project_url": "http://aptswap.io",
     "token_type": {
       "type": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf::AptSwap::AptSwapGovernance",
