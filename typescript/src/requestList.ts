@@ -923,6 +923,24 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
+    "name": "The People",
+    "symbol": "People",
+    "official_symbol": "People",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/ThePeopleAPT/the_peoplemove/main/Logo.png",
+    "project_url": "https://thepeopleapt.xyz/",
+    "token_type": {
+      "type": "0x5a1e84cdd217034d764abb91bf20aa0536c5a8c900831a37b393fe3af98c3f55::thepeoplecoin::The_People",
+      "account_address": "0x5a1e84cdd217034d764abb91bf20aa0536c5a8c900831a37b393fe3af98c3f55",
+      "module_name": "thepeoplecoin",
+      "struct_name": "The_People"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
     "name": "Abel Coin",
     "symbol": "ABEL",
     "official_symbol": "ABEL",
