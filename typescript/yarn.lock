@@ -66,10 +66,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@manahippo/move-to-ts@0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@manahippo/move-to-ts/-/move-to-ts-0.6.1.tgz#a7319cbd325523fa260fcfc67d4dadfd02f540d1"
-  integrity sha512-EkgtHQ7x8f6GwAwgvPhJ1Eoo419XnFYBLv9v/WCP7WPA86E8FhUkgSUIJImI91SOlA1cXK4vq2rL9wciBKG0SQ==
+"@manahippo/move-to-ts@0.6.3":
+  version "0.6.3"
+  resolved "https://registry.yarnpkg.com/@manahippo/move-to-ts/-/move-to-ts-0.6.3.tgz#0167ff6412dfd8f57ae29c6520dcfed8f57c3a1e"
+  integrity sha512-5BvuaGxBxclq+ucIV8O0puNt3I5gVVjbyD2p9yrnENc0i65OyqAw0hWrWtw+vUz3dfp0i9IDSO3W+kXMfX4+pg==
   dependencies:
     aptos "1.3.17"
     big-integer "^1.6.51"
