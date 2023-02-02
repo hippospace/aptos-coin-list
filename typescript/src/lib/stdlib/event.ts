@@ -101,7 +101,7 @@ export function write_to_event_store_ (
   $c: AptosDataCache,
   $p: TypeTag[], /* <T>*/
 ): void {
-  return $.aptos_std_event_write_to_event_store(guid, count, msg, $c, [$p[0]]);
+  return $.aptos_framework_event_write_to_event_store(guid, count, msg, $c, [$p[0]]);
 
 }
 export function loadParsers(repo: AptosParserRepo) {

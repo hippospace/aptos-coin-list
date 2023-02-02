@@ -744,6 +744,18 @@ export function buildPayload_transfer (
   );
 
 }
+export function unfreeze_coin_store_ (
+  account_addr: HexString,
+  _freeze_cap: FreezeCapability,
+  $c: AptosDataCache,
+  $p: TypeTag[], /* <CoinType>*/
+): void {
+  let coin_store;
+  coin_store = $c.borrow_global_mut<CoinStore>(new SimpleStructTag(CoinStore, [$p[0]]), $.copy(account_addr));
+  coin_store.frozen = false;
+  return;
+}
+
 export function upgrade_supply_ (
   account: HexString,
   $c: AptosDataCache,
@@ -912,8 +924,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_transfer(to, amount, $p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_transfer(to, amount, $p, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_upgrade_supply(
     $p: TypeTag[], /* <CoinType>*/
@@ -928,8 +940,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_upgrade_supply($p, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_upgrade_supply($p, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

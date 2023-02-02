@@ -8,6 +8,7 @@ import { REQUESTS } from "./requestList";
 import { RawCoinInfo } from "./list";
 import { CoinListClient, NetworkType } from "./client";
 import {tokenTypeToTag} from "./utils";
+import { String } from "./lib/stdlib";
 
 const readConfig = (program: Command) => {
   const {config, profile} = program.opts();
@@ -217,5 +218,74 @@ program
     .description("")
     .argument('<TYPE_CoinType>')
     .action(registerCoin);
+
+const registerCoinAll = async (symbol: string) => {
+  const {client, account} = readConfig(program)
+  const app = new App(client)
+  try {
+    await client.getAccount(account.address())
+  } catch (e: any){
+    if (e.status === 404 && e.errorCode === "resource_not_found"){
+      throw new Error("Account of " + account.address() + " has not bean created")
+    } else {
+      throw e
+    }
+  }
+  for (const info of REQUESTS) {
+    console.log("Register " + symbol + " " + info.token_type.type + " ...")
+    const result = await app.stdlib.managed_coin.register(account, [tokenTypeToTag(info.token_type)], undefined, true)
+    if (result.success){
+      console.log("Register success")
+    } else if (result.vm_status === "Move abort in 0x1::coin: ECOIN_STORE_ALREADY_PUBLISHED(0x80004): Account already has `CoinStore` registered for `CoinType`"){
+      console.log("Coin has bean registered")
+    } else {
+      console.log(result)
+    }
+  }
+}
+
+program
+    .command("register-coin-all")
+    .description("")
+    .action(registerCoinAll);
+
+const addExtension = async (symbol: string, key: string, value: string) => {
+  const info = getCoinInfoBySymbol(symbol)
+  const {client, account} = readConfig(program)
+  const app = new App(client)
+  console.log(`Setting for ${symbol}: ${key} -> ${value}`);
+  const strKey = new String.String({bytes: strToU8(key)}, String.String.getTag());
+  const strValue = new String.String({bytes: strToU8(value)}, String.String.getTag());
+  const txResult = await app.coin_list.coin_list.add_extension_by_approver(account, strKey, strValue, [parseTypeTagOrThrow(info.token_type.type)]);
+  console.log(txResult);
+}
+
+program
+    .command("add-extension")
+    .description("")
+    .argument('<SYMBOL>')
+    .argument('<KEY>')
+    .argument('<VALUE>')
+    .action(addExtension);
+
+const addExtensionAll = async () => {
+  const coinlist = new CoinListClient();
+  for (const coininfo of coinlist.getCoinInfoList()) {
+    const request = getCoinInfoBySymbol(coininfo.symbol);
+    for(const [key, value] of request.extensions.data) {
+      console.log(`Setting extension for ${coininfo.symbol}: ${key} -> ${value}`);
+      try{
+        await addExtension(coininfo.symbol, key, value);
+      }
+      catch (e) {
+        console.log(`Failed setting ${key} -> ${value} for ${coininfo.symbol}`);
+      }
+    }
+  }
+}
+
+program
+    .command("add-extension-all")
+    .action(addExtensionAll);
 
 program.parse();

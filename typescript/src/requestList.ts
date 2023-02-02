@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "AptosLaunch Token",
+    "symbol": "ALT",
+    "official_symbol": "ALT",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Aptoslaunchlogob.svg",
+    "project_url": "https://aptoslaunch.io",
+    "token_type": {
+      "type": "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e::aptos_launch_token::AptosLaunchToken",
+      "account_address": "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e",
+      "module_name": "aptos_launch_token",
+      "struct_name": "AptosLaunchToken"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
     "name": "Meeiro",
     "symbol": "MEE",
     "official_symbol": "MEE",
@@ -16,7 +34,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "MeeCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -34,14 +52,14 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "Aptoge"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
     "name": "Mojito",
     "symbol": "MOJO",
     "official_symbol": "MOJO",
-    "coingecko_id": "",
+    "coingecko_id": "mojito",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOJO.svg",
     "project_url": "https://www.mojito.markets/",
@@ -52,7 +70,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "MOJO"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -70,14 +88,14 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDA"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
     "name": "Ditto Staked Aptos",
     "symbol": "stAPT",
     "official_symbol": "stAPT",
-    "coingecko_id": "",
+    "coingecko_id": "ditto-staked-aptos",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DittoStakedAptos.svg",
     "project_url": "https://www.dittofinance.io/",
@@ -88,7 +106,25 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "StakedAptos"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "Ditto Discount Token",
+    "symbol": "DTO",
+    "official_symbol": "DTO",
+    "coingecko_id": "ditto-discount-token",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DTO.svg",
+    "project_url": "https://www.dittofinance.io/",
+    "token_type": {
+      "type": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::ditto_discount_coin::DittoDiscountCoin",
+      "account_address": "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
+      "module_name": "ditto_discount_coin",
+      "struct_name": "DittoDiscountCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -178,7 +214,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "AptosCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -203,7 +239,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "name": "Tortuga Staked Aptos",
     "symbol": "tAPT",
     "official_symbol": "tAPT",
-    "coingecko_id": "",
+    "coingecko_id": "tortuga-staked-aptos",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/TortugaStakedAptos.png",
     "project_url": "https://tortuga.finance/",
@@ -214,7 +250,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "StakedAptosCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -232,7 +268,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -250,7 +286,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -268,7 +304,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -286,7 +322,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-solana"]]
     }
   },
   {
@@ -304,7 +340,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-solana"]]
     }
   },
   {
@@ -322,7 +358,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -340,7 +376,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -358,7 +394,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -376,7 +412,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -394,7 +430,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -412,7 +448,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -430,7 +466,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -448,7 +484,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -466,7 +502,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -484,7 +520,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -502,7 +538,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -520,7 +556,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-bsc"]]
     }
   },
   {
@@ -538,7 +574,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-bsc"]]
     }
   },
   {
@@ -556,7 +592,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-avalanche"]]
     }
   },
   {
@@ -574,7 +610,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole"]]
     }
   },
   {
@@ -592,7 +628,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "T"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "wormhole-polygon"]]
     }
   },
   {
@@ -610,7 +646,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDC"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -628,7 +664,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "USDT"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -646,7 +682,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WETH"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "layerzero"]]
     }
   },
   {
@@ -664,7 +700,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "UsdcCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -682,7 +718,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "UsdtCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -700,7 +736,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "DaiCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -718,7 +754,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WbtcCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -736,7 +772,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "WethCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -754,7 +790,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "BnbCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -772,7 +808,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "BusdCoin"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "celer"]]
     }
   },
   {
@@ -790,7 +826,10 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0x1::aptos_coin::AptosCoin>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [
+        ["lp", "aries"],
+        ["bridge", "native"]
+      ]
     }
   },
   {
@@ -808,7 +847,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0xdd89c0e695df0692205912fb69fc290418bed0dbe6e4573d744a6d5e6bab6c13::coin::T>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -826,7 +865,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -844,7 +883,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "LP<0x5e156f1207d0ebfa19a9eeff00d62a282278fb8719f4fab3a586a0a2c0fffbea::coin::T>"
     },
     "extensions": {
-      "data": [["lp", "aries"]]
+      "data": [["lp", "aries"], ["bridge", "native"]]
     }
   },
   {
@@ -862,7 +901,7 @@ export const REQUESTS: RawCoinInfo[] = [
       "struct_name": "ANI"
     },
     "extensions": {
-      "data": []
+      "data": [["bridge", "native"]]
     }
   },
   {
@@ -872,12 +911,103 @@ export const REQUESTS: RawCoinInfo[] = [
     "coingecko_id": "doglaikacoin",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/c1a3645fa6e3c67f41c127ac98b3798553e3d604/icons/DLC.svg",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/a399b193a4c5288ffbb7c59e28bfcefc662ce8d4/icons/doglaika.png",
     "project_url": "http://linktr.ee/doglaikacoin",
     "token_type": {
       "type": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272::coin::DLC",
       "account_address": "0x84edd115c901709ef28f3cb66a82264ba91bfd24789500b6fd34ab9e8888e272",
       "module_name": "coin",
       "struct_name": "DLC"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "Abel Coin",
+    "symbol": "ABEL",
+    "official_symbol": "ABEL",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ABEL.svg",
+    "project_url": "https://www.abelfinance.xyz/",
+    "token_type": {
+      "type": "0x7c0322595a73b3fc53bb166f5783470afeb1ed9f46d1176db62139991505dc61::abel_coin::AbelCoin",
+      "account_address": "0x7c0322595a73b3fc53bb166f5783470afeb1ed9f46d1176db62139991505dc61",
+      "module_name": "abel_coin",
+      "struct_name": "AbelCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "PancakeSwap Token",
+    "symbol": "CAKE",
+    "official_symbol": "CAKE",
+    "coingecko_id": "pancakeswap-token",
+    "decimals": 8,
+    "logo_url": "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    "project_url": "https://pancakeswap.finance/",
+    "token_type": {
+      "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
+      "account_address": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6",
+      "module_name": "oft",
+      "struct_name": "CakeOFT"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "EON",
+    "symbol": "EON",
+    "official_symbol": "EON",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/EON.svg",
+    "project_url": "https://eonlabz.com/",
+    "token_type": {
+      "type": "0x389dbbc6884a1d5b1ab4e1df2913a8c1b01251e50aed377554372b2842c5e3ef::EONcoin::EONCoin",
+      "account_address": "0x389dbbc6884a1d5b1ab4e1df2913a8c1b01251e50aed377554372b2842c5e3ef",
+      "module_name": "EONcoin",
+      "struct_name": "EONCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "APass Coin",
+    "symbol": "APC",
+    "official_symbol": "APC",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APC.svg",
+    "project_url": "https://aptpp.com",
+    "token_type": {
+      "type": "0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb::apcoin::ApCoin",
+      "account_address": "0x777821c78442e17d82c3d7a371f42de7189e4248e529fe6eee6bca40ddbb",
+      "module_name": "apcoin",
+      "struct_name": "ApCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
+    "name": "SPRING",
+    "symbol": "SPRING",
+    "official_symbol": "SPRING",
+    "coingecko_id": "spring",
+    "decimals": 9,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/SPRING.webp",
+    "project_url": "https://springers.co.in/",
+    "token_type": {
+      "type": "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10::spring_coin::Spring_Coin",
+      "account_address": "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10",
+      "module_name": "spring_coin",
+      "struct_name": "Spring_Coin"
     },
     "extensions": {
       "data": []

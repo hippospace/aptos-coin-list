@@ -211,8 +211,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_version(major, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_version(major, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

@@ -13,6 +13,7 @@ import * as Coin from "./coin";
 import * as Error from "./error";
 import * as Event from "./event";
 import * as Fixed_point32 from "./fixed_point32";
+import * as Math64 from "./math64";
 import * as Pool_u64 from "./pool_u64";
 import * as Signer from "./signer";
 import * as Simple_map from "./simple_map";
@@ -825,33 +826,6 @@ export function beneficiary_ (
   return get_beneficiary_($c.borrow_global<VestingContract>(new SimpleStructTag(VestingContract), $.copy(vesting_contract_address)), $.copy(shareholder), $c);
 }
 
-export function compute_vested_amount_ (
-  vesting_contract: VestingContract,
-  $c: AptosDataCache,
-): U64 {
-  let temp$1, last_completed_period, last_vested_period, next_period_to_vest, schedule, schedule_index, total_grant, vesting_fraction, vesting_schedule;
-  vesting_schedule = vesting_contract.vesting_schedule;
-  last_vested_period = $.copy(vesting_schedule.last_vested_period);
-  next_period_to_vest = ($.copy(last_vested_period)).add(u64("1"));
-  last_completed_period = ((Timestamp.now_seconds_($c)).sub($.copy(vesting_schedule.start_timestamp_secs))).div($.copy(vesting_schedule.period_duration));
-  if (($.copy(last_completed_period)).lt($.copy(next_period_to_vest))) {
-    return u64("0");
-  }
-  else{
-  }
-  schedule = vesting_schedule.schedule;
-  schedule_index = ($.copy(next_period_to_vest)).sub(u64("1"));
-  if (($.copy(schedule_index)).lt(Vector.length_(schedule, $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]))) {
-    temp$1 = $.copy(Vector.borrow_(schedule, $.copy(schedule_index), $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
-  }
-  else{
-    temp$1 = $.copy(Vector.borrow_(schedule, (Vector.length_(schedule, $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).sub(u64("1")), $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
-  }
-  vesting_fraction = temp$1;
-  total_grant = Pool_u64.total_coins_(vesting_contract.grant_pool, $c);
-  return Fixed_point32.multiply_u64_($.copy(total_grant), $.copy(vesting_fraction), $c);
-}
-
 export function create_vesting_contract_ (
   admin: HexString,
   shareholders: HexString[],
@@ -894,7 +868,6 @@ export function create_vesting_contract_ (
   }if (!($.copy(grant_amount)).gt(u64("0"))) {
     throw $.abortCode(Error.invalid_argument_($.copy(EZERO_GRANT), $c));
   }
-  Pool_u64.update_total_coins_(grant_pool, $.copy(grant_amount), $c);
   admin_address = Signer.address_of_(admin, $c);
   if (!$c.exists(new SimpleStructTag(AdminStore), $.copy(admin_address))) {
     $c.move_to(new SimpleStructTag(AdminStore), admin, new AdminStore({ vesting_contracts: Vector.empty_($c, [AtomicTypeTag.Address]), nonce: u64("0"), create_events: Account.new_event_handle_(admin, $c, [new SimpleStructTag(CreateVestingContractEvent)]) }, new SimpleStructTag(AdminStore)));
@@ -1419,6 +1392,7 @@ export function update_operator_ (
   old_operator = $.copy(vesting_contract.staking.operator);
   Staking_contract.switch_operator_(contract_signer, $.copy(old_operator), $.copy(new_operator), $.copy(commission_percentage), $c);
   vesting_contract.staking.operator = $.copy(new_operator);
+  vesting_contract.staking.commission_percentage = $.copy(commission_percentage);
   Event.emit_event_(vesting_contract.update_operator_events, new UpdateOperatorEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), old_operator: $.copy(old_operator), new_operator: $.copy(new_operator), commission_percentage: $.copy(commission_percentage) }, new SimpleStructTag(UpdateOperatorEvent)), $c, [new SimpleStructTag(UpdateOperatorEvent)]);
   return;
 }
@@ -1534,7 +1508,7 @@ export function vest_ (
   contract_address: HexString,
   $c: AptosDataCache,
 ): void {
-  let temp$1, temp$2, period_vested, vested_amount, vesting_contract, vesting_schedule;
+  let temp$1, temp$2, temp$3, last_completed_period, last_vested_period, next_period_to_vest, schedule, schedule_index, total_grant, vested_amount, vesting_contract, vesting_fraction, vesting_schedule;
   unlock_rewards_($.copy(contract_address), $c);
   vesting_contract = $c.borrow_global_mut<VestingContract>(new SimpleStructTag(VestingContract), $.copy(contract_address));
   if (($.copy(vesting_contract.vesting_schedule.start_timestamp_secs)).gt(Timestamp.now_seconds_($c))) {
@@ -1542,18 +1516,32 @@ export function vest_ (
   }
   else{
   }
-  vested_amount = compute_vested_amount_(vesting_contract, $c);
-  if (($.copy(vested_amount)).gt(u64("0"))) {
-    vesting_contract.remaining_grant = ($.copy(vesting_contract.remaining_grant)).sub($.copy(vested_amount));
-    vesting_schedule = vesting_contract.vesting_schedule;
-    vesting_schedule.last_vested_period = ($.copy(vesting_schedule.last_vested_period)).add(u64("1"));
-    period_vested = $.copy(vesting_schedule.last_vested_period);
-    [temp$1, temp$2] = [vesting_contract, $.copy(vested_amount)];
-    unlock_stake_(temp$1, temp$2, $c);
-    Event.emit_event_(vesting_contract.vest_events, new VestEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), period_vested: $.copy(period_vested), amount: $.copy(vested_amount) }, new SimpleStructTag(VestEvent)), $c, [new SimpleStructTag(VestEvent)]);
+  vesting_schedule = vesting_contract.vesting_schedule;
+  last_vested_period = $.copy(vesting_schedule.last_vested_period);
+  next_period_to_vest = ($.copy(last_vested_period)).add(u64("1"));
+  last_completed_period = ((Timestamp.now_seconds_($c)).sub($.copy(vesting_schedule.start_timestamp_secs))).div($.copy(vesting_schedule.period_duration));
+  if (($.copy(last_completed_period)).lt($.copy(next_period_to_vest))) {
+    return;
   }
   else{
   }
+  schedule = vesting_schedule.schedule;
+  schedule_index = ($.copy(next_period_to_vest)).sub(u64("1"));
+  if (($.copy(schedule_index)).lt(Vector.length_(schedule, $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]))) {
+    temp$1 = $.copy(Vector.borrow_(schedule, $.copy(schedule_index), $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
+  }
+  else{
+    temp$1 = $.copy(Vector.borrow_(schedule, (Vector.length_(schedule, $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])])).sub(u64("1")), $c, [new StructTag(new HexString("0x1"), "fixed_point32", "FixedPoint32", [])]));
+  }
+  vesting_fraction = temp$1;
+  total_grant = Pool_u64.total_coins_(vesting_contract.grant_pool, $c);
+  vested_amount = Fixed_point32.multiply_u64_($.copy(total_grant), $.copy(vesting_fraction), $c);
+  vested_amount = Math64.min_($.copy(vested_amount), $.copy(vesting_contract.remaining_grant), $c);
+  vesting_contract.remaining_grant = ($.copy(vesting_contract.remaining_grant)).sub($.copy(vested_amount));
+  vesting_schedule.last_vested_period = $.copy(next_period_to_vest);
+  [temp$2, temp$3] = [vesting_contract, $.copy(vested_amount)];
+  unlock_stake_(temp$2, temp$3, $c);
+  Event.emit_event_(vesting_contract.vest_events, new VestEvent({ admin: $.copy(vesting_contract.admin), vesting_contract_address: $.copy(contract_address), staking_pool_address: $.copy(vesting_contract.staking.pool_address), period_vested: $.copy(next_period_to_vest), amount: $.copy(vested_amount) }, new SimpleStructTag(VestEvent)), $c, [new SimpleStructTag(VestEvent)]);
   return;
 }
 
@@ -1715,8 +1703,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_admin_withdraw(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_admin_withdraw(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_distribute(
     contract_address: HexString,
@@ -1731,8 +1719,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_distribute(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_distribute(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_reset_beneficiary(
     contract_address: HexString,
@@ -1749,8 +1737,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_reset_beneficiary(contract_address, shareholder, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_reset_beneficiary(contract_address, shareholder, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_reset_lockup(
     contract_address: HexString,
@@ -1765,8 +1753,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_reset_lockup(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_reset_lockup(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_set_beneficiary(
     contract_address: HexString,
@@ -1785,8 +1773,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_beneficiary(contract_address, shareholder, new_beneficiary, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_set_beneficiary_resetter(
     contract_address: HexString,
@@ -1803,8 +1791,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_beneficiary_resetter(contract_address, beneficiary_resetter, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_set_management_role(
     contract_address: HexString,
@@ -1823,8 +1811,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_set_management_role(contract_address, role, role_holder, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_set_management_role(contract_address, role, role_holder, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_terminate_vesting_contract(
     contract_address: HexString,
@@ -1839,8 +1827,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_terminate_vesting_contract(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_terminate_vesting_contract(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_unlock_rewards(
     contract_address: HexString,
@@ -1855,8 +1843,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_unlock_rewards(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_unlock_rewards(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_update_operator(
     contract_address: HexString,
@@ -1875,8 +1863,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_update_operator(contract_address, new_operator, commission_percentage, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_update_operator_with_same_commission(
     contract_address: HexString,
@@ -1893,8 +1881,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_update_operator_with_same_commission(contract_address, new_operator, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_update_voter(
     contract_address: HexString,
@@ -1911,8 +1899,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_update_voter(contract_address, new_voter, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_update_voter(contract_address, new_voter, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
   payload_vest(
     contract_address: HexString,
@@ -1927,8 +1915,8 @@ export class App {
     option?: OptionTransaction,
     _isJSON = false
   ) {
-    const payload = buildPayload_vest(contract_address, _isJSON);
-    return $.sendPayloadTx(this.client, _account, payload, option);
+    const payload__ = buildPayload_vest(contract_address, _isJSON);
+    return $.sendPayloadTx(this.client, _account, payload__, option);
   }
 }
 

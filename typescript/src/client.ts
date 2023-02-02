@@ -56,7 +56,11 @@ export class CoinListClient {
     this.fullnameToCoinInfo = {};
     this.symbolToCoinInfo = {};
     this.isUpdated = false;
-    this.coinList = list || network === 'mainnet' ? DEFAULT_MAINNET_LIST : DEFAULT_TESTNET_LIST;
+    if (list){
+      this.coinList = list
+    } else {
+      this.coinList = network === 'mainnet' ? DEFAULT_MAINNET_LIST : DEFAULT_TESTNET_LIST;
+    }
     this.network = network;
     this.buildCache();
   }

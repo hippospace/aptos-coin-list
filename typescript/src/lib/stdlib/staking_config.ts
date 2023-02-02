@@ -133,6 +133,9 @@ export function initialize_ (
   let temp$1;
   System_addresses.assert_aptos_framework_(aptos_framework, $c);
   validate_required_stake_($.copy(minimum_stake), $.copy(maximum_stake), $c);
+  if (!($.copy(recurring_lockup_duration_secs)).gt(u64("0"))) {
+    throw $.abortCode(Error.invalid_argument_($.copy(EZERO_LOCKUP_DURATION), $c));
+  }
   if (!($.copy(rewards_rate_denominator)).gt(u64("0"))) {
     throw $.abortCode(Error.invalid_argument_($.copy(EZERO_REWARDS_RATE_DENOMINATOR), $c));
   }

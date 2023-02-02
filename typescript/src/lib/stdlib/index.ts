@@ -44,6 +44,7 @@ import * as Pool_u64 from './pool_u64';
 import * as Reconfiguration from './reconfiguration';
 import * as Resource_account from './resource_account';
 import * as Ristretto255 from './ristretto255';
+import * as Secp256k1 from './secp256k1';
 import * as Signer from './signer';
 import * as Simple_map from './simple_map';
 import * as Stake from './stake';
@@ -110,6 +111,7 @@ export * as Pool_u64 from './pool_u64';
 export * as Reconfiguration from './reconfiguration';
 export * as Resource_account from './resource_account';
 export * as Ristretto255 from './ristretto255';
+export * as Secp256k1 from './secp256k1';
 export * as Signer from './signer';
 export * as Simple_map from './simple_map';
 export * as Stake from './stake';
@@ -178,6 +180,7 @@ export function loadParsers(repo: AptosParserRepo) {
   Reconfiguration.loadParsers(repo);
   Resource_account.loadParsers(repo);
   Ristretto255.loadParsers(repo);
+  Secp256k1.loadParsers(repo);
   Signer.loadParsers(repo);
   Simple_map.loadParsers(repo);
   Stake.loadParsers(repo);
@@ -259,6 +262,7 @@ export class App {
   reconfiguration : Reconfiguration.App
   resource_account : Resource_account.App
   ristretto255 : Ristretto255.App
+  secp256k1 : Secp256k1.App
   signer : Signer.App
   simple_map : Simple_map.App
   stake : Stake.App
@@ -329,6 +333,7 @@ export class App {
     this.reconfiguration = new Reconfiguration.App(client, repo, cache);
     this.resource_account = new Resource_account.App(client, repo, cache);
     this.ristretto255 = new Ristretto255.App(client, repo, cache);
+    this.secp256k1 = new Secp256k1.App(client, repo, cache);
     this.signer = new Signer.App(client, repo, cache);
     this.simple_map = new Simple_map.App(client, repo, cache);
     this.stake = new Stake.App(client, repo, cache);

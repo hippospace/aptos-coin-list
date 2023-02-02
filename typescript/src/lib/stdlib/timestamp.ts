@@ -99,8 +99,8 @@ export function update_global_time_ (
     if (!($.copy(now)).lt($.copy(timestamp))) {
       throw $.abortCode(Error.invalid_argument_($.copy(EINVALID_TIMESTAMP), $c));
     }
+    global_timer.microseconds = $.copy(timestamp);
   }
-  global_timer.microseconds = $.copy(timestamp);
   return;
 }
 

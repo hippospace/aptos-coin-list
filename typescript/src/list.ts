@@ -24,8 +24,23 @@ export type RawCoinInfo = {
   extensions: ExtensionType,
 };
 
+type RawJsonCoinInfo = {
+  name: string,
+  symbol: string,
+  official_symbol: string,
+  coingecko_id: string,
+  decimals: number,
+  logo_url: string,
+  project_url: string,
+  token_type: TokenType,
+  extensions: {
+    data: string[][]
+  },
+};
+
 export const DEFAULT_COIN_LIST: RawCoinInfo[] = jsonList;
-export const DEFAULT_MAINNET_LIST: RawCoinInfo[] = mainnetList;
+export const DEFAULT_JSON_MAINNET_LIST: RawJsonCoinInfo[] = mainnetList;
+export const DEFAULT_MAINNET_LIST: RawCoinInfo[] = mainnetList as unknown as RawCoinInfo[];
 export const DEFAULT_TESTNET_LIST: RawCoinInfo[] = testnetList;
 
 
