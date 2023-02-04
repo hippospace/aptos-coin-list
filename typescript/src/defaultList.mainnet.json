@@ -1,5 +1,51 @@
 [
   {
+    "name": "AptSwap Governance Token",
+    "symbol": "APTSWAP",
+    "official_symbol": "APTSWAP",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/AptSwap.svg",
+    "project_url": "http://aptswap.io",
+    "token_type": {
+      "type": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf::AptSwap::AptSwapGovernance",
+      "account_address": "0x5c738a5dfa343bee927c39ebe85b0ceb95fdb5ee5b323c95559614f5a77c47cf",
+      "module_name": "AptSwap",
+      "struct_name": "AptSwapGovernance"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    }
+  },
+  {
+    "name": "The People",
+    "symbol": "People",
+    "official_symbol": "People",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/ThePeopleAPT/the_peoplemove/main/Logo.png",
+    "project_url": "https://thepeopleapt.xyz/",
+    "token_type": {
+      "type": "0x5a1e84cdd217034d764abb91bf20aa0536c5a8c900831a37b393fe3af98c3f55::thepeoplecoin::The_People",
+      "account_address": "0x5a1e84cdd217034d764abb91bf20aa0536c5a8c900831a37b393fe3af98c3f55",
+      "module_name": "thepeoplecoin",
+      "struct_name": "The_People"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    }
+  },
+  {
     "name": "SPRING",
     "symbol": "SPRING",
     "official_symbol": "SPRING",
@@ -159,7 +205,7 @@
     "name": "Doglaika Coin",
     "symbol": "DLC",
     "official_symbol": "DLC",
-    "coingecko_id": "",
+    "coingecko_id": "doglaikacoin",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/a399b193a4c5288ffbb7c59e28bfcefc662ce8d4/icons/doglaika.png",
     "project_url": "http://linktr.ee/doglaikacoin",
@@ -170,12 +216,7 @@
       "struct_name": "DLC"
     },
     "extensions": {
-      "data": [
-        [
-          "bridge",
-          "native"
-        ]
-      ]
+      "data": []
     }
   },
   {
