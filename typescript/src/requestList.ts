@@ -1048,4 +1048,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "APTOS INU",
+    "symbol": "APTINU",
+    "official_symbol": "APTINU",
+    "coingecko_id": "",
+    "decimals": 5,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTINU.svg",
+    "project_url": "",
+    "token_type": {
+      "type": "0x439c6dfde646d793da92d87ca46b9f8c4d367ab280850be3265b2f443dc6df8a::aptinutoken::APTINU",
+      "account_address": "0x439c6dfde646d793da92d87ca46b9f8c4d367ab280850be3265b2f443dc6df8a",
+      "module_name": "aptinu_coin",
+      "struct_name": "Aptinu_Coin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
