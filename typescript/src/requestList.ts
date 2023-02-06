@@ -1048,4 +1048,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "BlueMove",
+    "symbol": "MOVE",
+    "official_symbol": "MOVE",
+    "coingecko_id": "bluemove",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOVE.svg",
+    "project_url": "https://bluemove.net/",
+    "token_type": {
+      "type": "0x27fafcc4e39daac97556af8a803dbb52bcb03f0821898dc845ac54225b9793eb::move_coin::MoveCoin",
+      "account_address": "0x27fafcc4e39daac97556af8a803dbb52bcb03f0821898dc845ac54225b9793eb",
+      "module_name": "move_coin",
+      "struct_name": "MoveCoin"
+    },
+    "extensions": {
+      "data": []
+    }
+  },
 ];
