@@ -373,9 +373,8 @@ module coin_list::coin_list {
 
         while (option::is_some(&tail)) {
             let tail_key = *option::borrow(&tail);
-            let coin_info = iterable_table::borrow(&registry.type_to_coin_info, tail_key);
+            let (coin_info, prev, _) = iterable_table::borrow_iter(&registry.type_to_coin_info, tail_key);
             vector::push_back(&mut fulllist.coin_info_list, *coin_info);
-            let (_, prev, _) = iterable_table::borrow_iter(&registry.type_to_coin_info, tail_key);
             tail = prev;
         };
 
@@ -556,5 +555,37 @@ module coin_list::coin_list {
         add_to_list<FakeBtc>(admin, std::signer::address_of(admin));
     }
 
+    #[test(admin=@coin_list)]
+    fun test_get_all_registered_coin_info(admin: &signer) acquires CoinRegistry {
+        initialize(admin);
+        let (burn, freeze, mint) = coin::initialize<FakeBtc>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
+        coin::destroy_burn_cap(burn);
+
+        let (burn, freeze, mint) = coin::initialize<FakeEth>(admin, string::utf8(b""), string::utf8(b""), 5, false);
+        coin::destroy_mint_cap(mint);
+        coin::destroy_freeze_cap(freeze);
+        coin::destroy_burn_cap(burn);
+
+        do_add_token_symbol<FakeBtc>(admin, b"SYMBOL1");
+        do_add_token_symbol<FakeEth>(admin, b"SYMBOL2");
+
+        let all_coin = get_all_registered_coin_info();
+        assert!(vector::length(&all_coin.coin_info_list) == 2, 0);
+        let coin_info = vector::borrow(&all_coin.coin_info_list, 0);
+        assert!(
+            aptos_std::comparator::is_equal(&aptos_std::comparator::compare(string::bytes(&coin_info.symbol),&b"SYMBOL2")) ||
+                aptos_std::comparator::is_equal(&aptos_std::comparator::compare(string::bytes(&coin_info.symbol),&b"SYMBOL1")),
+            0
+        );
+        let coin_info = vector::borrow(&all_coin.coin_info_list, 1);
+        assert!(
+            aptos_std::comparator::is_equal(&aptos_std::comparator::compare(string::bytes(&coin_info.symbol),&b"SYMBOL2")) ||
+                aptos_std::comparator::is_equal(&aptos_std::comparator::compare(string::bytes(&coin_info.symbol),&b"SYMBOL1")),
+            0
+        );
+
+    }
 
 }
