@@ -347,8 +347,9 @@ module coin_list::coin_list {
 
         while (option::is_some(&tail)) {
             let tail_key = *option::borrow(&tail);
-            let (coin_info, prev, _) = iterable_table::borrow_iter(&registry.type_to_coin_info, tail_key);
+            let coin_info = iterable_table::borrow(&registry.type_to_coin_info, tail_key);
             vector::push_back(&mut fulllist.coin_info_list, *coin_info);
+            let (_, prev, _) = iterable_table::borrow_iter(&list.coin_types, tail_key);
             tail = prev;
         };
 
