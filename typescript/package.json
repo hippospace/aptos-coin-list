@@ -1,10 +1,10 @@
-
 {
   "name": "@manahippo/coin-list",
   "version": "4.1.0",
   "scripts": {
     "build": "rm -rf dist; rollup -c rollup.config.js",
-    "cli": "ts-node src/cli.ts"
+    "cli": "ts-node src/cli.ts",
+    "test": "yarn cli print-permissioned-list"
   },
   "exports": {
     ".": {
@@ -16,10 +16,13 @@
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
-  "files": [ "src", "dist" ],
+  "files": [
+    "src",
+    "dist"
+  ],
   "devDependencies": {
-    "@rollup/plugin-typescript": "^8.5.0",
     "@rollup/plugin-json": "^5.0.1",
+    "@rollup/plugin-typescript": "^8.5.0",
     "@types/node": "^17.0.31",
     "@typescript-eslint/eslint-plugin": "^5.22.0",
     "@typescript-eslint/parser": "^5.22.0",
@@ -27,11 +30,12 @@
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",
     "prettier": "^2.6.2",
-    "typescript": "^4.6.4",
+    "rollup": "^2.79.0",
     "ts-node": "^10.9.1",
-    "rollup": "^2.79.0"
+    "typescript": "^4.6.4"
   },
   "dependencies": {
-    "commander": "^9.3.0"
+    "commander": "^9.3.0",
+    "cross-fetch": "^3.1.5"
   }
 }

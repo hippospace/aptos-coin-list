@@ -1,4 +1,5 @@
 import { PERMISSIONED_LIST, PERMISSIONLESS_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
+import fetch from 'cross-fetch';
 
 export type NetworkType = 'testnet' | 'mainnet';
 
@@ -50,13 +51,24 @@ export class CoinListClient {
   }
 
   async updateDirect() {
-    throw new Error("Update not implemented");
+    let url = this.permissioned ? "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/typescript/src/permissioned.json" : "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/typescript/src/permissionless.json"
+    let response = await fetch(url);
+    this.coinList = await response.json()
     this.buildCache();
     this.isUpdated = true
     return this.coinList;
   }
 
+  private clearCache(){
+    if (this.indexToCoinInfo.size > 0){
+      this.indexToCoinInfo = new Map()
+      this.fullnameToCoinInfo = {}
+      this.symbolToCoinInfo = {}
+    }
+  }
+
   private buildCache() {
+    this.clearCache()
     for (const coinInfo of this.coinList) {
       this.fullnameToCoinInfo[coinInfo.token_type.type] = coinInfo;
       const index = coinInfo.unique_index;
