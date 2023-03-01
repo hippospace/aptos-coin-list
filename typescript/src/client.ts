@@ -38,6 +38,10 @@ export class CoinListClient {
     return this.fullnameToCoinInfo[fullname];
   }
 
+  getCoinInfoByIndex(index: number): RawCoinInfo | undefined {
+    return this.indexToCoinInfo.get(index);
+  }
+
   async update() {
     if (this.isUpdated){
       return this.coinList;
