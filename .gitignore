@@ -1,4 +1,4 @@
-build
+*.sh
 .idea
-typescript/dist
-typescript/node_modules
+dist
+node_modules
