@@ -1,5 +1,5 @@
-import jsonList from "./defaultList.json";
-import mainnetList from "./defaultList.mainnet.json";
+import permissionedList from "./permissioned.json";
+import permissionlessList from "./permissionless.json";
 import testnetList from "./defaultList.testnet.json";
 export type TokenType = {
   type: string,
@@ -45,11 +45,15 @@ type RawJsonCoinInfo = {
   unique_index?: number,
   hippo_symbol?: string,
   pancake_symbol?: string,
+  permissioned_listing?: boolean,
 };
 
-export const DEFAULT_COIN_LIST: RawCoinInfo[] = jsonList;
-export const DEFAULT_JSON_MAINNET_LIST: RawJsonCoinInfo[] = mainnetList;
-export const DEFAULT_MAINNET_LIST: RawCoinInfo[] = mainnetList as unknown as RawCoinInfo[];
+// v1 legacy list names
+export const DEFAULT_JSON_MAINNET_LIST: RawJsonCoinInfo[] = permissionedList;
+export const DEFAULT_MAINNET_LIST: RawCoinInfo[] = permissionedList as unknown as RawCoinInfo[];
 export const DEFAULT_TESTNET_LIST: RawCoinInfo[] = testnetList;
 
 
+// v2 list names
+export const PERMISSIONED_LIST: RawCoinInfo[] = permissionedList as unknown as RawCoinInfo[];
+export const PERMISSIONLESS_LIST: RawCoinInfo[] = permissionlessList as unknown as RawCoinInfo[];

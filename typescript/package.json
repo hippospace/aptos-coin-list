@@ -1,12 +1,10 @@
 
 {
   "name": "@manahippo/coin-list",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "scripts": {
     "build": "rm -rf dist; rollup -c rollup.config.js",
-    "cli": "ts-node src/lib/cli.ts",
-    "admin-cli": "ts-node src/adminCli.ts",
-    "test": "ts-node src/adminCli.ts register-coin-symbol USDC -c ../../.aptos/config.yaml -p aggregator"
+    "cli": "ts-node src/cli.ts"
   },
   "exports": {
     ".": {
@@ -34,10 +32,6 @@
     "rollup": "^2.79.0"
   },
   "dependencies": {
-    "aptos": "1.6.0",
-    "@manahippo/move-to-ts": "1.0.1",
-    "big-integer": "^1.6.51",
-    "commander": "^9.3.0",
-    "yaml": "^2.1.1"
+    "commander": "^9.3.0"
   }
 }
