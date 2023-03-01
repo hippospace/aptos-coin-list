@@ -2,6 +2,24 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
   {
+    "name": "Eternal Token",
+    "symbol": "ETERN",
+    "official_symbol": "ETERN",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ETERN.svg",
+    "project_url": "https://eternalfinance.io",
+    "token_type": {
+      "type": "0x25a64579760a4c64be0d692327786a6375ec80740152851490cfd0b53604cf95::coin::ETERN",
+      "account_address": "0x25a64579760a4c64be0d692327786a6375ec80740152851490cfd0b53604cf95",
+      "module_name": "coin",
+      "struct_name": "ETERN"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
+  {
     "name": "AptosLaunch Token",
     "symbol": "ALT",
     "official_symbol": "ALT",
