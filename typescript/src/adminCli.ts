@@ -288,4 +288,70 @@ program
     .command("add-extension-all")
     .action(addExtensionAll);
 
+const outputValidatedList = (file: string, permissioned: boolean) => {
+  const idxSet = new Set<number>();
+  const symbolToIdx = new Map<string, number>();
+  for(const info of REQUESTS) {
+    if (permissioned && !info.permissioned_listing) {
+      continue;
+    }
+    const index = info.unique_index || 99999999;
+    const symbol = info.symbol;
+    if (info.unique_index) {
+      if (idxSet.has(index)) {
+        throw new Error(`Index ${index} used by multiple coins`);
+      }
+      idxSet.add(index);
+    }
+    if (symbolToIdx.has(symbol)) {
+      throw new Error(`Symbol ${symbol} used by multiple coins`);
+    }
+    symbolToIdx.set(symbol, index);
+
+    // set hippo_symbol and pancake_symbol
+    if (info.source && info.source.toLowerCase()===('wormhole')) {
+      info.hippo_symbol = `w${info.official_symbol}`;
+      info.pancake_symbol = `wh${info.official_symbol}`;
+      if (symbolToIdx.has(info.hippo_symbol) && symbolToIdx.get(info.hippo_symbol) !== index)  {
+        throw new Error(`${info.hippo_symbol} has repeats: ${info.unique_index}`);
+      }
+      if (symbolToIdx.has(info.pancake_symbol) && symbolToIdx.get(info.pancake_symbol) !== index)  {
+        throw new Error(`${info.pancake_symbol} has repeats: ${info.unique_index}`);
+      }
+      symbolToIdx.set(info.hippo_symbol, index);
+      symbolToIdx.set(info.pancake_symbol, index);
+    }
+    if (info.source && info.source.toLowerCase()===('layerzero')) {
+      info.hippo_symbol = `z${info.official_symbol}`;
+      info.pancake_symbol = `lz${info.official_symbol}`;
+      if (symbolToIdx.has(info.hippo_symbol) && symbolToIdx.get(info.hippo_symbol) !== index)  {
+        throw new Error(`${info.hippo_symbol} has repeats: ${info.unique_index}`);
+      }
+      if (symbolToIdx.has(info.pancake_symbol) && symbolToIdx.get(info.pancake_symbol) !== index)  {
+        throw new Error(`${info.pancake_symbol} has repeats: ${info.unique_index}`);
+      }
+      symbolToIdx.set(info.hippo_symbol, index);
+      symbolToIdx.set(info.pancake_symbol, index);
+    }
+  }
+  const result = REQUESTS.concat([]);
+  result.sort((a, b)=> (a.unique_index || 0) - (b.unique_index || 0));
+  const content = JSON.stringify(result, null, 2);
+  fs.writeFileSync(file, content);
+  console.log(`Done writing to ${file}`);
+}
+
+const outputPermissionedList = (file: string) => {outputValidatedList(file, true);}
+const outputPermissionlessList = (file: string) => {outputValidatedList(file, false);}
+
+program
+    .command("output-permissioned-list")
+    .argument("<FILE>")
+    .action(outputPermissionedList);
+
+program
+    .command("output-permissionless-list")
+    .argument("<FILE>")
+    .action(outputPermissionlessList);
+
 program.parse();

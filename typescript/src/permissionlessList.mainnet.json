@@ -22,7 +22,8 @@
       ]
     },
     "unique_index": 1,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Meeiro",
@@ -47,7 +48,8 @@
       ]
     },
     "unique_index": 101,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Ditto Staked Aptos",
@@ -72,7 +74,8 @@
       ]
     },
     "unique_index": 156,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Ditto Discount Token",
@@ -97,7 +100,8 @@
       ]
     },
     "unique_index": 191,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "DAI",
@@ -142,7 +146,8 @@
       ]
     },
     "unique_index": 231,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Argo USD",
@@ -167,7 +172,8 @@
       ]
     },
     "unique_index": 351,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "APass Coin",
@@ -217,7 +223,8 @@
       ]
     },
     "unique_index": 397,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "EON",
@@ -312,7 +319,8 @@
       ]
     },
     "unique_index": 591,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Bitcoin",
@@ -382,7 +390,8 @@
       ]
     },
     "unique_index": 712,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Abel Coin",
@@ -407,7 +416,8 @@
       ]
     },
     "unique_index": 790,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "SPRING",
@@ -447,7 +457,8 @@
       "data": []
     },
     "unique_index": 912,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Tether",
@@ -492,7 +503,8 @@
       ]
     },
     "unique_index": 928,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Tortuga Staked Aptos",
@@ -517,7 +529,8 @@
       ]
     },
     "unique_index": 952,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "AptSwap Governance Token",
@@ -568,6 +581,7 @@
     },
     "unique_index": 2001,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wUSDC",
     "pancake_symbol": "whUSDC"
   },
@@ -595,6 +609,7 @@
     },
     "unique_index": 2002,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wUSDT",
     "pancake_symbol": "whUSDT"
   },
@@ -622,6 +637,7 @@
     },
     "unique_index": 2003,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wWBTC",
     "pancake_symbol": "whWBTC"
   },
@@ -649,6 +665,7 @@
     },
     "unique_index": 2004,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wWETH",
     "pancake_symbol": "whWETH"
   },
@@ -676,6 +693,7 @@
     },
     "unique_index": 2005,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wDAI",
     "pancake_symbol": "whDAI"
   },
@@ -703,6 +721,7 @@
     },
     "unique_index": 2006,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wBUSD",
     "pancake_symbol": "whBUSD"
   },
@@ -730,6 +749,7 @@
     },
     "unique_index": 2009,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wWBNB",
     "pancake_symbol": "whWBNB"
   },
@@ -757,6 +777,7 @@
     },
     "unique_index": 2011,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wSOL",
     "pancake_symbol": "whSOL"
   },
@@ -783,7 +804,8 @@
       ]
     },
     "unique_index": 2050,
-    "source": "wormhole-bsc"
+    "source": "wormhole-bsc",
+    "permissioned_listing": true
   },
   {
     "name": "USD Coin (Wormhole Solana)",
@@ -808,7 +830,8 @@
       ]
     },
     "unique_index": 2113,
-    "source": "wormhole-solana"
+    "source": "wormhole-solana",
+    "permissioned_listing": true
   },
   {
     "name": "USD Coin (Wormhole Polygon)",
@@ -833,7 +856,8 @@
       ]
     },
     "unique_index": 2171,
-    "source": "wormhole-polygon"
+    "source": "wormhole-polygon",
+    "permissioned_listing": true
   },
   {
     "name": "USD Coin (Wormhole, BSC)",
@@ -858,7 +882,8 @@
       ]
     },
     "unique_index": 2202,
-    "source": "wormhole-bsc"
+    "source": "wormhole-bsc",
+    "permissioned_listing": true
   },
   {
     "name": "USD Coin (Wormhole Avalanche)",
@@ -883,7 +908,8 @@
       ]
     },
     "unique_index": 2304,
-    "source": "wormhole-avalanche"
+    "source": "wormhole-avalanche",
+    "permissioned_listing": true
   },
   {
     "name": "Wrapped AVAX (Wormhole)",
@@ -909,6 +935,7 @@
     },
     "unique_index": 2332,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wWAVAX",
     "pancake_symbol": "whWAVAX"
   },
@@ -936,6 +963,7 @@
     },
     "unique_index": 2409,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wSWEAT",
     "pancake_symbol": "whSWEAT"
   },
@@ -963,6 +991,7 @@
     },
     "unique_index": 2492,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wNEAR",
     "pancake_symbol": "whNEAR"
   },
@@ -990,6 +1019,7 @@
     },
     "unique_index": 2527,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wNEXM",
     "pancake_symbol": "whNEXM"
   },
@@ -1017,6 +1047,7 @@
     },
     "unique_index": 2700,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wSUSHI",
     "pancake_symbol": "whSUSHI"
   },
@@ -1044,6 +1075,7 @@
     },
     "unique_index": 2801,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wCELO",
     "pancake_symbol": "whCELO"
   },
@@ -1071,6 +1103,7 @@
     },
     "unique_index": 2971,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wFTT",
     "pancake_symbol": "whFTT"
   },
@@ -1098,6 +1131,7 @@
     },
     "unique_index": 2991,
     "source": "wormhole",
+    "permissioned_listing": true,
     "hippo_symbol": "wXCN",
     "pancake_symbol": "whXCN"
   },
@@ -1125,6 +1159,7 @@
     },
     "unique_index": 3001,
     "source": "layerzero",
+    "permissioned_listing": true,
     "hippo_symbol": "zUSDC",
     "pancake_symbol": "lzUSDC"
   },
@@ -1152,6 +1187,7 @@
     },
     "unique_index": 3002,
     "source": "layerzero",
+    "permissioned_listing": true,
     "hippo_symbol": "zUSDT",
     "pancake_symbol": "lzUSDT"
   },
@@ -1179,6 +1215,7 @@
     },
     "unique_index": 3004,
     "source": "layerzero",
+    "permissioned_listing": true,
     "hippo_symbol": "zWETH",
     "pancake_symbol": "lzWETH"
   },
@@ -1205,7 +1242,8 @@
       ]
     },
     "unique_index": 4001,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Tether USD (Celer)",
@@ -1230,7 +1268,8 @@
       ]
     },
     "unique_index": 4002,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Wrapped BTC (Celer)",
@@ -1255,7 +1294,8 @@
       ]
     },
     "unique_index": 4003,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Wrapped Ether (Celer)",
@@ -1280,7 +1320,8 @@
       ]
     },
     "unique_index": 4004,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Dai Stablecoin (Celer)",
@@ -1305,7 +1346,8 @@
       ]
     },
     "unique_index": 4005,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Binance Coin (Celer)",
@@ -1330,7 +1372,8 @@
       ]
     },
     "unique_index": 4113,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "Binance USD (Celer)",
@@ -1355,7 +1398,8 @@
       ]
     },
     "unique_index": 4119,
-    "source": "celer"
+    "source": "celer",
+    "permissioned_listing": true
   },
   {
     "name": "XBTC",
@@ -1375,7 +1419,8 @@
       "data": []
     },
     "unique_index": 5003,
-    "source": "omnibridge"
+    "source": "omnibridge",
+    "permissioned_listing": true
   },
   {
     "name": "Aries Aptos Coin LP Token",
@@ -1404,7 +1449,8 @@
       ]
     },
     "unique_index": 15338,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Aries Solana (Wormhole) LP Token",
@@ -1433,7 +1479,8 @@
       ]
     },
     "unique_index": 15339,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Aries USDC (Layerzero) LP Token",
@@ -1462,7 +1509,8 @@
       ]
     },
     "unique_index": 15340,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   },
   {
     "name": "Aries USDC (Wormhole) LP Token",
@@ -1491,6 +1539,7 @@
       ]
     },
     "unique_index": 15341,
-    "source": "native"
+    "source": "native",
+    "permissioned_listing": true
   }
 ]

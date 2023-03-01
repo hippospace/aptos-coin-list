@@ -1,6 +1,6 @@
 import {OptionTransaction, u8str} from "@manahippo/move-to-ts";
-import { AptosClient, HexString } from "aptos";
-import { DEFAULT_COIN_LIST, DEFAULT_MAINNET_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
+import { AptosClient, } from "aptos";
+import { DEFAULT_MAINNET_LIST, DEFAULT_TESTNET_LIST, RawCoinInfo } from "./list";
 import { App, stdlib, coin_list } from "./lib";
 import { Simple_map } from "./lib/stdlib";
 import { TypeInfo } from "./lib/stdlib/type_info";
@@ -47,6 +47,7 @@ export type NetworkType = 'testnet' | 'mainnet';
 
 export class CoinListClient {
   fullnameToCoinInfo: Record<string, RawCoinInfo>;
+  indexToCoinInfo: Map<number, RawCoinInfo>;
   symbolToCoinInfo: Record<string, RawCoinInfo[]>;
   coinList: RawCoinInfo[];
   network: NetworkType;
@@ -54,6 +55,7 @@ export class CoinListClient {
 
   constructor(network: NetworkType = 'mainnet', list: RawCoinInfo[] | undefined = undefined) {
     this.fullnameToCoinInfo = {};
+    this.indexToCoinInfo = new Map();
     this.symbolToCoinInfo = {};
     this.isUpdated = false;
     if (list){
@@ -109,6 +111,13 @@ export class CoinListClient {
   private buildCache() {
     for (const coinInfo of this.coinList) {
       this.fullnameToCoinInfo[coinInfo.token_type.type] = coinInfo;
+      const index = coinInfo.unique_index;
+      if (index) {
+        if (this.indexToCoinInfo.has(index)) {
+          throw new Error(`${index} is used by multiple coins`);
+        }
+        this.indexToCoinInfo.set(index, coinInfo);
+      }
       const symbol = coinInfo.symbol;
       if (!this.symbolToCoinInfo[symbol]) {
         this.symbolToCoinInfo[symbol] = [];

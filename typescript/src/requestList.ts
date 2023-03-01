@@ -17,7 +17,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 928,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Meeiro",
@@ -35,7 +38,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 101,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "AptSwap Governance Token",
@@ -53,7 +59,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 971,
+    "source": "native",
   },
   {
     "name": "Aptoge",
@@ -71,7 +79,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 231,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Mojito",
@@ -89,7 +100,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 551,
+    "source": "native",
   },
   {
     "name": "Argo USD",
@@ -107,7 +120,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 351,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Ditto Staked Aptos",
@@ -125,7 +141,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 156,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Ditto Discount Token",
@@ -143,7 +162,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 191,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "DAI",
@@ -161,7 +183,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 213,
+    "source": "native",
   },
   {
     "name": "Tether",
@@ -179,7 +203,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 923,
+    "source": "native",
   },
   {
     "name": "USD Coin",
@@ -197,7 +223,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 553,
+    "source": "native",
   },
   {
     "name": "Bitcoin",
@@ -215,7 +243,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 662,
+    "source": "native",
   },
   {
     "name": "Aptos Coin",
@@ -233,7 +263,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 1,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "XBTC",
@@ -251,7 +284,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 5003,
+    "source": "omnibridge",
+    "permissioned_listing": true,
   },
   {
     "name": "Tortuga Staked Aptos",
@@ -269,7 +305,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 952,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped Ether (Wormhole)",
@@ -287,7 +326,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2004,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "SWEAT",
@@ -305,7 +347,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2409,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Wormhole)",
@@ -323,7 +368,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2001,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Wormhole Solana)",
@@ -341,7 +389,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-solana"]]
-    }
+    },
+    "unique_index": 2113,
+    "source": "wormhole-solana",
+    "permissioned_listing": true,
   },
   {
     "name": "SOL (Wormhole)",
@@ -359,7 +410,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-solana"]]
-    }
+    },
+    "unique_index": 2011,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Tether USD (Wormhole)",
@@ -377,7 +431,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2002,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "FTX Token",
@@ -395,7 +452,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2971,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Nexum Coin",
@@ -413,7 +473,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2527,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Chain",
@@ -431,7 +494,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2991,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped BNB (Wormhole)",
@@ -449,7 +515,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2009,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "NEAR (Wormhole)",
@@ -467,7 +536,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2492,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped AVAX (Wormhole)",
@@ -485,7 +557,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2332,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Celo (Wormhole)",
@@ -503,7 +578,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2801,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "SushiToken (Wormhole)",
@@ -521,7 +599,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2700,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped BTC (Wormhole)",
@@ -539,7 +620,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2003,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "BUSD Token (Wormhole)",
@@ -557,7 +641,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2006,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Wormhole, BSC)",
@@ -575,7 +662,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-bsc"]]
-    }
+    },
+    "unique_index": 2202,
+    "source": "wormhole-bsc",
+    "permissioned_listing": true,
   },
   {
     "name": "Tether USD",
@@ -593,7 +683,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-bsc"]]
-    }
+    },
+    "unique_index": 2050,
+    "source": "wormhole-bsc",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Wormhole Avalanche)",
@@ -611,7 +704,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-avalanche"]]
-    }
+    },
+    "unique_index": 2304,
+    "source": "wormhole-avalanche",
+    "permissioned_listing": true,
   },
   {
     "name": "Dai Stablecoin (Wormhole)",
@@ -629,7 +725,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole"]]
-    }
+    },
+    "unique_index": 2005,
+    "source": "wormhole",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Wormhole Polygon)",
@@ -647,7 +746,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "wormhole-polygon"]]
-    }
+    },
+    "unique_index": 2171,
+    "source": "wormhole-polygon",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (LayerZero)",
@@ -665,7 +767,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "layerzero"]]
-    }
+    },
+    "unique_index": 3001,
+    "source": "layerzero",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Tether (LayerZero)",
@@ -683,7 +788,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "layerzero"]]
-    }
+    },
+    "unique_index": 3002,
+    "source": "layerzero",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped Ether (LayerZero)",
@@ -701,7 +809,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "layerzero"]]
-    }
+    },
+    "unique_index": 3004,
+    "source": "layerzero",
+    "permissioned_listing": true,
   },
   {
     "name": "USD Coin (Celer)",
@@ -719,7 +830,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4001,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Tether USD (Celer)",
@@ -737,7 +851,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4002,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Dai Stablecoin (Celer)",
@@ -755,7 +872,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4005,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped BTC (Celer)",
@@ -773,7 +893,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4003,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Wrapped Ether (Celer)",
@@ -791,7 +914,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4004,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Binance Coin (Celer)",
@@ -809,7 +935,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4113,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Binance USD (Celer)",
@@ -827,7 +956,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "celer"]]
-    }
+    },
+    "unique_index": 4119,
+    "source": "celer",
+    "permissioned_listing": true,
   },
   {
     "name": "Aries Aptos Coin LP Token",
@@ -848,7 +980,10 @@ export const REQUESTS: RawCoinInfo[] = [
         ["lp", "aries"],
         ["bridge", "native"]
       ]
-    }
+    },
+    "unique_index": 15338,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Aries Solana (Wormhole) LP Token",
@@ -866,7 +1001,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["lp", "aries"], ["bridge", "native"]]
-    }
+    },
+    "unique_index": 15339,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Aries USDC (Layerzero) LP Token",
@@ -884,7 +1022,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["lp", "aries"], ["bridge", "native"]]
-    }
+    },
+    "unique_index": 15340,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Aries USDC (Wormhole) LP Token",
@@ -902,7 +1043,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["lp", "aries"], ["bridge", "native"]]
-    }
+    },
+    "unique_index": 15341,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "AnimeSwap Coin",
@@ -920,7 +1064,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 712,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "Doglaika Coin",
@@ -938,7 +1085,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 591,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "The People",
@@ -956,7 +1106,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 691,
+    "source": "native",
   },
   {
     "name": "Abel Coin",
@@ -974,7 +1126,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 790,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "PancakeSwap Token",
@@ -992,7 +1147,10 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 397,
+    "source": "native",
+    "permissioned_listing": true,
   },
   {
     "name": "EON",
@@ -1010,7 +1168,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 477,
+    "source": "native",
   },
   {
     "name": "APass Coin",
@@ -1028,7 +1188,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": [["bridge", "native"]]
-    }
+    },
+    "unique_index": 392,
+    "source": "native",
   },
   {
     "name": "SPRING",
@@ -1046,7 +1208,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 797,
+    "source": "native",
   },
   {
     "name": "BlueMove",
@@ -1064,6 +1228,9 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     "extensions": {
       "data": []
-    }
+    },
+    "unique_index": 912,
+    "source": "native",
+    "permissioned_listing": true,
   },
 ];
