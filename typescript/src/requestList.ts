@@ -1066,4 +1066,22 @@ export const REQUESTS: RawCoinInfo[] = [
       "data": []
     }
   },
+  {
+    "name": "Sustain Coin",
+    "symbol": "STN",
+    "official_symbol": "STN",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/STN.svg",
+    "project_url": "https://www.sustainlabs.ai",
+    "token_type": {
+      "type": "0x759bef0864472e02239f34daf5bd99b46218561722bc67da16eb865de2deb639::sustain_coin::SustainCoin",
+      "account_address": "0x759bef0864472e02239f34daf5bd99b46218561722bc67da16eb865de2deb639",
+      "module_name": "sustain_coin",
+      "struct_name": "SustainCoin"
+    },
+    "extensions": {
+      "data": [["bridge", "native"]]
+    }
+  },
 ];
