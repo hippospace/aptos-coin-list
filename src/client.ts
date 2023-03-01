@@ -51,7 +51,7 @@ export class CoinListClient {
   }
 
   async updateDirect() {
-    let url = this.permissioned ? "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/typescript/src/permissioned.json" : "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/typescript/src/permissionless.json"
+    let url = this.permissioned ? "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/src/permissioned.json" : "https://raw.githubusercontent.com/hippospace/aptos-coin-list/v2/src/permissionless.json"
     let response = await fetch(url);
     this.coinList = await response.json()
     this.buildCache();
