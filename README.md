@@ -8,10 +8,21 @@
 5. Shout in [TG](https://t.me/+LBfzjYgGlVdjN2Y1)
 
 
+# Permissioned v.s. Permissionless listing
+
+- Getting into the [permissionless list](https://github.com/hippospace/aptos-coin-list/blob/main/src/permissionless.json) 
+  is easy. Just follow the steps above. Do note that, to avoid spam, we may require a small fee in the future for
+  permissionless listing.
+
+- Getting into the [permissioned list](https://github.com/hippospace/aptos-coin-list/blob/main/src/permissioned.json)
+  requires that you establish enough brand presence and credibility within the Aptos ecosystem first. For example, you
+  need to have been at least active enough to have already been added to one of those private Aptos Ecosystem telegram
+  groups.
+
+
 # Fetching list
 You can use the [client](https://github.com/hippospace/aptos-coin-list/blob/main/src/client.ts) 
-provided in the included typescript sdk to fetch an updated list from the chain, or you could fetch the json file 
-from github which is frequently updated:
+provided to fetch an updated list from the chain, or you could fetch the json file from github directly:
 - [permissioned list](https://github.com/hippospace/aptos-coin-list/blob/main/src/permissioned.json)
 - [permissionless list](https://github.com/hippospace/aptos-coin-list/blob/main/src/permissionless.json)
 
