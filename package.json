@@ -1,9 +1,10 @@
 {
   "name": "@manahippo/coin-list",
-  "version": "4.1.2",
+  "version": "4.1.3",
   "scripts": {
-    "build": "rm -rf typescript/dist; rollup -c rollup.config.js",
-    "cli": "typescript/node_modules/.bin/ts-node src/cli.ts",
+    "build": "rm -rf dist; rollup -c rollup.config.js",
+    "cli": "ts-node src/cli.ts",
+    "write-jsons": "ts-node src/cli.ts output-permissioned-list src/permissioned.json; ts-node src/cli.ts output-permissionless-list src/permissionless.json",
     "test": "yarn cli print-permissioned-list"
   },
   "exports": {
