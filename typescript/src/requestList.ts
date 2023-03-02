@@ -1073,7 +1073,7 @@ export const REQUESTS: RawCoinInfo[] = [
     "coingecko_id": "",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/STN.svg",
-    "project_url": "https://www.sustainlabs.ai",
+    "project_url": "https://docs.sustainlabs.info",
     "token_type": {
       "type": "0x759bef0864472e02239f34daf5bd99b46218561722bc67da16eb865de2deb639::sustain_coin::SustainCoin",
       "account_address": "0x759bef0864472e02239f34daf5bd99b46218561722bc67da16eb865de2deb639",
