@@ -23,7 +23,9 @@
     },
     "unique_index": 1,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "APT",
+    "pancake_symbol": "APT"
   },
   {
     "name": "Meeiro",
@@ -49,7 +51,9 @@
     },
     "unique_index": 101,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "MEE",
+    "pancake_symbol": "MEE"
   },
   {
     "name": "Ditto Staked Aptos",
@@ -75,7 +79,9 @@
     },
     "unique_index": 156,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "stAPT",
+    "pancake_symbol": "stAPT"
   },
   {
     "name": "Ditto Discount Token",
@@ -101,7 +107,9 @@
     },
     "unique_index": 191,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "DTO",
+    "pancake_symbol": "DTO"
   },
   {
     "name": "DAI",
@@ -121,7 +129,10 @@
       "data": []
     },
     "unique_index": 213,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "devDAI",
+    "pancake_symbol": "devDAI",
+    "permissioned_listing": false
   },
   {
     "name": "Aptoge",
@@ -147,7 +158,9 @@
     },
     "unique_index": 231,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "APTOGE",
+    "pancake_symbol": "APTOGE"
   },
   {
     "name": "Eternal Token",
@@ -168,7 +181,9 @@
     },
     "unique_index": 256,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ETERN",
+    "pancake_symbol": "ETERN"
   },
   {
     "name": "Argo USD",
@@ -194,7 +209,9 @@
     },
     "unique_index": 351,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDA",
+    "pancake_symbol": "USDA"
   },
   {
     "name": "APass Coin",
@@ -219,7 +236,10 @@
       ]
     },
     "unique_index": 392,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "APC",
+    "pancake_symbol": "APC",
+    "permissioned_listing": false
   },
   {
     "name": "PancakeSwap Token",
@@ -245,7 +265,9 @@
     },
     "unique_index": 397,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "CAKE",
+    "pancake_symbol": "CAKE"
   },
   {
     "name": "EON",
@@ -270,7 +292,10 @@
       ]
     },
     "unique_index": 477,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "EON",
+    "pancake_symbol": "EON",
+    "permissioned_listing": false
   },
   {
     "name": "Mojito",
@@ -295,7 +320,10 @@
       ]
     },
     "unique_index": 551,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "MOJO",
+    "pancake_symbol": "MOJO",
+    "permissioned_listing": false
   },
   {
     "name": "USD Coin",
@@ -315,7 +343,10 @@
       "data": []
     },
     "unique_index": 553,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "devUSDC",
+    "pancake_symbol": "devUSDC",
+    "permissioned_listing": false
   },
   {
     "name": "Doglaika Coin",
@@ -341,7 +372,9 @@
     },
     "unique_index": 591,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "DLC",
+    "pancake_symbol": "DLC"
   },
   {
     "name": "Bitcoin",
@@ -361,7 +394,10 @@
       "data": []
     },
     "unique_index": 662,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "devBTC",
+    "pancake_symbol": "devBTC",
+    "permissioned_listing": false
   },
   {
     "name": "The People",
@@ -386,7 +422,10 @@
       ]
     },
     "unique_index": 691,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "People",
+    "pancake_symbol": "People",
+    "permissioned_listing": false
   },
   {
     "name": "AnimeSwap Coin",
@@ -412,7 +451,9 @@
     },
     "unique_index": 712,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ANI",
+    "pancake_symbol": "ANI"
   },
   {
     "name": "Abel Coin",
@@ -438,7 +479,9 @@
     },
     "unique_index": 790,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ABEL",
+    "pancake_symbol": "ABEL"
   },
   {
     "name": "SPRING",
@@ -458,7 +501,10 @@
       "data": []
     },
     "unique_index": 797,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "SPRING",
+    "pancake_symbol": "SPRING",
+    "permissioned_listing": false
   },
   {
     "name": "BlueMove",
@@ -479,7 +525,9 @@
     },
     "unique_index": 912,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "MOVE",
+    "pancake_symbol": "MOVE"
   },
   {
     "name": "Tether",
@@ -499,7 +547,10 @@
       "data": []
     },
     "unique_index": 923,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "devUSDT",
+    "pancake_symbol": "devUSDT",
+    "permissioned_listing": false
   },
   {
     "name": "AptosLaunch Token",
@@ -525,7 +576,9 @@
     },
     "unique_index": 928,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ALT",
+    "pancake_symbol": "ALT"
   },
   {
     "name": "Tortuga Staked Aptos",
@@ -551,7 +604,9 @@
     },
     "unique_index": 952,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "tAPT",
+    "pancake_symbol": "tAPT"
   },
   {
     "name": "AptSwap Governance Token",
@@ -576,7 +631,10 @@
       ]
     },
     "unique_index": 971,
-    "source": "native"
+    "source": "native",
+    "hippo_symbol": "APTSWAP",
+    "pancake_symbol": "APTSWAP",
+    "permissioned_listing": false
   },
   {
     "name": "USD Coin (Wormhole)",
@@ -826,7 +884,9 @@
     },
     "unique_index": 2050,
     "source": "wormhole-bsc",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDTbs",
+    "pancake_symbol": "USDTbs"
   },
   {
     "name": "USD Coin (Wormhole Solana)",
@@ -852,7 +912,9 @@
     },
     "unique_index": 2113,
     "source": "wormhole-solana",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDCso",
+    "pancake_symbol": "USDCso"
   },
   {
     "name": "USD Coin (Wormhole Polygon)",
@@ -878,7 +940,9 @@
     },
     "unique_index": 2171,
     "source": "wormhole-polygon",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDCpo",
+    "pancake_symbol": "USDCpo"
   },
   {
     "name": "USD Coin (Wormhole, BSC)",
@@ -904,7 +968,9 @@
     },
     "unique_index": 2202,
     "source": "wormhole-bsc",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDCbs",
+    "pancake_symbol": "USDCbs"
   },
   {
     "name": "USD Coin (Wormhole Avalanche)",
@@ -930,7 +996,9 @@
     },
     "unique_index": 2304,
     "source": "wormhole-avalanche",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "USDCav",
+    "pancake_symbol": "USDCav"
   },
   {
     "name": "Wrapped AVAX (Wormhole)",
@@ -1264,7 +1332,9 @@
     },
     "unique_index": 4001,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceUSDC",
+    "pancake_symbol": "ceUSDC"
   },
   {
     "name": "Tether USD (Celer)",
@@ -1290,7 +1360,9 @@
     },
     "unique_index": 4002,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceUSDT",
+    "pancake_symbol": "ceUSDT"
   },
   {
     "name": "Wrapped BTC (Celer)",
@@ -1316,7 +1388,9 @@
     },
     "unique_index": 4003,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceWBTC",
+    "pancake_symbol": "ceWBTC"
   },
   {
     "name": "Wrapped Ether (Celer)",
@@ -1342,7 +1416,9 @@
     },
     "unique_index": 4004,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceWETH",
+    "pancake_symbol": "ceWETH"
   },
   {
     "name": "Dai Stablecoin (Celer)",
@@ -1368,7 +1444,9 @@
     },
     "unique_index": 4005,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceDAI",
+    "pancake_symbol": "ceDAI"
   },
   {
     "name": "Binance Coin (Celer)",
@@ -1394,7 +1472,9 @@
     },
     "unique_index": 4113,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceBNB",
+    "pancake_symbol": "ceBNB"
   },
   {
     "name": "Binance USD (Celer)",
@@ -1420,7 +1500,9 @@
     },
     "unique_index": 4119,
     "source": "celer",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ceBUSD",
+    "pancake_symbol": "ceBUSD"
   },
   {
     "name": "XBTC",
@@ -1441,7 +1523,9 @@
     },
     "unique_index": 5003,
     "source": "omnibridge",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "XBTC",
+    "pancake_symbol": "XBTC"
   },
   {
     "name": "Aries Aptos Coin LP Token",
@@ -1471,7 +1555,9 @@
     },
     "unique_index": 15338,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ar-APT",
+    "pancake_symbol": "ar-APT"
   },
   {
     "name": "Aries Solana (Wormhole) LP Token",
@@ -1501,7 +1587,9 @@
     },
     "unique_index": 15339,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ar-SOL",
+    "pancake_symbol": "ar-SOL"
   },
   {
     "name": "Aries USDC (Layerzero) LP Token",
@@ -1531,7 +1619,9 @@
     },
     "unique_index": 15340,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ar-zUSDC",
+    "pancake_symbol": "ar-zUSDC"
   },
   {
     "name": "Aries USDC (Wormhole) LP Token",
@@ -1561,6 +1651,8 @@
     },
     "unique_index": 15341,
     "source": "native",
-    "permissioned_listing": true
+    "permissioned_listing": true,
+    "hippo_symbol": "ar-USDC",
+    "pancake_symbol": "ar-USDC"
   }
 ]

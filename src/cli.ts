@@ -56,8 +56,7 @@ const outputValidatedList = (file: string, permissioned: boolean) => {
       }
       symbolToIdx.set(info.hippo_symbol, index);
       symbolToIdx.set(info.pancake_symbol, index);
-    }
-    if (info.source && info.source.toLowerCase()===('layerzero')) {
+    } else if (info.source && info.source.toLowerCase()===('layerzero')) {
       info.hippo_symbol = `z${info.official_symbol}`;
       info.pancake_symbol = `lz${info.official_symbol}`;
       if (symbolToIdx.has(info.hippo_symbol) && symbolToIdx.get(info.hippo_symbol) !== index)  {
@@ -68,7 +67,13 @@ const outputValidatedList = (file: string, permissioned: boolean) => {
       }
       symbolToIdx.set(info.hippo_symbol, index);
       symbolToIdx.set(info.pancake_symbol, index);
+    } else {
+      info.hippo_symbol = info.symbol;
+      info.pancake_symbol = info.symbol;
     }
+
+    // set permissioned_listing
+    info.permissioned_listing = info.permissioned_listing || false;
 
     listToPrint.push(info);
   }
