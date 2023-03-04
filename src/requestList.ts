@@ -1253,5 +1253,25 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 256,
     source: "native",
     permissioned_listing: true,
-  }
+  },
+  {
+    name: "AlpacaINU Coin",
+    symbol: "ALI",
+    official_symbol: "ALI",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ALI.svg",
+    project_url: "https://twitter.com/AlpacaINU",
+    token_type: {
+      type: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400::proton_a5d::PROTON_E54",
+      account_address: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400",
+      module_name: "coin",
+      struct_name: "ALI"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 937,
+    source: "native",
+  },  
 ];
