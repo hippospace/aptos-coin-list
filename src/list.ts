@@ -22,7 +22,7 @@ export type RawCoinInfo = {
   project_url: string,
   token_type: TokenType,
   extensions: ExtensionType,
-  unique_index?: number,
+  unique_index: number,
   source?: string,
   hippo_symbol?: string,
   pancake_symbol?: string,
@@ -42,7 +42,7 @@ type RawJsonCoinInfo = {
     data: string[][]
   },
   source?: string,
-  unique_index?: number,
+  unique_index: number,
   hippo_symbol?: string,
   pancake_symbol?: string,
   permissioned_listing?: boolean,
