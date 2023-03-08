@@ -54,7 +54,7 @@ export class CoinListClient {
     let url = this.permissioned ? 
       "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/src/permissioned.json" : 
       "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/src/permissionless.json";
-    let response = await fetch(url);
+    let response = await fetch(url + '?t='+Math.floor(Date.now() / 120 / 1000));
     this.coinList = await response.json()
     this.buildCache();
     this.isUpdated = true
