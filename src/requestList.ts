@@ -1193,5 +1193,45 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 937,
     source: "native",
-  },  
+  },
+  {
+    name: "Move Dollar",
+    symbol: "MOD",
+    official_symbol: "MOD",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOD.svg",
+    project_url: "https://www.thala.fi/",
+    token_type: {
+      type: "0x6f986d146e4a90b828d8c12c14b6f4e003fdff11a8eecceceb63744363eaac01::mod_coin::MOD",
+      account_address: "0x6f986d146e4a90b828d8c12c14b6f4e003fdff11a8eecceceb63744363eaac01",
+      module_name: "mod_coin",
+      struct_name: "MOD"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 128,
+    source: "native",
+  },
+  {
+    name: "Thala Token",
+    symbol: "THL",
+    official_symbol: "THL",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/THL.svg",
+    project_url: "https://www.thala.fi/",
+    token_type: {
+      type: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
+      account_address: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615",
+      module_name: "thl_coin",
+      struct_name: "THL"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 129,
+    source: "native",
+  }
 ];
