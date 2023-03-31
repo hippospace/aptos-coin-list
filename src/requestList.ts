@@ -1193,6 +1193,26 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 937,
     source: "native",
+  },  
+  {
+    name: "Aptopad Coin",
+    symbol: "APD",
+    official_symbol: "APD",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/aptopad.png",
+    project_url: "https://aptopad.io",
+    token_type: {
+      type: "0xcc78307c77f1c2c0fdfee17269bfca7876a0b35438c3442417480c0d5c370fbc::AptopadCoin::APD",
+      account_address: "0xcc78307c77f1c2c0fdfee17269bfca7876a0b35438c3442417480c0d5c370fbc",
+      module_name: "AptopadCoin",
+      struct_name: "APD"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 130,
+    source: "native"
   },
   {
     name: "Move Dollar",
@@ -1213,6 +1233,8 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 128,
     source: "native",
+    permissioned_listing: true,
+  },
   },
   {
     name: "Thala Token",
@@ -1233,5 +1255,6 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 129,
     source: "native",
+    permissioned_listing: true,
   }
 ];
