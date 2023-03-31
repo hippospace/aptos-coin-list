@@ -1185,8 +1185,8 @@ export const REQUESTS: RawCoinInfo[] = [
     token_type: {
       type: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400::proton_a5d::PROTON_E54",
       account_address: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400",
-      module_name: "coin",
-      struct_name: "ALI"
+      module_name: "proton_a5d",
+      struct_name: "PROTON_E54"
     },
     extensions: {
       data: []
