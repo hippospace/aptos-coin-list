@@ -1256,4 +1256,25 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 130,
     source: "native"
   },
+  {
+    name: "Mover",
+    symbol: "MOVER",
+    official_symbol: "MOVER",
+    coingecko_id: "mover-xyz",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOVER.svg",
+    project_url: "https://mov3r.xyz/",
+    token_type: {
+      type: "0x14b0ef0ec69f346bea3dfa0c5a8c3942fb05c08760059948f9f24c02cd0d4fd8::mover_token::Mover",
+      account_address: "0x14b0ef0ec69f346bea3dfa0c5a8c3942fb05c08760059948f9f24c02cd0d4fd8",
+      module_name: "mover_token",
+      struct_name: "Mover"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 131,
+    source: "native",
+    permissioned_listing: true
+  },
 ];
