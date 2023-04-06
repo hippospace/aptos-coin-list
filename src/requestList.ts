@@ -1224,8 +1224,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/THL.svg",
     project_url: "https://www.thala.fi/",
     token_type: {
-      type: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
-      account_address: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615",
+      type: "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
+      account_address: "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615",
       module_name: "thl_coin",
       struct_name: "THL"
     },
