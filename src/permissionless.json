@@ -530,6 +530,34 @@
     "permissioned_listing": false
   },
   {
+    "name": "Gari",
+    "symbol": "GARI",
+    "official_symbol": "GARI",
+    "coingecko_id": "gari-network",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GARI.svg",
+    "project_url": "https://gari.network",
+    "token_type": {
+      "type": "0x4def3d3dee27308886f0a3611dd161ce34f977a9a5de4e80b237225923492a2a::coin::T",
+      "account_address": "0x4def3d3dee27308886f0a3611dd161ce34f977a9a5de4e80b237225923492a2a",
+      "module_name": "coin",
+      "struct_name": "T"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "wormhole"
+        ]
+      ]
+    },
+    "unique_index": 800,
+    "source": "wormhole",
+    "permissioned_listing": true,
+    "hippo_symbol": "wGARI",
+    "pancake_symbol": "whGARI"
+  },
+  {
     "name": "BlueMove",
     "symbol": "MOVE",
     "official_symbol": "MOVE",
