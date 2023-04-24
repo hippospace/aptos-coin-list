@@ -632,6 +632,24 @@ export const REQUESTS: RawCoinInfo[] = [
     }
   },
   {
+    "name": "USD Coin (Multichain)",
+    "symbol": "USDC",
+    "official_symbol": "USDC",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    "project_url": "",
+    "token_type": {
+      "type": "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548::USDC::Coin",
+      "account_address": "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548",
+      "module_name": "asset",
+      "struct_name": "USDC"
+    },
+    "extensions": {
+      "data": [["bridge", "multichain"]]
+    }
+  },
+  {
     "name": "USD Tether (LayerZero)",
     "symbol": "zUSDT",
     "official_symbol": "USDT",
