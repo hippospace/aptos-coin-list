@@ -714,6 +714,25 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "USD Coin (Multichain)",
+    symbol: "USDC",
+    official_symbol: "USDC",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    project_url: "",
+    token_type: {
+      type: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548::USDC::Coin",
+      account_address: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548",
+      module_name: "asset",
+      struct_name: "USDC"
+    },
+    extensions: {
+      data: [["bridge", "multichain"]]
+    },
+    unique_index: 3003,
+  },
+  {
     name: "Wrapped Ether (LayerZero)",
     symbol: "zWETH",
     official_symbol: "WETH",
