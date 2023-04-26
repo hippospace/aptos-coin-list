@@ -714,6 +714,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "USD Coin (Multichain)",
+    symbol: "multiUSDC",
+    official_symbol: "USDC",
+    coingecko_id: "usd-coin",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    project_url: "https://multichain.org/",
+    token_type: {
+      type: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548::USDC::Coin",
+      account_address: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548",
+      module_name: "USDC",
+      struct_name: "Coin"
+    },
+    extensions: {
+      data: [["bridge", "multichain"]]
+    },
+    unique_index: 5001,
+    source: "multichain",
+    permissioned_listing: true,
+  },
+  {
     name: "Wrapped Ether (LayerZero)",
     symbol: "zWETH",
     official_symbol: "WETH",
@@ -1185,8 +1206,8 @@ export const REQUESTS: RawCoinInfo[] = [
     token_type: {
       type: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400::proton_a5d::PROTON_E54",
       account_address: "0x27975005fd8b836a905dc7f81c51f89e76091a4d0c4d694265f6eae0c05cb400",
-      module_name: "coin",
-      struct_name: "ALI"
+      module_name: "proton_a5d",
+      struct_name: "PROTON_E54"
     },
     extensions: {
       data: []
@@ -1213,6 +1234,7 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 128,
     source: "native",
+    permissioned_listing: true,
   },
   {
     name: "Thala Token",
@@ -1223,8 +1245,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/THL.svg",
     project_url: "https://www.thala.fi/",
     token_type: {
-      type: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
-      account_address: "0x07fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615",
+      type: "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615::thl_coin::THL",
+      account_address: "0x7fd500c11216f0fe3095d0c4b8aa4d64a4e2e04f83758462f2b127255643615",
       module_name: "thl_coin",
       struct_name: "THL"
     },
@@ -1233,5 +1255,68 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 129,
     source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Aptopad Coin",
+    symbol: "APD",
+    official_symbol: "APD",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/aptopad.png",
+    project_url: "https://aptopad.io",
+    token_type: {
+      type: "0xcc78307c77f1c2c0fdfee17269bfca7876a0b35438c3442417480c0d5c370fbc::AptopadCoin::APD",
+      account_address: "0xcc78307c77f1c2c0fdfee17269bfca7876a0b35438c3442417480c0d5c370fbc",
+      module_name: "AptopadCoin",
+      struct_name: "APD"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 130,
+    source: "native"
+  },
+  {
+    name: "Mover",
+    symbol: "MOVER",
+    official_symbol: "MOVER",
+    coingecko_id: "mover-xyz",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MOVER.svg",
+    project_url: "https://mov3r.xyz/",
+    token_type: {
+      type: "0x14b0ef0ec69f346bea3dfa0c5a8c3942fb05c08760059948f9f24c02cd0d4fd8::mover_token::Mover",
+      account_address: "0x14b0ef0ec69f346bea3dfa0c5a8c3942fb05c08760059948f9f24c02cd0d4fd8",
+      module_name: "mover_token",
+      struct_name: "Mover"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 131,
+    source: "native",
+    permissioned_listing: true
+  },
+  {
+    name: "Gari",
+    symbol: "GARI",
+    official_symbol: "GARI",
+    coingecko_id: "gari-network",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GARI.svg",
+    project_url: "https://gari.network",
+    token_type: {
+      type: "0x4def3d3dee27308886f0a3611dd161ce34f977a9a5de4e80b237225923492a2a::coin::T",
+      account_address: "0x4def3d3dee27308886f0a3611dd161ce34f977a9a5de4e80b237225923492a2a",
+      module_name: "coin",
+      struct_name: "T"
+    },
+    extensions: {
+      data: [["bridge", "wormhole"]],
+    },
+    unique_index: 800,
+    source: "wormhole",
+    permissioned_listing: true,
   }
 ];
