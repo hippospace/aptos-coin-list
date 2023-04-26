@@ -1318,5 +1318,26 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 800,
     source: "wormhole",
     permissioned_listing: true,
+  },
+  {
+    name: "wTBT Pool",
+    symbol: "wTBT",
+    official_symbol: "wTBT",
+    coingecko_id: "wtbt",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WTBT.svg",
+    project_url: "https://www.tprotocol.io/",
+    token_type: {
+      type: "0xd916a950d4c1279df4aa0d6f32011842dc5c633a45c11ac5019232c159d115bb::coin::T",
+      account_address: "0xd916a950d4c1279df4aa0d6f32011842dc5c633a45c11ac5019232c159d115bb",
+      module_name: "coin",
+      struct_name: "T"
+    },
+    extensions: {
+      data: [["bridge", "wormhole"]]
+    },
+    unique_index: 132,
+    source: "wormhole",
+    permissioned_listing: true,
   }
 ];
