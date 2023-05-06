@@ -658,7 +658,7 @@
     "name": "AptosLaunch Token",
     "symbol": "ALT",
     "official_symbol": "ALT",
-    "coingecko_id": "",
+    "coingecko_id": "aptos-launch-token",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Aptoslaunchlogob.svg",
     "project_url": "https://aptoslaunch.io",
