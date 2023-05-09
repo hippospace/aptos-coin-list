@@ -1339,5 +1339,25 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 132,
     source: "wormhole",
     permissioned_listing: true,
-  }
+  },
+  {
+    "name": "War Coin",
+    "symbol": "WAR",
+    "official_symbol": "WAR",
+    "coingecko_id": "war-coin",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
+    "project_url": "https://werewolfandwitch.xyz/",
+    "token_type": {
+      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
+      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
+      "module_name": "war_coin",
+      "struct_name": "WarCoin"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 11,
+    source: "native",
+  },
 ];
