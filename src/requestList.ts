@@ -1344,6 +1344,7 @@ export const REQUESTS: RawCoinInfo[] = [
     name: "Sui Launch Token",
     symbol: "SLT",
     official_symbol: "SLT",
+    coingecko_id: "",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/AptosLaunch/aptos-coin-list/main/icons/SUILAUNCHLOGO.svg",
     project_url: "http://suilaunch.io/",
@@ -1351,33 +1352,34 @@ export const REQUESTS: RawCoinInfo[] = [
       type: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1::sui_launch_token::SuiLaunchToken",
       account_address: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1",
       module_name: "sui_launch_token",
-      struct_name: "sui_launch_token"
+      struct_name: "SuiLaunchToken"
     },
     extensions: {
-      data: [["bridge", "wormhole"]]
+      data: []
     },
-    unique_index: 928,
+    unique_index: 927,
     source: "native",
-    permissioned_listing: true,
+    permissioned_listing: false,
   },
   {
-    "name": "War Coin",
-    "symbol": "WAR",
-    "official_symbol": "WAR",
-    "coingecko_id": "war-coin",
-    "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
-    "project_url": "https://werewolfandwitch.xyz/",
-    "token_type": {
+    name: "War Coin",
+    symbol: "WAR",
+    official_symbol: "WAR",
+    coingecko_id: "war-coin",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
+    project_url: "https://werewolfandwitch.xyz/",
+    token_type: {
       "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
       "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
       "module_name": "war_coin",
       "struct_name": "WarCoin"
     },
     extensions: {
-      data: [["bridge", "native"]]
+      data: []
     },
-    unique_index: 11,
+    unique_index: 111,
     source: "native",
+    permissioned_listing: false,
   },
 ];
