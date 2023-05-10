@@ -1341,23 +1341,43 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
-  name: "Sui Launch Token",
-  symbol: "SLT",
-  official_symbol: "SLT",
-  decimals: 8,
-  logo_url: "https://raw.githubusercontent.com/AptosLaunch/aptos-coin-list/main/icons/SUILAUNCHLOGO.svg",
-  project_url: "http://suilaunch.io/",
-  token_type: {
-    type: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1::sui_launch_token::SuiLaunchToken",
-    account_address: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1",
-    module_name: "sui_launch_token",
-    struct_name: "sui_launch_token"
+    name: "Sui Launch Token",
+    symbol: "SLT",
+    official_symbol: "SLT",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/AptosLaunch/aptos-coin-list/main/icons/SUILAUNCHLOGO.svg",
+    project_url: "http://suilaunch.io/",
+    token_type: {
+      type: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1::sui_launch_token::SuiLaunchToken",
+      account_address: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1",
+      module_name: "sui_launch_token",
+      struct_name: "sui_launch_token"
+    },
+    extensions: {
+      data: [["bridge", "wormhole"]]
+    },
+    unique_index: 928,
+    source: "native",
+    permissioned_listing: true,
   },
-  extensions: {
-    data: [["bridge", "wormhole"]]
+  {
+    "name": "War Coin",
+    "symbol": "WAR",
+    "official_symbol": "WAR",
+    "coingecko_id": "war-coin",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
+    "project_url": "https://werewolfandwitch.xyz/",
+    "token_type": {
+      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
+      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
+      "module_name": "war_coin",
+      "struct_name": "WarCoin"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 11,
+    source: "native",
   },
-  unique_index: 928,
-  source: "native",
-  permissioned_listing: true,
-},
 ];
