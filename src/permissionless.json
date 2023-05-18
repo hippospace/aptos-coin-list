@@ -367,7 +367,7 @@
     "official_symbol": "CAKE",
     "coingecko_id": "pancakeswap-token",
     "decimals": 8,
-    "logo_url": "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    "logo_url": "https://raw.githubusercontent.com/pancakeswap/pancake-frontend/develop/apps/aptos/public/images/cake.svg",
     "project_url": "https://pancakeswap.finance/",
     "token_type": {
       "type": "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
