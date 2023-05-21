@@ -5,7 +5,7 @@ export const REQUESTS: RawCoinInfo[] = [
     name: "AptosLaunch Token",
     symbol: "ALT",
     official_symbol: "ALT",
-    coingecko_id: "",
+    coingecko_id: "aptos-launch-token",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Aptoslaunchlogob.svg",
     project_url: "https://aptoslaunch.io",
@@ -693,6 +693,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "USD Coin (Multichain)",
+    symbol: "multiUSDC",
+    official_symbol: "USDC",
+    coingecko_id: "usd-coin",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
+    project_url: "https://multichain.org/",
+    token_type: {
+      type: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548::USDC::Coin",
+      account_address: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548",
+      module_name: "USDC",
+      struct_name: "Coin"
+    },
+    extensions: {
+      data: [["bridge", "multichain"]]
+    },
+    unique_index: 5001,
+    source: "multichain",
+    permissioned_listing: true,
+  },
+  {
     name: "Wrapped Ether (LayerZero)",
     symbol: "zWETH",
     official_symbol: "WETH",
@@ -1036,7 +1057,7 @@ export const REQUESTS: RawCoinInfo[] = [
     official_symbol: "CAKE",
     coingecko_id: "pancakeswap-token",
     decimals: 8,
-    logo_url: "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    logo_url: "https://raw.githubusercontent.com/pancakeswap/pancake-frontend/develop/apps/aptos/public/images/cake.svg",
     project_url: "https://pancakeswap.finance/",
     token_type: {
       type: "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
@@ -1276,5 +1297,68 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 800,
     source: "wormhole",
     permissioned_listing: true,
-  }
+  },
+  {
+    name: "wTBT Pool",
+    symbol: "wTBT",
+    official_symbol: "wTBT",
+    coingecko_id: "wtbt",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WTBT.svg",
+    project_url: "https://www.tprotocol.io/",
+    token_type: {
+      type: "0xd916a950d4c1279df4aa0d6f32011842dc5c633a45c11ac5019232c159d115bb::coin::T",
+      account_address: "0xd916a950d4c1279df4aa0d6f32011842dc5c633a45c11ac5019232c159d115bb",
+      module_name: "coin",
+      struct_name: "T"
+    },
+    extensions: {
+      data: [["bridge", "wormhole"]]
+    },
+    unique_index: 132,
+    source: "wormhole",
+    permissioned_listing: true,
+  },
+  {
+    name: "Sui Launch Token",
+    symbol: "SLT",
+    official_symbol: "SLT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/AptosLaunch/aptos-coin-list/main/icons/SUILAUNCHLOGO.svg",
+    project_url: "http://suilaunch.io/",
+    token_type: {
+      type: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1::sui_launch_token::SuiLaunchToken",
+      account_address: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1",
+      module_name: "sui_launch_token",
+      struct_name: "SuiLaunchToken"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 927,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    name: "War Coin",
+    symbol: "WAR",
+    official_symbol: "WAR",
+    coingecko_id: "war-coin",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
+    project_url: "https://werewolfandwitch.xyz/",
+    token_type: {
+      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
+      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
+      "module_name": "war_coin",
+      "struct_name": "WarCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 111,
+    source: "native",
+    permissioned_listing: false,
+  },
 ];

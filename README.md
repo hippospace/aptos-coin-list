@@ -55,8 +55,8 @@ In a complete `RawCoinInfo`, we have these fields:
 - `logo_url`: URL to token logo, preferrably a githubusercontent url
 - `project_url`: URL to project
 - `token_type`: token address info
-- `extensions`: other informal info that you want to add, in the form of a list of string-string key-value pairs
-- `unique_index`: a unique numeric index within this list
+- `extensions`: other informal info that you want to add, in the form of a list of string-string key-value pairs. Obsolete, no maintenance required
+- `unique_index`: a unique numeric index within this list. There is any logical relationship with the token information, only need to ensure the uniqueness
 - `source`: indicates if the token is from a bridge or native
 - `hippo_symbol`: hippo-style prefixed symbols (wormhole uses "w" prefix, layerzero uses "z" prefix)
 - `pancake_symbol`: pancake-style prefixed symbols (wormhole uses "wh" prefix, layerzero uses "lz" prefix)
