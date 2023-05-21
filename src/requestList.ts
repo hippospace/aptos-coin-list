@@ -189,27 +189,6 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
-    name: "XBTC",
-    symbol: "XBTC",
-    official_symbol: "XBTC",
-    coingecko_id: "",
-    decimals: 8,
-    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/XBTC.svg",
-    project_url: "https://github.com/OmniBTC/OmniBridge",
-    token_type: {
-      type: "0x3b0a7c06837e8fbcce41af0e629fdc1f087b06c06ff9e86f81910995288fd7fb::xbtc::XBTC",
-      account_address: "0x3b0a7c06837e8fbcce41af0e629fdc1f087b06c06ff9e86f81910995288fd7fb",
-      module_name: "xbtc",
-      struct_name: "XBTC"
-    },
-    extensions: {
-      data: []
-    },
-    unique_index: 5003,
-    source: "omnibridge",
-    permissioned_listing: true,
-  },
-  {
     name: "Tortuga Staked Aptos",
     symbol: "tAPT",
     official_symbol: "tAPT",
