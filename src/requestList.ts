@@ -693,6 +693,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Wrapped Bitcoin (LayerZero)",
+    symbol: "zWBTC",
+    official_symbol: "WBTC",
+    coingecko_id: "wrapped-bitcoin",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WBTC.svg",
+    project_url: "",
+    token_type: {
+      type: "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::WBTC",
+      account_address: "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+      module_name: "asset",
+      struct_name: "WBTC"
+    },
+    extensions: {
+      data: [["bridge", "layerzero"]]
+    },
+    unique_index: 3003,
+    source: "layerzero",
+    permissioned_listing: true,
+  },
+  {
     name: "USD Coin (Multichain)",
     symbol: "multiUSDC",
     official_symbol: "USDC",
