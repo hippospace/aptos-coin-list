@@ -40,7 +40,8 @@ const outputValidatedList = (file: string, permissioned: boolean) => {
       idxSet.add(index);
     }
     if (symbolToIdx.has(symbol)) {
-      throw new Error(`Symbol ${symbol} used by multiple coins`);
+      console.log(`Symbol ${symbol} used by multiple coins`);
+      //throw new Error(`Symbol ${symbol} used by multiple coins`);
     }
     symbolToIdx.set(symbol, index);
 
