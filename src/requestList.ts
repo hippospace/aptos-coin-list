@@ -1382,4 +1382,46 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: false,
   },
+  {
+    name: "Amnis Aptos Coin",
+    symbol: "amAPT",
+    official_symbol: "amAPT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/amAPT.svg",
+    project_url: "https://stake.amnis.finance/",
+    token_type: {
+      "type": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a::amapt_token::AmnisApt",
+      "account_address": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a",
+      "module_name": "amapt_token",
+      "struct_name": "AmnisApt"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 222,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Staked Aptos Coin",
+    symbol: "stAPT",
+    official_symbol: "stAPT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/stAPT.svg",
+    project_url: "https://stake.amnis.finance/",
+    token_type: {
+      "type": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a::stapt_token::StakedApt",
+      "account_address": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a",
+      "module_name": "stapt_token",
+      "struct_name": "StakedApt"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 223,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
