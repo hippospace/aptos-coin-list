@@ -255,6 +255,52 @@
     "pancake_symbol": "stAPT"
   },
   {
+    "name": "Thala APT",
+    "symbol": "thAPT",
+    "official_symbol": "thAPT",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/thAPT.svg",
+    "project_url": "https://thala.fi/",
+    "token_type": {
+      "type": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6::staking::ThalaAPT",
+      "account_address": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6",
+      "module_name": "staking",
+      "struct_name": "ThalaAPT"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 224,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "thAPT",
+    "pancake_symbol": "thAPT"
+  },
+  {
+    "name": "Staked Thala APT",
+    "symbol": "sthAPT",
+    "official_symbol": "sthAPT",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/sthAPT.svg",
+    "project_url": "https://thala.fi/",
+    "token_type": {
+      "type": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6::staking::StakedThalaAPT",
+      "account_address": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6",
+      "module_name": "staking",
+      "struct_name": "StakedThalaAPT"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 225,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "sthAPT",
+    "pancake_symbol": "sthAPT"
+  },
+  {
     "name": "Aptoge",
     "symbol": "APTOGE",
     "official_symbol": "APTOGE",
