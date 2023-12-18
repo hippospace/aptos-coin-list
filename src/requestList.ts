@@ -1,6 +1,27 @@
 import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
+   {
+    name: "APTS Token",
+    symbol: "APTS",
+    official_symbol: "APTS",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTS_ICON.svg",
+    project_url: "https://bluemove.net/collection/apts",
+    token_type: {
+      type: "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c::bridge::APTS",
+      account_address: "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c",
+      module_name: "bridge",
+      struct_name: "APTS"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 928,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
