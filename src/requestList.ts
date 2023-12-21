@@ -1465,5 +1465,26 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 225,
     source: "native",
     permissioned_listing: true,
+  },
+  {
+    name: "LUFFY",
+    symbol: "LUFFY",
+    official_symbol: "LUFFY",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/SolanaDev007/aptos-coin-list/main/icons/LUFFY.webp",
+    project_url: "https://twitter.com/luffyonaptos",
+    token_type: {
+      type: "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0::luffycoin::Luffy",
+      account_address: "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0",
+      module_name: "luffycoin",
+      struct_name: "Luffy"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 226,
+    source: "native",
+    permissioned_listing: false,
   }
 ];
