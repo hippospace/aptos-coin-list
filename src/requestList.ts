@@ -1486,5 +1486,26 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 226,
     source: "native",
     permissioned_listing: false,
-  }
+  },
+  {
+    name: "Gui Inu",
+    symbol: "GUI",
+    official_symbol: "GUI",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GUI.png",
+    project_url: "https://aptosmonkeys.club/",
+    token_type: {
+      type: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2::assets_v1::EchoCoin002",
+      account_address: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2",
+      module_name: "assets_v1",
+      struct_name: "EchoCoin002"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 227,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
