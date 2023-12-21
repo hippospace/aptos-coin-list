@@ -1485,6 +1485,6 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 226,
     source: "native",
-	permissioned_listing: false,
+    permissioned_listing: false,
   }
 ];
