@@ -1508,4 +1508,25 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+  {
+    name: "MAU",
+    symbol: "MAU",
+    official_symbol: "MAU",
+    coingecko_id: "mau",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MAU.png",
+    project_url: "https://mauprotocol.com/",
+    token_type: {
+      type: "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3::MAU::MAU",
+      account_address: "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3",
+      module_name: "MAU",
+      struct_name: "MAU"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 228,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
