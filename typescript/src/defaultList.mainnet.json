@@ -258,7 +258,7 @@
     "name": "Amnis Aptos Coin",
     "symbol": "amAPT",
     "official_symbol": "amAPT",
-    "coingecko_id": "",
+    "coingecko_id": "amnis-aptos",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/amAPT.svg",
     "project_url": "https://stake.amnis.finance/",
@@ -281,7 +281,7 @@
     "name": "Staked Aptos Coin",
     "symbol": "stAPT",
     "official_symbol": "stAPT",
-    "coingecko_id": "",
+    "coingecko_id": "amnis-staked-aptos-coin",
     "decimals": 8,
     "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/stAPT.svg",
     "project_url": "https://stake.amnis.finance/",
@@ -345,6 +345,75 @@
     "permissioned_listing": true,
     "hippo_symbol": "sthAPT",
     "pancake_symbol": "sthAPT"
+  },
+  {
+    "name": "LUFFY",
+    "symbol": "LUFFY",
+    "official_symbol": "LUFFY",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/SolanaDev007/aptos-coin-list/main/icons/LUFFY.webp",
+    "project_url": "https://twitter.com/luffyonaptos",
+    "token_type": {
+      "type": "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0::luffycoin::Luffy",
+      "account_address": "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0",
+      "module_name": "luffycoin",
+      "struct_name": "Luffy"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 226,
+    "source": "native",
+    "permissioned_listing": false,
+    "hippo_symbol": "LUFFY",
+    "pancake_symbol": "LUFFY"
+  },
+  {
+    "name": "Gui Inu",
+    "symbol": "GUI",
+    "official_symbol": "GUI",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GUI.png",
+    "project_url": "https://aptosmonkeys.club/",
+    "token_type": {
+      "type": "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2::assets_v1::EchoCoin002",
+      "account_address": "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2",
+      "module_name": "assets_v1",
+      "struct_name": "EchoCoin002"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 227,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "GUI",
+    "pancake_symbol": "GUI"
+  },
+  {
+    "name": "MAU",
+    "symbol": "MAU",
+    "official_symbol": "MAU",
+    "coingecko_id": "mau",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MAU.png",
+    "project_url": "https://mauprotocol.com/",
+    "token_type": {
+      "type": "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3::MAU::MAU",
+      "account_address": "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3",
+      "module_name": "MAU",
+      "struct_name": "MAU"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 228,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "MAU",
+    "pancake_symbol": "MAU"
   },
   {
     "name": "Aptoge",
@@ -773,6 +842,34 @@
     "permissioned_listing": true,
     "hippo_symbol": "ALT",
     "pancake_symbol": "ALT"
+  },
+  {
+    "name": "APTS Token",
+    "symbol": "APTS",
+    "official_symbol": "APTS",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTS_ICON.svg",
+    "project_url": "https://bluemove.net/collection/apts",
+    "token_type": {
+      "type": "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c::bridge::APTS",
+      "account_address": "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c",
+      "module_name": "bridge",
+      "struct_name": "APTS"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    },
+    "unique_index": 930,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "APTS",
+    "pancake_symbol": "APTS"
   },
   {
     "name": "AlpacaINU Coin",
