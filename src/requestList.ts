@@ -1550,4 +1550,30 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+  {
+    "name": "MARBLEX",
+    "symbol": "MBX",
+    "official_symbol": "MBX",
+    "coingecko_id": "marblex",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MBX.svg",
+    "project_url": "https://www.marblex.io/",
+    "token_type": {
+      "type": "0x665d06fcd9c94430099f82973f2a5e5f13142e42fa172e72ce14f51a64bd8ad9::coin_mbx::MBX",
+      "account_address": "0x665d06fcd9c94430099f82973f2a5e5f13142e42fa172e72ce14f51a64bd8ad9",
+      "module_name": "coin_mbx",
+      "struct_name": "MBX"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "warp"
+        ]
+      ]
+    },
+    "unique_index": 3333,
+    "source": "warp",
+    "permissioned_listing": true,
+  },
 ];
