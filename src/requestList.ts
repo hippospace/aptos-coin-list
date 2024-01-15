@@ -1551,6 +1551,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Zapdos",
+    symbol: "ZAP",
+    official_symbol: "ZAP",
+    coingecko_id: "",
+    decimals: 1,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ZAP.png",
+    project_url: "https://zapdos.dev/",
+    token_type: {
+      type: "0x3be1b0966a7f400c1ea57e6ddfe5f060282592a1f4df4d45872a7c8bc46b5ba5::zapdos::Zapdos",
+      account_address: "0x3be1b0966a7f400c1ea57e6ddfe5f060282592a1f4df4d45872a7c8bc46b5ba5",
+      module_name: "zapdos",
+      struct_name: "Zapdos"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 420,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
     "name": "MARBLEX",
     "symbol": "MBX",
     "official_symbol": "MBX",
