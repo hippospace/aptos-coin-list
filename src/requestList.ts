@@ -1576,4 +1576,25 @@ export const REQUESTS: RawCoinInfo[] = [
     "source": "warp",
     "permissioned_listing": true,
   },
+  {
+    name: "Propbase",
+    symbol: "PROPS",
+    official_symbol: "PROPS",
+    coingecko_id: "propbase",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/props.png",
+    project_url: "https://www.propbase.app",
+    token_type: {
+      type: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099::propbase_coin::PROPS",
+      account_address: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      module_name: "propbase_coin",
+      struct_name: "PROPS"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 10,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
