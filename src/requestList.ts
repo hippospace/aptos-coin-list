@@ -1628,9 +1628,9 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/EVA.webp",
     project_url: "https://apt-20.com/",
     token_type: {
-      type: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apts::EVA",
+      type: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apt20::EVA",
       account_address: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d",
-      module_name: "apts",
+      module_name: "apt20",
       struct_name: "EVA"
     },
     extensions: {
