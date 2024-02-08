@@ -1618,7 +1618,6 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
-   ,
   {
     name: "EVA",
     symbol: "EVA",
