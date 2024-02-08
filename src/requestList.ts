@@ -1618,4 +1618,26 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   ,
+  {
+    name: "EVA",
+    symbol: "EVA",
+    official_symbol: "EVA",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/eva.png",
+    project_url: "https://apt-20.com/",
+    token_type: {
+      type: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099::apts::EVA",
+      account_address: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      module_name: "apts",
+      struct_name: "EVA"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 666,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
