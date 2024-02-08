@@ -1628,8 +1628,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/eva.png",
     project_url: "https://apt-20.com/",
     token_type: {
-      type: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099::apts::EVA",
-      account_address: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      type: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apts::EVA",
+      account_address: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d",
       module_name: "apts",
       struct_name: "EVA"
     },
