@@ -1569,7 +1569,7 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 420,
     source: "native",
-    permissioned_listing: true,
+    permissioned_listing: false,
   },
   {
     "name": "MARBLEX",
