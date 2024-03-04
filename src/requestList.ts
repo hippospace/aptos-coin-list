@@ -1639,4 +1639,25 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   {
+    name: "APARTMENT",
+    symbol: "APARTMENT",
+    official_symbol: "APARTMENT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apartments.svg",
+    project_url: "https://aptosapartments.rent",
+    token_type: {
+      type: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e::APARTMENT::APARTMENT",
+      account_address: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e",
+      module_name: "APARTMENT",
+      struct_name: "APARTMENT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 229,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
