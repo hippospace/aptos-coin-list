@@ -439,6 +439,29 @@
     "pancake_symbol": "MAU"
   },
   {
+    "name": "SHRIMP",
+    "symbol": "SHRIMP",
+    "official_symbol": "SHRIMP",
+    "coingecko_id": "",
+    "decimals": 2,
+    "logo_url": "https://pbs.twimg.com/profile_images/1748058493834207232/xUdgepyJ_400x400.png",
+    "project_url": "https://shrimp.app/",
+    "token_type": {
+      "type": "0x55987edfab9a57f69bac759674f139ae473b5e09a9283848c1f87faf6fc1e789::shrimp::ShrimpCoin",
+      "account_address": "0x55987edfab9a57f69bac759674f139ae473b5e09a9283848c1f87faf6fc1e789",
+      "module_name": "shrimp",
+      "struct_name": "ShrimpCoin"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 229,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "SHRIMP",
+    "pancake_symbol": "SHRIMP"
+  },
+  {
     "name": "Aptoge",
     "symbol": "APTOGE",
     "official_symbol": "APTOGE",
