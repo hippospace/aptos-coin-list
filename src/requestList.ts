@@ -1681,4 +1681,25 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: false,
   },
+  {
+    name: "DooDoo",
+    symbol: "DooDoo",
+    official_symbol: "DooDoo",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/doodoo.jpg",
+    project_url: "https://doodoo.io",
+    token_type: {
+      type: "0x73eb84966be67e4697fc5ae75173ca6c35089e802650f75422ab49a8729704ec::coin::DooDoo",
+      account_address: "0x73eb84966be67e4697fc5ae75173ca6c35089e802650f75422ab49a8729704ec",
+      module_name: "coin",
+      struct_name: "DooDoo"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 232,
+    source: "native",
+    permissioned_listing: false,
+  },
 ];
