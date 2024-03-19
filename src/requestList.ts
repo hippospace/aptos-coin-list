@@ -1702,4 +1702,25 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: false,
   },
+  {
+    name: "Legendary MEME",
+    symbol: "LME",
+    official_symbol: "LME",
+    coingecko_id: "legendary-meme",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/LMElogo.svg",
+    project_url: "https://legendaryme.me",
+    token_type: {
+      type: "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e::legendary_meme::LegendaryMEME",
+      account_address: "0xd0b4efb4be7c3508d9a26a9b5405cf9f860d0b9e5fe2f498b90e68b8d2cedd3e",
+      module_name: "legendary_meme",
+      struct_name: "LegendaryMEME"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 420,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
