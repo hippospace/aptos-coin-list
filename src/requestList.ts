@@ -1,11 +1,32 @@
 import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
+   {
+    name: "APTS Token",
+    symbol: "APTS",
+    official_symbol: "APTS",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTS_ICON.svg",
+    project_url: "https://bluemove.net/collection/apts",
+    token_type: {
+      type: "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c::bridge::APTS",
+      account_address: "0xc71d94c49826b7d81d740d5bfb80b001a356198ed7b8005ae24ccedff82b299c",
+      module_name: "bridge",
+      struct_name: "APTS"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 930,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
     official_symbol: "ALT",
-    coingecko_id: "",
+    coingecko_id: "aptos-launch-token",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Aptoslaunchlogob.svg",
     project_url: "https://aptoslaunch.io",
@@ -186,27 +207,6 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 1,
     source: "native",
-    permissioned_listing: true,
-  },
-  {
-    name: "XBTC",
-    symbol: "XBTC",
-    official_symbol: "XBTC",
-    coingecko_id: "",
-    decimals: 8,
-    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/XBTC.svg",
-    project_url: "https://github.com/OmniBTC/OmniBridge",
-    token_type: {
-      type: "0x3b0a7c06837e8fbcce41af0e629fdc1f087b06c06ff9e86f81910995288fd7fb::xbtc::XBTC",
-      account_address: "0x3b0a7c06837e8fbcce41af0e629fdc1f087b06c06ff9e86f81910995288fd7fb",
-      module_name: "xbtc",
-      struct_name: "XBTC"
-    },
-    extensions: {
-      data: []
-    },
-    unique_index: 5003,
-    source: "omnibridge",
     permissioned_listing: true,
   },
   {
@@ -756,6 +756,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Wrapped BTC (LayerZero)",
+    symbol: "zWBTC",
+    official_symbol: "WBTC",
+    coingecko_id: "wbtc",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BTC.webp",
+    project_url: "",
+    token_type: {
+      type: "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::WBTC",
+      account_address: "0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa",
+      module_name: "asset",
+      struct_name: "WBTC"
+    },
+    extensions: {
+      data: [["bridge", "layerzero"]]
+    },
+    unique_index: 3005,
+    source: "layerzero",
+    permissioned_listing: true,
+  },
+  {
     name: "USD Coin (Celer)",
     symbol: "ceUSDC",
     official_symbol: "USDC",
@@ -1055,7 +1076,7 @@ export const REQUESTS: RawCoinInfo[] = [
     name: "Abel Coin",
     symbol: "ABEL",
     official_symbol: "ABEL",
-    coingecko_id: "",
+    coingecko_id: "abel-finance",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ABEL.svg",
     project_url: "https://www.abelfinance.xyz/",
@@ -1078,7 +1099,7 @@ export const REQUESTS: RawCoinInfo[] = [
     official_symbol: "CAKE",
     coingecko_id: "pancakeswap-token",
     decimals: 8,
-    logo_url: "https://pancakeswap.finance/images/tokens/0x0E09FaBB73Bd3Ade0a17ECC321fD13a19e81cE82.svg",
+    logo_url: "https://raw.githubusercontent.com/pancakeswap/pancake-frontend/develop/apps/aptos/public/images/cake.svg",
     project_url: "https://pancakeswap.finance/",
     token_type: {
       type: "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
@@ -1339,5 +1360,346 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 132,
     source: "wormhole",
     permissioned_listing: true,
-  }
+  },
+  {
+    name: "Sui Launch Token",
+    symbol: "SLT",
+    official_symbol: "SLT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/AptosLaunch/aptos-coin-list/main/icons/SUILAUNCHLOGO.svg",
+    project_url: "http://suilaunch.io/",
+    token_type: {
+      type: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1::sui_launch_token::SuiLaunchToken",
+      account_address: "0x8b2df69c9766e18486c37e3cfc53c6ce6e9aa58bbc606a8a0a219f24cf9eafc1",
+      module_name: "sui_launch_token",
+      struct_name: "SuiLaunchToken"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 927,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    name: "War Coin",
+    symbol: "WAR",
+    official_symbol: "WAR",
+    coingecko_id: "war-coin",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
+    project_url: "https://werewolfandwitch.xyz/",
+    token_type: {
+      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
+      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
+      "module_name": "war_coin",
+      "struct_name": "WarCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 111,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    name: "Amnis Aptos Coin",
+    symbol: "amAPT",
+    official_symbol: "amAPT",
+    coingecko_id: "amnis-aptos",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/amAPT.svg",
+    project_url: "https://stake.amnis.finance/",
+    token_type: {
+      "type": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a::amapt_token::AmnisApt",
+      "account_address": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a",
+      "module_name": "amapt_token",
+      "struct_name": "AmnisApt"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 222,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Staked Aptos Coin",
+    symbol: "stAPT",
+    official_symbol: "stAPT",
+    coingecko_id: "amnis-staked-aptos-coin",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/stAPT.svg",
+    project_url: "https://stake.amnis.finance/",
+    token_type: {
+      "type": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a::stapt_token::StakedApt",
+      "account_address": "0x111ae3e5bc816a5e63c2da97d0aa3886519e0cd5e4b046659fa35796bd11542a",
+      "module_name": "stapt_token",
+      "struct_name": "StakedApt"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 223,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Thala APT",
+    symbol: "thAPT",
+    official_symbol: "thAPT",
+    coingecko_id: "thala-apt",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/thAPT.svg",
+    project_url: "https://thala.fi/",
+    token_type: {
+      "type": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6::staking::ThalaAPT",
+      "account_address": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6",
+      "module_name": "staking",
+      "struct_name": "ThalaAPT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 224,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Staked Thala APT",
+    symbol: "sthAPT",
+    official_symbol: "sthAPT",
+    coingecko_id: "staked-thala-apt",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/sthAPT.svg",
+    project_url: "https://thala.fi/",
+    token_type: {
+      "type": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6::staking::StakedThalaAPT",
+      "account_address": "0xfaf4e633ae9eb31366c9ca24214231760926576c7b625313b3688b5e900731f6",
+      "module_name": "staking",
+      "struct_name": "StakedThalaAPT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 225,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "LUFFY",
+    symbol: "LUFFY",
+    official_symbol: "LUFFY",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/SolanaDev007/aptos-coin-list/main/icons/LUFFY.webp",
+    project_url: "https://twitter.com/luffyonaptos",
+    token_type: {
+      type: "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0::luffycoin::Luffy",
+      account_address: "0x9a19f4c81f7dc7b8ae6f568d562e6fb056c3894303229c91f73f34c24b0403b0",
+      module_name: "luffycoin",
+      struct_name: "Luffy"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 226,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    name: "Gui Inu",
+    symbol: "GUI",
+    official_symbol: "GUI",
+    coingecko_id: "",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GUI.png",
+    project_url: "https://aptosmonkeys.club/",
+    token_type: {
+      type: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2::assets_v1::EchoCoin002",
+      account_address: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2",
+      module_name: "assets_v1",
+      struct_name: "EchoCoin002"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 227,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "MAU",
+    symbol: "MAU",
+    official_symbol: "MAU",
+    coingecko_id: "mau",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MAU.png",
+    project_url: "https://mauprotocol.com/",
+    token_type: {
+      type: "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3::MAU::MAU",
+      account_address: "0x83b619e2d9e6e10d15ed4b714111a4cd9526c1c2ae0eec4b252a619d3e8bdda3",
+      module_name: "MAU",
+      struct_name: "MAU"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 228,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "Zapdos",
+    symbol: "ZAP",
+    official_symbol: "ZAP",
+    coingecko_id: "",
+    decimals: 1,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ZAP.png",
+    project_url: "https://zapdos.dev/",
+    token_type: {
+      type: "0x3be1b0966a7f400c1ea57e6ddfe5f060282592a1f4df4d45872a7c8bc46b5ba5::zapdos::Zapdos",
+      account_address: "0x3be1b0966a7f400c1ea57e6ddfe5f060282592a1f4df4d45872a7c8bc46b5ba5",
+      module_name: "zapdos",
+      struct_name: "Zapdos"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 420,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    "name": "MARBLEX",
+    "symbol": "MBX",
+    "official_symbol": "MBX",
+    "coingecko_id": "marblex",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MBX.svg",
+    "project_url": "https://www.marblex.io/",
+    "token_type": {
+      "type": "0x665d06fcd9c94430099f82973f2a5e5f13142e42fa172e72ce14f51a64bd8ad9::coin_mbx::MBX",
+      "account_address": "0x665d06fcd9c94430099f82973f2a5e5f13142e42fa172e72ce14f51a64bd8ad9",
+      "module_name": "coin_mbx",
+      "struct_name": "MBX"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "warp"
+        ]
+      ]
+    },
+    "unique_index": 3333,
+    "source": "warp",
+    "permissioned_listing": true,
+  },
+  {
+    name: "Propbase",
+    symbol: "PROPS",
+    official_symbol: "PROPS",
+    coingecko_id: "propbase",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/props.png",
+    project_url: "https://www.propbase.app",
+    token_type: {
+      type: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099::propbase_coin::PROPS",
+      account_address: "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      module_name: "propbase_coin",
+      struct_name: "PROPS"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 10,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "EVA",
+    symbol: "EVA",
+    official_symbol: "EVA",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/EVA.webp",
+    project_url: "https://apt-20.com/",
+    token_type: {
+      type: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d::apt20::EVA",
+      account_address: "0x1fc2f33ab6b624e3e632ba861b755fd8e61d2c2e6cf8292e415880b4c198224d",
+      module_name: "apt20",
+      struct_name: "EVA"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 666,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "SHRIMP",
+    symbol: "SHRIMP",
+    official_symbol: "SHRIMP",
+    coingecko_id: "",
+    decimals: 2,
+    logo_url: "https://pbs.twimg.com/profile_images/1748058493834207232/xUdgepyJ_400x400.png",
+    project_url: "https://shrimp.app/",
+    token_type: {
+      type: "0x55987edfab9a57f69bac759674f139ae473b5e09a9283848c1f87faf6fc1e789::shrimp::ShrimpCoin",
+      account_address: "0x55987edfab9a57f69bac759674f139ae473b5e09a9283848c1f87faf6fc1e789",
+      module_name: "shrimp",
+      struct_name: "ShrimpCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 229,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
+    name: "APARTMENT",
+    symbol: "APARTMENT",
+    official_symbol: "APARTMENT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apartments.svg",
+    project_url: "https://aptosapartments.rent",
+    token_type: {
+      type: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e::APARTMENT::APARTMENT",
+      account_address: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e",
+      module_name: "APARTMENT",
+      struct_name: "APARTMENT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 230,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    name: "DooDoo",
+    symbol: "DooDoo",
+    official_symbol: "DooDoo",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/doodoo.jpg",
+    project_url: "https://doodoo.io",
+    token_type: {
+      type: "0x73eb84966be67e4697fc5ae75173ca6c35089e802650f75422ab49a8729704ec::coin::DooDoo",
+      account_address: "0x73eb84966be67e4697fc5ae75173ca6c35089e802650f75422ab49a8729704ec",
+      module_name: "coin",
+      struct_name: "DooDoo"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 232,
+    source: "native",
+    permissioned_listing: false,
+  },
 ];
