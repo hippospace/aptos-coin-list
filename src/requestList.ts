@@ -1743,5 +1743,26 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 233,
     source: "native",
     permissioned_listing: false,
-  } 
+  },
+  {
+    name: "Chewy",
+    symbol: "CHEWY",
+    official_symbol: "CHEWY",
+    coingecko_id: "",
+    decimals: 0,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/chewy.png",
+    project_url: "https://chewytoken.com",
+    token_type: {
+      type: "0xc26a8eda1c3ab69a157815183ddda88c89d6758ee491dd1647a70af2907ce074::coin::Chewy",
+      account_address: "0xc26a8eda1c3ab69a157815183ddda88c89d6758ee491dd1647a70af2907ce074",
+      module_name: "coin",
+      struct_name: "Chewy"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 234,
+    source: "native",
+    permissioned_listing: true,
+  },
 ];
