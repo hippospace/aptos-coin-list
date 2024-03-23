@@ -1717,9 +1717,9 @@ export const REQUESTS: RawCoinInfo[] = [
       struct_name: "LegendaryMEME"
     },
     extensions: {
-      data: [["bridge", "native"]]
+      data: []
     },
-    unique_index: 420,
+    unique_index: 421,
     source: "native",
     permissioned_listing: true,
   },
