@@ -1765,4 +1765,26 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+  
+  {
+    name: "DOOT Skeleton",
+    symbol: "DOOT",
+    official_symbol: "DOOT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/doot.svg",
+    project_url: "https://skeltal.io",
+    token_type: {
+      type: "0x9906c12b3b7a12721b9dddf23e6dd5ff5dfc93c5241dada855780758b01fedd3::DOOT_SKELETON::DOOT_SKELETON",
+      account_address: "0x9906c12b3b7a12721b9dddf23e6dd5ff5dfc93c5241dada855780758b01fedd3",
+      module_name: "DOOT",
+      struct_name: "DOOT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 289,
+    source: "native",
+    permissioned_listing: false,
+  },
 ];
