@@ -1765,7 +1765,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
-  
+  {
+    name: "Uptos",
+    symbol: "UPT",
+    official_symbol: "UPT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/UPT.svg",
+    project_url: "",
+    token_type: {
+      type: "0xe1d39a72bd69bc2ebfe008bb925badb23a32883b077218b9e167f74cf703db1a::uptos::UptosCoin",
+      account_address: "0xe1d39a72bd69bc2ebfe008bb925badb23a32883b077218b9e167f74cf703db1a",
+      module_name: "uptos",
+      struct_name: "UptosCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 235,
+    source: "native",
+    permissioned_listing: false,
+  },
   {
     name: "DOOT Skeleton",
     symbol: "DOOT",
@@ -1786,5 +1806,5 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 289,
     source: "native",
     permissioned_listing: false,
-  },
+  }
 ];
