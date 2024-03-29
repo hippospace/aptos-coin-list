@@ -1797,8 +1797,8 @@ export const REQUESTS: RawCoinInfo[] = [
     token_type: {
       type: "0x9906c12b3b7a12721b9dddf23e6dd5ff5dfc93c5241dada855780758b01fedd3::DOOT_SKELETON::DOOT_SKELETON",
       account_address: "0x9906c12b3b7a12721b9dddf23e6dd5ff5dfc93c5241dada855780758b01fedd3",
-      module_name: "DOOT",
-      struct_name: "DOOT"
+      module_name: "DOOT_SKELETON",
+      struct_name: "DOOT_SKELETON"
     },
     extensions: {
       data: []
