@@ -4,6 +4,7 @@
 1. fork repo
 2. add `TOKEN_ICON.svg` (no larger than 100x100) to `icons` folder
 3. add `RawCoinInfo` to [requestList.ts](https://github.com/hippospace/aptos-coin-list/blob/main/src/requestList.ts)
+  - try adding it to a random location in `requestList.ts`, otherwise it will cause merge conflict
 4. PR
 5. Shout in [TG](https://t.me/+LBfzjYgGlVdjN2Y1)
 
