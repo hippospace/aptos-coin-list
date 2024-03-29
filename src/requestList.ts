@@ -1766,6 +1766,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Citadeli Token of Investment",
+    symbol: "CTD",
+    official_symbol: "CTD",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/CTD_ICON.svg",
+    project_url: "https://citadeli.crypto",
+    token_type: {
+      type: "0x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608::CITADELI::CITADELI",
+      account_address: "0x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608",
+      module_name: "citadeli",
+      struct_name: "Citadeli"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 888,
+    source: "native",
+    permissioned_listing: true,
+  },
+   {
     name: "Uptos",
     symbol: "UPT",
     official_symbol: "UPT",
