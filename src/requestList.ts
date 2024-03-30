@@ -1827,5 +1827,28 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 289,
     source: "native",
     permissioned_listing: false,
+  },
+   {
+    "name": "Nebula",
+    "symbol": "NBUL",
+    "official_symbol": "NBUL",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apartments.svg",
+    "project_url": "https://aptosapartments.rent",
+    "token_type": {
+      "type": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd::NEBULA::NEBULA",
+      "account_address": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd",
+      "module_name": "NBUL",
+      "struct_name": "NBUL"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 240,
+    "source": "native",
+    "permissioned_listing": false,
+    "hippo_symbol": "NBUL",
+    "pancake_symbol": "NBUL"
   }
 ];
