@@ -1834,8 +1834,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "official_symbol": "NBUL",
     "coingecko_id": "",
     "decimals": 8,
-    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apartments.svg",
-    "project_url": "https://aptosapartments.rent",
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/NBUL.svg",
+    "project_url": "https://nebuladao.space",
     "token_type": {
       "type": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd::NEBULA::NEBULA",
       "account_address": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd",
