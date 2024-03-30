@@ -1839,8 +1839,8 @@ export const REQUESTS: RawCoinInfo[] = [
     "token_type": {
       "type": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd::NEBULA::NEBULA",
       "account_address": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd",
-      "module_name": "NBUL",
-      "struct_name": "NBUL"
+      "module_name": "NEBULA",
+      "struct_name": "NEBULA"
     },
     "extensions": {
       "data": []
