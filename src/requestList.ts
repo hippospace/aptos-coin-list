@@ -22,6 +22,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   {
+    name: "Apatosaurus",
+    symbol: "APATO",
+    official_symbol: "APATO",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apato.png",
+    project_url: "https://apatosauruscoin.com",
+    token_type: {
+      type: "0x873c92a2bb49abc7f42f19f03192a7a07f7a2f1f822d801b17e8cf786a4206c0::APATO::APATO",
+      account_address: "0x873c92a2bb49abc7f42f19f03192a7a07f7a2f1f822d801b17e8cf786a4206c0",
+      module_name: "Apatosaurus",
+      struct_name: "Apato"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 135,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
