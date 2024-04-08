@@ -1808,6 +1808,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: false,
   },
   {
+    name: "bladeewifhat",
+    symbol: "BLADEE",
+    official_symbol: "BLADEE",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/bladeewifhat.jpg",
+    project_url: "",
+    token_type: {
+      type: "0x8235f05ea1901e682bc09b3be93eba0727e94c020ccb0e57074843315c675521::BLADEEWIFHAT::BLADEEWIFHAT",
+      account_address: "0x8235f05ea1901e682bc09b3be93eba0727e94c020ccb0e57074843315c675521",
+      module_name: "BLADEEWIFHAT",
+      struct_name: "BLADEEWIFHAT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 304,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
     name: "DOOT Skeleton",
     symbol: "DOOT",
     official_symbol: "DOOT",
