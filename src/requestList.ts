@@ -11,14 +11,14 @@ export const REQUESTS: RawCoinInfo[] = [
     "project_url": "https://uptos.xyz/",
     "token_type": {
       "type": "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7::UPTOS::UPTOS",
-      "account_address": "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      "account_address": "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7",
       "module_name": "UPTOS",
       "struct_name": "UPTOS"
     },
     "extensions": {
       "data": []
     },
-    "unique_index": 10,
+    "unique_index": 8888,
     "source": "native",
     "permissioned_listing": true,
     "hippo_symbol": "UPTOS",
@@ -83,7 +83,7 @@ export const REQUESTS: RawCoinInfo[] = [
     extensions: {
       data: [["bridge", "native"]]
     },
-    unique_index: 101,
+    unique_index: 1,
     source: "native",
     permissioned_listing: true,
   },
@@ -157,8 +157,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDA.svg",
     project_url: "https://argo.fi/",
     token_type: {
-      type: "0x1000000fa32d122c18a6a31c009ce5e71674f22d06a581bb0a15575e6addadcc::usda::USDA",
-      account_address: "0x1000000fa32d122c18a6a31c009ce5e71674f22d06a581bb0a15575e6addadcc",
+      type: "0x00000fa32d122c18a6a31c009ce5e71674f22d06a581bb0a15575e6addadcc::usda::USDA",
+      account_address: "0x00000fa32d122c18a6a31c009ce5e71674f22d06a581bb0a15575e6addadcc",
       module_name: "usda",
       struct_name: "USDA"
     },
@@ -178,8 +178,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DittoStakedAptos.svg",
     project_url: "https://www.dittofinance.io/",
     token_type: {
-      type: "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::staked_coin::StakedAptos",
-      account_address: "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
+      type: "0xd117bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::staked_coin::StakedAptos",
+      account_address: "0xd117bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
       module_name: "staked_coin",
       struct_name: "StakedAptos"
     },
@@ -199,8 +199,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DTO.svg",
     project_url: "https://www.dittofinance.io/",
     token_type: {
-      type: "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::ditto_discount_coin::DittoDiscountCoin",
-      account_address: "0xd11107bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
+      type: "0xd117bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5::ditto_discount_coin::DittoDiscountCoin",
+      account_address: "0xd117bdf0d6d7040c6c0bfbdecb6545191fdf13e8d8d259952f53e1713f61b5",
       module_name: "ditto_discount_coin",
       struct_name: "DittoDiscountCoin"
     },
@@ -682,8 +682,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
     project_url: "",
     token_type: {
-      type: "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e::coin::T",
-      account_address: "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed798106a2ef2994a9101e",
+      type: "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed7986a2ef2994a91e::coin::T",
+      account_address: "0xc7160b1c2415d19a88add188ec726e62aab0045f0aed7986a2ef2994a91e",
       module_name: "coin",
       struct_name: "T"
     },
@@ -745,8 +745,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/USDC.svg",
     project_url: "https://multichain.org/",
     token_type: {
-      type: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548::USDC::Coin",
-      account_address: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db3010098548",
+      type: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db30098548::USDC::Coin",
+      account_address: "0xd6d6372c8bde72a7ab825c00b9edd35e643fb94a61c55d9d94a9db30098548",
       module_name: "USDC",
       struct_name: "Coin"
     },
@@ -1125,8 +1125,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/pancakeswap/pancake-frontend/develop/apps/aptos/public/images/cake.svg",
     project_url: "https://pancakeswap.finance/",
     token_type: {
-      type: "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6::oft::CakeOFT",
-      account_address: "0x159df6b7689437016108a019fd5bef736bac692b6d4a1f10c941f6fbb9a74ca6",
+      type: "0x159df6b76894370168a019fd5bef736bac692b6d4a1fc941f6fbb9a74ca6::oft::CakeOFT",
+      account_address: "0x159df6b76894370168a019fd5bef736bac692b6d4a1fc941f6fbb9a74ca6",
       module_name: "oft",
       struct_name: "CakeOFT"
     },
@@ -1186,8 +1186,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/SPRING.webp",
     project_url: "https://springers.co.in/",
     token_type: {
-      type: "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10::spring_coin::Spring_Coin",
-      account_address: "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d10",
+      type: "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d::spring_coin::Spring_Coin",
+      account_address: "0x7bdeaba6f037caf06bb5b2d57df9ee03a07e2a9df45b338ef3deb44d16c01d",
       module_name: "spring_coin",
       struct_name: "Spring_Coin"
     },
@@ -1414,8 +1414,8 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/WAR.svg",
     project_url: "https://werewolfandwitch.xyz/",
     token_type: {
-      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a::war_coin::WarCoin",
-      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba3610f62d1d0b6032345a",
+      "type": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba36f62d1d0b6032345a::war_coin::WarCoin",
+      "account_address": "0x52ab49a4039c3d2b0aa6e0a00aaed75dcff72a3120ba36f62d1d0b6032345a",
       "module_name": "war_coin",
       "struct_name": "WarCoin"
     },
@@ -1540,7 +1540,7 @@ export const REQUESTS: RawCoinInfo[] = [
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/GUI.png",
     project_url: "https://aptosmonkeys.club/",
     token_type: {
-      type: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2::assets_v1::EchoCoin002",
+      type: "0xe4ccb6d39136469f376242c31b34d515c8eaaa38092f804db8e08a8f53c5b2::assets_v1::EchoCoin002",
       account_address: "0xe4ccb6d39136469f376242c31b34d10515c8eaaa38092f804db8e08a8f53c5b2",
       module_name: "assets_v1",
       struct_name: "EchoCoin002"
