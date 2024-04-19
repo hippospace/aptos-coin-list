@@ -2,6 +2,29 @@ import { RawCoinInfo } from "./list";
 
 export const REQUESTS: RawCoinInfo[] = [
    {
+   "name": "UPTOS",
+    "symbol": "UPTOS",
+    "official_symbol": "UPTOS",
+    "coingecko_id": "UPTOS",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/uptos.svg",
+    "project_url": "https://uptos.xyz/",
+    "token_type": {
+      "type": "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7::UPTOS::UPTOS",
+      "account_address": "0xe50684a338db732d8fb8a3ac71c4b8633878bd0193bca5de2ebc852a83b35099",
+      "module_name": "UPTOS",
+      "struct_name": "UPTOS"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 10,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "UPTOS",
+    "pancake_symbol": "UPTOS"
+  },
+   {
     name: "APTS Token",
     symbol: "APTS",
     official_symbol: "APTS",
