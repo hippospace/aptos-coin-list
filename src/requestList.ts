@@ -22,6 +22,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+    {
+    name: "UPTOS",
+    symbol: "UPTOS",
+    official_symbol: "UPTOS",
+    coingecko_id: "UPTOS",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/uptos.svg",
+    project_url: "https://uptos.xyz/",
+    token_type: {
+      type: "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7::UPTOS::UPTOS",
+      account_address: "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7",
+      module_name: "UPTOS",
+      struct_name: "UPTOS"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 8888,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
