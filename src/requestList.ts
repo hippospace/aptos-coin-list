@@ -1892,5 +1892,26 @@ export const REQUESTS: RawCoinInfo[] = [
     "permissioned_listing": false,
     "hippo_symbol": "NBUL",
     "pancake_symbol": "NBUL"
-  }
+  },
+  {
+    name: "Basket",
+    symbol: "BSKT",
+    official_symbol: "BSKT",
+    coingecko_id: "basket",
+    decimals: 5,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/bskt.svg",
+    project_url: "https://bskt.fi",
+    token_type: {
+      type: "0x38d486f4257fb7861a527bc848acb749b3fa8bea9113799a30a2e17467316202::coin::T",
+      account_address: "0xeabd77aa15b95b54eb94c7a33678b3d0c8858498f3137c4bb673ed4343a04593",
+      module_name: "coin",
+      struct_name: "T"
+    },
+    extensions: {
+      data: [["bridge", "native", "wormhole"]]
+    },
+      unique_index: 2024,
+      source: "wormhole",
+      permissioned_listing: true,
+    },
 ];
