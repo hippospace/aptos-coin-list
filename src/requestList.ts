@@ -1913,5 +1913,5 @@ export const REQUESTS: RawCoinInfo[] = [
       unique_index: 2024,
       source: "wormhole",
       permissioned_listing: true,
-    },
+    }
 ];
