@@ -251,30 +251,26 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
-   {
-  "name": "ROO",
-  "symbol": "ROO",
-  "official_symbol": "ROO",
-  "decimals": 8,
-  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/roologo.jpg",
-  "project_url": "https://aptosroo.io/",
-  "token_type": {
-    "type": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3::ROO::ROO",
-    "account_address": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3",
-    "module_name": "ROO",
-    "struct_name": "ROO"
-  },
-  "extensions": {
-    "data": [
-      [
-        "native"
-      ]
-    ]
-  },
+  {
+    "name": "ROO",
+    "symbol": "ROO",
+    "coingecko_id": "",
+    "official_symbol": "ROO",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/roologo.jpg",
+    "project_url": "https://aptosroo.io/",
+    "token_type": {
+      "type": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3::ROO::ROO",
+      "account_address": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3",
+      "module_name": "ROO",
+      "struct_name": "ROO"
+    },
+    "extensions": {
+      "data": [[ "bridge", "native" ]]
+    },
     "unique_index": 290515,
     "source": "native",
     "permissioned_listing": false,
-    "pancake_symbol": "ROO"
   },
   {
     name: "Wrapped Ether (Wormhole)",
