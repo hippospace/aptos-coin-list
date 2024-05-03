@@ -1914,4 +1914,31 @@ export const REQUESTS: RawCoinInfo[] = [
     "hippo_symbol": "NBUL",
     "pancake_symbol": "NBUL"
   }
+    {
+  "name": "APTOS FOMO",
+  "symbol": "FOMO",
+  "official_symbol": "FOMO",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/aptosfomo/aptos-coin-list/main/icons/FOMO.png",
+  "project_url": "https://aptosfomo.com/",
+  "token_type": {
+    "type": "0xf891d2e004973430cc2bbbee69f3d0f4adb9c7ae03137b4579f7bb9979283ee6::APTOS_FOMO::APTOS_FOMO",
+    "account_address": "0xf891d2e004973430cc2bbbee69f3d0f4adb9c7ae03137b4579f7bb9979283ee6",
+    "module_name": "FOMO",
+    "struct_name": "FOMO"
+  },
+  "extensions": {
+    "data": [
+      [
+        "native"
+      ]
+    ]
+  },
+    "unique_index": 290654,
+    "source": "native",
+    "permissioned_listing": false,
+    "pancake_symbol": "FOMO"
+  },
+  {
+    name: "Wrapped Ether (Wormhole)",
 ];
