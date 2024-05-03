@@ -252,6 +252,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Ondo US Dollar Yield",
+    symbol: "USDY",
+    official_symbol: "USDY",
+    coingecko_id: "ondo-us-dollar-yield",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/usdy.svg",
+    project_url: "https://ondo.finance/",
+    token_type: {
+      type: "0xcfea864b32833f157f042618bd845145256b1bf4c0da34a7013b76e42daa53cc::usdy::USDY",
+      account_address: "0xcfea864b32833f157f042618bd845145256b1bf4c0da34a7013b76e42daa53cc",
+      module_name: "usdy",
+      struct_name: "USDY"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 1776,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
     "name": "ROO",
     "symbol": "ROO",
     "coingecko_id": "",
