@@ -22,6 +22,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+    {
+    name: "UPTOS",
+    symbol: "UPTOS",
+    official_symbol: "UPTOS",
+    coingecko_id: "UPTOS",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/uptos.svg",
+    project_url: "https://uptos.xyz/",
+    token_type: {
+      type: "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7::UPTOS::UPTOS",
+      account_address: "0x4fbed3f8a3fd8a11081c8b6392152a8b0cb14d70d0414586f0c9b858fcd2d6a7",
+      module_name: "UPTOS",
+      struct_name: "UPTOS"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 8888,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
@@ -229,6 +250,48 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 952,
     source: "native",
     permissioned_listing: true,
+  },
+  {
+    name: "Ondo US Dollar Yield",
+    symbol: "USDY",
+    official_symbol: "USDY",
+    coingecko_id: "ondo-us-dollar-yield",
+    decimals: 6,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/usdy.svg",
+    project_url: "https://ondo.finance/",
+    token_type: {
+      type: "0xcfea864b32833f157f042618bd845145256b1bf4c0da34a7013b76e42daa53cc::usdy::USDY",
+      account_address: "0xcfea864b32833f157f042618bd845145256b1bf4c0da34a7013b76e42daa53cc",
+      module_name: "usdy",
+      struct_name: "USDY"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 1776,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
+    "name": "ROO",
+    "symbol": "ROO",
+    "coingecko_id": "",
+    "official_symbol": "ROO",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/roologo.jpg",
+    "project_url": "https://aptosroo.io/",
+    "token_type": {
+      "type": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3::ROO::ROO",
+      "account_address": "0xd2c9cfe8dd64ebdf9b39e1525997cef33bd178161c59410097d3f3e0704a5df3",
+      "module_name": "ROO",
+      "struct_name": "ROO"
+    },
+    "extensions": {
+      "data": [[ "bridge", "native" ]]
+    },
+    "unique_index": 290515,
+    "source": "native",
+    "permissioned_listing": false,
   },
   {
     name: "Wrapped Ether (Wormhole)",
@@ -1639,6 +1702,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   {
+    name: "APARTMENT",
+    symbol: "APARTMENT",
+    official_symbol: "APARTMENT",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/Apartments.svg",
+    project_url: "https://aptosapartments.rent",
+    token_type: {
+      type: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e::APARTMENT::APARTMENT",
+      account_address: "0x7b7bab2131de3e4f318b4abaa952f7c817b2c3df16c951caca809ac9ca9b650e",
+      module_name: "APARTMENT",
+      struct_name: "APARTMENT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 239,
+    source: "native",
+    permissioned_listing: false,
+  },
   {
     name: "SHRIMP",
     symbol: "SHRIMP",
@@ -1787,6 +1871,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: false,
   },
   {
+    name: "bladeewifhat",
+    symbol: "BLADEE",
+    official_symbol: "BLADEE",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/bladeewifhat.jpg",
+    project_url: "",
+    token_type: {
+      type: "0x8235f05ea1901e682bc09b3be93eba0727e94c020ccb0e57074843315c675521::BLADEEWIFHAT::BLADEEWIFHAT",
+      account_address: "0x8235f05ea1901e682bc09b3be93eba0727e94c020ccb0e57074843315c675521",
+      module_name: "BLADEEWIFHAT",
+      struct_name: "BLADEEWIFHAT"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 304,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
     name: "DOOT Skeleton",
     symbol: "DOOT",
     official_symbol: "DOOT",
@@ -1806,5 +1911,28 @@ export const REQUESTS: RawCoinInfo[] = [
     unique_index: 289,
     source: "native",
     permissioned_listing: false,
+  },
+   {
+    "name": "Nebula",
+    "symbol": "NBUL",
+    "official_symbol": "NBUL",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/NBUL.svg",
+    "project_url": "https://nebuladao.space",
+    "token_type": {
+      "type": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd::NEBULA::NEBULA",
+      "account_address": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd",
+      "module_name": "NEBULA",
+      "struct_name": "NEBULA"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 240,
+    "source": "native",
+    "permissioned_listing": false,
+    "hippo_symbol": "NBUL",
+    "pancake_symbol": "NBUL"
   }
 ];
