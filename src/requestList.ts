@@ -1912,6 +1912,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: false,
   },
+    {
+    name: "Citadeli",
+    symbol: "CTD",
+    official_symbol: "CTD",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://github.com/Marcelo280289/aptos-coin-list/blob/main/icons/CTD_ICON.svg",
+    project_url: "https://citadeli.crypto",
+    token_type: {
+      type: "0x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608::CITADELI::CITADELI",
+      account_address: "00x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608",
+      module_name: "CTD",
+      struct_name: "CTD"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 888,
+    source: "native",
+    permissioned_listing: false,
+  },
    {
     "name": "Nebula",
     "symbol": "NBUL",
@@ -1925,6 +1946,13 @@ export const REQUESTS: RawCoinInfo[] = [
       "account_address": "0x33afc05395020c12a31ada7d7d833f31ae1dd892124edec50297c7d608a6e7bd",
       "module_name": "NEBULA",
       "struct_name": "NEBULA"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 289,
+    source: "native",
+    permissioned_listing: false,
     },
     "extensions": {
       "data": []
