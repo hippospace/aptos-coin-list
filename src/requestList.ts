@@ -22,6 +22,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   {
+    name: "DDOS Token",
+    symbol: "DDOS",
+    official_symbol: "DDOS",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DDOS.svg",
+    project_url: "https://ddosapt.com",
+    token_type: {
+      type: "0x66398cf97d29fd3825f65b37cb2773268e5438d37e20777e6a98261da0cf1f1e::ddos_coin::DDOS_COIN",
+      account_address: "0x66398cf97d29fd3825f65b37cb2773268e5438d37e20777e6a98261da0cf1f1e",
+      module_name: "ddos_coin",
+      struct_name: "DDOS_COIN"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 931,
+    source: "native",
+    permissioned_listing: true,
+  },
     {
     name: "UPTOS",
     symbol: "UPTOS",
