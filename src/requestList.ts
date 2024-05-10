@@ -1955,5 +1955,27 @@ export const REQUESTS: RawCoinInfo[] = [
     "permissioned_listing": false,
     "hippo_symbol": "NBUL",
     "pancake_symbol": "NBUL"
+  },
+   {
+    "name": "Teh Dork Knite",
+    "symbol": "BAPTMAN",
+    "official_symbol": "BAPTMAN",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BAPTMAN_LOGO.jpg",
+    "project_url": "https://baptmantoken.com",
+    "token_type": {
+      "type": "0x13341e81b2c5960623f31cfee0b1ef674cbf23ca302852159b542adc6afe0f37::TEH_DORK_KNITE::TEH_DORK_KNITE",
+      "account_address": "0x13341e81b2c5960623f31cfee0b1ef674cbf23ca302852159b542adc6afe0f37",
+      "module_name": "TEH_DORK_KNITE",
+      "struct_name": "TEH_DORK_KNITE"
+    },
+    "extensions": {
+      "data": [[ "bridge", "native" ]]
+    },
+    "unique_index": 80085,
+    "source": "native",
+    "permissioned_listing": false,
   }
+   
 ];
