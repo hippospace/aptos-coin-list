@@ -1950,7 +1950,7 @@ export const REQUESTS: RawCoinInfo[] = [
     extensions: {
       data: []
     },
-    unique_index: 289,
+    unique_index: 240,
     source: "native",
     permissioned_listing: false,
     },
