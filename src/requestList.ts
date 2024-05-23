@@ -1976,6 +1976,26 @@ export const REQUESTS: RawCoinInfo[] = [
     "unique_index": 80085,
     "source": "native",
     "permissioned_listing": false,
-  }
-   
+  },
+  {
+   "name": "Apto The Mascot",
+   "symbol": "APTO",
+   "official_symbol": "APTO",
+   "coingecko_id": "",
+   "decimals": 8,
+   "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/APTO.png",
+   "project_url": "https://aptothemascot.com",
+   "token_type": {
+     "type": "0x4c71c33b9ec2f263a7f25779bd9a2531165d4da9a963e042a20f288688094a66::APTO_THE_MASCOT::APTO_THE_MASCOT",
+     "account_address": "0x4c71c33b9ec2f263a7f25779bd9a2531165d4da9a963e042a20f288688094a66",
+     "module_name": "APTO",
+     "struct_name": "AptoTheMascot"
+   },
+   "extensions": {
+     "data": []
+   },
+   "unique_index": 8080,
+   "source": "native",
+   "permissioned_listing": false,
+ }
 ];
