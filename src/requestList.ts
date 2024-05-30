@@ -1999,6 +1999,27 @@ export const REQUESTS: RawCoinInfo[] = [
     "source": "native",
     "permissioned_listing": false,
   },
+   {
+    "name": "Pepe",
+    "symbol": "PEPE",
+    "official_symbol": "PEPE",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/pepe.svg",
+    "project_url": "https://pepe.as",
+    "token_type": {
+      "type": "0x198e4a77b72cbcac7465e774e99d2ba552053ca57b0759ea3c008433742b4e4f::PEPE::Pepe",
+      "account_address": "0x198e4a77b72cbcac7465e774e99d2ba552053ca57b0759ea3c008433742b4e4f",
+      "module_name": "PEPE",
+      "struct_name": "PEPE"
+    },
+     "extensions": {
+     "data": []
+    },
+    "unique_index": 22051107,
+    "source": "native",
+    "permissioned_listing": false,
+  },
   {
    "name": "Apto The Mascot",
    "symbol": "APTO",
