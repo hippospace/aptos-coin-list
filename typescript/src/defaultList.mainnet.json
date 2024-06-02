@@ -1092,6 +1092,34 @@
     "pancake_symbol": "whGARI"
   },
   {
+    "name": "Citadeli",
+    "symbol": "CTD",
+    "official_symbol": "CTD",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/CTD_ICON.svg",
+    "project_url": "https://citadeli.crypto",
+    "token_type": {
+      "type": "0x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608::CITADELI::CITADELI",
+      "account_address": "0x7e19e5790911597559ec6b41c5465ab062be22d6ba5729845bf257a2361d7608",
+      "module_name": "Citadeli",
+      "struct_name": "CTD"
+    },
+    "extensions": {
+      "data": [
+        [
+          "bridge",
+          "native"
+        ]
+      ]
+    },
+    "unique_index": 888,
+    "source": "native",
+    "permissioned_listing": false,
+    "hippo_symbol": "CTD",
+    "pancake_symbol": "CTD"
+  },
+  {
     "name": "BlueMove",
     "symbol": "MOVE",
     "official_symbol": "MOVE",
