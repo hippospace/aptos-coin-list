@@ -28,6 +28,29 @@
     "pancake_symbol": "APT"
   },
   {
+    "name": "Heart",
+    "symbol": "HEART",
+    "official_symbol": "HEART",
+    "coingecko_id": "",
+    "decimals": 8,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/HEART.png",
+    "project_url": "https://tapos.xyz",
+    "token_type": {
+      "type": "0x7de3fea83cd5ca0e1def27c3f3803af619882db51f34abf30dd04ad12ee6af31::tapos::Heart",
+      "account_address": "0x7de3fea83cd5ca0e1def27c3f3803af619882db51f34abf30dd04ad12ee6af31",
+      "module_name": "tapos",
+      "struct_name": "Heart"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 777,
+    "source": "native",
+    "permissioned_listing": false,
+    "hippo_symbol": "HEART",
+    "pancake_symbol": "HEART"
+  },
+  {
     "name": "Propbase",
     "symbol": "PROPS",
     "official_symbol": "PROPS",
