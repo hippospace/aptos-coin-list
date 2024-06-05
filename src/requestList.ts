@@ -47,7 +47,7 @@ export const REQUESTS: RawCoinInfo[] = [
     name: "UPTOS",
     symbol: "UPTOS",
     official_symbol: "UPTOS",
-    coingecko_id: "UPTOS",
+    coingecko_id: "uptos",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/uptos.svg",
     project_url: "https://uptos.xyz/",
