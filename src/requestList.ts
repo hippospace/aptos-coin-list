@@ -1630,7 +1630,7 @@ export const REQUESTS: RawCoinInfo[] = [
     extensions: {
       data: []
     },
-    unique_index: 1989, //TODO: check if unique in most recent list
+    unique_index: 1989, 
     source: "native",
     permissioned_listing: false,
   },
