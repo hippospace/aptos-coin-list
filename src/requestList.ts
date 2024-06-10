@@ -1614,7 +1614,7 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
-    name: "Donk Move",
+    name: "DONK",
     symbol: "DONK",
     official_symbol: "DONK",
     coingecko_id: "",
