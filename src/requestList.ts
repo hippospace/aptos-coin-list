@@ -1632,7 +1632,7 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 1989, 
     source: "native",
-    permissioned_listing: false,
+    permissioned_listing: true,
   },
   {
     name: "MAU",
