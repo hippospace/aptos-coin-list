@@ -1614,6 +1614,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "DONK",
+    symbol: "DONK",
+    official_symbol: "DONK",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DONK.svg",
+    project_url: "https://donkmove.com/",
+    token_type: {
+      type: "0xe88ae9670071da40a9a6b1d97aab8f6f1898fdc3b8f1c1038b492dfad738448b::coin::Donk",
+      account_address: "0xe88ae9670071da40a9a6b1d97aab8f6f1898fdc3b8f1c1038b492dfad738448b", 
+      module_name: "coin",
+      struct_name: "Donk"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 1989, 
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
     name: "MAU",
     symbol: "MAU",
     official_symbol: "MAU",
