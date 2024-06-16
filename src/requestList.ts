@@ -1175,7 +1175,7 @@ export const REQUESTS: RawCoinInfo[] = [
     },
     unique_index: 40130,
     source: "native",
-    permissioned_listing: true,
+    permissioned_listing: false,
   },
   {
     name: "Abel Coin",
