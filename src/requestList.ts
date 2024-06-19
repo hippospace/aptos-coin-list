@@ -1638,7 +1638,7 @@ export const REQUESTS: RawCoinInfo[] = [
     name: "DONK",
     symbol: "DONK",
     official_symbol: "DONK",
-    coingecko_id: "",
+    coingecko_id: "donk_apt",
     decimals: 8,
     logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/DONK.svg",
     project_url: "https://donkmove.com/",
