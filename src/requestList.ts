@@ -210,6 +210,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "MoveGPT Coin",
+    symbol: "MGPT",
+    official_symbol: "MGPT",
+    coingecko_id: "movegpt",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/icons/MoveGPT.svg",
+    project_url: "https://movegpt.io/",
+    token_type: {
+      "type": "0x63be1898a424616367e19bbd881f456a78470e123e2770b5b5dcdceb61279c54::movegpt_token::MovegptCoin",
+      "account_address": "0x63be1898a424616367e19bbd881f456a78470e123e2770b5b5dcdceb61279c54",
+      "module_name": "movegpt_token",
+      "struct_name": "MovegptCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 345,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
     name: "Ditto Discount Token",
     symbol: "DTO",
     official_symbol: "DTO",
