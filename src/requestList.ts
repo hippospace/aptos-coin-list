@@ -231,6 +231,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "BUBBLES Coin",
+    symbol: "BUBBLES",
+    official_symbol: "BUBBLES",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/BUBBLES.png",
+    project_url: "https://powerpuffgirls.xyz/",
+    token_type: {
+      "type": "0xd6a49762f6e4f7401ee79be6f5d4111e70db1408966ba1aa204e6e10c9d437ca::bubbles::BubblesCoin",
+      "account_address": "0xd6a49762f6e4f7401ee79be6f5d4111e70db1408966ba1aa204e6e10c9d437ca",
+      "module_name": "bubbles",
+      "struct_name": "BubblesCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 345,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
     name: "Ditto Discount Token",
     symbol: "DTO",
     official_symbol: "DTO",
