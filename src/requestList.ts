@@ -231,6 +231,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: true,
   },
   {
+    name: "Apetos",
+    symbol: "APE",
+    official_symbol: "APE",
+    coingecko_id: "apetos",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/ape.png",
+    project_url: "https://apetos.xyz/",
+    token_type: {
+      "type": "0xada35ada7e43e2ee1c39633ffccec38b76ce702b4efc2e60b50f63fbe4f710d8::apetos_token::ApetosCoin",
+      "account_address": "0xada35ada7e43e2ee1c39633ffccec38b76ce702b4efc2e60b50f63fbe4f710d8",
+      "module_name": "apetos_token",
+      "struct_name": "ApetosCoin"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 999,
+    source: "native",
+    permissioned_listing: true,
+  },
+  {
     name: "Ditto Discount Token",
     symbol: "DTO",
     official_symbol: "DTO",
