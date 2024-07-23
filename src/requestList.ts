@@ -1530,6 +1530,27 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: false,
   },
   {
+    name: "Crab Coin",
+    symbol: "CRAB",
+    official_symbol: "CRAB",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/CRAB.svg",
+    project_url: "https://www.aptosshaker.xyz/",
+    token_type: {
+      type: "0x4d981c48d254c4cea6110090ad1c2890d5ea35d49cbed28e76c0d3bb90ddf873::crab_coin::CrabCoin",
+      account_address: "0x4d981c48d254c4cea6110090ad1c2890d5ea35d49cbed28e76c0d3bb90ddf873",
+      module_name: "crab_coin",
+      struct_name: "CRAB"
+    },
+    extensions: {
+      data: []
+    },
+    unique_index: 306,
+    source: "native",
+    permissioned_listing: false,
+  },
+  {
     name: "Amnis Aptos Coin",
     symbol: "amAPT",
     official_symbol: "amAPT",
@@ -2124,5 +2145,5 @@ export const REQUESTS: RawCoinInfo[] = [
    "unique_index": 8080,
    "source": "native",
    "permissioned_listing": false,
- }
+ },
 ];
