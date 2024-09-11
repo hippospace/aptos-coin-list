@@ -2662,5 +2662,51 @@
     "permissioned_listing": false,
     "hippo_symbol": "PEPE",
     "pancake_symbol": "PEPE"
+  },
+  {
+    "name": "Merkle Trade",
+    "symbol": "MKL",
+    "official_symbol": "MKL",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MKL.svg",
+    "project_url": "https://merkle.trade",
+    "token_type": {
+      "type": "0x5ae6789dd2fec1a9ec9cccfb3acaf12e93d432f0a3a42c92fe1a9d490b7bbc06::mkl_token::MKL",
+      "account_address": "0x5ae6789dd2fec1a9ec9cccfb3acaf12e93d432f0a3a42c92fe1a9d490b7bbc06",
+      "module_name": "mkl_token",
+      "struct_name": "MKL"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 22100000,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "MKL",
+    "pancake_symbol": "MKL"
+  },
+  {
+    "name": "Merkle LP",
+    "symbol": "MKLP",
+    "official_symbol": "MKLP",
+    "coingecko_id": "",
+    "decimals": 6,
+    "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/MKLP.svg",
+    "project_url": "https://merkle.trade",
+    "token_type": {
+      "type": "0x5ae6789dd2fec1a9ec9cccfb3acaf12e93d432f0a3a42c92fe1a9d490b7bbc06::house_lp::MKLP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>",
+      "account_address": "0x5ae6789dd2fec1a9ec9cccfb3acaf12e93d432f0a3a42c92fe1a9d490b7bbc06",
+      "module_name": "house_lp",
+      "struct_name": "MKLP<0xf22bede237a07e121b56d91a491eb7bcdfd1f5907926a9e58338f964a01b17fa::asset::USDC>"
+    },
+    "extensions": {
+      "data": []
+    },
+    "unique_index": 22100001,
+    "source": "native",
+    "permissioned_listing": true,
+    "hippo_symbol": "MKLP",
+    "pancake_symbol": "MKLP"
   }
 ]
