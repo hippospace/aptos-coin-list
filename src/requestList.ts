@@ -1955,6 +1955,29 @@ export const REQUESTS: RawCoinInfo[] = [
     permissioned_listing: false,
   },
   {
+  name: "Raptos",
+  symbol: "RAPT",
+  official_symbol: "RAPT",
+  coingecko_id: "", 
+  decimals: 6,
+  logo_url: "https://raw.githubusercontent.com/raptoscoin/aptos-coin-list/main/icons/RAPT.svg", 
+  project_url: "https://raptos.org/",
+  token_type: {
+    type: "0x8f59ac670c9cdaa22503bfede0be49e6759626b18727fbf8d876e18861ff3986::RAPT::RAPT",
+    account_address: "0x8f59ac670c9cdaa22503bfede0be49e6759626b18727fbf8d876e18861ff3986",
+    module_name: "RAPT",
+    struct_name: "RAPT"
+  },
+  extensions: {
+    data: [
+      ["bridge", "native"]
+    ]
+  },
+  unique_index: 6520,  
+  source: "native",
+  permissioned_listing: false
+}
+  {
     name: "APTOS FOMO",
     symbol: "FOMO",
     official_symbol: "FOMO",
