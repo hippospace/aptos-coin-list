@@ -2124,5 +2124,26 @@ export const REQUESTS: RawCoinInfo[] = [
    "unique_index": 8080,
    "source": "native",
    "permissioned_listing": false,
- }
+ },
+ {
+  "name": "LOON",
+  "symbol": "LOON",
+  "official_symbol": "LOON",
+  "coingecko_id": "the-loonies",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/LOON.svg",
+  "project_url": "https://theloonies.xyz",
+  "token_type": {
+    "type": "0x268d4a7a2ad93274edf6116f9f20ad8455223a7ab5fc73154f687e7dbc3e3ec6::LOON::LOON",
+    "account_address": "0x268d4a7a2ad93274edf6116f9f20ad8455223a7ab5fc73154f687e7dbc3e3ec6",
+    "module_name": "LOON",
+    "struct_name": "LOON"
+  },
+  "extensions": {
+    "data": []
+  },
+  "unique_index": 21027,
+  "source": "native",
+  "permissioned_listing": true
+}
 ];
