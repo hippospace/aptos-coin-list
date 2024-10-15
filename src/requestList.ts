@@ -64,6 +64,27 @@ export const REQUESTS: RawCoinInfo[] = [
     source: "native",
     permissioned_listing: true,
   },
+   {
+    name: "LOLU",
+    symbol: "LOLU",
+    official_symbol: "LOLU",
+    coingecko_id: "",
+    decimals: 8,
+    logo_url: "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/LOLU.svg",
+    project_url: "https://mylolu.xyz/",
+    token_type: {
+      type: "0xe09a62ea06e30b3b07e84931116b46e5ea6d6f0f6e3d97f77fd7fcbf68f1fdff::UPTOS::UPTOS",
+      account_address: "0xe09a62ea06e30b3b07e84931116b46e5ea6d6f0f6e3d97f77fd7fcbf68f1fdff",
+      module_name: "LOLU",
+      struct_name: "LOLU"
+    },
+    extensions: {
+      data: [["bridge", "native"]]
+    },
+    unique_index: 0405,
+    source: "native",
+    permissioned_listing: true,
+  },
   {
     name: "AptosLaunch Token",
     symbol: "ALT",
