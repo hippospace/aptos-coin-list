@@ -2145,5 +2145,26 @@ export const REQUESTS: RawCoinInfo[] = [
   "unique_index": 21027,
   "source": "native",
   "permissioned_listing": true
+},
+{
+  "name": "Father of Aptos Blockchain",
+  "symbol": "FaptOS",
+  "official_symbol": "FaptOS",
+  "coingecko_id": "",
+  "decimals": 6,
+  "logo_url": "https://raw.githubusercontent.com/hippospace/aptos-coin-list/main/icons/FAPTOS.png",
+  "project_url": "https://faptosaptos.com",
+  "token_type": {
+    "type": "0x135726730c0e4e71652a6726354f148dec46974d5c152b0042ad58b37ea3c864::FaptOS::FaptOS",
+    "account_address": "0x135726730c0e4e71652a6726354f148dec46974d5c152b0042ad58b37ea3c864",
+    "module_name": "FAPTOS",
+    "struct_name": "FAPTOS"
+  },
+  "extensions": {
+    "data": []
+  },
+  "unique_index": 110011123,
+  "source": "native",
+  "permissioned_listing": true
 }
 ];
